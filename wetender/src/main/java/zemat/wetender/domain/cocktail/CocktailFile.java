@@ -25,4 +25,8 @@ public class CocktailFile extends BaseEntity {
     @JoinColumn(name = "cocktail_id")
     private Cocktail cocktail;
 
+    public CocktailFile(String uploadFileName, String filePath) {
+        this.uploadFileName = uploadFileName;
+        this.filePath = filePath;
+    }
 }

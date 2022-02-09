@@ -1,11 +1,13 @@
 package zemat.wetender.domain.cocktail;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -15,12 +17,12 @@ public class Cocktail extends BaseEntity {
 
     @Id
     @Column(name = "cocktail_id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String cocktailName;
 
-    private String cocktailEName;
+    private String cocktailEname;
 
     private String cocktailBase;
 
@@ -30,15 +32,35 @@ public class Cocktail extends BaseEntity {
 
     private String cocktailContent;
 
-    @OneToMany(mappedBy = "cocktail")
-    private List<CocktailFile> cocktailImage;
+//    @OneToMany(mappedBy = "cocktail")
+//    private List<CocktailFile> cocktailImage;
+//
+//    private String cocktailSeqeunce;
+//
+//    @OneToMany(mappedBy = "cocktail")
+//    private List<CocktailIngredient> cocktailIngredients;
 
-    private String cocktailSeqeunce;
+    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
+    private List<CocktailTaste> cocktailTastes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cocktail")
-    private List<CocktailIngredient> cocktailIngredients;
+    public void addCocktailTaste(CocktailTaste cocktailTaste){
+        cocktailTaste.setCocktail(this);
+        cocktailTastes.add(cocktailTaste);
+    }
 
-    @OneToMany(mappedBy = "cocktail")
-    private List<CocktailTaste> cocktailTastes;
+    @Builder
+    public Cocktail(String cocktailName, String cocktailEName, String cocktailBase, int cocktailAbv, String cocktailOneLine, String cocktailContent, List<CocktailTaste> cocktailTastes) {
+        this.cocktailName = cocktailName;
+        this.cocktailEname = cocktailEName;
+        this.cocktailBase = cocktailBase;
+        this.cocktailAbv = cocktailAbv;
+        this.cocktailOneLine = cocktailOneLine;
+        this.cocktailContent = cocktailContent;
+
+        for (CocktailTaste cocktailTaste : cocktailTastes) {
+            addCocktailTaste(cocktailTaste);
+        }
+    }
+
 
 }

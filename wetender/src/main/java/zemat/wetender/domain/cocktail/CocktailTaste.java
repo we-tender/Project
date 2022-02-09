@@ -17,8 +17,17 @@ public class CocktailTaste extends BaseEntity {
     @Column(name = "cocktailTaste_id")
     private Long id;
 
+    private String cocktailTasteName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cocktail_id")
     private Cocktail cocktail;
 
+    public void setCocktail(Cocktail cocktail) {
+        this.cocktail = cocktail;
+    }
+
+    public CocktailTaste(String cocktailTasteName) {
+        this.cocktailTasteName = cocktailTasteName;
+    }
 }
