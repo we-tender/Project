@@ -3,16 +3,20 @@ package zemat.wetender.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.cocktail.CocktailFile;
+import zemat.wetender.domain.cocktail.CocktailFileStore;
 import zemat.wetender.domain.cocktail.CocktailTaste;
 import zemat.wetender.dto.supportersDto.CocktailInsertForm;
 import zemat.wetender.service.SupportersService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +28,7 @@ import java.util.Map;
 public class SupportersController {
 
     private final SupportersService supportersService;
+    private final CocktailFileStore cocktailFileStore;
 
     @ModelAttribute("tastes")
     public Map<String, String> tastes(){
@@ -54,7 +59,12 @@ public class SupportersController {
     }
 
     @PostMapping("/cocktailInsert")
-    public String cocktailInsert(CocktailInsertForm form){
+    public String cocktailInsert(CocktailInsertForm form) throws IOException {
+
+//        if(bindingResult.hasErrors()){
+//            return "supporters/cocktailInsert";
+//        }
+
         List<String> tastes = form.getTastes();
         List<CocktailTaste> cocktailTastes = new ArrayList<>();
 
@@ -62,6 +72,8 @@ public class SupportersController {
             CocktailTaste cocktailTaste = new CocktailTaste(taste);
             cocktailTastes.add(cocktailTaste);
         }
+
+        List<CocktailFile> cocktailFiles = cocktailFileStore.storeFiles(form.getImages());
 
         Cocktail cocktail = Cocktail.builder()
                 .cocktailName(form.getName())
@@ -71,6 +83,7 @@ public class SupportersController {
                 .cocktailContent(form.getContent())
                 .cocktailOneLine(form.getOneLine())
                 .cocktailTastes(cocktailTastes)
+                .cocktailFiles(cocktailFiles)
                 .build();
 
 
