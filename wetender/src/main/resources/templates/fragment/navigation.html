@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <nav th:fragment="nav1">
+        <div class="navigation">
+            <h2>navigation</h2>
+
+            <!--로그인된 유저가 서포터즈이면 표시-->
+            <th:block th:if="${sessionUser}">
+                <a href="/Supporters/main" th:if="${sessionUser.getAuthorities().get(0).getAuthority() == 'ROLE_SUPPORTER'
+                                                        or sessionUser.getAuthorities().get(0).getAuthority() == 'ROLE_ADMIN'}">서포터즈 페이지</a>
+            </th:block>
+
+            <!--로그인 전-->
+            <th:block th:unless="${sessionUser}">
+                <form th:action="@{/joinForm}" method="get">
+                    <input type="submit" value="회원가입" />
+                </form>
+                <form th:action="@{/loginForm}" method="get">
+                    <input type="submit" value="로그인" />
+                </form>
+                <form th:action="@{/member/list}" method="get">
+                    <input type="submit" value="회원목록" />
+                </form>
+            </th:block>
+
+            <!--로그인 후-->
+            <th:block th:if="${sessionUser}">
+                <span th:text="|${sessionUser.getUsername()} 님 환영합니다.|"></span>
+                <span th:text="|${sessionUser.getAuthorities().get(0).getAuthority()} 사용자 입니다.|"></span>
+                <a th:href="@{/user/joinForm}">
+                    회원가입
+                </a>
+                <form th:action="@{/user/mypage}" method="get">
+                    마이페이지
+                </form>
+                <form th:action="@{/logout}" method="post">
+                    <input type="submit" value="로그아웃" />
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                </form>
+                <form th:action="@{/member/list}" method="get">
+                    <input type="submit" value="회원목록" />
+                </form>
+            </th:block>
+        </div>
+    </nav>
+
+</body>
+</html>

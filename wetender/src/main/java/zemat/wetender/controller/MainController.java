@@ -9,7 +9,7 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model) {
-        return "main";
+        return "fragment/main";
     }
 
 

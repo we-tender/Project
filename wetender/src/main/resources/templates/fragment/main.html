@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<style>
+    .navigation
+    {
+        border : 1px solid #000;
+        margin : 10px;
+    }
+    .menu
+    {
+        border : 1px solid #000;
+        margin : 10px;
+    }
+    .container
+    {
+        border : 1px solid #000;
+        margin : 10px;
+    }
+    .footer
+    {
+        border : 1px solid #000;
+        margin : 10px;
+    }
+</style>
+
+<body>
+
+    <!-- navigation 시작 -->
+    <div th:replace="~{fragment/navigation :: nav1}"></div>
+    <!-- navigation 끝 -->
+
+    <!-- main 시작 -->
+    <div class="menu">
+        <h2>WeTender Main</h2>
+        <a th:href="@{/supporters/main}">서포터즈 페이지</a> <br> <!--칵테일 화면-->
+        <a th:href="@{/Liquor/main}">주류 페이지</a> <!--주류 화면-->
+    </div>
+
+    <div class="container">
+        <h2>컨텐츠</h2>
+    </div>
+    <!-- main 끝 -->
+
+    <!-- footer 시작 -->
+    <div th:replace="~{fragment/footer :: footer1}"></div>
+    <!-- footer 끝 -->
+</body>
+</html>
