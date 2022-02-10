@@ -1,0 +1,28 @@
+/*
+임시 스타일
+*/
+
+.navigation
+{
+    border : 1px solid #000;
+    margin : 10px;
+}
+.nav_form_btn
+{
+    display : inline-block
+}
+.menu
+{
+    border : 1px solid #000;
+    margin : 10px;
+}
+.container
+{
+    border : 1px solid #000;
+    margin : 10px;
+}
+.footer
+{
+    border : 1px solid #000;
+    margin : 10px;
+}

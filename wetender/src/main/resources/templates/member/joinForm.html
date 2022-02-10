@@ -3,48 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myStyle.css}">
 </head>
+
 <body>
-    <h1><a th:href="@{/}">WETENDER</a></h1>
-    <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post">
-        <div>
-            <h3><label th:for="id">아이디</label></h3>
-            <input th:field="*{id}" type="text">
-        </div>
 
-        <div>
-            <h3><label th:for="pwd1">비밀번호</label></h3>
-            <input th:field="*{pwd1}" type="password">
-        </div>
+    <!-- navigation 시작 -->
+    <div th:replace="~{fragment/navigation :: nav1}"></div>
+    <!-- navigation 끝 -->
 
-        <div>
-            <h3><label th:for="pwd2">비밀번호 확인</label></h3>
-            <input th:field="*{pwd2}" type="password">
-        </div>
+    <!-- main 시작 -->
+    <div class="container">
+        <h1><a th:href="@{/}">WETENDER</a></h1>
+        <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post">
+            <div>
+                <h3><label th:for="id">아이디</label></h3>
+                <input th:field="*{id}" type="text">
+            </div>
 
-        <div>
-            <h3><label th:for="name">이름</label></h3>
-            <input th:field="*{name}" type="text">
-        </div>
+            <div>
+                <h3><label th:for="pwd1">비밀번호</label></h3>
+                <input th:field="*{pwd1}" type="password">
+            </div>
 
-        <div>
-            <h3><label th:for="email">email</label></h3>
-            <input th:field="*{email}" type="email">
-        </div>
+            <div>
+                <h3><label th:for="pwd2">비밀번호 확인</label></h3>
+                <input th:field="*{pwd2}" type="password">
+            </div>
 
-        <div>
-            <h3><label th:for="address">주소</label></h3>
-            <input th:field="*{address}" type="text">
-        </div>
+            <div>
+                <h3><label th:for="name">이름</label></h3>
+                <input th:field="*{name}" type="text">
+            </div>
 
-        <div>
-            <h3><label th:for="phone">연락처</label></h3>
-            <input th:field="*{phone}" type="tel">
-        </div>
+            <div>
+                <h3><label th:for="email">email</label></h3>
+                <input th:field="*{email}" type="email">
+            </div>
 
-        <div>
-            <button type="submit">회원가입</button>
-        </div>
-    </form>
+            <div>
+                <h3><label th:for="address">주소</label></h3>
+                <input th:field="*{address}" type="text">
+            </div>
+
+            <div>
+                <h3><label th:for="phone">연락처</label></h3>
+                <input th:field="*{phone}" type="tel">
+            </div>
+
+            <div>
+                <button type="submit">회원가입</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- main 끝 -->
+
+    <!-- footer 시작 -->
+    <div th:replace="~{fragment/footer :: footer1}"></div>
+    <!-- footer 끝 -->
+
 </body>
 </html>
