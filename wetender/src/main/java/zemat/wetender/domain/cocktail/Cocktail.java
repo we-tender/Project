@@ -34,8 +34,9 @@ public class Cocktail extends BaseEntity {
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     private List<CocktailFile> cocktailFiles = new ArrayList<>();
-//
-//    private String cocktailSeqeunce;
+
+    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
+    private List<CocktailSequence> cocktailSequences = new ArrayList<>();
 //
 //    @OneToMany(mappedBy = "cocktail")
 //    private List<CocktailIngredient> cocktailIngredients;
@@ -53,8 +54,13 @@ public class Cocktail extends BaseEntity {
         cocktailFiles.add(cocktailFile);
     }
 
+    public void addCocktailSequence(CocktailSequence cocktailSequence){
+        cocktailSequence.setCocktail(this);
+        cocktailSequences.add(cocktailSequence);
+    }
+
     @Builder
-    public Cocktail(String cocktailName, String cocktailEName, String cocktailBase, int cocktailAbv, String cocktailOneLine, String cocktailContent, List<CocktailTaste> cocktailTastes, List<CocktailFile> cocktailFiles) {
+    public Cocktail(String cocktailName, String cocktailEName, String cocktailBase, int cocktailAbv, String cocktailOneLine, String cocktailContent, List<CocktailTaste> cocktailTastes, List<CocktailFile> cocktailFiles, List<CocktailSequence> cocktailSequences) {
         this.cocktailName = cocktailName;
         this.cocktailEname = cocktailEName;
         this.cocktailBase = cocktailBase;
@@ -70,7 +76,8 @@ public class Cocktail extends BaseEntity {
             addCocktailFile(cocktailFile);
         }
 
+        for (CocktailSequence cocktailSequence : cocktailSequences) {
+            addCocktailSequence(cocktailSequence);
+        }
     }
-
-
 }

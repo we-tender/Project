@@ -14,16 +14,23 @@ public class LiquorFile {
 
     @Id
     @GeneratedValue
-    @Column(name = "LiquorFile_id")
+    @Column(name = "liquorFile_id")
     private Long id;
 
-    private String uploadFileName;
+    private String uploadLiquorFileName;
 
-    private String filePath;
+    private String storeLiquorFileName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Liquor_id")
+    @JoinColumn(name = "liquor_id")
     private Liquor liquor;
 
+    public void setLiquor(Liquor liquor) {
+        this.liquor = liquor;
+    }
 
+    public LiquorFile(String uploadLiquorFileName, String storeLiquorFileName) {
+        this.uploadLiquorFileName = uploadLiquorFileName;
+        this.storeLiquorFileName = storeLiquorFileName;
+    }
 }

@@ -17,4 +17,7 @@ logging.level:
 # org.hibernate.type: trace
 
 cocktailFile:
-  dir: C:/images/
+  dir: C:/images/cocktail/
+
+liquorFile:
+  dir: C:/images/liquor/

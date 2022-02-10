@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter @Setter
-public class CocktailInsertForm {
+public class LiquorInsertForm {
 
     private Long id;
 
@@ -17,10 +17,6 @@ public class CocktailInsertForm {
     private String name;
 
     private String eName;
-
-    @NotNull
-    @Range(min = 0, max = 100)
-    private String base;
 
     @NotNull
     private int abv;
@@ -31,6 +27,4 @@ public class CocktailInsertForm {
     private String content;
 
     private List<MultipartFile> images;
-
-    private List<String> tastes;
 }

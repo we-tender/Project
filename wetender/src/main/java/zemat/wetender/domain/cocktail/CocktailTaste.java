@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,6 +28,7 @@ public class CocktailTaste extends BaseEntity {
     public void setCocktail(Cocktail cocktail) {
         this.cocktail = cocktail;
     }
+
 
     public CocktailTaste(String cocktailTasteName) {
         this.cocktailTasteName = cocktailTasteName;
