@@ -18,39 +18,40 @@
     <div class="container">
         <br>
         <h1><a th:href="@{/}">WETENDER</a></h1>
+        <br>
         <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post">
             <div>
-                <h3><label th:for="id">아이디</label></h3>
-                <input th:field="*{id}" class="form-control" type="text">
+                <h4><label th:for="idname">아이디</label></h4>
+                <input th:field="*{idname}" class="form-control" type="text">
             </div>
             <br>
             <div>
-                <h3><label th:for="pwd1">비밀번호</label></h3>
+                <h4><label th:for="pwd1">비밀번호</label></h4>
                 <input th:field="*{pwd1}" class="form-control" type="password">
             </div>
             <br>
             <div>
-                <h3><label th:for="pwd2">비밀번호 확인</label></h3>
+                <h4><label th:for="pwd2">비밀번호 확인</label></h4>
                 <input th:field="*{pwd2}" class="form-control" type="password">
             </div>
             <br>
             <div>
-                <h3><label th:for="name">이름</label></h3>
+                <h4><label th:for="name">이름</label></h4>
                 <input th:field="*{name}" class="form-control" type="text">
             </div>
             <br>
             <div>
-                <h3><label th:for="email">email</label></h3>
+                <h4><label th:for="email">email</label></h4>
                 <input th:field="*{email}" class="form-control" type="email">
             </div>
             <br>
             <div>
-                <h3><label th:for="address">주소</label></h3>
+                <h4><label th:for="address">주소</label></h4>
                 <input th:field="*{address}" class="form-control" type="text">
             </div>
             <br>
             <div>
-                <h3><label th:for="phone">연락처</label></h3>
+                <h4><label th:for="phone">연락처</label></h4>
                 <input th:field="*{phone}" class="form-control" type="tel">
             </div>
             <br>

@@ -1,12 +1,10 @@
 package zemat.wetender.dto.memberDto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class MemberJoinForm {
-    private String id;
+    private String idname;
     private String pwd1;
     private String pwd2;
     private String name;
@@ -14,8 +12,8 @@ public class MemberJoinForm {
     private String address;
     private String phone;
 
-    public MemberJoinForm(String id, String pwd1, String pwd2, String name, String email, String address, String phone) {
-        this.id = id;
+    public MemberJoinForm(String idname, String pwd1, String pwd2, String name, String email, String address, String phone) {
+        this.idname = idname;
         this.pwd1 = pwd1;
         this.pwd2 = pwd2;
         this.name = name;
