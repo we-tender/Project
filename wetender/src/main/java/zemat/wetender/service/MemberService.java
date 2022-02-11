@@ -1,6 +1,7 @@
 package zemat.wetender.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.member.Member;
@@ -15,6 +16,7 @@ import static zemat.wetender.domain.member.Role.*;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder pwdEncoder;
 
     public Long join(MemberJoinForm form) {
         duplicateMember(form.getIdname());
@@ -23,7 +25,8 @@ public class MemberService {
          * 비밀번호 확인 체크 로직 -> javascript
          * */
 
-        Member member = new Member(form.getIdname(), form.getPwd1(), form.getName(), form.getEmail(), form.getAddress(), form.getPhone());
+        String encodedPwd = pwdEncoder.encode(form.getPwd1());
+        Member member = new Member(form.getIdname(), encodedPwd, form.getName(), form.getEmail(), form.getAddress(), form.getPhone());
         member.setMemberRole(ROLE_USER);
         Member savedMember = memberRepository.save(member);
 
@@ -40,5 +43,9 @@ public class MemberService {
         if (!password1.equals(password2)) {
             throw new IllegalStateException("비밀번호가 일치하지 않습니다!");
         }
+    }
+
+    public Member findByMemberIdName(String memberIdName) {
+        return memberRepository.findByMemberIdName(memberIdName).orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디입니다!"));
     }
 }

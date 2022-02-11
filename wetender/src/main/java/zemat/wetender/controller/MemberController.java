@@ -2,11 +2,13 @@ package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import zemat.wetender.dto.memberDto.MemberJoinForm;
+import zemat.wetender.dto.memberDto.MemberLoginForm;
 import zemat.wetender.service.MemberService;
 
 @Controller
@@ -28,7 +30,13 @@ public class MemberController {
     }
 
     @GetMapping("/loginForm")
-    public String loginForm() {
+    public String loginForm(@ModelAttribute MemberLoginForm memberLoginForm) {
+        return "member/loginForm";
+    }
+
+    @GetMapping("/loginError")
+    public String loginError(Model model) {
+        model.addAttribute("errorMessage", "아이디/패스워드가 올바르지 않습니다.");
         return "member/loginForm";
     }
 
