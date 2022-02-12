@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<!--head 에 입력변수를 받아 title 바꾼다.-->
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="navbar-top.css" rel="stylesheet">
+</head>
+
+<body>
+<!-- navigation 시작 -->
+<div th:replace="~{fragment/navigation :: nav1}"></div>
+<!-- navigation 끝 -->
+
+<!-- 리스트 시작 -->
+
+<div class="col-lg-8 mx-auto p-3 py-md-5">
+  <main>
+
+    <div class="container">
+      <h2>건의사항</h2>
+      <div>총 건수 : </div>
+
+      <!--            검색 폼-->
+      <form class="row g-3 d-flex justify-content-end" method="GET" >
+        <div class="col-auto">
+          <label for="searchText" class="visually-hidden">검색</label>
+          <!--                    파람을 쓰면 URL에 값을 담을 수 있다. -->
+          <input type="text" class="form-control" id="searchText" name="searchText" >
+        </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-light mb-3">검색</button>
+        </div>
+      </form>
+
+      <!-- 쓰기 버튼 시작 -->
+      <div class="text-end">
+        <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert}" >쓰기</a>
+      </div>
+      <!-- 쓰기 버튼 끝 -->
+
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">제목</th>
+          <th scope="col">글쓴이</th>
+          <th scope="col">작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each = "suggestion : ${suggestionList}">
+          <td th:text = "${suggestion.id}"> 아이디 </td>
+          <td> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
+          <td th:text = "${suggestion.createdBy}"></td>
+          <td th:text = "${suggestion.createdDate}"></td>
+        </tr>
+
+
+        </tbody>
+      </table>
+
+      <!-- 페이징 오버뷰 -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+
+
+        </ul>
+      </nav>
+
+
+      <!-- 쓰기 버튼 시작 -->
+      <div class="text-end">
+        <!-- 클래스에 버튼을 썼기 때문에 a(앵커)로 바꿔도 자연스럽게 버튼모양으로 표현-->
+        <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert}" >쓰기</a>
+      </div>
+      <!-- 쓰기 버튼 끝 -->
+
+
+    </div>
+
+
+<!-- 리스트 끝 -->
+  </main>
+</div>
+</body>
+
+
+
+
+
+</html>
