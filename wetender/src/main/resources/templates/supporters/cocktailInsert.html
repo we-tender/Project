@@ -4,7 +4,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
-  <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
@@ -31,8 +31,8 @@
                 }());
 
                 $('#sequence').append(
-                    `   <input type="text" class="iname" name="iname" placeholder="순서">\n
-                        <input type="button" class="btnRemove" name="idel" value="삭제">\n
+                    `   <input type="text" class="iname" name="iname" placeholder="순서">
+                        <input type="button" class="btnRemove" name="idel" value="삭제"><br>
                     `
                 );
 
@@ -51,7 +51,35 @@
                     $('input[name="cnt"]').val(decrease());
                });
             });
+            /* 작가 선택 버튼 */
+            $('.ingredientId_btn').on("click",function(e){
+
+                e.preventDefault();
+
+                let popUrl = "/supporters/pop/liquorPop";
+                let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+
+                window.open(popUrl,"주류 찾기",popOption);
+
+            });
+
+
         });
+    </script>
+    <script>
+        .authorId_btn {
+            margin-left: 20px;
+            width: 14%;
+            height: 38px;
+            font-weight: 600;
+            background-color: #dfe8f5;
+            font-size: 15px;
+            cursor:pointer;
+        }
+        #authorName_input {
+            width: 80%;
+            text-align: center;
+        }
     </script>
 
 </head>
@@ -104,16 +132,24 @@
       </div>
     </div>
     <div id="sequence" class="col-lg-6 col-md-6 form-group mt-3">
-        <input type="hidden" id="cnt" name="cnt" value="1">
+        <label th:for="sequence" >칵테일 순서</label><br>
+        <input type="hidden" id="cnt" name="cnt" value="1" >
         <input type="text" class="iname" name="iname1" placeholder="순서">
-        <input type="button" class="btnAdd" name="idel1" value="추가">
+        <input type="button" class="btnAdd" name="idel1" value="추가"><br>
     </div>
+    <hr class="my-4"/>
+    <div>
+        <input id="liquorName_input" readonly="readonly">
+        <input id="liquorId_input" name="ingredientId" type="hidden">
+        <button class="ingredientId_btn">주류 선택</button>
+    </div>
+
     <div class="col">
       <button class="w-100 btn btn-primary btn-lg" type="submit">칵테일 등록</button>
     </div>
     <div class="col">
       <button class="w-100 btn btn-secondary btn-lg"
-              th:onclick="|location.href='@{/Supporters/main}'|"
+              th:onclick="|location.href='@{/supporters/main}'|"
               type="button">취소</button>
     </div>
   </form>

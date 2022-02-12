@@ -1,16 +1,24 @@
 package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.*;
+import zemat.wetender.domain.ingredient.Ingredient;
+import zemat.wetender.domain.ingredient.IngredientFile;
+import zemat.wetender.domain.ingredient.IngredientFileStore;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.supportersDto.CocktailInsertForm;
+import zemat.wetender.dto.supportersDto.IngredientInsertForm;
 import zemat.wetender.dto.supportersDto.LiquorInsertForm;
+import zemat.wetender.service.LiquorService;
 import zemat.wetender.service.SupportersService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +36,10 @@ public class SupportersController {
 
     private final SupportersService supportersService;
     private final CocktailFileStore cocktailFileStore;
+    private final LiquorService liquorService;
+
     private final LiquorFileStore liquorFileStore;
+    private final IngredientFileStore ingredientFileStore;
 
     @ModelAttribute("tastes")
     public Map<String, String> tastes(){
@@ -70,7 +81,6 @@ public class SupportersController {
             CocktailTaste cocktailTaste = new CocktailTaste(taste);
             cocktailTastes.add(cocktailTaste);
         }
-
 
         // 칵테일 순서
         List<CocktailSequence> cocktailSequences = new ArrayList<>();
@@ -133,5 +143,43 @@ public class SupportersController {
         supportersService.liquorSave(liquor);
 
         return "redirect:/supporters/main";
+    }
+
+    @GetMapping("/ingredientInsert")
+    public String ingredientInsertForm(Model model){
+
+        model.addAttribute("form", new IngredientInsertForm());
+
+        return "supporters/ingredientInsert";
+    }
+
+    @PostMapping("/ingredientInsert")
+    public String ingredientInsert(IngredientInsertForm form) throws IOException {
+
+        List<IngredientFile> ingredientFiles = ingredientFileStore.storeFiles(form.getImages());
+
+        Ingredient ingredient =
+                Ingredient.builder()
+                .ingredientName(form.getName())
+                .ingredientEname(form.getEName())
+                .ingredientContent(form.getContent())
+                .ingredientFiles(ingredientFiles)
+                .build();
+
+        supportersService.ingredientSave(ingredient);
+
+        return "redirect:/supporters/main";
+    }
+
+    @GetMapping("/pop/liquorPop")
+    public String liquorPopForm(Model model){
+
+        // 추후 Liquor 부분 dto로 변경해야함
+        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "liquorName"));
+        Page<Liquor> liquors = liquorService.liquorPageFindAll(pageRequest);
+
+        model.addAttribute("liquors",liquors);
+
+        return "supporters/pop/liquorPop";
     }
 }

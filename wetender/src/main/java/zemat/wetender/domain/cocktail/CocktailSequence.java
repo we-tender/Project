@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class CocktailSequence extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cocktail_sequence_id")
     private Long id;
 

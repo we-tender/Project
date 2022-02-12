@@ -1,4 +1,4 @@
-package zemat.wetender.domain.liquor;
+package zemat.wetender.domain.ingredient;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -11,17 +11,17 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class LiquorFileStore {
+public class IngredientFileStore {
 
-    @Value("${liquorFile.dir}")
+    @Value("${ingredientFile.dir}")
     private String fileDir;
 
     public String getFullPath(String filename) {
         return fileDir + filename;
     }
 
-    public List<LiquorFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
-        List<LiquorFile> storeFileResult = new ArrayList<>();
+    public List<IngredientFile> storeFiles(List<MultipartFile> multipartFiles) throws IOException {
+        List<IngredientFile> storeFileResult = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if (!multipartFile.isEmpty()) {
                 storeFileResult.add(storeFile(multipartFile));
@@ -30,7 +30,7 @@ public class LiquorFileStore {
         return storeFileResult;
     }
 
-    public LiquorFile storeFile(MultipartFile multipartFile) throws IOException {
+    public IngredientFile storeFile(MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
             return null;
         }
@@ -38,7 +38,7 @@ public class LiquorFileStore {
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
-        return new LiquorFile(originalFilename, storeFileName);
+        return new IngredientFile(originalFilename, storeFileName);
     }
 
     private String createStoreFileName(String originalFilename) {

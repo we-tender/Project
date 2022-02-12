@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>주류 선택 페이지</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/supporters/liquorPop.css}">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+         $(document).ready(function(){
+            /* 작가 선택 및 팝업창 닫기 */
+            $('.move').on('click', function(e){
+
+                e.preventDefault();
+
+                let liquorId = $(this).attr("href");
+                let liquorName= $(this).data("name");
+                $(opener.document).find("#liquorId_input").val(liquorId);
+                $(opener.document).find("#liquorName_input").val(liquorName);
+
+                window.close();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="subject_name_warp">
+        <span>주류 선택</span>
+    </div>
+    <div class="content_wrap">
+        <div class="liquor_table_wrap">
+            <div class="table_exist" th:if="${liquors.hasContent()}">
+                <table class="liquor_table">
+                    <thead>
+                        <tr>
+                            <td class="th_column_1">주류 번호</td>
+                            <td class="th_column_2">주류 이름</td>
+                            <td class="th_column_3">주류 영문이름</td>
+                        </tr>
+                    </thead>
+                    <tr th:each="liquor : ${liquors}">
+                        <td th:text="${liquor.id}">번호</td>
+                        <td>
+                            <a class="move" th:text ="${liquor.liquorName}" th:href="${liquor.id}" th:data-name="${liquor.liquorName}" />
+                        </td>
+                        <td th:text="${liquor.liquorEname}">영문이름</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table_empty" th:if="${!liquors.hasContent()}">
+                등록된 주류가 없습니다.
+            </div>
+
+            <!--검색영역-->
+            <div class="search_wrap">
+                <form id="searchForm" th:action method="get">
+                    <div class="search_input">
+                        <input type="text" id="keyword" name="keyword" placeholder="주류 이름을 검색해주세요">
+                        <button class="btn search_btn">검 색</button>
+                    </div>
+                </form>
+            </div>
+
+            <!--페이지 이동 영역-->
+            <div class="page_wrap">
+                <ul class="pageLine">
+                    <!-- 이전 버튼-->
+                    <li th:if = "${liquors.hasPrevious()}">
+                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}-1)}">이전</a>
+                    </li>
+                    <!--페이지 번호 이후 구현-->
+                    <li th:if = "${liquors.hasNext()}">
+                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}+1)}">다음</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

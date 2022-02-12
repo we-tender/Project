@@ -3,7 +3,6 @@ package zemat.wetender.domain.liquor;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import zemat.wetender.domain.cocktail.Cocktail;
 
 import javax.persistence.*;
 
@@ -13,7 +12,7 @@ import javax.persistence.*;
 public class LiquorFile {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "liquorFile_id")
     private Long id;
 
@@ -33,4 +32,5 @@ public class LiquorFile {
         this.uploadLiquorFileName = uploadLiquorFileName;
         this.storeLiquorFileName = storeLiquorFileName;
     }
+
 }

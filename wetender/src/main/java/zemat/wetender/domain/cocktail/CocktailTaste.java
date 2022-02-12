@@ -15,7 +15,7 @@ import java.util.List;
 public class CocktailTaste extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cocktailTaste_id")
     private Long id;
 

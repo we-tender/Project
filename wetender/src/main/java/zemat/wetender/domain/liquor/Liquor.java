@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import zemat.wetender.domain.cocktail.CocktailFile;
+import zemat.wetender.domain.cocktail.CocktailIngredient;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 public class Liquor {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "liquor_id")
     private Long id;
 
@@ -33,6 +33,12 @@ public class Liquor {
     @OneToMany(mappedBy = "liquor",cascade = CascadeType.ALL)
     private List<LiquorFile> liquorFiles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "liquor")
+    private List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
+
+    public void addCocktailIngredient(CocktailIngredient cocktailIngredient){
+        cocktailIngredients.add(cocktailIngredient);
+    }
 
     public void addLiquorFile(LiquorFile liquorFile){
         liquorFile.setLiquor(this);
