@@ -11,6 +11,8 @@ import zemat.wetender.dto.memberDto.MemberJoinForm;
 import zemat.wetender.dto.memberDto.MemberLoginForm;
 import zemat.wetender.service.MemberService;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -30,7 +32,9 @@ public class MemberController {
     }
 
     @GetMapping("/loginForm")
-    public String loginForm(@ModelAttribute MemberLoginForm memberLoginForm) {
+    public String loginForm(@ModelAttribute MemberLoginForm memberLoginForm, HttpServletRequest request) {
+        String prevUrl = request.getHeader("Referer");
+        request.getSession().setAttribute("prevUrl", prevUrl);
         return "member/loginForm";
     }
 

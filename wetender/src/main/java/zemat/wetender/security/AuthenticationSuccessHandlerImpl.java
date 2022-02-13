@@ -21,6 +21,17 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         System.out.println("4.. 로그인성공핸들러 실행");
         System.out.println("4.. null or not : " + SecurityContextHolder.getContext().getAuthentication());
-        response.sendRedirect(defaultSuccessUrl);
+        HttpSession session = request.getSession();
+        if (session != null) {
+            String prevUrl = (String) session.getAttribute("prevUrl");
+            if (prevUrl != null) {
+                session.removeAttribute("prevUrl");
+                response.sendRedirect(prevUrl);
+            } else {
+                response.sendRedirect(defaultSuccessUrl);
+            }
+        } else {
+            response.sendRedirect(defaultSuccessUrl);
+        }
     }
 }
