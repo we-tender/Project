@@ -9,57 +9,101 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
-        // 식재료 관련 HTML 요소의 동적 제어 기능
+        // HTML 요소의 동적 제어 기능
         $(document).ready(function(){
-            // HTML 요소 추가
-            $('.btnAdd').click(function(){
+            // 칵테일 순서 추가
+            $('.sequenceBtnAdd').click(function(){
                 // 변수 선언
-                var cnt = Number($('input[name="cnt"]').val()) + 1;
-                var cntDel = Number($('input[name="cnt"]').val()) - 1;
+                let sequenceCnt = Number($('input[name="sequenceCnt"]').val()) + 1;
 
-                var cname = 'iname'+cnt;
-                var cdel = 'idel'+cnt;
+                let sequenceCname = 'sequenceContent'+sequenceCnt;
+                let sequenceCdel = 'sequenceDel'+sequenceCnt;
 
                 // 클로저 구현
-                var decrease = (function () {
-                    var counter = cnt;
+                let decrease = (function () {
 
                     // 클로저를 반환
                    return function() {
-                        return --cnt;
+                        return --sequenceCnt;
                     };
                 }());
 
                 $('#sequence').append(
-                    `   <input type="text" class="iname" name="iname" placeholder="순서">
-                        <input type="button" class="btnRemove" name="idel" value="삭제"><br>
+                    `   <input type="text" class="sequenceContent" name="sequenceContent" placeholder="순서">
+                        <input type="button" class="sequenceBtnRemove" name="sequenceDel" value="삭제"><br>
                     `
                 );
 
-                $('.iname').eq(cnt-1).attr('name',cname);
-                $('.btnRemove').eq(cnt-1).attr('name', cdel);
-                $('input[name="cnt"]').val(cnt)
+                $('.sequenceContent').eq(sequenceCnt-1).attr('name',sequenceCname);
+                $('.sequenceBtnRemove').eq(sequenceCnt-1).attr('name', sequenceCdel);
+                $('input[name="sequenceCnt"]').val(sequenceCnt);
 
                // HTML 요소 삭제
-               $('.btnRemove').click(function(){
+               $('.sequenceBtnRemove').click(function(){
+
+                    $(this).prev().remove();
+                    $(this).next().remove();
+                    $(this).remove();
+
+                    $('input[name="sequenceCnt"]').val(decrease());
+               });
+            });
+
+            // 주류재료 추가
+            $('.liquorIngredientBtnAdd').click(function(){
+                // 변수 선언
+                let liquorIngredientCnt = Number($('input[name="liquorIngredientCnt"]').val()) + 1;
+
+                let liquorIngredientCname = 'liquorIngredientContent'+ liquorIngredientCnt;
+                let liquorIngredientSearch = 'liquorIngredientSearch' + liquorIngredientCnt;
+                let liquorIngredientCdel = 'liquorIngredientDel'+ liquorIngredientCnt;
+
+                // 클로저 구현
+                let decrease = (function () {
+
+                    // 클로저를 반환
+                   return function() {
+                        return --liquorIngredientCnt;
+                    };
+                }());
+
+                $('#liquorIngredient').append(
+                    `   <input type="text" class="liquorIngredientContent" name="liquorIngredientContent" readonly="readonly">
+                        <input type="button" class="liquorIngredientSearch" name="liquorIngredientSearch" value="주류 선택">
+                        <input type="button" class="liquorIngredientBtnRemove" name="liquorIngredientDel" value="삭제"><br>
+                    `
+                );
+
+                $('.liquorIngredientContent').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCname,'id':liquorIngredientCname});
+                $('.liquorIngredientBtnRemove').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCdel,'id':liquorIngredientCdel});
+                $('.liquorIngredientSearch').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientSearch,'id':liquorIngredientSearch});
+                $('input[name="liquorIngredientCnt"]').val(liquorIngredientCnt);
+
+                // HTML 요소 삭제
+                $('.liquorIngredientBtnRemove').click(function(){
 
                     $(this).prev().remove();
                     $(this).prev().remove();
                     $(this).next().remove();
                     $(this).remove();
 
-                    $('input[name="cnt"]').val(decrease());
-               });
-            });
-            /* 작가 선택 버튼 */
-            $('.ingredientId_btn').on("click",function(e){
+                    $('input[name="liquorIngredientCnt"]').val(decrease());
+                });
 
-                e.preventDefault();
+                /* 작가 선택 버튼 */
+                $('.liquorIngredientSearch').click(function(e){
 
-                let popUrl = "/supporters/pop/liquorPop";
-                let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+                    e.preventDefault();
 
-                window.open(popUrl,"주류 찾기",popOption);
+                    let liquorBtnId = $(this).attr('id');
+                    let liquorBtnName = $(this).attr('name');
+                    let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
+                    let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+
+                    window.open(popUrl,"주류 찾기",popOption);
+
+                });
+
 
             });
 
@@ -81,7 +125,6 @@
             text-align: center;
         }
     </script>
-
 </head>
 <body>
 <div class="container">
@@ -133,16 +176,19 @@
     </div>
     <div id="sequence" class="col-lg-6 col-md-6 form-group mt-3">
         <label th:for="sequence" >칵테일 순서</label><br>
-        <input type="hidden" id="cnt" name="cnt" value="1" >
-        <input type="text" class="iname" name="iname1" placeholder="순서">
-        <input type="button" class="btnAdd" name="idel1" value="추가"><br>
+        <input type="button" class="sequenceBtnAdd" name="sequenceDel1" value="순서 추가"><br>
+        <input type="hidden" th:id="sequenceCnt" th:name="sequenceCnt" value="1" >
+        <input type="text" class="sequenceContent" name="sequenceContent1" placeholder="순서"><br>
     </div>
     <hr class="my-4"/>
-    <div>
-        <input id="liquorName_input" readonly="readonly">
-        <input id="liquorId_input" name="ingredientId" type="hidden">
-        <button class="ingredientId_btn">주류 선택</button>
+    <div id="liquorIngredient" class="col-lg-6 col-md-6 form-group mt-3">
+        <label th:for="liquorIngredient" >주류 등록</label><br>
+        <input type="button" class="liquorIngredientBtnAdd" name="liquorIngredientDel1" value="주류 추가"><br>
+        <input type="hidden" th:id="liquorIngredientCnt" th:name="liquorIngredientCnt" value="1" >
+        <input type="text" class="liquorIngredientContent" name="liquorIngredientContent1" readonly="readonly">
+        <input type="button" class="liquorIngredientSearch" id= "liquorIngredientSearch1" name="liquorIngredientSearch1" value="주류 선택"><br>
     </div>
+    <hr class="my-4"/>
 
     <div class="col">
       <button class="w-100 btn btn-primary btn-lg" type="submit">칵테일 등록</button>

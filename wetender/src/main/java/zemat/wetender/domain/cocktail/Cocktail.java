@@ -88,9 +88,9 @@ public class Cocktail extends BaseEntity {
         for (CocktailSequence cocktailSequence : cocktailSequences) {
             addCocktailSequence(cocktailSequence);
         }
-
-        for (CocktailIngredient cocktailIngredient : cocktailIngredients) {
-            addCocktailIngredient(cocktailIngredient);
-        }
+//
+//        for (CocktailIngredient cocktailIngredient : cocktailIngredients) {
+//            addCocktailIngredient(cocktailIngredient);
+//        }
     }
 }

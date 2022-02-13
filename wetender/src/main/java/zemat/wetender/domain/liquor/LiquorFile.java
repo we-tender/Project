@@ -1,6 +1,7 @@
 package zemat.wetender.domain.liquor;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,4 +34,10 @@ public class LiquorFile {
         this.storeLiquorFileName = storeLiquorFileName;
     }
 
+    @Builder
+    public LiquorFile(Long id, String uploadLiquorFileName, String storeLiquorFileName) {
+        this.id = id;
+        this.uploadLiquorFileName = uploadLiquorFileName;
+        this.storeLiquorFileName = storeLiquorFileName;
+    }
 }

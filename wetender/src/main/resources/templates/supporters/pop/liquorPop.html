@@ -9,16 +9,20 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
-         $(document).ready(function(){
+        $(document).ready(function(){
+            let urlParams = url.searchParams;
+            let id = urlParams.get('id');
+            let name = urlParams.get('name');
+
             /* 작가 선택 및 팝업창 닫기 */
             $('.move').on('click', function(e){
 
                 e.preventDefault();
 
-                let liquorId = $(this).attr("href");
-                let liquorName= $(this).data("name");
-                $(opener.document).find("#liquorId_input").val(liquorId);
-                $(opener.document).find("#liquorName_input").val(liquorName);
+                //let liquorId= $(this).attr("href");
+                //let liquorName= $(this).data("name");
+                //$(opener.document).getElementById(id).val(liquorId);
+                //$(opener.document).getElementById(name).val(liquorName);
 
                 window.close();
             });
@@ -31,7 +35,7 @@
     </div>
     <div class="content_wrap">
         <div class="liquor_table_wrap">
-            <div class="table_exist" th:if="${liquors.hasContent()}">
+            <div class="table_exist" th:if="${hasContent}">
                 <table class="liquor_table">
                     <thead>
                         <tr>
@@ -43,13 +47,13 @@
                     <tr th:each="liquor : ${liquors}">
                         <td th:text="${liquor.id}">번호</td>
                         <td>
-                            <a class="move" th:text ="${liquor.liquorName}" th:href="${liquor.id}" th:data-name="${liquor.liquorName}" />
+                            <a class="move" th:text ="${liquor.name}" th:href="${liquor.id}" th:data-name="${liquor.name}" />
                         </td>
-                        <td th:text="${liquor.liquorEname}">영문이름</td>
+                        <td th:text="${liquor.eName}">영문이름</td>
                     </tr>
                 </table>
             </div>
-            <div class="table_empty" th:if="${!liquors.hasContent()}">
+            <div class="table_empty" th:if="${!hasContent}">
                 등록된 주류가 없습니다.
             </div>
 
@@ -64,18 +68,18 @@
             </div>
 
             <!--페이지 이동 영역-->
-            <div class="page_wrap">
-                <ul class="pageLine">
-                    <!-- 이전 버튼-->
-                    <li th:if = "${liquors.hasPrevious()}">
-                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}-1)}">이전</a>
-                    </li>
-                    <!--페이지 번호 이후 구현-->
-                    <li th:if = "${liquors.hasNext()}">
-                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}+1)}">다음</a>
-                    </li>
-                </ul>
-            </div>
+<!--            <div class="page_wrap">-->
+<!--                <ul class="pageLine">-->
+<!--                    &lt;!&ndash; 이전 버튼&ndash;&gt;-->
+<!--                    <li th:if = "${liquors.hasPrevious()}">-->
+<!--                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}-1)}">이전</a>-->
+<!--                    </li>-->
+<!--                    &lt;!&ndash;페이지 번호 이후 구현&ndash;&gt;-->
+<!--                    <li th:if = "${liquors.hasNext()}">-->
+<!--                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}+1)}">다음</a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
         </div>
     </div>
 </body>

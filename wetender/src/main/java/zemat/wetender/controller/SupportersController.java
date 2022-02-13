@@ -15,6 +15,9 @@ import zemat.wetender.domain.ingredient.IngredientFileStore;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
+import zemat.wetender.dto.ingredientDto.LiquorIngredientDto;
+import zemat.wetender.dto.liquorDto.LiquorDto;
+import zemat.wetender.dto.liquorDto.LiquorFileDto;
 import zemat.wetender.dto.supportersDto.CocktailInsertForm;
 import zemat.wetender.dto.supportersDto.IngredientInsertForm;
 import zemat.wetender.dto.supportersDto.LiquorInsertForm;
@@ -63,7 +66,7 @@ public class SupportersController {
 
     @GetMapping("/cocktailInsert")
     public String cocktailInsertForm(Model model){
-
+        model.addAttribute("liquorIngredient", new LiquorIngredientDto());
         model.addAttribute("form", new CocktailInsertForm());
 
         return "supporters/cocktailInsert";
@@ -85,19 +88,42 @@ public class SupportersController {
         // 칵테일 순서
         List<CocktailSequence> cocktailSequences = new ArrayList<>();
 
-        String[] values = request.getParameterValues("cnt");
-        int n = Integer.parseInt(values[0]);
+        String[] sArr = request.getParameterValues("sequenceCnt");
+        int n = Integer.parseInt(sArr[0]);
         for(int i = 1; i <= n; i++){
-            String[] values1 = request.getParameterValues("iname" + i);
+            String[] values1 = request.getParameterValues("sequenceContent" + i);
             String sequence = values1[0];
 
             CocktailSequence cocktailSequence = new CocktailSequence(sequence);
             cocktailSequences.add(cocktailSequence);
         }
 
+//        // 칵테일 주류 재료
+//        String[] values = request.getParameterValues("cnt");
+//        int n = Integer.parseInt(values[0]);
+//        for(int i = 1; i <= n; i++){
+//            String[] values1 = request.getParameterValues("iname" + i);
+//            String sequence = values1[0];
+//
+//            CocktailSequence cocktailSequence = new CocktailSequence(sequence);
+//            cocktailSequences.add(cocktailSequence);
+//        }
+
         //칵테일 파일
         List<CocktailFile> cocktailFiles = cocktailFileStore.storeFiles(form.getImages());
 
+        // 칵태일 재료 저장(주류)
+        List<CocktailIngredient> liquors = new ArrayList<>();
+
+//        List<LiquorIngredientDto> liquorIngredientDtos = form.getLiquors();
+//
+//        for (LiquorIngredientDto liquorIngredientDto : liquorIngredientDtos) {
+//            CocktailIngredient cocktailIngredient = liquorIngredientDto.toEntity();
+//            liquors.add(cocktailIngredient);
+//        }
+
+
+        // 칵테일 엔티티 생성
         Cocktail cocktail = Cocktail.builder()
                 .cocktailName(form.getName())
                 .cocktailEName(form.getEName())
@@ -108,9 +134,8 @@ public class SupportersController {
                 .cocktailTastes(cocktailTastes)
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
+//                .cocktailIngredients(liquors)
                 .build();
-
-        System.out.println(cocktail.getCocktailName());
 
         supportersService.cocktailSave(cocktail);
 
@@ -172,13 +197,25 @@ public class SupportersController {
     }
 
     @GetMapping("/pop/liquorPop")
-    public String liquorPopForm(Model model){
+    public String liquorPopForm(Model model,
+                                @RequestParam("id") String id,
+                                @RequestParam("name") String name){
 
         // 추후 Liquor 부분 dto로 변경해야함
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "liquorName"));
         Page<Liquor> liquors = liquorService.liquorPageFindAll(pageRequest);
 
-        model.addAttribute("liquors",liquors);
+        List<LiquorDto> liquorDtos = new ArrayList<>();
+        for (Liquor liquor : liquors) {
+            liquorDtos.add(new LiquorDto(liquor));
+        }
+
+        System.out.printf("id는 잘 받음%s\n",id);
+        model.addAttribute("id",id);
+        model.addAttribute("name",name);
+        model.addAttribute("hasContent",liquors.hasContent());
+//        model.addAttribute("liquors.hasNext()",liquors.hasNext());
+        model.addAttribute("liquors",liquorDtos);
 
         return "supporters/pop/liquorPop";
     }
