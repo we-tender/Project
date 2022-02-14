@@ -1,47 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
-
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/myStyle.css}">
 </head>
+
 <body>
 
-    <!-- navigation 시작 -->
-    <div th:replace="~{fragment/navigation :: nav1}"></div>
-    <!-- navigation 끝 -->
-
-    <!-- main 시작 -->
-    <div class="container">
-        <br>
-        <h1><a th:href="@{/}">WETENDER</a></h1>
-        <h3>로그인</h3>
-        <label th:if="${errorMessage != null}" th:for="idnamePwdForm" text="${errorMessage}"></label>
-        <form th:field="idnamePwdForm" th:action="@{/member/login}" th:object="${memberLoginForm}" method="post">
-            <div>
-                <h4><label th:for="idname">아이디</label></h4>
-                <input th:field="*{idname}" type="text" class="form-control" placeholder="아이디를 입력해 주세요.">
-            </div>
+    <section>
+        <div class="container">
             <br>
-            <div>
-                <h4><label th:for="pwd">비밀번호</label></h4>
-                <input th:field="*{pwd}" type="password" class="form-control" placeholder="비밀번호를 입력해 주세요.">
-            </div>
+            <h1><a th:href="@{/}">WETENDER</a></h1>
+            <h3>로그인</h3>
+            <label th:if="${errorMessage != null}" th:for="idnamePwdForm" text="${errorMessage}"></label>
+            <form th:field="idnamePwdForm" th:action="@{/member/login}" th:object="${memberLoginForm}" method="post">
+                <div>
+                    <h4><label th:for="idname">아이디</label></h4>
+                    <input th:field="*{idname}" type="text" class="form-control" placeholder="아이디를 입력해 주세요.">
+                </div>
+                <br>
+                <div>
+                    <h4><label th:for="pwd">비밀번호</label></h4>
+                    <input th:field="*{pwd}" type="password" class="form-control" placeholder="비밀번호를 입력해 주세요.">
+                </div>
+                <br>
+                <div>
+                    <button class="w-100 btn btn-outline-dark" type="submit">로그인</button>
+                </div>
+            </form>
             <br>
-            <div>
-                <button class="w-100 btn btn-outline-dark" type="submit">로그인</button>
-            </div>
-        </form>
-        <br>
-    </div>
-
-    <!-- main 끝 -->
-
-    <!-- footer 시작 -->
-    <div th:replace="~{fragment/footer :: footer1}"></div>
-    <!-- footer 끝 -->
+        </div>
+    </section>
 
 </body>
+
 </html>

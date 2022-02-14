@@ -1,6 +1,9 @@
 package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -42,6 +45,12 @@ public class MemberController {
     public String loginError(Model model) {
         model.addAttribute("errorMessage", "아이디/패스워드가 올바르지 않습니다.");
         return "member/loginForm";
+    }
+
+    @GetMapping("/member/mypage")
+    public String myPage(Model model) {
+        MainController.getSessionMember(model);
+        return "member/myPage";
     }
 
     @GetMapping("/member/list")

@@ -2,14 +2,14 @@
 임시 스타일
 */
 
+.nav_form_btn
+{
+    display : inline-block
+}
 .navigation
 {
     border : 1px solid #000;
     margin : 10px;
-}
-.nav_form_btn
-{
-    display : inline-block
 }
 .menu
 {
