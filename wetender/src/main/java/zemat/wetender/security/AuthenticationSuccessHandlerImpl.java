@@ -24,6 +24,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         HttpSession session = request.getSession();
         if (session != null) {
             String prevUrl = (String) session.getAttribute("prevUrl");
+            System.out.println("4.. prevUrl = " + prevUrl);
             if (prevUrl != null) {
                 session.removeAttribute("prevUrl");
                 response.sendRedirect(prevUrl);

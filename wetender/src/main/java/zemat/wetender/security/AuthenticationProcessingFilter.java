@@ -22,7 +22,6 @@ public class AuthenticationProcessingFilter extends AbstractAuthenticationProces
         String memberIdName = request.getParameter("idname");
         String memberPassword = request.getParameter("pwd");
         System.out.println("1.. 입력값 - ID:[" + memberIdName + "]PW:[" + memberPassword + "]");
-
         return getAuthenticationManager()
                 .authenticate(new UsernamePasswordAuthenticationToken(memberIdName, memberPassword));
         // 아이디, 패스워드가 담긴 토큰으로 authenticate 메소드를 실행하고 (토큰도 Authenticate의 구현체임)

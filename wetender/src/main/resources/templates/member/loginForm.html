@@ -13,7 +13,7 @@
             <br>
             <h1><a th:href="@{/}">WETENDER</a></h1>
             <h3>로그인</h3>
-            <label th:if="${errorMessage != null}" th:for="idnamePwdForm" text="${errorMessage}"></label>
+            <span th:if="${errorMessage != null}" th:text="${errorMessage}"></span>
             <form th:field="idnamePwdForm" th:action="@{/member/login}" th:object="${memberLoginForm}" method="post">
                 <div>
                     <h4><label th:for="idname">아이디</label></h4>

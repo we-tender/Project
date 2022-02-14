@@ -40,8 +40,6 @@ class MemberRepositoryTest {
         assertThat(findMember.getId()).isEqualTo(member.getId());
         assertThat(findMember.getMemberNick()).isEqualTo("changedNick");
 
-        System.out.println("member.getCreatedBy() = " + member.getCreatedBy());
-        System.out.println("member.getLastModifiedBy() = " + member.getLastModifiedBy());
         System.out.println("member.getCreatedDate() = " + member.getCreatedDate());
         System.out.println("member.getLastModifiedDate() = " + member.getLastModifiedDate());
     }

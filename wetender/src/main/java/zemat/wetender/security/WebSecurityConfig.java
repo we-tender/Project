@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
         AuthenticationProcessingFilter filter = new AuthenticationProcessingFilter("/member/login");
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(new AuthenticationSuccessHandlerImpl("/"));
-        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandlerImpl("/member/loginError"));
+        filter.setAuthenticationFailureHandler(new AuthenticationFailureHandlerImpl("/loginError"));
         return filter;
     }
 
