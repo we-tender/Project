@@ -11,10 +11,41 @@
     border : 1px solid #000;
     margin : 10px;
 }
-.menu
+#menu-top
 {
-    border : 1px solid #000;
-    margin : 10px;
+    float : right;
+}
+#menu-top ul {
+    list-style-type : none;
+    padding-left : 0;
+    margin-bottom : 0;
+}
+#menu-top ul li {
+    display : inline;
+    border-left : 1px solid #000;
+    padding : 0px 10px 0px 10px;
+    margin : 5px 0px 5px 0px;
+}
+#menu-top ul li:first-child {
+    border-left : none;
+}
+#menu-top ul a {
+    cursor : pointer;
+}
+#menu-top ul a:hover {
+    color : #fb8bb5;
+    font-weight : bold;
+}
+#menu-top ul form {
+    display : inline-block;
+}
+#menu-top ul button {
+    border : none;
+    background-color : transparent;
+}
+#menu-top ul button:hover {
+    color : #fb8bb5;
+    font-weight : bold;
 }
 .container
 {
