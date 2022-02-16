@@ -8,9 +8,38 @@
 
 <body>
 
-    <section>
-        <div class="container" th:object="${sessionMember}">
-            <span th:text="|${sessionMember.getUsername()} 님 상세 페이지|"></span>
+    <section th:object="${member}">
+        <div class="container">
+            <div class="contents-header"><span th:text="|${member.getMemberName()} 님 상세 페이지|"></span></div>
+            <div class="contents">
+                <div class="contents-inline1" th:text="|${member.getMemberRole()}|"></div>
+                <div class="contents-inline2">1</div>
+                <div class="contents-inline1">2</div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="contents-header"><span>내가 쓴 글</span></div>
+            <div class="contents">
+                <div class="contents-inline1">총 n개의 글을 작성</div>
+                <div class="contents-inline2">
+                    <ul>
+                        <li><span>게시판 | 첫 칵테일 도전</span></li>
+                        <li><span>마이레시피 | 나만의 깔루아 밀크</span></li>
+                        <li><span>테이스팅 노트 | 참바 후기</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="contents">
+                <div class="contents-inline1">회원정보</div>
+                <div class="contents-inline1">테이스팅 노트</div>
+                <div class="contents-inline1">나만의 레시피</div>
+                <div class="contents-inline1">내 술장</div>
+                <div class="contents-inline1">즐겨찾기</div>
+            </div>
         </div>
     </section>
 
