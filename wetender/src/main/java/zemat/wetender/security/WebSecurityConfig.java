@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements A
                 .and()
             .authorizeRequests()
                 .antMatchers("/supporters", "/supporters/**").access("hasRole('SUPPORTER') or hasRole('ADMIN')")
+                .antMatchers("/member/mypage").authenticated()
                 .anyRequest().permitAll()
                 .and()
             .formLogin()

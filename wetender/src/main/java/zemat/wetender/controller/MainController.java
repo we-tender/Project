@@ -13,11 +13,6 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model) {
-        getSessionMember(model);
-        return "fragment/main";
-    }
-
-    static void getSessionMember(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
             model.addAttribute("sessionMember", null);
@@ -25,5 +20,6 @@ public class MainController {
             UserDetails principalDetails = (UserDetails) authentication.getPrincipal();
             model.addAttribute("sessionMember", principalDetails);
         }
+        return "fragment/main";
     }
 }

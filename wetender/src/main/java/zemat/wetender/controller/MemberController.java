@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import zemat.wetender.domain.member.Member;
 import zemat.wetender.dto.memberDto.MemberJoinForm;
 import zemat.wetender.dto.memberDto.MemberLoginForm;
 import zemat.wetender.service.MemberService;
@@ -51,7 +52,13 @@ public class MemberController {
 
     @GetMapping("/member/mypage")
     public String myPage(Model model) {
-        MainController.getSessionMember(model);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails principalDetails = (UserDetails) authentication.getPrincipal();
+        model.addAttribute("sessionMember", principalDetails);
+        Member findMember = memberService.findByMemberIdName(principalDetails.getUsername());
+        model.addAttribute("member", findMember);
+//        findMember.get
+
         return "member/myPage";
     }
 
