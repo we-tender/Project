@@ -20,40 +20,63 @@ public class SuggestionController {
     @GetMapping("/main")
     public String main(Model model) {
 
-        List<Suggestion> suggestionList = suggestionService.list();
+        List<Suggestion> suggestionList = suggestionService.findAll();
 
         model.addAttribute("suggestionList", suggestionList);
 
         return "suggestion/main";
     }
 
-    // 건의 사항 등록 시작
+
+    // 건의사항 등록, 수정
     @GetMapping("/insert")
-    public String insert(Model model) {
+    public String insertForm(Model model, @RequestParam(required = false) Long id) {
+
+        if(id == null)
+        {
+            model.addAttribute("suggestion", new Suggestion("", ""));
+        }
+        else
+        {
+            Suggestion suggestion = suggestionService.findById(id).orElse(null);
+            model.addAttribute("suggestion", suggestion);
+        }
+
 
         return "suggestion/insert";
     }
 
     @PostMapping("/insert")
-    public String create(@ModelAttribute Suggestion suggestion) {
+    public String insert(@ModelAttribute Suggestion suggestion) {
 
         suggestionService.insert(suggestion);
 
         return "redirect:/suggestion/main";
     }
-    // 건의 사항 등록 끝
+    // 건의사항 등록, 수정 끝
+
+
+    // 건의사항 삭제
+    @GetMapping("/delete")
+    public String delete(@RequestParam(required = true) Long id)
+    {
+        suggestionService.delete(id);
+        return "redirect:/suggestion/main";
+    }
+
+
+
 
     // 상세 페이지 시작
     @GetMapping("/detail")
     public String detail(Model model, @RequestParam(required = true) Long suggestionId) {
 
-        Optional<Suggestion> suggestionFind = suggestionService.find(suggestionId);
+        Optional<Suggestion> suggestionFind = suggestionService.findById(suggestionId);
         Suggestion suggestion = suggestionFind.get();
 
         model.addAttribute("suggestion", suggestion);
 
         return "suggestion/detail";
-
     }
     // 상세 페이지 끝
 

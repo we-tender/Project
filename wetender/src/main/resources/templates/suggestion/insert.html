@@ -32,19 +32,24 @@
             <!--            사진을 저장하기 위해 enctype 추가 -->
             <form action="#" th:action="@{/suggestion/insert}" th:object="${suggestion}"  method="post">
 
+                <input type="hidden" th:field="*{id}">
+
 
                 <!-- input 상자 -->
                 <div class="mb-3">
                     <label for="suggestionTitle" class="form-label">제목</label>
                     <input type="text" class="form-control"
-                           id="suggestionTitle" th:name="suggestionTitle" >
+                           id="suggestionTitle" th:name="suggestionTitle"
+                            th:field="*{suggestionTitle}">
                 </div>
 
 
                 <!-- textarea -->
                 <div class="mb-3">
                     <label for="suggestionContent" class="form-label">내용</label>
-                    <textarea class="form-control" id="suggestionContent" rows="4" th:name="suggestionContent" ></textarea>
+                    <textarea class="form-control" id="suggestionContent" rows="4"
+                              th:name="suggestionContent"
+                              th:field="*{suggestionContent}"></textarea>
                 </div>
 
                 <!-- 버튼 -->

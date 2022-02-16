@@ -31,4 +31,5 @@ public class Suggestion extends BaseEntity {
     }
 
 
+
 }
