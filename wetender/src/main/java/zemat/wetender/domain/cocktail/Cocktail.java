@@ -37,9 +37,6 @@ public class Cocktail extends BaseEntity {
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     private List<CocktailSequence> cocktailSequences = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "cocktail")
-//    private List<CocktailIngredient> cocktailIngredients;
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
     private List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
@@ -88,9 +85,9 @@ public class Cocktail extends BaseEntity {
         for (CocktailSequence cocktailSequence : cocktailSequences) {
             addCocktailSequence(cocktailSequence);
         }
-//
-//        for (CocktailIngredient cocktailIngredient : cocktailIngredients) {
-//            addCocktailIngredient(cocktailIngredient);
-//        }
+
+        for (CocktailIngredient cocktailIngredient : cocktailIngredients) {
+            addCocktailIngredient(cocktailIngredient);
+        }
     }
 }

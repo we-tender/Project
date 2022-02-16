@@ -10,19 +10,20 @@
 
     <script>
         $(document).ready(function(){
-            let urlParams = url.searchParams;
-            let id = urlParams.get('id');
-            let name = urlParams.get('name');
+
+            let id = "#" + "[[${id}]]";
+            var name = "#" + "[[${name}]]";
 
             /* 작가 선택 및 팝업창 닫기 */
             $('.move').on('click', function(e){
 
                 e.preventDefault();
 
-                //let liquorId= $(this).attr("href");
-                //let liquorName= $(this).data("name");
-                //$(opener.document).getElementById(id).val(liquorId);
-                //$(opener.document).getElementById(name).val(liquorName);
+                let liquorId= $(this).attr("href");
+                let liquorName= $(this).data("name");
+
+                $(opener.document).find(id).val(liquorId);
+                $(opener.document).find(name).val(liquorName);
 
                 window.close();
             });

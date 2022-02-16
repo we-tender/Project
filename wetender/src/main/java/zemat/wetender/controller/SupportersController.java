@@ -4,10 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
@@ -18,7 +16,6 @@ import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.ingredientDto.LiquorIngredientDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
-import zemat.wetender.dto.liquorDto.LiquorFileDto;
 import zemat.wetender.dto.supportersDto.CocktailInsertForm;
 import zemat.wetender.dto.supportersDto.IngredientInsertForm;
 import zemat.wetender.dto.supportersDto.LiquorInsertForm;
@@ -26,7 +23,6 @@ import zemat.wetender.service.LiquorService;
 import zemat.wetender.service.SupportersService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -94,34 +90,33 @@ public class SupportersController {
         for(int i = 1; i <= n; i++){
             String[] values1 = request.getParameterValues("sequenceContent" + i);
             String sequence = values1[0];
-
             CocktailSequence cocktailSequence = new CocktailSequence(sequence);
             cocktailSequences.add(cocktailSequence);
         }
 
-//        // 칵테일 주류 재료
-//        String[] values = request.getParameterValues("cnt");
-//        int n = Integer.parseInt(values[0]);
-//        for(int i = 1; i <= n; i++){
-//            String[] values1 = request.getParameterValues("iname" + i);
-//            String sequence = values1[0];
-//
-//            CocktailSequence cocktailSequence = new CocktailSequence(sequence);
-//            cocktailSequences.add(cocktailSequence);
-//        }
+        // 칵테일 주류 재료
+        List<CocktailIngredient> liquors = new ArrayList<>();
+
+        sArr = request.getParameterValues("liquorIngredientCnt");
+        n = Integer.parseInt(sArr[0]);
+        System.out.println("n: " + n);
+        for(int i = 1; i <= n; i++){
+            String[] values1 = request.getParameterValues("liquorIngredientId" + i);
+            String[] values2 = request.getParameterValues("liquorIngredientQty" + i);
+            Long liquorId = Long.parseLong(values1[0]);
+            String liquorIngredientQty = values2[0];
+            Liquor liquor = liquorService.findById(liquorId);
+
+            CocktailIngredient liquorIngredient = CocktailIngredient.builder()
+                    .liquor(liquor)
+                    .cocktailIngredientQty(liquorIngredientQty)
+                    .build();
+
+            liquors.add(liquorIngredient);
+        }
 
         //칵테일 파일
         List<CocktailFile> cocktailFiles = cocktailFileStore.storeFiles(form.getImages());
-
-        // 칵태일 재료 저장(주류)
-        List<CocktailIngredient> liquors = new ArrayList<>();
-
-//        List<LiquorIngredientDto> liquorIngredientDtos = form.getLiquors();
-//
-//        for (LiquorIngredientDto liquorIngredientDto : liquorIngredientDtos) {
-//            CocktailIngredient cocktailIngredient = liquorIngredientDto.toEntity();
-//            liquors.add(cocktailIngredient);
-//        }
 
 
         // 칵테일 엔티티 생성
@@ -135,7 +130,7 @@ public class SupportersController {
                 .cocktailTastes(cocktailTastes)
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
-//                .cocktailIngredients(liquors)
+                .cocktailIngredients(liquors)
                 .build();
 
         supportersService.cocktailSave(cocktail);
@@ -204,7 +199,7 @@ public class SupportersController {
 
         // 추후 Liquor 부분 dto로 변경해야함
         PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "liquorName"));
-        Page<Liquor> liquors = liquorService.liquorPageFindAll(pageRequest);
+        Page<Liquor> liquors = liquorService.pageFindAll(pageRequest);
 
         List<LiquorDto> liquorDtos = new ArrayList<>();
         for (Liquor liquor : liquors) {
@@ -212,6 +207,7 @@ public class SupportersController {
         }
 
         System.out.printf("id는 잘 받음%s\n",id);
+        System.out.printf("name는 잘 받음%s\n",name);
         model.addAttribute("id",id);
         model.addAttribute("name",name);
         model.addAttribute("hasContent",liquors.hasContent());

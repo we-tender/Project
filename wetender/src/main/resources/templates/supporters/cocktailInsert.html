@@ -55,9 +55,13 @@
                 let liquorIngredientCnt = Number($('input[name="liquorIngredientCnt"]').val()) + 1;
 
                 let liquorIngredientCname = 'liquorIngredientContent'+ liquorIngredientCnt;
+                let liquorIngredientCid = 'liquorIngredientId'+ liquorIngredientCnt;
+                let liquorIngredientQty = 'liquorIngredientQty'+ liquorIngredientCnt;
                 let liquorIngredientSearch = 'liquorIngredientSearch' + liquorIngredientCnt;
                 let liquorIngredientCdel = 'liquorIngredientDel'+ liquorIngredientCnt;
 
+                console.log(liquorIngredientCid);
+                console.log(liquorIngredientCname);
                 // 클로저 구현
                 let decrease = (function () {
 
@@ -68,20 +72,26 @@
                 }());
 
                 $('#liquorIngredient').append(
-                    `   <input type="text" class="liquorIngredientContent" name="liquorIngredientContent" readonly="readonly">
+                    `   <input type="hidden" class="liquorIngredientId" id="liquorIngredientId" name="liquorIngredientId">
+                        <input type="text" class="liquorIngredientContent" name="liquorIngredientContent" readonly="readonly">
                         <input type="button" class="liquorIngredientSearch" name="liquorIngredientSearch" value="주류 선택">
+                        <input type="text" class="liquorIngredientQty" name="liquorIngredientQty" placeholder="재료 양">
                         <input type="button" class="liquorIngredientBtnRemove" name="liquorIngredientDel" value="삭제"><br>
                     `
                 );
 
+                $('.liquorIngredientId').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCid,'id':liquorIngredientCid});
                 $('.liquorIngredientContent').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCname,'id':liquorIngredientCname});
+                $('.liquorIngredientQty').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientQty,'id':liquorIngredientQty});
                 $('.liquorIngredientBtnRemove').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCdel,'id':liquorIngredientCdel});
-                $('.liquorIngredientSearch').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientSearch,'id':liquorIngredientSearch});
+                $('.liquorIngredientSearch').eq(liquorIngredientCnt-1).data({'name':liquorIngredientCname,'id':liquorIngredientCid});
                 $('input[name="liquorIngredientCnt"]').val(liquorIngredientCnt);
 
                 // HTML 요소 삭제
                 $('.liquorIngredientBtnRemove').click(function(){
 
+                    $(this).prev().remove();
+                    $(this).prev().remove();
                     $(this).prev().remove();
                     $(this).prev().remove();
                     $(this).next().remove();
@@ -95,36 +105,48 @@
 
                     e.preventDefault();
 
-                    let liquorBtnId = $(this).attr('id');
-                    let liquorBtnName = $(this).attr('name');
+                    let liquorBtnId = $(this).data('id');
+                    let liquorBtnName = $(this).data('name');
                     let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
                     let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
 
                     window.open(popUrl,"주류 찾기",popOption);
 
                 });
+            });
 
+            /* 작가 선택 버튼 */
+            $('.liquorIngredientSearch').click(function(e){
+
+                e.preventDefault();
+
+                let liquorBtnId = $(this).data('id');
+                let liquorBtnName = $(this).data('name');
+                let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
+                let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+
+                window.open(popUrl,"주류 찾기",popOption);
 
             });
 
 
         });
     </script>
-    <script>
-        .authorId_btn {
-            margin-left: 20px;
-            width: 14%;
-            height: 38px;
-            font-weight: 600;
-            background-color: #dfe8f5;
-            font-size: 15px;
-            cursor:pointer;
-        }
-        #authorName_input {
-            width: 80%;
-            text-align: center;
-        }
-    </script>
+<!--    <script>-->
+<!--        .authorId_btn {-->
+<!--            margin-left: 20px;-->
+<!--            width: 14%;-->
+<!--            height: 38px;-->
+<!--            font-weight: 600;-->
+<!--            background-color: #dfe8f5;-->
+<!--            font-size: 15px;-->
+<!--            cursor:pointer;-->
+<!--        }-->
+<!--        #authorName_input {-->
+<!--            width: 80%;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--    </script>-->
 </head>
 <body>
 <div class="container">
@@ -184,9 +206,11 @@
     <div id="liquorIngredient" class="col-lg-6 col-md-6 form-group mt-3">
         <label th:for="liquorIngredient" >주류 등록</label><br>
         <input type="button" class="liquorIngredientBtnAdd" name="liquorIngredientDel1" value="주류 추가"><br>
-        <input type="hidden" th:id="liquorIngredientCnt" th:name="liquorIngredientCnt" value="1" >
-        <input type="text" class="liquorIngredientContent" name="liquorIngredientContent1" readonly="readonly">
-        <input type="button" class="liquorIngredientSearch" id= "liquorIngredientSearch1" name="liquorIngredientSearch1" value="주류 선택"><br>
+        <input type="hidden" class="liquorIngredientId" id="liquorIngredientId1" name="liquorIngredientId1">
+        <input type="hidden" th:id="liquorIngredientCnt" th:name="liquorIngredientCnt" value="1">
+        <input type="text" class="liquorIngredientContent" id="liquorIngredientContent1" name="liquorIngredientContent1" readonly="readonly">
+        <input type="button" class="liquorIngredientSearch" data-id= "liquorIngredientId1" data-name="liquorIngredientContent1" value="주류 선택">
+        <input type="text" class="liquorIngredientQty" th:id="liquorIngredientQty1" name="liquorIngredientQty1" placeholder="재료 양"><br>
     </div>
     <hr class="my-4"/>
 

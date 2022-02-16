@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.repository.LiquorRepository;
 
+import java.util.Optional;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -16,7 +18,11 @@ public class LiquorService {
 
     private final LiquorRepository liquorRepository;
 
-    public Page<Liquor> liquorPageFindAll(Pageable pageable){
+    public Liquor findById(Long liquorId){
+        return liquorRepository.findById(liquorId).get();
+    }
+
+    public Page<Liquor> pageFindAll(Pageable pageable){
         return liquorRepository.findAll(pageable);
     }
 }

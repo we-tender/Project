@@ -42,8 +42,8 @@ public class CocktailIngredient extends BaseEntity {
     public CocktailIngredient(String cocktailIngredientQty, Liquor liquor, Ingredient ingredient) {
         this.cocktailIngredientQty = cocktailIngredientQty;
         this.liquor = liquor;
-        this.ingredient = ingredient;
+//        this.ingredient = ingredient;
         liquor.addCocktailIngredient(this);
-        ingredient.addCocktailIngredient(this);
+//        ingredient.addCocktailIngredient(this);
     }
 }
