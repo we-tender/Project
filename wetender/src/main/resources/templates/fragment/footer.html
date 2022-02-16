@@ -3,13 +3,40 @@
 
 <body>
 
-    <footer th:fragment="footer1" class="footer">
-        <h2>footer</h2>
-        <a>회사소개</a>
-        <a>공지사항</a>
-        <a>개인정보처리방침</a>
-        <a>이용약관</a>
-        <a>회사주소</a>
+    <footer th:fragment="footer1" id="footer">
+        <div id="footer-menu">
+            <ul>
+                <li>
+                    <a href="#"><span>회사소개</span></a>
+                </li>
+                <li>
+                    <a href="#"><span>공지사항</span></a>
+                </li>
+                <li>
+                    <a href="#"><span>서포터즈 제휴</span></a>
+                </li>
+                <li>
+                    <a href="#"><span>개인정보처리방침</span></a>
+                </li>
+                <li>
+                    <a href="#"><span>이용약관</span></a>
+                </li>
+                <li>
+                    <a href="#"><span>고객센터</span></a>
+                </li>
+            </ul>
+        </div>
+        <hr class="division-line">
+        <div class="container">
+            <div class="contents">
+                <div class="contents-inline1">Customer Center</div>
+                <div class="contents-inline1">Bank Info</div>
+            </div>
+            <hr class="division-line">
+            <div class="contents">
+                <div class="contents-inline1">Company Info</div>
+            </div>
+        </div>
     </footer>
 
 </body>
