@@ -4,47 +4,95 @@
 <body>
 
     <nav th:fragment="nav1" id="navigation">
-        <a th:href="@{/}" ><img src="/images/wetenderLogo.png" width="100" height="100"></a>
+        <div id="nav-header">
+            <div id="nav-header-icon">
+                <ul>
+                    <li><a href="#"><img src="/images/youtube-icon.png" width="20px" height="20px"></a></li>
+                    <li><a href="#"><img src="/images/instagram-icon.png" width="20px" height="20px"></a></li>
+                    <li><a href="#"><img src="/images/facebook-icon.png" width="20px" height="20px"></a></li>
+                    <li><a href="#"><img src="/images/naver-icon.png" width="20px" height="20px"></a></li>
+                    <li><a href="#"><img src="/images/kakao-icon.png" width="20px" height="20px"></a></li>
+                </ul>
+            </div>
+            <div id="nav-header-menu">
+                <!-- 로그인 전 -->
+                <th:block th:unless="${sessionMember}">
+                    <ul>
+                        <li>
+                            <a th:onclick="|location.href='@{/joinForm}'|"><span>회원가입</span></a>
+                        </li>
+                        <li>
+                            <a th:onclick="|location.href='@{/loginForm}'|"><span>로그인</span></a>
+                        </li>
+                        <li>
+                            <a th:onclick="|location.href='@{/member/mypage}'|"><span>마이페이지</span></a>
+                        </li>
+                        <li>
+                            <a th:onclick="|location.href='@{/member/list}'|"><span>회원목록</span></a>
+                        </li>
+                    </ul>
+                </th:block>
+
+                <!-- 로그인 후 -->
+                <th:block th:if="${sessionMember}">
+                    <ul>
+                        <span th:text="|${sessionMember.getUsername()} 님 환영합니다.|"></span>
+                        <!-- 로그인된 유저가 서포터즈이면 표시 -->
+                        <li th:if="${sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_SUPPORTER'
+                     or sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_ADMIN'}">
+                            <a th:onclick="|location.href='@{/supporters/main}'|"><span>서포터즈 페이지</span></a>
+                        </li>
+                        <li>
+                            <a th:onclick="|location.href='@{/member/mypage}'|"><span>마이페이지</span></a>
+                        </li>
+                        <li>
+                            <form th:action="@{/member/logout}" method="post">
+                                <button type="submit">로그아웃</button></form>
+                        </li>
+                        <li>
+                            <a th:onclick="|location.href='@{/member/list}'|"><span>회원목록</span></a>
+                        </li>
+                    </ul>
+                </th:block>
+            </div>
+        </div>
+
+        <div id="nav-banner">
+            <div id="nav-banner-img">
+                <a th:href="@{/}" ><img src="/images/wetenderLogo.png"></a>
+            </div>
+            <div id="nav-banner-search">
+                <form>
+                    <input type="text" placeholder="Search...">
+                    <button type="submit"><img src="/images/search.png"></button>
+                </form>
+            </div>
+        </div>
 
         <div id="nav-menu">
             <!-- 로그인 전 -->
             <th:block th:unless="${sessionMember}">
                 <ul>
                     <li>
-                        <a th:onclick="|location.href='@{/joinForm}'|"><span>회원가입</span></a>
+                        <a th:onclick="|location.href='#'|"><span>칵테일</span></a>
                     </li>
                     <li>
-                        <a th:onclick="|location.href='@{/loginForm}'|"><span>로그인</span></a>
+                        <a th:onclick="|location.href='#'|"><span>주류</span></a>
                     </li>
                     <li>
-                        <a th:onclick="|location.href='@{/member/mypage}'|"><span>마이페이지</span></a>
+                        <a th:onclick="|location.href='#'|"><span>마이레시피</span></a>
                     </li>
                     <li>
-                        <a th:onclick="|location.href='@{/member/list}'|"><span>회원목록</span></a>
-                    </li>
-                </ul>
-            </th:block>
-
-            <!-- 로그인 후 -->
-            <th:block th:if="${sessionMember}">
-                <ul>
-                    <span th:text="|${sessionMember.getUsername()} 님 환영합니다.|"></span>
-                    <span th:text="|${sessionMember.getAuthorities().get(0).getAuthority()} 사용자 입니다..|"></span>
-
-                    <!-- 로그인된 유저가 서포터즈이면 표시 -->
-                    <li th:if="${sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_SUPPORTER'
-                     or sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_ADMIN'}">
-                        <a th:onclick="|location.href='@{/supporters/main}'|"><span>서포터즈 페이지</span></a>
+                        <a th:onclick="|location.href='#'|"><span>술매거진</span></a>
                     </li>
                     <li>
-                        <a th:onclick="|location.href='@{/member/mypage}'|"><span>마이페이지</span></a>
+                        <a th:onclick="|location.href='#'|"><span>위텐더 초이스</span></a>
                     </li>
                     <li>
-                        <form th:action="@{/member/logout}" method="post">
-                            <button type="submit">로그아웃</button></form>
+                        <a th:onclick="|location.href='#'|"><span>게시판</span></a>
                     </li>
                     <li>
-                        <a th:onclick="|location.href='@{/member/list}'|"><span>회원목록</span></a>
+                        <a th:onclick="|location.href='#'|"><span>건의사항</span></a>
                     </li>
                 </ul>
             </th:block>
