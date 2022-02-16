@@ -8,6 +8,7 @@ import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.repository.SuggestionRepository;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,12 +44,29 @@ public class SuggestionServiceTest {
         Long insertId = suggestionService.insert(suggestion);
 
         // when
-        Optional<Suggestion> suggestionFind = suggestionService.find(insertId);
+        Optional<Suggestion> suggestionFind = suggestionService.findById(insertId);
 
 
         // then  이게 맞나...??
         assertThat(suggestionFind.get()).isEqualTo(suggestion);
 
+
+    }
+
+    @Test
+    public void 건의사항_삭제() throws Exception {
+
+        // given
+        Suggestion suggestion = new Suggestion("A", "A");
+        Long insertId = suggestionService.insert(suggestion);
+        List<Suggestion> all = suggestionService.findAll();
+
+        // when
+        suggestionService.delete(insertId);
+
+        // then
+        List<Suggestion> suggestions = suggestionService.findAll();
+        assertThat(suggestions).isEmpty();
 
     }
 

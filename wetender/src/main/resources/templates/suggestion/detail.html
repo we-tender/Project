@@ -21,7 +21,7 @@
 
 <body>
 <!-- navigation 시작 -->
-<div th:replace="~{fragment/navigation :: nav1}"></div>
+<div class="col-lg-8 mx-auto p-3 py-md-5" th:replace="~{fragment/navigation :: nav1}"></div>
 <!-- navigation 끝 -->
 
 <div class="col-lg-8 mx-auto p-3 py-md-5">
@@ -35,11 +35,12 @@
             <div th:text = "*{suggestionContent}"> 내용 </div>
 
 
-
-
-
-
-
+            <!-- 수정,삭제 버튼 시작 -->
+            <div class="text-end">
+                <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert(id = *{id})}"> 수정 </a>
+                <a type="button" class="btn btn-primary" th:href="@{/suggestion/delete(id = *{id})}"> 삭제 </a>
+            </div>
+            <!-- 수정,삭제 버튼 끝 -->
 
         </div>
     </main>
