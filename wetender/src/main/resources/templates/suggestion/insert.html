@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
 <!--head 에 입력변수를 받아 title 바꾼다.-->
 <head>
     <!-- Required meta tags -->
@@ -18,11 +19,8 @@
 </head>
 
 <body>
-<!-- navigation 시작 -->
-<div th:replace="~{fragment/navigation :: nav1}"></div>
-<!-- navigation 끝 -->
 
-
+<section>
 <div class="col-lg-8 mx-auto p-3 py-md-5">
     <main>
         <div class="container">
@@ -61,7 +59,7 @@
         </div>
     </main>
 </div>
-
+</section>
 
 
 

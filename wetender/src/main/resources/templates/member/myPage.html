@@ -9,20 +9,43 @@
 <body>
 
     <section th:object="${member}">
-        <div class="container">
-            <div class="contents-header"><span th:text="|${member.getMemberName()} 님 상세 페이지|"></span></div>
-            <div class="contents">
-                <div class="contents-inline1" th:text="|${member.getMemberRole()}|"></div>
-                <div class="contents-inline2">1</div>
-                <div class="contents-inline1">2</div>
-            </div>
+        <div class="container-header">
+            <p><img src="/images/pink-bullet.png" width="10rem" height="40rem"><span th:text="| ${member.getMemberName()} 님 상세 페이지|"></span></p>
         </div>
-
-        <div class="container">
+        <div class="container-grid">
+            <div class="contents-header">기본정보</div>
+            <div class="contents border-pink">
+                <div class="contents-inline1-row border-pink">
+                    <ul>
+                        <li>
+                            <span th:if="${member.getMemberRole() == 'ROLE_USER'}" th:text="|술찌(일반회원)|"></span>
+                            <span th:if="${member.getMemberRole() == 'ROLE_SUPPORTER'}" th:text="|서포터즈(매니저)|"></span>
+                            <span th:if="${member.getMemberRole() == 'ROLE_ADMIN'}" th:text="|파워드링커(운영진)|"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="contents-inline2-row border-pink">
+                    <ul>
+                        <li>
+                            <span th:if="${member.getMemberRole() == 'ROLE_USER'}" th:text="|${member.getMemberName()} 님의 등급은 일반회원 입니다.|"></span>
+                            <span th:if="${member.getMemberRole() == 'ROLE_SUPPORTER'}" th:text="|${member.getMemberName()} 님의 등급은 서포터즈 입니다.|"></span>
+                            <span th:if="${member.getMemberRole() == 'ROLE_ADMIN'}" th:text="|${member.getMemberName()} 님의 등급은 운영진 입니다.|"></span>
+                        </li>
+                        <li>
+                            <span th:text="|서포터즈에 지원하여 나만의 칵테일의 비법을 공유해주세요!|" th:if="${member.getMemberRole() == 'ROLE_USER'}"></span>
+                            <span th:text="|오늘의 추천하고 싶은 칵테일은 무엇인가요?|" th:if="${member.getMemberRole() == 'ROLE_SUPPORTER'}"></span>
+                            <span th:text="|가서 일하세요!|" th:if="${member.getMemberRole() == 'ROLE_ADMIN'}"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="contents-inline1-row border-pink">
+                    <a href="#">등급별 혜택 보기</a>
+                </div>
+            </div>
             <div class="contents-header"><span>내가 쓴 글</span></div>
-            <div class="contents">
-                <div class="contents-inline1">총 n개의 글을 작성</div>
-                <div class="contents-inline2">
+            <div class="contents border-pink">
+                <div class="contents-inline1-row border-pink">총 n개의 글을 작성</div>
+                <div class="contents-inline2-row border-pink">
                     <ul>
                         <li><span>게시판 | 첫 칵테일 도전</span></li>
                         <li><span>마이레시피 | 나만의 깔루아 밀크</span></li>
@@ -30,15 +53,12 @@
                     </ul>
                 </div>
             </div>
-        </div>
-
-        <div class="container">
             <div class="contents">
-                <div class="contents-inline1">회원정보</div>
-                <div class="contents-inline1">테이스팅 노트</div>
-                <div class="contents-inline1">나만의 레시피</div>
-                <div class="contents-inline1">내 술장</div>
-                <div class="contents-inline1">즐겨찾기</div>
+                <div class="contents-inline1-row border-pink">회원정보</div>
+                <div class="contents-inline1-row border-pink">테이스팅 노트</div>
+                <div class="contents-inline1-row border-pink">나만의 레시피</div>
+                <div class="contents-inline1-row border-pink">내 술장</div>
+                <div class="contents-inline1-row border-pink">즐겨찾기</div>
             </div>
         </div>
     </section>

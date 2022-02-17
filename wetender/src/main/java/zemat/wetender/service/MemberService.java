@@ -12,7 +12,7 @@ import static zemat.wetender.domain.member.Role.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -45,6 +45,7 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public Member findByMemberIdName(String memberIdName) {
         return memberRepository.findByMemberIdName(memberIdName).orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디입니다!"));
     }

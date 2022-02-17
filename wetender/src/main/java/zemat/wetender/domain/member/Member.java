@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.base.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -55,5 +54,9 @@ public class Member extends BaseTimeEntity {
         this.memberPhone = phone;
         this.memberExpiredFlag = expiredFlag;
         this.memberExpiredDate = expiredDate;
+    }
+
+    public String getMemberRole() {
+        return String.valueOf(memberRole);
     }
 }
