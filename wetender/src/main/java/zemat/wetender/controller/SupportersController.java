@@ -3,6 +3,7 @@ package zemat.wetender.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -194,24 +195,21 @@ public class SupportersController {
 
     @GetMapping("/pop/liquorPop")
     public String liquorPopForm(Model model,
-                                @RequestParam("id") String id,
-                                @RequestParam("name") String name){
+                                @RequestParam(value = "id",required = false) String id,
+                                @RequestParam(value = "name",required = false) String name,
+                                @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword,
+                                Pageable pageable){
 
-        // 추후 Liquor 부분 dto로 변경해야함
-        PageRequest pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "liquorName"));
-        Page<Liquor> liquors = liquorService.pageFindAll(pageRequest);
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "liquorName"));
+        Page<Liquor> liquors = liquorService.pageFindKeyword(pageRequest,keyword);
 
-        List<LiquorDto> liquorDtos = new ArrayList<>();
-        for (Liquor liquor : liquors) {
-            liquorDtos.add(new LiquorDto(liquor));
-        }
+        Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
 
         System.out.printf("id는 잘 받음%s\n",id);
         System.out.printf("name는 잘 받음%s\n",name);
         model.addAttribute("id",id);
         model.addAttribute("name",name);
-        model.addAttribute("hasContent",liquors.hasContent());
-//        model.addAttribute("liquors.hasNext()",liquors.hasNext());
         model.addAttribute("liquors",liquorDtos);
 
         return "supporters/pop/liquorPop";

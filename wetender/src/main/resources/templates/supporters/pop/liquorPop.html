@@ -14,7 +14,7 @@
             let id = "#" + "[[${id}]]";
             var name = "#" + "[[${name}]]";
 
-            /* 작가 선택 및 팝업창 닫기 */
+            /* 주류 선택 및 팝업창 닫기 */
             $('.move').on('click', function(e){
 
                 e.preventDefault();
@@ -27,8 +27,26 @@
 
                 window.close();
             });
+
+            let searchForm = $('#searchForm');
+
+            /* 주류 검색 버튼 동작 */
+            $("#searchForm button").on("click", function(e){
+
+                e.preventDefault();
+
+                /* 검색 키워드 유효성 검사 */
+                if(!searchForm.find("input[name='keyword']").val()){
+                    alert("키워드를 입력하십시오");
+                    return false;
+                }
+
+                searchForm.submit();
+
+            });
         });
     </script>
+
 </head>
 <body>
     <div class="subject_name_warp">
@@ -36,7 +54,7 @@
     </div>
     <div class="content_wrap">
         <div class="liquor_table_wrap">
-            <div class="table_exist" th:if="${hasContent}">
+            <div class="table_exist" th:if="${liquors.hasContent()}">
                 <table class="liquor_table">
                     <thead>
                         <tr>
@@ -54,7 +72,7 @@
                     </tr>
                 </table>
             </div>
-            <div class="table_empty" th:if="${!hasContent}">
+            <div class="table_empty" th:if="${!liquors.hasContent()}">
                 등록된 주류가 없습니다.
             </div>
 
@@ -63,24 +81,48 @@
                 <form id="searchForm" th:action method="get">
                     <div class="search_input">
                         <input type="text" id="keyword" name="keyword" placeholder="주류 이름을 검색해주세요">
+                        <input hidden id="id" name="id" th:value="${id}">
+                        <input hidden id="name" name="name" th:value="${name}">
                         <button class="btn search_btn">검 색</button>
                     </div>
                 </form>
             </div>
 
-            <!--페이지 이동 영역-->
-<!--            <div class="page_wrap">-->
-<!--                <ul class="pageLine">-->
-<!--                    &lt;!&ndash; 이전 버튼&ndash;&gt;-->
-<!--                    <li th:if = "${liquors.hasPrevious()}">-->
-<!--                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}-1)}">이전</a>-->
-<!--                    </li>-->
-<!--                    &lt;!&ndash;페이지 번호 이후 구현&ndash;&gt;-->
-<!--                    <li th:if = "${liquors.hasNext()}">-->
-<!--                        <a th:href="@{/supporters/pop/liquorPop(page=${liquors.getNumber()}+1)}">다음</a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
+            <!-- 페이지 이동 인터페이스 영역 -->
+            <div class="page_wrap">
+                <ul class="pageLine"
+                    th:with="start=${T(Math).floor(liquors.number/10)*10 + 1},
+                    last=(${start + 9 < liquors.totalPages ? start + 9 : liquors.totalPages})">
+                    <li>
+                        <a th:href="@{/supporters/pop/liquorPop(id=${id},name=${name},page=1)}" aria-label="First">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${liquors.first} ? 'disabled'">
+                        <a th:href="${liquors.first} ? '#' :@{/supporters/pop/liquorPop(id=${id},name=${name},page=${liquors.number})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == liquors.number + 1} ? 'active'">
+                        <a th:text="${page}" th:href="@{/supporters/pop/liquorPop(id=${id},name=${name},page=${page})}"></a>
+                    </li>
+
+                    <li th:class="${liquors.last} ? 'disabled'">
+                        <a th:href="${liquors.last} ? '#' : @{/supporters/pop/liquorPop(id=${id},name=${name},page=${liquors.number + 2})}" aria-label="Next">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/supporters/pop/liquorPop(id=${id},name=${name},page=${liquors.totalPages})}" aria-label="Last">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </body>

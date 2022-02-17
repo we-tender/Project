@@ -25,4 +25,9 @@ public class LiquorService {
     public Page<Liquor> pageFindAll(Pageable pageable){
         return liquorRepository.findAll(pageable);
     }
+
+    public Page<Liquor> pageFindKeyword(Pageable pageable,String keyword){
+
+        return liquorRepository.findByLiquorNameContainingIgnoreCaseOrLiquorEnameContainingIgnoreCase(pageable,keyword,keyword);
+    }
 }

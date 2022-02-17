@@ -10,4 +10,7 @@ public interface LiquorRepository extends JpaRepository<Liquor,Long> {
 
     @Query(value = "select l from Liquor l", countQuery = "select count(*) from Liquor m")
     Page<Liquor> findAll(Pageable pageable);
+
+    @Query(countQuery = "select count(*) from Liquor m")
+    Page<Liquor> findByLiquorNameContainingIgnoreCaseOrLiquorEnameContainingIgnoreCase(Pageable pageable, String liquorName, String LiquorEname);
 }
