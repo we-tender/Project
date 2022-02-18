@@ -1,6 +1,8 @@
 package zemat.wetender.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
@@ -25,7 +27,7 @@ public class SuggestionService {
 
     }
 
-    // 건의사항 목록 불러오기
+    // 건의사항 전체 조회
     public List<Suggestion> findAll()
     {
         List<Suggestion> result = suggestionRepository.findAll();
@@ -33,7 +35,7 @@ public class SuggestionService {
         return result;
     }
 
-    // 건의사항 하나 불러오기
+    // 건의사항 하나 조회
     public Optional<Suggestion> findById(Long suggestionId)
     {
         Optional<Suggestion> result = suggestionRepository.findById(suggestionId);
@@ -41,7 +43,7 @@ public class SuggestionService {
         return result;
     }
 
-    // 건의사항 삭제하기
+    // 건의사항 삭제
     public void delete(Long suggestionId)
     {
 
@@ -49,6 +51,13 @@ public class SuggestionService {
         Suggestion suggestion = suggestionFind.get();
         suggestionRepository.delete(suggestion);
 
+    }
+
+
+    // 건의사항 페이지로 조회하기
+    public Page<Suggestion> page(String searchText, Pageable pageable)
+    {
+        return suggestionRepository.findBySuggestionTitleOrSuggestionContentContaining(searchText, searchText, pageable);
     }
 
 

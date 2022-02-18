@@ -20,9 +20,6 @@
 
 
 <body>
-<!-- navigation 시작 -->
-<div class="col-lg-8 mx-auto p-3 py-md-5" th:replace="~{fragment/navigation :: nav1}"></div>
-<!-- navigation 끝 -->
 
 <div class="col-lg-8 mx-auto p-3 py-md-5">
     <main>
@@ -30,8 +27,13 @@
             <h2 th:text = "*{suggestionTitle}" >제목</h2>
 
             <br>
-            <div> 작성자 : </div>
+            <div th:text = "*{createdBy}"> 작성자 : </div>
+            <div th:text = "*{createdDate}"> 작성시간 </div>
+            <hr>
             <br>
+
+
+
             <div th:text = "*{suggestionContent}"> 내용 </div>
 
 

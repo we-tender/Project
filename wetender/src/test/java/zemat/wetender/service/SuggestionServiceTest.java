@@ -3,6 +3,10 @@ package zemat.wetender.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.repository.SuggestionRepository;
@@ -37,7 +41,7 @@ public class SuggestionServiceTest {
     }
 
     @Test
-    public void 건의사항_찾기() throws Exception {
+    public void 건의사항_조회() throws Exception {
 
         // given
         Suggestion suggestion = new Suggestion("A", "A");
@@ -67,6 +71,28 @@ public class SuggestionServiceTest {
         // then
         List<Suggestion> suggestions = suggestionService.findAll();
         assertThat(suggestions).isEmpty();
+
+    }
+
+    @Test
+    public void 건의사항_검색() throws Exception {
+
+        // given
+        Suggestion suggestion = new Suggestion("A", "A");
+        Long insertId = suggestionService.insert(suggestion);
+        String searchText1 = "A";
+        String searchText2 = "B";
+
+
+        Pageable pageable = PageRequest.of(0, 5);
+
+        // when
+        Page<Suggestion> page = suggestionService.page(searchText1, pageable);
+
+        // then
+        System.out.println(page);
+        assertThat(page.getTotalElements()).isSameAs(1L);
+
 
     }
 

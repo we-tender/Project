@@ -9,6 +9,7 @@ import zemat.wetender.domain.liquor.LiquorFile;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Getter @Setter
 public class LiquorDto {
 
