@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.suggestion.Suggestion;
+import zemat.wetender.dto.suggestionDto.SuggestionDto;
+import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.service.SuggestionService;
 
 import java.util.List;
@@ -27,20 +29,22 @@ public class SuggestionController {
                        @RequestParam(required = false, defaultValue = "") String searchText) {
 
         // 검색 기능
-        Page<Suggestion> suggestionList = suggestionService.page(searchText, pageable);
+        Page<Suggestion> suggestions = suggestionService.page(searchText, pageable);
+        Page<SuggestionDto> suggestionDtos = suggestions.map(suggestion -> new SuggestionDto(suggestion));
+
 
 
         // 페이지
-        int startPage = Math.max(1, suggestionList.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(suggestionList.getTotalPages(), suggestionList.getPageable().getPageNumber() + 4);
+        int startPage = Math.max(1, suggestions.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(suggestions.getTotalPages(), suggestions.getPageable().getPageNumber() + 4);
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
 
-        // 건의사항 목록 가지고 옴
-        // List<Suggestion> suggestionList = suggestionService.findAll();
-        model.addAttribute("suggestionList", suggestionList);
+        System.out.println(suggestionDtos.toString());
+
+        model.addAttribute("suggestionDtos", suggestionDtos);
 
         return "suggestion/main";
     }
@@ -51,23 +55,27 @@ public class SuggestionController {
     @GetMapping("/insert")
     public String insertForm(Model model, @RequestParam(required = false) Long id) {
 
+
+
         if(id == null)
         {
-            model.addAttribute("suggestion", new Suggestion("", ""));
+            Suggestion suggestion = new Suggestion("", "");
+            model.addAttribute("suggestionDto", new SuggestionDto(suggestion));
         }
         else
         {
             Suggestion suggestion = suggestionService.findById(id).orElse(null);
-            model.addAttribute("suggestion", suggestion);
+            SuggestionDto suggestionDto = new SuggestionDto(suggestion);
+            model.addAttribute("suggestionDto", suggestionDto);
         }
-
 
         return "suggestion/insert";
     }
 
     @PostMapping("/insert")
-    public String insert(@ModelAttribute Suggestion suggestion) {
+    public String insert(@ModelAttribute SuggestionInsertDto suggestionInsertDto) {
 
+        Suggestion suggestion = new Suggestion(suggestionInsertDto.getSuggestionTitle(), suggestionInsertDto.getSuggestionContent());
         suggestionService.insert(suggestion);
 
         return "redirect:/suggestion/main";
@@ -94,8 +102,9 @@ public class SuggestionController {
 
         Optional<Suggestion> suggestionFind = suggestionService.findById(suggestionId);
         Suggestion suggestion = suggestionFind.get();
+        SuggestionDto suggestionDto = new SuggestionDto(suggestion);
 
-        model.addAttribute("suggestion", suggestion);
+        model.addAttribute("suggestionDto", suggestionDto);
 
         return "suggestion/detail";
     }

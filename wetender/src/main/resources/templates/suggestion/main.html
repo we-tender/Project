@@ -57,7 +57,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr th:each = "suggestion : ${suggestionList}">
+          <tr th:each = "suggestion : ${suggestionDtos}">
             <td th:text = "${suggestion.id}"> 아이디 </td>
             <td> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
             <td th:text = "${suggestion.createdBy}"></td>
@@ -73,19 +73,19 @@
           <ul class="pagination justify-content-center">
             <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
             <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
-            <li class="page-item"  th:classappend="${1 == suggestionList.pageable.pageNumber + 1} ? 'disabled' " >
-              <a class="page-link" href="#" th:href="@{/suggestion/main(page=${suggestionList.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+            <li class="page-item"  th:classappend="${1 == suggestionDtos.pageable.pageNumber + 1} ? 'disabled' " >
+              <a class="page-link" href="#" th:href="@{/suggestion/main(page=${suggestionDtos.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
             </li>
             <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
             <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
             <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-            <li class="page-item " th:classappend="${i == suggestionList.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
+            <li class="page-item " th:classappend="${i == suggestionDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
               <a class="page-link" href="#"  th:href="@{/suggestion/list(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
 
             <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
             <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-            <li class="page-item" th:classappend="${suggestionList.totalPages == suggestionList.pageable.pageNumber + 1} ? 'disabled' " >
-              <a class="page-link" href="#" th:href="@{/suggestion/list(page=${suggestionList.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+            <li class="page-item" th:classappend="${suggestionDtos.totalPages == suggestionDtos.pageable.pageNumber + 1} ? 'disabled' " >
+              <a class="page-link" href="#" th:href="@{/suggestion/list(page=${suggestionDtos.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
             </li>
           </ul>
         </nav>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
 <!--head 에 입력변수를 받아 title 바꾼다.-->
 <head>
     <!-- Required meta tags -->
@@ -19,11 +20,10 @@
 
 
 
-<body>
-
+<section>
 <div class="col-lg-8 mx-auto p-3 py-md-5">
     <main>
-        <div class="container" th:object = "${suggestion}" >
+        <div class="container" th:object = "${suggestionDto}" >
             <h2 th:text = "*{suggestionTitle}" >제목</h2>
 
             <br>
@@ -37,6 +37,8 @@
             <div th:text = "*{suggestionContent}"> 내용 </div>
 
 
+            <hr>
+
             <!-- 수정,삭제 버튼 시작 -->
             <div class="text-end">
                 <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert(id = *{id})}"> 수정 </a>
@@ -49,15 +51,5 @@
 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-</body>
+</section>
+</html>
