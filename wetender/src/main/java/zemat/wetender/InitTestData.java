@@ -9,9 +9,12 @@ import zemat.wetender.domain.ingredient.IngredientFile;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.member.Member;
+import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.repository.IngredientRepository;
 import zemat.wetender.repository.LiquorRepository;
 import zemat.wetender.repository.MemberRepository;
+import zemat.wetender.repository.SuggestionRepository;
+import zemat.wetender.service.SuggestionService;
 
 import javax.annotation.PostConstruct;
 
@@ -29,6 +32,8 @@ public class InitTestData {
     private final LiquorRepository liquorRepository;
     private final IngredientRepository ingredientRepository;
 
+    private final SuggestionService suggestionService;
+
     /**
      * 테스트 데이터 - 서버 실행 시 DB에 저장된다
      */
@@ -44,6 +49,11 @@ public class InitTestData {
         memberRepository.save(member1);
         memberRepository.save(member2);
         memberRepository.save(member3);
+
+
+
+
+
 
 
         //주류
@@ -138,5 +148,20 @@ public class InitTestData {
                     .build();
             ingredientRepository.save(ingredient3);
         }
+
+
+        // Suggestion init Data
+        Suggestion suggestion1 = new Suggestion("1", "1");
+        Suggestion suggestion2 = new Suggestion("2", "2");
+        Suggestion suggestion3 = new Suggestion("3", "3");
+        Suggestion suggestion4 = new Suggestion("4", "4");
+        Suggestion suggestion5 = new Suggestion("5", "5");
+        suggestionService.insert(suggestion1);
+        suggestionService.insert(suggestion2);
+        suggestionService.insert(suggestion3);
+        suggestionService.insert(suggestion4);
+        suggestionService.insert(suggestion5);
+        // Suggestion init Data
+
     }
 }

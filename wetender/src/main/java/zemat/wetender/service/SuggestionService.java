@@ -54,11 +54,13 @@ public class SuggestionService {
     }
 
 
-    // 건의사항 페이지로 조회하기
-    public Page<Suggestion> page(String searchText, Pageable pageable)
+    // 건의사항 페이지로 검색 혹은 전체 조회하기
+    public Page<Suggestion> searchPage(String searchText, Pageable pageable)
     {
         return suggestionRepository.findBySuggestionTitleOrSuggestionContentContaining(searchText, searchText, pageable);
     }
+
+
 
 
 }

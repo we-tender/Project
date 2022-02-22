@@ -23,7 +23,6 @@ public class SuggestionDto {
     private String lastModifiedBy;
 
 
-
     public SuggestionDto(Suggestion suggestion) {
         this.id = suggestion.getId();
         this.suggestionTitle = suggestion.getSuggestionTitle();

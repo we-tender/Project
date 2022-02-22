@@ -14,4 +14,7 @@ public interface SuggestionRepository extends JpaRepository<Suggestion, Long> {
 
 
 
+
+
+
 }

@@ -29,7 +29,7 @@ public class SuggestionController {
                        @RequestParam(required = false, defaultValue = "") String searchText) {
 
         // 검색 기능
-        Page<Suggestion> suggestions = suggestionService.page(searchText, pageable);
+        Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageable);
         Page<SuggestionDto> suggestionDtos = suggestions.map(suggestion -> new SuggestionDto(suggestion));
 
 
@@ -98,13 +98,32 @@ public class SuggestionController {
 
     // 상세 페이지 시작
     @GetMapping("/detail")
-    public String detail(Model model, @RequestParam(required = true) Long suggestionId) {
+    public String detail(Model model,
+                         @PageableDefault(size = 5) Pageable pageable,
+                         @RequestParam(required = true) Long suggestionId
 
+    ) {
+
+        // 게시글 기능
         Optional<Suggestion> suggestionFind = suggestionService.findById(suggestionId);
         Suggestion suggestion = suggestionFind.get();
         SuggestionDto suggestionDto = new SuggestionDto(suggestion);
 
         model.addAttribute("suggestionDto", suggestionDto);
+        // 게시글 기능
+
+
+        // 게시판 기능
+        String searchText = "";
+        Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageable);
+        Page<SuggestionDto> suggestionDtos = suggestions.map(suggestionOne -> new SuggestionDto(suggestionOne));
+
+        model.addAttribute("suggestionDtos", suggestionDtos);
+        // 게시판 기능
+
+
+
+
 
         return "suggestion/detail";
     }

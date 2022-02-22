@@ -21,34 +21,66 @@
 
 
 <section>
-<div class="col-lg-8 mx-auto p-3 py-md-5">
-    <main>
-        <div class="container" th:object = "${suggestionDto}" >
-            <h2 th:text = "*{suggestionTitle}" >제목</h2>
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+        <main>
+            <div class="container" th:object = "${suggestionDto}" >
+                <h2 th:text = "*{suggestionTitle}" >제목</h2>
 
-            <br>
-            <div th:text = "*{createdBy}"> 작성자 : </div>
-            <div th:text = "*{createdDate}"> 작성시간 </div>
-            <hr>
-            <br>
+                <br>
+                <div th:text = "*{createdBy}"> 작성자 : </div>
+                <div th:text = "*{createdDate}"> 작성시간 </div>
+                <hr>
+                <br>
+                <div th:text = "*{suggestionContent}"> 내용 </div>
+                <hr>
 
+                <!-- 수정,삭제 버튼 시작 -->
+                <div class="text-end">
+                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert(id = *{id})}"> 수정 </a>
+                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/delete(id = *{id})}"> 삭제 </a>
+                </div>
+                <!-- 수정,삭제 버튼 끝 -->
 
-
-            <div th:text = "*{suggestionContent}"> 내용 </div>
-
-
-            <hr>
-
-            <!-- 수정,삭제 버튼 시작 -->
-            <div class="text-end">
-                <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert(id = *{id})}"> 수정 </a>
-                <a type="button" class="btn btn-primary" th:href="@{/suggestion/delete(id = *{id})}"> 삭제 </a>
             </div>
-            <!-- 수정,삭제 버튼 끝 -->
+        </main>
+    </div>
 
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+        <h5>건의사항 게시판 글</h5>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">제목</th>
+                <th scope="col">글쓴이</th>
+                <th scope="col">작성일</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each = "suggestion : ${suggestionDtos}">
+                <td> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
+                <td th:text = "${suggestion.createdBy}"></td>
+                <td th:text = "${suggestion.createdDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <div class="text-end">
+            <a type="button" class="btn btn-primary" th:href="@{/suggestion/main}"> 전체 글 보기 </a>
         </div>
-    </main>
-</div>
+
+
+
+
+
+
+
+
+
+    </div>
+
 
 
 </section>
