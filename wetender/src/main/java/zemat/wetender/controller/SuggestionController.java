@@ -12,6 +12,7 @@ import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.service.SuggestionService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,6 @@ public class SuggestionController {
         // 검색 기능
         Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageable);
         Page<SuggestionDto> suggestionDtos = suggestions.map(suggestion -> new SuggestionDto(suggestion));
-
 
 
         // 페이지
@@ -54,8 +54,6 @@ public class SuggestionController {
     // 건의사항 등록, 수정
     @GetMapping("/insert")
     public String insertForm(Model model, @RequestParam(required = false) Long id) {
-
-
 
         if(id == null)
         {
@@ -99,7 +97,6 @@ public class SuggestionController {
     // 상세 페이지 시작
     @GetMapping("/detail")
     public String detail(Model model,
-                         @PageableDefault(size = 5) Pageable pageable,
                          @RequestParam(required = true) Long suggestionId
 
     ) {
@@ -114,15 +111,13 @@ public class SuggestionController {
 
 
         // 게시판 기능
-        String searchText = "";
-        Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageable);
-        Page<SuggestionDto> suggestionDtos = suggestions.map(suggestionOne -> new SuggestionDto(suggestionOne));
-
+        List<Suggestion> suggestions = suggestionService.detail_list(suggestionId);
+        List<SuggestionDto> suggestionDtos = new ArrayList<>();
+        for (Suggestion suggestion1 : suggestions) {
+            suggestionDtos.add(new SuggestionDto(suggestion1));
+        }
         model.addAttribute("suggestionDtos", suggestionDtos);
         // 게시판 기능
-
-
-
 
 
         return "suggestion/detail";

@@ -24,7 +24,11 @@
     <div class="col-lg-8 mx-auto p-3 py-md-5">
         <main>
             <div class="container" th:object = "${suggestionDto}" >
-                <h2 th:text = "*{suggestionTitle}" >제목</h2>
+                <h2><a th:href = "@{/suggestion/main}"> 건의사항 </a></h2>
+
+                <br>
+
+                <h3 th:text = "*{suggestionTitle}" >제목</h3>
 
                 <br>
                 <div th:text = "*{createdBy}"> 작성자 : </div>
@@ -41,45 +45,43 @@
                 </div>
                 <!-- 수정,삭제 버튼 끝 -->
 
+
+                <h5>건의사항 게시판 글</h5>
+
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">제목</th>
+                        <th scope="col">글쓴이</th>
+                        <th scope="col">작성일</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each = "suggestion : ${suggestionDtos}">
+
+                        <td th:if = "${suggestion.id} == (*{id})" class= "fw-bold"> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
+                        <td th:if = "${suggestion.id} == (*{id})" class = "fw-bold" th:text = "${suggestion.createdBy}"></td>
+                        <td th:if = "${suggestion.id} == (*{id})" class = "fw-bold" th:text = "${suggestion.createdDate}"></td>
+
+
+                        <td th:if = "${suggestion.id} != (*{id})"> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
+                        <td th:if = "${suggestion.id} != (*{id})" th:text = "${suggestion.createdBy}"></td>
+                        <td th:if = "${suggestion.id} != (*{id})" th:text = "${suggestion.createdDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="text-end">
+                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/main}"> 전체 글 보기 </a>
+                </div>
             </div>
+
         </main>
     </div>
 
-    <div class="col-lg-8 mx-auto p-3 py-md-5">
-        <h5>건의사항 게시판 글</h5>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">제목</th>
-                <th scope="col">글쓴이</th>
-                <th scope="col">작성일</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr th:each = "suggestion : ${suggestionDtos}">
-                <td> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
-                <td th:text = "${suggestion.createdBy}"></td>
-                <td th:text = "${suggestion.createdDate}"></td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <div class="text-end">
-            <a type="button" class="btn btn-primary" th:href="@{/suggestion/main}"> 전체 글 보기 </a>
-        </div>
-
-
-
-
-
-
-
-
-
-    </div>
 
 
 

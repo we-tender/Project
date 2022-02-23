@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.repository.SuggestionRepository;
 
+import java.util.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +61,43 @@ public class SuggestionService {
     public Page<Suggestion> searchPage(String searchText, Pageable pageable)
     {
         return suggestionRepository.findBySuggestionTitleOrSuggestionContentContaining(searchText, searchText, pageable);
+    }
+
+
+    // 건의사항 ID를 기준 5개 조회하기
+    public List<Suggestion> detail_list(Long suggestionId)
+    {
+        List<Suggestion> suggestions = new ArrayList<>();
+        Long start = 0L;
+
+        int size = suggestionRepository.findAll().size();
+
+
+        if(size <= 5)
+            start = 1L;
+        else
+        {
+            if(suggestionId == 1L || suggestionId == 2L)
+                start = 1L;
+            else if(suggestionId == size || suggestionId == size -1L)
+                start = size - 4L;
+            else
+                start = suggestionId - 2L;
+        }
+
+        for(int i = 0; i < 5; i++)
+        {
+            if(start > size)
+                break;
+
+            suggestions.add(suggestionRepository.findById(start).get());
+            start += 1;
+        }
+
+
+
+
+        return suggestions;
     }
 
 

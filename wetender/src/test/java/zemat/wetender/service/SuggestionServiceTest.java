@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.linesOf;
 
 
 @SpringBootTest
@@ -87,12 +88,26 @@ public class SuggestionServiceTest {
         Pageable pageable = PageRequest.of(0, 5);
 
         // when
-        Page<Suggestion> page = suggestionService.page(searchText1, pageable);
+        Page<Suggestion> page = suggestionService.searchPage(searchText1, pageable);
 
         // then
         System.out.println(page);
         assertThat(page.getTotalElements()).isSameAs(1L);
 
+
+    }
+
+
+    @Test
+    public void 게시글_게시판() throws Exception {
+
+        // given
+        Suggestion suggestion1 = new Suggestion("1", "1");
+        suggestionService.insert(suggestion1);
+        Long suggestionId1 = 1L;
+
+        // then
+        List<Suggestion> suggestions1 = suggestionService.detail_list(suggestionId1);
 
     }
 

@@ -151,16 +151,22 @@ public class InitTestData {
 
 
         // Suggestion init Data
-        Suggestion suggestion1 = new Suggestion("1", "1");
-        Suggestion suggestion2 = new Suggestion("2", "2");
-        Suggestion suggestion3 = new Suggestion("3", "3");
-        Suggestion suggestion4 = new Suggestion("4", "4");
-        Suggestion suggestion5 = new Suggestion("5", "5");
-        suggestionService.insert(suggestion1);
-        suggestionService.insert(suggestion2);
-        suggestionService.insert(suggestion3);
-        suggestionService.insert(suggestion4);
-        suggestionService.insert(suggestion5);
+//        Suggestion suggestion1 = new Suggestion("1", "1");
+//        Suggestion suggestion2 = new Suggestion("2", "2");
+//        Suggestion suggestion3 = new Suggestion("3", "3");
+//        Suggestion suggestion4 = new Suggestion("4", "4");
+//        Suggestion suggestion5 = new Suggestion("5", "5");
+//        Suggestion suggestion6 = new Suggestion("6", "6");
+//        Suggestion suggestion7 = new Suggestion("7", "7");
+//        Suggestion suggestion8 = new Suggestion("8", "8");
+//        suggestionService.insert(suggestion1);
+//        suggestionService.insert(suggestion2);
+//        suggestionService.insert(suggestion3);
+//        suggestionService.insert(suggestion4);
+//        suggestionService.insert(suggestion5);
+//        suggestionService.insert(suggestion6);
+//        suggestionService.insert(suggestion7);
+//        suggestionService.insert(suggestion8);
         // Suggestion init Data
 
     }
