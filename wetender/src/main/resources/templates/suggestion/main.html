@@ -55,6 +55,7 @@
             <th scope="col">작성일</th>
           </tr>
           </thead>
+
           <tbody>
           <tr th:each = "suggestion : ${suggestionDtos}">
             <td> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
@@ -76,12 +77,12 @@
             <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
             <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
             <li class="page-item " th:classappend="${i == suggestionDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
-              <a class="page-link" href="#"  th:href="@{/suggestion/list(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
+              <a class="page-link" href="#"  th:href="@{/suggestion/main(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
 
             <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
             <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
             <li class="page-item" th:classappend="${suggestionDtos.totalPages == suggestionDtos.pageable.pageNumber + 1} ? 'disabled' " >
-              <a class="page-link" href="#" th:href="@{/suggestion/list(page=${suggestionDtos.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+              <a class="page-link" href="#" th:href="@{/suggestion/main(page=${suggestionDtos.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
             </li>
           </ul>
         </nav>

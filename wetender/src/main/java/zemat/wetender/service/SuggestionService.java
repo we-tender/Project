@@ -72,7 +72,6 @@ public class SuggestionService {
 
         int size = suggestionRepository.findAll().size();
 
-
         if(size <= 5)
             start = 1L;
         else
@@ -93,9 +92,6 @@ public class SuggestionService {
             suggestions.add(suggestionRepository.findById(start).get());
             start += 1;
         }
-
-
-
 
         return suggestions;
     }

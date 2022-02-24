@@ -42,8 +42,6 @@ public class SuggestionController {
         model.addAttribute("endPage", endPage);
 
 
-        System.out.println(suggestionDtos.toString());
-
         model.addAttribute("suggestionDtos", suggestionDtos);
 
         return "suggestion/main";

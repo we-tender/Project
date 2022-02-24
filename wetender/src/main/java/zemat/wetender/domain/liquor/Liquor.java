@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.cocktail.CocktailIngredient;
 
 import javax.persistence.*;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Liquor {
+public class Liquor extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +30,10 @@ public class Liquor {
     private String liquorOneLine;
 
     private String liquorContent;
+
+    private Long liquorView;
+
+    private Long liquorRecommendation;
 
     @OneToMany(mappedBy = "liquor",cascade = CascadeType.ALL)
     private List<LiquorFile> liquorFiles = new ArrayList<>();
@@ -46,13 +51,15 @@ public class Liquor {
     }
 
     @Builder
-    public Liquor(Long id, String liquorName, String liquorEname, int liquorAbv, String liquorOneLine, String liquorContent, List<LiquorFile> liquorFiles) {
+    public Liquor(Long id, String liquorName, String liquorEname, int liquorAbv, String liquorOneLine, String liquorContent, Long liquorView, Long liquorRecommendation,  List<LiquorFile> liquorFiles) {
         this.id = id;
         this.liquorName = liquorName;
         this.liquorEname = liquorEname;
         this.liquorAbv = liquorAbv;
         this.liquorOneLine = liquorOneLine;
         this.liquorContent = liquorContent;
+        this.liquorView = liquorView;
+        this.liquorRecommendation = liquorRecommendation;
 
         for (LiquorFile liquorFile : liquorFiles) {
             addLiquorFile(liquorFile);

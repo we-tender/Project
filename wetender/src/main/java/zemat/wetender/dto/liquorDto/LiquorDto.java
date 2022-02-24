@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,12 @@ public class LiquorDto {
 
     private List<LiquorFileDto> images = new ArrayList<>();
 
+    // baseEntity
+    private LocalDateTime createdDate;
+    private LocalDateTime lastModifiedDate;
+    private String createdBy;
+    private String lastModifiedBy;
+
     public void addLiquorFileDto(LiquorFile liquorFile){
         images.add(new LiquorFileDto(liquorFile));
     }
@@ -43,6 +50,11 @@ public class LiquorDto {
         for (LiquorFile liquorFile : liquorFiles) {
             addLiquorFileDto(liquorFile);
         }
+
+        this.createdDate = liquor.getCreatedDate();
+        this.lastModifiedDate = liquor.getLastModifiedDate();
+        this.createdBy = liquor.getCreatedBy();
+        this.lastModifiedBy = liquor.getLastModifiedBy();
     }
 
     public Liquor toEntity(){
