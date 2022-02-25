@@ -22,7 +22,7 @@ class MemberRepositoryTest {
     @Autowired MemberRepository memberRepository;
 
     @Test
-    public void basicCRUD() {
+    public void 기본CRUD() {
         Member member = new Member("id1", "pwd1", "name1", "email1", "add1", "010-1234-1234");
 
         // create
@@ -45,7 +45,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void findByMemberIdName() {
+    public void 멤버단건조회ByMemberIdName() {
         Member member = new Member("id1", "pwd1", "name1", "email1", "add1", "010-1234-1234");
         memberRepository.save(member);
 

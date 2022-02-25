@@ -154,6 +154,7 @@ public class SupportersController {
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
                 .cocktailIngredients(cocktailIngredients)
+                .cocktailRecommendation(0)
                 .build();
 
         supportersService.cocktailSave(cocktail);

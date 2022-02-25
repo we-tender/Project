@@ -1,165 +1,99 @@
-package zemat.wetender;
+package zemat.wetender.service;
 
-import lombok.RequiredArgsConstructor;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.ingredient.IngredientFile;
 import zemat.wetender.domain.ingredient.IngredientFileStore;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
-import zemat.wetender.domain.member.Member;
-import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.repository.IngredientRepository;
 import zemat.wetender.repository.LiquorRepository;
-import zemat.wetender.repository.MemberRepository;
-import zemat.wetender.repository.SuggestionRepository;
-import zemat.wetender.service.SuggestionService;
 
-import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-import static zemat.wetender.domain.member.Role.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Component
-@RequiredArgsConstructor
-public class InitTestData {
+@SpringBootTest
+@Transactional
+class CocktailServiceTest {
 
-    private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
+    @PersistenceContext EntityManager em;
+    @Autowired CocktailService cocktailService;
+    @Autowired CocktailFileStore cocktailFileStore;
+    @Autowired IngredientFileStore ingredientFileStore;
+    @Autowired IngredientRepository ingredientRepository;
+    @Autowired LiquorFileStore liquorFileStore;
+    @Autowired LiquorRepository liquorRepository;
 
-    private final LiquorRepository liquorRepository;
-    private final LiquorFileStore liquorFileStore;
+    @Test
+    public void 리소스이미지사용() throws IOException { // 리소스/스태틱/이미지 파일 사용하여 cocktailFile.dir에 이미지 저장 확인
+        for (int i = 0; i < 5; i++) {
+            String filename = "src/test/resources/static/images/cocktail" + i + ".png";
 
-    private final IngredientRepository ingredientRepository;
-    private final IngredientFileStore ingredientFileStore;
+            File file = new File(filename);
+            FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(file.toPath()), false, file.getName(), (int) file.length(), file.getParentFile());
 
-    private final SuggestionService suggestionService;
+            try {
+                InputStream input = new FileInputStream(file);
+                OutputStream os = fileItem.getOutputStream();
+                IOUtils.copy(input, os);
+                // Or faster..
+                // IOUtils.copy(new FileInputStream(file), fileItem.getOutputStream());
+            } catch (IOException ex) {
+                // do something.
+            }
 
-    private static final String basicPath = "src/java/resources/static/images/initData/";
+            System.out.println("filename = " + filename);
+            MultipartFile multipartFile = new CommonsMultipartFile(fileItem);
+            cocktailFileStore.storeFile(multipartFile);
+        }
+    }
 
-    /**
-     * 테스트 데이터 - 서버 실행 시 DB에 저장된다
-     */
-
-    @PostConstruct
-    public void init() throws IOException {
-        Member member1 = new Member("id1", passwordEncoder.encode("pwd1"), "name1", "email1@email.com", "add1", "010-1234-1234");
-        Member member2 = new Member("id2", passwordEncoder.encode("pwd2"), "name2", "email2@email.com", "add2", "010-1234-1234");
-        Member member3 = new Member("id3", passwordEncoder.encode("pwd3"), "name3", "email3@email.com", "add3", "010-1234-1234");
-        member1.setMemberRole(ROLE_USER);
-        member2.setMemberRole(ROLE_SUPPORTER);
-        member3.setMemberRole(ROLE_ADMIN);
-        memberRepository.save(member1);
-        memberRepository.save(member2);
-        memberRepository.save(member3);
-
+    @Test
+    public void 칵테일재료이니셜데이터확인() throws IOException {
         initIngredientData();
         initLiquorData();
+        em.flush();
+        em.clear();
 
-        //주류
-        List<LiquorFile> storeFileResult = new ArrayList<>();
-        Liquor liquor1 = Liquor.builder()
-                .liquorName("잭다니엘")
-                .liquorEname("Jack Daniel's")
-                .liquorAbv(40)
-                .liquorOneLine("아메리칸 위스키")
-                .liquorContent("잭 다니엘스 테네시 위스키는 세계에서 가장 많이 팔리는 위스키입니다. ")
-                .liquorFiles(storeFileResult)
-                .build();
-
-        Liquor liquor2 = Liquor.builder()
-                .liquorName("위스키")
-                .liquorEname("whisky")
-                .liquorAbv(40)
-                .liquorOneLine("증류주")
-                .liquorContent("위스키")
-                .liquorFiles(storeFileResult)
-                .build();
-
-        Liquor liquor3 = Liquor.builder()
-                .liquorName("럼")
-                .liquorEname("rum")
-                .liquorFiles(storeFileResult)
-                .build();
-
-        Liquor liquor4 = Liquor.builder()
-                .liquorName("진")
-                .liquorEname("Jin")
-                .liquorFiles(storeFileResult)
-                .build();
-
-        Liquor liquor5 = Liquor.builder()
-                .liquorName("보드카")
-                .liquorEname("Vodka")
-                .liquorFiles(storeFileResult)
-                .build();
-        Liquor liquor6 = Liquor.builder()
-                .liquorName("스윗 베르뭇")
-                .liquorEname("sweet vermuth")
-                .liquorFiles(storeFileResult)
-                .build();
-
-        liquorRepository.save(liquor1);
-        liquorRepository.save(liquor2);
-        liquorRepository.save(liquor3);
-        liquorRepository.save(liquor4);
-        liquorRepository.save(liquor5);
-        liquorRepository.save(liquor6);
-
-        for(int i = 0; i <= 30; i++) {
-            Liquor liquor7 = Liquor.builder()
-                    .liquorName("더미 데이터" +i)
-                    .liquorEname("dummy" + i)
-                    .liquorFiles(storeFileResult)
-                    .build();
-            liquorRepository.save(liquor7);
+        List<Ingredient> ingredients = ingredientRepository.findAll();
+        for (Ingredient ingredient : ingredients) {
+            System.out.println("재료이름: " + ingredient.getIngredientName());
+            for (IngredientFile ingredientFile : ingredient.getIngredientFiles()) {
+                System.out.print("    [" + ingredientFile.getUploadIngredientFileName() + "]");
+                System.out.println("[" + ingredientFile.getStoreIngredientFileName() + "]");
+            }
         }
 
-        // 식재료
-        List<IngredientFile> storeFileResult2 = new ArrayList<>();
-
-        Ingredient ingredient = Ingredient.builder()
-                .ingredientName("레몬")
-                .ingredientEname("lemon")
-                .ingredientFiles(storeFileResult2)
-                .build();
-
-        Ingredient ingredient1 = Ingredient.builder()
-                .ingredientName("라임")
-                .ingredientEname("lime")
-                .ingredientFiles(storeFileResult2)
-                .build();
-
-        Ingredient ingredient2 = Ingredient.builder()
-                .ingredientName("설탕")
-                .ingredientEname("sugar")
-                .ingredientFiles(storeFileResult2)
-                .build();
-
-        ingredientRepository.save(ingredient);
-        ingredientRepository.save(ingredient1);
-        ingredientRepository.save(ingredient2);
-
-        for(int i = 0; i <= 30; i++) {
-            Ingredient ingredient3 = Ingredient.builder()
-                    .ingredientName("더미 데이터" + i)
-                    .ingredientEname("dummy" + i)
-                    .ingredientFiles(storeFileResult2)
-                    .build();
-            ingredientRepository.save(ingredient3);
+        List<Liquor> liquors = liquorRepository.findAll();
+        for (Liquor liquor : liquors) {
+            System.out.println("재료이름: " + liquor.getLiquorName() + " 도수: " + liquor.getLiquorAbv());
+            System.out.println("내용: " + liquor.getLiquorContent());
+            System.out.println("한줄평: " + liquor.getLiquorOneLine());
+            for (LiquorFile liquorFile : liquor.getLiquorFiles()) {
+                System.out.print("    [" + liquorFile.getUploadLiquorFileName() + "]");
+                System.out.println("[" + liquorFile.getStoreLiquorFileName() + "]");
+            }
         }
     }
 
@@ -169,22 +103,22 @@ public class InitTestData {
 
         ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles("src/test/resources/static/images/", "lemon", 3));
         ingredients.add(Ingredient.builder()
-                .ingredientName("레몬")
-                .ingredientEname("lemon")
-                .ingredientFiles(ingredientFiles)
-                .build());
+                        .ingredientName("레몬")
+                        .ingredientEname("lemon")
+                        .ingredientFiles(ingredientFiles)
+                        .build());
         ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles("src/test/resources/static/images/", "lime", 3));
         ingredients.add(Ingredient.builder()
-                .ingredientName("라임")
-                .ingredientEname("lime")
-                .ingredientFiles(ingredientFiles)
-                .build());
+                        .ingredientName("라임")
+                        .ingredientEname("lime")
+                        .ingredientFiles(ingredientFiles)
+                        .build());
         ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles("src/test/resources/static/images/", "sugar", 3));
         ingredients.add(Ingredient.builder()
-                .ingredientName("설탕")
-                .ingredientEname("sugar")
-                .ingredientFiles(ingredientFiles)
-                .build());
+                        .ingredientName("설탕")
+                        .ingredientEname("sugar")
+                        .ingredientFiles(ingredientFiles)
+                        .build());
 
         for (Ingredient ingredient : ingredients) {
             ingredientRepository.save(ingredient);
@@ -277,5 +211,42 @@ public class InitTestData {
             multipartFiles.add(multipartFile);
         }
         return multipartFiles;
+    }
+
+    // 220225 미구현 테스트...
+    @Test
+    public void 칵테일_상위20추천수_조회() throws IOException {
+        insertCocktailEntity();
+
+        List<Cocktail> findCocktails = cocktailService.findTop20ByRecommendation();
+        for (Cocktail cocktail : findCocktails) {
+            System.out.println("cocktail = " + cocktail);
+        }
+    }
+
+    public void insertCocktailEntity() throws IOException {
+        List<CocktailTaste> cocktailTastes = new ArrayList<>();
+        for (String str : Arrays.asList("맵다", "달다", "쓰다", "짜다", "시다", "떫다", "톡쏜다", "맛이안난다", "독하다", "맛있다")) {
+            cocktailTastes.add(new CocktailTaste(str));
+        }
+
+        CocktailSequence cocktailSequence1 = new CocktailSequence("술을 따른다");
+        CocktailSequence cocktailSequence2 = new CocktailSequence("과일즙을 넣는다");
+        CocktailSequence cocktailSequence3 = new CocktailSequence("섞는다");
+
+//        Cocktail cocktail = Cocktail.builder()
+//                .cocktailName("칵테일")
+//                .cocktailEName("cocktail")
+//                .cocktailAbv(40)
+//                .cocktailBase("잭다니엘")
+//                .cocktailContent("취한다..")
+//                .cocktailOneLine("생각보다 잘 취한다..")
+//                .cocktailTastes(Arrays.asList(cocktailTastes.get(i % 10)))
+//                .cocktailFiles(getCocktailFiles())
+//                .cocktailSequences(Arrays.asList(cocktailSequence1, cocktailSequence2, cocktailSequence3))
+//                .cocktailIngredients(getCocktailIngredient())
+//                .cocktailRecommendation(i)
+//                .build();
+//        supportersService.cocktailSave(cocktail);
     }
 }

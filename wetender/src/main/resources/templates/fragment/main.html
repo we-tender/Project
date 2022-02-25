@@ -9,6 +9,23 @@
 <body>
 
     <section>
+        <div class="container-grid">
+            <div class="contents">
+                <div id="slide-ads">
+                    광고이미지
+                </div>
+            </div>
+            <div class="contents">
+                <div class="contents-inline1-row" th:each="member : ${members}">
+                    <ul>
+                        <li>
+                            <span th:text="|이름: ${member.getMemberName()}|">멤버이름</span>
+                            <span th:text="|이름: ${member.getMemberAge()}|">멤버나이</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="container">
             <h2>WeTender Main</h2>
             <a th:href="@{/supporters/main}">서포터즈 페이지</a> <br> <!--칵테일 화면-->
