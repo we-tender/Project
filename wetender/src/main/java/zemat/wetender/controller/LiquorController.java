@@ -39,6 +39,8 @@ public class LiquorController {
         int startPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(liquorDtos.getTotalPages(), liquorDtos.getPageable().getPageNumber() + 4);
 
+        if(endPage == 0) startPage = 0;
+
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 

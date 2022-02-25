@@ -38,6 +38,8 @@ public class SuggestionController {
         int startPage = Math.max(1, suggestions.getPageable().getPageNumber() - 4);
         int endPage = Math.min(suggestions.getTotalPages(), suggestions.getPageable().getPageNumber() + 4);
 
+        if(endPage == 0) startPage = 0;
+
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
