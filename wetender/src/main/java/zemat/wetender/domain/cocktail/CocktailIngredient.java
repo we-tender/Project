@@ -1,9 +1,6 @@
 package zemat.wetender.domain.cocktail;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.liquor.Liquor;
@@ -11,7 +8,7 @@ import zemat.wetender.domain.liquor.Liquor;
 import javax.persistence.*;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class CocktailIngredient extends BaseEntity {
 
@@ -42,8 +39,12 @@ public class CocktailIngredient extends BaseEntity {
     public CocktailIngredient(String cocktailIngredientQty, Liquor liquor, Ingredient ingredient) {
         this.cocktailIngredientQty = cocktailIngredientQty;
         this.liquor = liquor;
-//        this.ingredient = ingredient;
-        liquor.addCocktailIngredient(this);
-//        ingredient.addCocktailIngredient(this);
+        this.ingredient = ingredient;
+        if(liquor != null){
+            liquor.addCocktailIngredient(this);
+        }
+        if(ingredient != null){
+            ingredient.addCocktailIngredient(this);
+        }
     }
 }

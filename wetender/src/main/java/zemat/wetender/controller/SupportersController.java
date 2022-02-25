@@ -15,11 +15,12 @@ import zemat.wetender.domain.ingredient.IngredientFileStore;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
-import zemat.wetender.dto.ingredientDto.LiquorIngredientDto;
+import zemat.wetender.dto.ingredientDto.IngredientDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.supportersDto.CocktailInsertForm;
 import zemat.wetender.dto.supportersDto.IngredientInsertForm;
 import zemat.wetender.dto.supportersDto.LiquorInsertForm;
+import zemat.wetender.service.IngredientService;
 import zemat.wetender.service.LiquorService;
 import zemat.wetender.service.SupportersService;
 
@@ -38,6 +39,7 @@ public class SupportersController {
     private final SupportersService supportersService;
     private final CocktailFileStore cocktailFileStore;
     private final LiquorService liquorService;
+    private final IngredientService ingredientService;
 
     private final LiquorFileStore liquorFileStore;
     private final IngredientFileStore ingredientFileStore;
@@ -64,7 +66,6 @@ public class SupportersController {
 
     @GetMapping("/cocktailInsert")
     public String cocktailInsertForm(Model model){
-        model.addAttribute("liquorIngredient", new LiquorIngredientDto());
         model.addAttribute("form", new CocktailInsertForm());
 
         return "supporters/cocktailInsert";
@@ -96,24 +97,45 @@ public class SupportersController {
         }
 
         // 칵테일 주류 재료
-        List<CocktailIngredient> liquors = new ArrayList<>();
+        List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
 
         sArr = request.getParameterValues("liquorIngredientCnt");
         n = Integer.parseInt(sArr[0]);
-        System.out.println("n: " + n);
+
         for(int i = 1; i <= n; i++){
             String[] values1 = request.getParameterValues("liquorIngredientId" + i);
             String[] values2 = request.getParameterValues("liquorIngredientQty" + i);
+            if(values1[0].equals("")) continue;
             Long liquorId = Long.parseLong(values1[0]);
             String liquorIngredientQty = values2[0];
             Liquor liquor = liquorService.findById(liquorId);
-
             CocktailIngredient liquorIngredient = CocktailIngredient.builder()
                     .liquor(liquor)
                     .cocktailIngredientQty(liquorIngredientQty)
                     .build();
 
-            liquors.add(liquorIngredient);
+            cocktailIngredients.add(liquorIngredient);
+        }
+
+        // 칵테일 재료
+
+        sArr = request.getParameterValues("cocktailIngredientCnt");
+        n = Integer.parseInt(sArr[0]);
+
+        for(int i = 1; i <= n; i++){
+            String[] values1 = request.getParameterValues("cocktailIngredientId" + i);
+            String[] values2 = request.getParameterValues("cocktailIngredientQty" + i);
+            if(values1[0].equals("")) continue;
+            Long ingredientId = Long.parseLong(values1[0]);
+            String cocktailIngredientQty = values2[0];
+            Ingredient ingredient = ingredientService.findById(ingredientId);
+
+            CocktailIngredient cocktailIngredient = CocktailIngredient.builder()
+                    .ingredient(ingredient)
+                    .cocktailIngredientQty(cocktailIngredientQty)
+                    .build();
+
+            cocktailIngredients.add(cocktailIngredient);
         }
 
         //칵테일 파일
@@ -131,7 +153,7 @@ public class SupportersController {
                 .cocktailTastes(cocktailTastes)
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
-                .cocktailIngredients(liquors)
+                .cocktailIngredients(cocktailIngredients)
                 .build();
 
         supportersService.cocktailSave(cocktail);
@@ -206,12 +228,32 @@ public class SupportersController {
 
         Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
 
-        System.out.printf("id는 잘 받음%s\n",id);
-        System.out.printf("name는 잘 받음%s\n",name);
         model.addAttribute("id",id);
         model.addAttribute("name",name);
         model.addAttribute("liquors",liquorDtos);
 
         return "supporters/pop/liquorPop";
+    }
+
+    @GetMapping("/pop/ingredientPop")
+    public String ingredientPopForm(Model model,
+                                @RequestParam(value = "id",required = false) String id,
+                                @RequestParam(value = "name",required = false) String name,
+                                @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword,
+                                Pageable pageable){
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "ingredientName"));
+        Page<Ingredient> ingredients = ingredientService.pageFindKeyword(pageRequest,keyword);
+
+        Page<IngredientDto> ingredientDtos = ingredients.map(ingredient -> new IngredientDto(ingredient));
+
+        System.out.printf("id는 잘 받음%s\n",id);
+        System.out.printf("name는 잘 받음%s\n",name);
+        model.addAttribute("id",id);
+        model.addAttribute("name",name);
+        model.addAttribute("ingredients",ingredientDtos);
+
+        return "supporters/pop/ingredientPop";
     }
 }

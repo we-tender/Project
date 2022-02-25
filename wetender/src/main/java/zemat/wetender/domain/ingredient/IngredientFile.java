@@ -1,6 +1,7 @@
 package zemat.wetender.domain.ingredient;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,8 +29,17 @@ public class IngredientFile {
         this.ingredient = ingredient;
     }
 
+
     public IngredientFile(String uploadIngredientFileName, String storeIngredientFileName) {
         this.uploadIngredientFileName = uploadIngredientFileName;
         this.storeIngredientFileName = storeIngredientFileName;
     }
+
+    @Builder
+    public IngredientFile(Long id, String uploadIngredientFileName, String storeIngredientFileName) {
+        this.id = id;
+        this.uploadIngredientFileName = uploadIngredientFileName;
+        this.storeIngredientFileName = storeIngredientFileName;
+    }
+
 }

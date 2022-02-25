@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>주류 선택 페이지</title>
+    <title>식재료 선택 페이지</title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/supporters/pop.css}">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -14,23 +14,23 @@
             let id = "#" + "[[${id}]]";
             var name = "#" + "[[${name}]]";
 
-            /* 주류 선택 및 팝업창 닫기 */
+            /* 재료 선택 및 팝업창 닫기 */
             $('.move').on('click', function(e){
 
                 e.preventDefault();
 
-                let liquorId= $(this).attr("href");
-                let liquorName= $(this).data("name");
+                let ingredientId= $(this).attr("href");
+                let ingredientName= $(this).data("name");
 
-                $(opener.document).find(id).val(liquorId);
-                $(opener.document).find(name).val(liquorName);
+                $(opener.document).find(id).val(ingredientId);
+                $(opener.document).find(name).val(ingredientName);
 
                 window.close();
             });
 
             let searchForm = $('#searchForm');
 
-            /* 주류 검색 버튼 동작 */
+            /* 재료 검색 버튼 동작 */
             $("#searchForm button").on("click", function(e){
 
                 e.preventDefault();
@@ -50,37 +50,37 @@
 </head>
 <body>
     <div class="subject_name_warp">
-        <span>주류 선택</span>
+        <span>재료 선택</span>
     </div>
     <div class="content_wrap">
         <div class="table_wrap">
-            <div class="table_exist" th:if="${liquors.hasContent()}">
+            <div class="table_exist" th:if="${ingredients.hasContent()}">
                 <table class="table">
                     <thead>
                         <tr>
-                            <td class="th_column_1">주류 번호</td>
-                            <td class="th_column_2">주류 이름</td>
-                            <td class="th_column_3">주류 영문이름</td>
+                            <td class="th_column_1">재료 번호</td>
+                            <td class="th_column_2">재료 이름</td>
+                            <td class="th_column_3">재료 영문이름</td>
                         </tr>
                     </thead>
-                    <tr th:each="liquor : ${liquors}">
-                        <td th:text="${liquor.id}">번호</td>
+                    <tr th:each="ingredient : ${ingredients}">
+                        <td th:text="${ingredient.id}">번호</td>
                         <td>
-                            <a class="move" th:text ="${liquor.name}" th:href="${liquor.id}" th:data-name="${liquor.name}" />
+                            <a class="move" th:text ="${ingredient.name}" th:href="${ingredient.id}" th:data-name="${ingredient.name}" />
                         </td>
-                        <td th:text="${liquor.eName}">영문이름</td>
+                        <td th:text="${ingredient.eName}">영문이름</td>
                     </tr>
                 </table>
             </div>
-            <div class="table_empty" th:if="${!liquors.hasContent()}">
-                등록된 주류가 없습니다.
+            <div class="table_empty" th:if="${!ingredients.hasContent()}">
+                등록된 재료가 없습니다.
             </div>
 
             <!--검색영역-->
             <div class="search_wrap">
                 <form id="searchForm" th:action method="get">
                     <div class="search_input">
-                        <input type="text" id="keyword" name="keyword" placeholder="주류 이름을 검색해주세요">
+                        <input type="text" id="keyword" name="keyword" placeholder="재료 이름을 검색해주세요">
                         <input hidden id="id" name="id" th:value="${id}">
                         <input hidden id="name" name="name" th:value="${name}">
                         <button class="btn search_btn">검 색</button>
@@ -91,32 +91,32 @@
             <!-- 페이지 이동 인터페이스 영역 -->
             <div class="page_wrap">
                 <ul class="pageLine"
-                    th:with="start=${T(Math).floor(liquors.number/10)*10 + 1},
-                    last=(${start + 9 < liquors.totalPages ? start + 9 : liquors.totalPages})">
+                    th:with="start=${T(Math).floor(ingredients.number/10)*10 + 1},
+                    last=(${start + 9 < ingredients.totalPages ? start + 9 : ingredients.totalPages})">
                     <li>
-                        <a th:href="@{/supporters/pop/liquorPop(id=${id},name=${name},page=1)}" aria-label="First">
+                        <a th:href="@{/supporters/pop/ingredientPop(id=${id},name=${name},page=1)}" aria-label="First">
                             <span aria-hidden="true">First</span>
                         </a>
                     </li>
 
-                    <li th:class="${liquors.first} ? 'disabled'">
-                        <a th:href="${liquors.first} ? '#' :@{/supporters/pop/liquorPop(id=${id},name=${name},page=${liquors.number})}" aria-label="Previous">
+                    <li th:class="${ingredients.first} ? 'disabled'">
+                        <a th:href="${ingredients.first} ? '#' :@{/supporters/pop/ingredientPop(id=${id},name=${name},page=${ingredients.number})}" aria-label="Previous">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
 
-                    <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == liquors.number + 1} ? 'active'">
-                        <a th:text="${page}" th:href="@{/supporters/pop/liquorPop(id=${id},name=${name},page=${page})}"></a>
+                    <li th:each="page: ${#numbers.sequence(start, last)}" th:class="${page == ingredients.number + 1} ? 'active'">
+                        <a th:text="${page}" th:href="@{/supporters/pop/ingredientPop(id=${id},name=${name},page=${page})}"></a>
                     </li>
 
-                    <li th:class="${liquors.last} ? 'disabled'">
-                        <a th:href="${liquors.last} ? '#' : @{/supporters/pop/liquorPop(id=${id},name=${name},page=${liquors.number + 2})}" aria-label="Next">
+                    <li th:class="${ingredients.last} ? 'disabled'">
+                        <a th:href="${ingredients.last} ? '#' : @{/supporters/pop/ingredientPop(id=${id},name=${name},page=${ingredients.number + 2})}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{/supporters/pop/liquorPop(id=${id},name=${name},page=${liquors.totalPages})}" aria-label="Last">
+                        <a th:href="@{/supporters/pop/ingredientPop(id=${id},name=${name},page=${ingredients.totalPages})}" aria-label="Last">
                             <span aria-hidden="true">Last</span>
                         </a>
                     </li>

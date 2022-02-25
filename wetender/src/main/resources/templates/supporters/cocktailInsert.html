@@ -3,198 +3,57 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
-    <script>
-        // HTML 요소의 동적 제어 기능
-        $(document).ready(function(){
-            // 칵테일 순서 추가
-            $('.sequenceBtnAdd').click(function(){
-                // 변수 선언
-                let sequenceCnt = Number($('input[name="sequenceCnt"]').val()) + 1;
-
-                let sequenceCname = 'sequenceContent'+sequenceCnt;
-                let sequenceCdel = 'sequenceDel'+sequenceCnt;
-
-                // 클로저 구현
-                let decrease = (function () {
-
-                    // 클로저를 반환
-                   return function() {
-                        return --sequenceCnt;
-                    };
-                }());
-
-                $('#sequence').append(
-                    `   <input type="text" class="sequenceContent" name="sequenceContent" placeholder="순서">
-                        <input type="button" class="sequenceBtnRemove" name="sequenceDel" value="삭제"><br>
-                    `
-                );
-
-                $('.sequenceContent').eq(sequenceCnt-1).attr('name',sequenceCname);
-                $('.sequenceBtnRemove').eq(sequenceCnt-1).attr('name', sequenceCdel);
-                $('input[name="sequenceCnt"]').val(sequenceCnt);
-
-               // HTML 요소 삭제
-               $('.sequenceBtnRemove').click(function(){
-
-                    $(this).prev().remove();
-                    $(this).next().remove();
-                    $(this).remove();
-
-                    $('input[name="sequenceCnt"]').val(decrease());
-               });
-            });
-
-            // 주류재료 추가
-            $('.liquorIngredientBtnAdd').click(function(){
-                // 변수 선언
-                let liquorIngredientCnt = Number($('input[name="liquorIngredientCnt"]').val()) + 1;
-
-                let liquorIngredientCname = 'liquorIngredientContent'+ liquorIngredientCnt;
-                let liquorIngredientCid = 'liquorIngredientId'+ liquorIngredientCnt;
-                let liquorIngredientQty = 'liquorIngredientQty'+ liquorIngredientCnt;
-                let liquorIngredientSearch = 'liquorIngredientSearch' + liquorIngredientCnt;
-                let liquorIngredientCdel = 'liquorIngredientDel'+ liquorIngredientCnt;
-
-                console.log(liquorIngredientCid);
-                console.log(liquorIngredientCname);
-                // 클로저 구현
-                let decrease = (function () {
-
-                    // 클로저를 반환
-                   return function() {
-                        return --liquorIngredientCnt;
-                    };
-                }());
-
-                $('#liquorIngredient').append(
-                    `   <input type="hidden" class="liquorIngredientId" id="liquorIngredientId" name="liquorIngredientId">
-                        <input type="text" class="liquorIngredientContent" name="liquorIngredientContent" readonly="readonly">
-                        <input type="button" class="liquorIngredientSearch" name="liquorIngredientSearch" value="주류 선택">
-                        <input type="text" class="liquorIngredientQty" name="liquorIngredientQty" placeholder="재료 양">
-                        <input type="button" class="liquorIngredientBtnRemove" name="liquorIngredientDel" value="삭제"><br>
-                    `
-                );
-
-                $('.liquorIngredientId').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCid,'id':liquorIngredientCid});
-                $('.liquorIngredientContent').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCname,'id':liquorIngredientCname});
-                $('.liquorIngredientQty').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientQty,'id':liquorIngredientQty});
-                $('.liquorIngredientBtnRemove').eq(liquorIngredientCnt-1).attr({'name':liquorIngredientCdel,'id':liquorIngredientCdel});
-                $('.liquorIngredientSearch').eq(liquorIngredientCnt-1).data({'name':liquorIngredientCname,'id':liquorIngredientCid});
-                $('input[name="liquorIngredientCnt"]').val(liquorIngredientCnt);
-
-                // HTML 요소 삭제
-                $('.liquorIngredientBtnRemove').click(function(){
-
-                    $(this).prev().remove();
-                    $(this).prev().remove();
-                    $(this).prev().remove();
-                    $(this).prev().remove();
-                    $(this).next().remove();
-                    $(this).remove();
-
-                    $('input[name="liquorIngredientCnt"]').val(decrease());
-                });
-
-                /* 작가 선택 버튼 */
-                $('.liquorIngredientSearch').click(function(e){
-
-                    e.preventDefault();
-
-                    let liquorBtnId = $(this).data('id');
-                    let liquorBtnName = $(this).data('name');
-                    let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
-                    let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
-
-                    window.open(popUrl,"주류 찾기",popOption);
-
-                });
-            });
-
-            /* 작가 선택 버튼 */
-            $('.liquorIngredientSearch').click(function(e){
-
-                e.preventDefault();
-
-                let liquorBtnId = $(this).data('id');
-                let liquorBtnName = $(this).data('name');
-                let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
-                let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
-
-                window.open(popUrl,"주류 찾기",popOption);
-
-            });
-
-
-        });
-    </script>
-<!--    <script>-->
-<!--        .authorId_btn {-->
-<!--            margin-left: 20px;-->
-<!--            width: 14%;-->
-<!--            height: 38px;-->
-<!--            font-weight: 600;-->
-<!--            background-color: #dfe8f5;-->
-<!--            font-size: 15px;-->
-<!--            cursor:pointer;-->
-<!--        }-->
-<!--        #authorName_input {-->
-<!--            width: 80%;-->
-<!--            text-align: center;-->
-<!--        }-->
-<!--    </script>-->
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" th:src="@{/js/supporters/cocktailInsert.js}"></script>
 </head>
 <body>
 <div class="container">
-  <div class="py-5 text-center">
+    <div class="py-5 text-center">
     <h2>칵테일 등록 폼</h2>
-  </div>
-  <h4 class="mb-3">상품 입력</h4>
-  <form action="item.html" th:action th:object="${form}" method="post" enctype="multipart/form-data">
+    </div>
+    <h4 class="mb-3">상품 입력</h4>
+    <form action="item.html" th:action th:object="${form}" method="post" enctype="multipart/form-data">
 <!--    <div th:if="${#fields.hasGlobalErrors()}">-->
 <!--      <p class="field-error" th:each="err : ${#fields.globalErrors()}"-->
 <!--         th:text="${err}">글로벌 오류 메시지</p>-->
 <!--    </div>-->
     <div>
-      <label th:for="name">칵테일이름</label>
-      <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
+        <label th:for="name">칵테일이름</label>
+        <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
     </div>
     <div>
-      <label th:for="eName">칵테일영문이름</label>
-      <input type="text" th:field="*{eName}" class="form-control" placeholder="영문명을 입력하세요">
+        <label th:for="eName">칵테일영문이름</label>
+        <input type="text" th:field="*{eName}" class="form-control" placeholder="영문명을 입력하세요">
     </div>
     <div>
-      <label th:for="base">칵테일 기주</label>
-      <input type="text" th:field="*{base}" class="form-control" placeholder="기주를 입력하세요">
+        <label th:for="base">칵테일 기주</label>
+        <input type="text" th:field="*{base}" class="form-control" placeholder="기주를 입력하세요">
     </div>
     <div>
-      <label th:for="abv">칵테일 도수</label>
-      <input type="number" th:field="*{abv}" class="form-control" placeholder="도수를 입력하세요">
+        <label th:for="abv">칵테일 도수</label>
+        <input type="number" th:field="*{abv}" class="form-control" placeholder="도수를 입력하세요">
     </div>
     <div>
-      <label th:for="oneLine">칵테일 한줄설명</label>
-      <input type="text" th:field="*{oneLine}" class="form-control" placeholder="한줄설명을 입력하세요">
+        <label th:for="oneLine">칵테일 한줄설명</label>
+        <input type="text" th:field="*{oneLine}" class="form-control" placeholder="한줄설명을 입력하세요">
     </div>
     <div>
-      <label th:for="content">칵테일 설명</label>
-      <input type="text" th:field="*{content}" class="form-control" placeholder="설명을 입력하세요">
+        <label th:for="content">칵테일 설명</label>
+        <input type="text" th:field="*{content}" class="form-control" placeholder="설명을 입력하세요">
     </div>
     <div>
-      <label th:for="images">칵테일 이미지</label>
-      <input type="file" multiple="multiple" th:field="*{images}" class="form-control" placeholder="파일을 등록해주세요">
+        <label th:for="images">칵테일 이미지</label>
+        <input type="file" multiple="multiple" th:field="*{images}" class="form-control" placeholder="파일을 등록해주세요">
     </div>
     <div>
-      <div>칵테일 맛</div>
-      <div th:each="taste : ${tastes}" class="form-check form-check-inline">
-        <input type="checkbox" th:field="*{tastes}" th:value="${taste.key}"
-               class="form-check-input">
-        <label th:for="${#ids.prev('tastes')}"
-               th:text="${taste.value}" class="form-check-label">맛</label>
-      </div>
+        <div>칵테일 맛</div>
+        <div th:each="taste : ${tastes}" class="form-check form-check-inline">
+            <input type="checkbox" th:field="*{tastes}" th:value="${taste.key}" class="form-check-input">
+            <label th:for="${#ids.prev('tastes')}" th:text="${taste.value}" class="form-check-label">맛</label>
+        </div>
     </div>
     <div id="sequence" class="col-lg-6 col-md-6 form-group mt-3">
         <label th:for="sequence" >칵테일 순서</label><br>
@@ -213,16 +72,25 @@
         <input type="text" class="liquorIngredientQty" th:id="liquorIngredientQty1" name="liquorIngredientQty1" placeholder="재료 양"><br>
     </div>
     <hr class="my-4"/>
-
+    <div id="cocktailIngredient" class="col-lg-6 col-md-6 form-group mt-3">
+        <label th:for="cocktailIngredient" >재료 등록</label><br>
+        <input type="button" class="cocktailIngredientBtnAdd" name="cocktailIngredientDel1" value="재료 추가"><br>
+        <input type="hidden" class="cocktailIngredientId" id="cocktailIngredientId1" name="cocktailIngredientId1">
+        <input type="hidden" id="cocktailIngredientCnt" name="cocktailIngredientCnt" value="1">
+        <input type="text" class="cocktailIngredientContent" id="cocktailIngredientContent1" name="cocktailIngredientContent1" readonly="readonly">
+        <input type="button" class="cocktailIngredientSearch" data-id= "cocktailIngredientId1" data-name="cocktailIngredientContent1" value="재료 선택">
+        <input type="text" class="cocktailIngredientQty" id="cocktailIngredientQty1" name="cocktailIngredientQty1" placeholder="재료 양"><br>
+    </div>
+    <hr class="my-4"/>
     <div class="col">
-      <button class="w-100 btn btn-primary btn-lg" type="submit">칵테일 등록</button>
+        <button class="w-100 btn btn-primary btn-lg" type="submit">칵테일 등록</button>
     </div>
     <div class="col">
-      <button class="w-100 btn btn-secondary btn-lg"
+        <button class="w-100 btn btn-secondary btn-lg"
               th:onclick="|location.href='@{/supporters/main}'|"
               type="button">취소</button>
     </div>
-  </form>
-</div> <!-- /container -->
+    </form>
+</div>
 </body>
 </html>
