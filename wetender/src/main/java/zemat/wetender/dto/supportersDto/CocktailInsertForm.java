@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -13,23 +14,24 @@ public class CocktailInsertForm {
 
     private Long id;
 
-    @NotNull
+    @NotBlank(message = "공백 x")
     private String name;
 
     private String eName;
 
-    @NotNull
-    @Range(min = 0, max = 100)
+    @NotBlank
     private String base;
 
-    @NotNull
+    @NotNull(message = "도수는 0~100도 사이여야합니다.")
+    @Range(min = 0, max = 100)
     private int abv;
 
     private String oneLine;
 
-    @NotNull
+    @NotBlank
     private String content;
 
+//    @NotNull(message = "한장의 이미지는 있어야합니다!") 안먹는데 이유 아직 못찾음..
     private List<MultipartFile> images;
 
     private List<String> tastes;

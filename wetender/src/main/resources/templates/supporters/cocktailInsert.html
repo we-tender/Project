@@ -8,45 +8,70 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript" th:src="@{/js/supporters/cocktailInsert.js}"></script>
+
+    <style>
+        .field-error {
+            border-color : #dc3545;
+            color: #dc3545;
+        }
+    </style>
 </head>
 <body>
 <div class="container">
     <div class="py-5 text-center">
     <h2>칵테일 등록 폼</h2>
     </div>
-    <h4 class="mb-3">상품 입력</h4>
     <form action="item.html" th:action th:object="${form}" method="post" enctype="multipart/form-data">
-<!--    <div th:if="${#fields.hasGlobalErrors()}">-->
-<!--      <p class="field-error" th:each="err : ${#fields.globalErrors()}"-->
-<!--         th:text="${err}">글로벌 오류 메시지</p>-->
-<!--    </div>-->
     <div>
         <label th:for="name">칵테일이름</label>
-        <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
+        <input type="text" th:field="*{name}"
+               th:errorclass="field-error"
+               class="form-control" placeholder="이름을 입력하세요">
+        <div class="field-error" th:errors="*{name}">
+            상품명 오류
+        </div>
     </div>
     <div>
         <label th:for="eName">칵테일영문이름</label>
         <input type="text" th:field="*{eName}" class="form-control" placeholder="영문명을 입력하세요">
+        <div class="field-error" th:errors="*{eName}">
+            상품명 오류
+        </div>
     </div>
     <div>
         <label th:for="base">칵테일 기주</label>
-        <input type="text" th:field="*{base}" class="form-control" placeholder="기주를 입력하세요">
+        <input type="text" th:field="*{base}" th:errorclass="field-error" class="form-control" placeholder="기주를 입력하세요">
+        <div class="field-error" th:errors="*{base}">
+            상품명 오류
+        </div>
     </div>
     <div>
         <label th:for="abv">칵테일 도수</label>
-        <input type="number" th:field="*{abv}" class="form-control" placeholder="도수를 입력하세요">
+        <input type="number" th:field="*{abv}" th:errorclass="field-error" class="form-control" placeholder="도수를 입력하세요">
+        <div class="field-error" th:errors="*{abv}">
+            상품명 오류
+        </div>
     </div>
     <div>
         <label th:for="oneLine">칵테일 한줄설명</label>
-        <input type="text" th:field="*{oneLine}" class="form-control" placeholder="한줄설명을 입력하세요">
+        <input type="text" th:field="*{oneLine}" th:errorclass="field-error" class="form-control" placeholder="한줄설명을 입력하세요">
+        <div class="field-error" th:errors="*{oneLine}">
+            상품명 오류
+        </div>
     </div>
     <div>
         <label th:for="content">칵테일 설명</label>
-        <input type="text" th:field="*{content}" class="form-control" placeholder="설명을 입력하세요">
+        <input type="text" th:field="*{content}" th:errorclass="field-error" class="form-control" placeholder="설명을 입력하세요">
+        <div class="field-error" th:errors="*{content}">
+            상품명 오류
+        </div>
     </div>
     <div>
         <label th:for="images">칵테일 이미지</label>
-        <input type="file" multiple="multiple" th:field="*{images}" class="form-control" placeholder="파일을 등록해주세요">
+        <input type="file" multiple="multiple" th:field="*{images}" th:errorclass="field-error" class="form-control" placeholder="파일을 등록해주세요">
+        <div class="field-error" th:errors="*{images}">
+            상품명 오류
+        </div>
     </div>
     <div>
         <div>칵테일 맛</div>

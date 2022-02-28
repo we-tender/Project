@@ -77,20 +77,28 @@ public class Cocktail extends BaseEntity {
         this.cocktailContent = cocktailContent;
         this.cocktailRecommendation = cocktailRecommendation;
 
-        for (CocktailTaste cocktailTaste : cocktailTastes) {
-            addCocktailTaste(cocktailTaste);
+        if(cocktailTastes != null){
+            for (CocktailTaste cocktailTaste : cocktailTastes) {
+                addCocktailTaste(cocktailTaste);
+            }
         }
 
-        for(CocktailFile cocktailFile : cocktailFiles){
-            addCocktailFile(cocktailFile);
+        if(cocktailFiles != null){
+            for(CocktailFile cocktailFile : cocktailFiles){
+                addCocktailFile(cocktailFile);
+            }
         }
 
-        for (CocktailSequence cocktailSequence : cocktailSequences) {
-            addCocktailSequence(cocktailSequence);
+        if(cocktailSequences != null){
+            for (CocktailSequence cocktailSequence : cocktailSequences) {
+                addCocktailSequence(cocktailSequence);
+            }
         }
 
-        for (CocktailIngredient cocktailIngredient : cocktailIngredients) {
-            addCocktailIngredient(cocktailIngredient);
+        if(cocktailIngredients != null){
+            for (CocktailIngredient cocktailIngredient : cocktailIngredients) {
+                addCocktailIngredient(cocktailIngredient);
+            }
         }
     }
 }

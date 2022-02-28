@@ -1,12 +1,15 @@
 package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
@@ -25,6 +28,7 @@ import zemat.wetender.service.LiquorService;
 import zemat.wetender.service.SupportersService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -34,6 +38,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/supporters")
 @RequiredArgsConstructor
+@Slf4j
 public class SupportersController {
 
     private final SupportersService supportersService;
@@ -72,8 +77,14 @@ public class SupportersController {
     }
 
     @PostMapping("/cocktailInsert")
-    public String cocktailInsert(CocktailInsertForm form,
+    public String cocktailInsert(@Validated @ModelAttribute("form") CocktailInsertForm form, BindingResult bindingResult,
                                  HttpServletRequest request) throws IOException {
+
+        // 검증 실패 로직
+        if(bindingResult.hasErrors()){
+            log.info("error={}",bindingResult);
+            return "/supporters/cocktailInsert";
+        }
 
         // 칵테일 맛
         List<String> tastes = form.getTastes();
