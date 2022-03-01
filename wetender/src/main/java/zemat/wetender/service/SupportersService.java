@@ -21,6 +21,7 @@ public class SupportersService {
 
     @Transactional
     public long cocktailSave(Cocktail cocktail){
+        System.out.println("칵테일세이브실행!");
         Cocktail cocktail1 = cocktailRepository.save(cocktail);
 
         return cocktail1.getId();

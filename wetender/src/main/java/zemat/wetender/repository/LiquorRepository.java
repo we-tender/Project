@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import zemat.wetender.domain.liquor.Liquor;
 
+import java.util.Optional;
+
 public interface LiquorRepository extends JpaRepository<Liquor,Long> {
 
     @Query(value = "select l from Liquor l", countQuery = "select count(*) from Liquor m")
@@ -13,4 +15,6 @@ public interface LiquorRepository extends JpaRepository<Liquor,Long> {
 
     @Query(countQuery = "select count(*) from Liquor m")
     Page<Liquor> findByLiquorNameContainingIgnoreCaseOrLiquorEnameContainingIgnoreCase(Pageable pageable, String liquorName, String LiquorEname);
+
+    Optional<Liquor> findByLiquorName(String liquorName);
 }

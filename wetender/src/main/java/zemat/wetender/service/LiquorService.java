@@ -18,6 +18,11 @@ public class LiquorService {
 
     private final LiquorRepository liquorRepository;
 
+    public Long insertLiquor(Liquor liquor) {
+        Liquor savedLiquor = liquorRepository.save(liquor);
+        return savedLiquor.getId();
+    }
+
     public Liquor findById(Long liquorId){
         return liquorRepository.findById(liquorId).get();
     }
@@ -28,5 +33,12 @@ public class LiquorService {
 
     public Page<Liquor> pageFindKeyword(Pageable pageable,String keyword){
         return liquorRepository.findByLiquorNameContainingIgnoreCaseOrLiquorEnameContainingIgnoreCase(pageable,keyword,keyword);
+    }
+
+    @Transactional
+    public Liquor findByLiquorName(String liquorName) {
+        Liquor liquor = liquorRepository.findByLiquorName(liquorName).orElseThrow(() -> new IllegalStateException("존재하지 않는 술입니다!"));
+        liquor.getCocktailIngredients().size();
+        return liquor;
     }
 }

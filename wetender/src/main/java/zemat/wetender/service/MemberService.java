@@ -18,6 +18,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder pwdEncoder;
 
+    @Transactional
     public Long join(MemberJoinForm form) {
         duplicateMember(form.getIdname());
         confirmPassword(form.getPwd1(), form.getPwd2());
@@ -45,7 +46,6 @@ public class MemberService {
         }
     }
 
-    @Transactional
     public Member findByMemberIdName(String memberIdName) {
         return memberRepository.findByMemberIdName(memberIdName).orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디입니다!"));
     }

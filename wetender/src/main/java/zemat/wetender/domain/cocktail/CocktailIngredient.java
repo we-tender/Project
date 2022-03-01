@@ -8,7 +8,7 @@ import zemat.wetender.domain.liquor.Liquor;
 import javax.persistence.*;
 
 @Entity
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class CocktailIngredient extends BaseEntity {
 
@@ -47,4 +47,6 @@ public class CocktailIngredient extends BaseEntity {
             ingredient.addCocktailIngredient(this);
         }
     }
+
+
 }
