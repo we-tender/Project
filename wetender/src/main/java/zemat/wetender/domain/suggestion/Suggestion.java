@@ -1,15 +1,15 @@
 package zemat.wetender.domain.suggestion;
 
+import java.util.*;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.dto.suggestionDto.SuggestionDto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,7 +17,7 @@ import javax.persistence.Id;
 public class Suggestion extends BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "suggestion_id")
     private Long id;
 
@@ -25,9 +25,19 @@ public class Suggestion extends BaseEntity {
     private String suggestionContent;
 
 
+    @OneToMany(mappedBy = "suggestion")
+    private List<SuggestionReply> suggestionReplyList = new ArrayList<>();
+
+
     public Suggestion(String suggestionTitle, String suggestionContent) {
         this.suggestionTitle = suggestionTitle;
         this.suggestionContent = suggestionContent;
+    }
+
+    public Suggestion(SuggestionDto suggestionDto) {
+        this.id = suggestionDto.getId();
+        this.suggestionTitle = suggestionDto.getSuggestionTitle();
+        this.suggestionContent = suggestionDto.getSuggestionContent();
     }
 
 

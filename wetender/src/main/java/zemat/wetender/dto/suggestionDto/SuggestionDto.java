@@ -5,6 +5,9 @@ import lombok.Setter;
 import org.apache.tomcat.jni.Local;
 import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.suggestion.Suggestion;
+import zemat.wetender.domain.suggestion.SuggestionReply;
+
+import java.util.*;
 
 import javax.persistence.GeneratedValue;
 import java.time.LocalDateTime;
@@ -16,6 +19,7 @@ public class SuggestionDto {
     private Long id;
     private String suggestionTitle;
     private String suggestionContent;
+    private List<SuggestionReply> suggestionReplyList = new ArrayList<>();
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
@@ -23,10 +27,12 @@ public class SuggestionDto {
     private String lastModifiedBy;
 
 
+
     public SuggestionDto(Suggestion suggestion) {
         this.id = suggestion.getId();
         this.suggestionTitle = suggestion.getSuggestionTitle();
         this.suggestionContent = suggestion.getSuggestionContent();
+        this.suggestionReplyList = suggestion.getSuggestionReplyList();
 
         this.createdDate = suggestion.getCreatedDate();
         this.lastModifiedDate = suggestion.getLastModifiedDate();

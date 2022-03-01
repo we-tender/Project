@@ -362,6 +362,8 @@ public class InitTestData {
         supportersService.cocktailSave(cocktail);
     }
 
+
+
     public void initIngredientData() throws IOException {
         List<Ingredient> ingredients = new ArrayList<>();
         List<IngredientFile> ingredientFiles;
@@ -587,4 +589,6 @@ public class InitTestData {
         }
         return multipartFiles;
     }
+
+
 }

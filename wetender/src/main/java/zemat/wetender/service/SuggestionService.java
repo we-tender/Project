@@ -6,6 +6,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
+import zemat.wetender.domain.suggestion.SuggestionReply;
+import zemat.wetender.dto.suggestionDto.SuggestionDto;
+import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
+import zemat.wetender.repository.SuggestionReplyRepository;
 import zemat.wetender.repository.SuggestionRepository;
 
 import java.util.*;
@@ -20,6 +24,7 @@ import java.util.Optional;
 public class SuggestionService {
 
     private final SuggestionRepository suggestionRepository;
+    private final SuggestionReplyRepository suggestionReplyRepository;
 
     // 건의사항 저장
     public Long insert(Suggestion suggestion) {
@@ -94,6 +99,22 @@ public class SuggestionService {
         }
 
         return suggestions;
+    }
+
+
+    // 건의사항 댓글 저장하기
+    public Long replyInsert(SuggestionReplyInsertDto suggestionReplyInsertDto) {
+
+        Long id = suggestionReplyInsertDto.getSuggestionId();
+        Suggestion suggestion = suggestionRepository.findById(id).get();
+        String suggestionReplyContent = suggestionReplyInsertDto.getSuggestionReplyContent();
+
+        SuggestionReply suggestionReply = new SuggestionReply(suggestionReplyContent, suggestion);
+
+        suggestionReplyRepository.save(suggestionReply);
+
+        return id;
+
     }
 
 

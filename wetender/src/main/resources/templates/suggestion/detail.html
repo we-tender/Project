@@ -33,10 +33,12 @@
                 <br>
                 <div th:text = "*{createdBy}"> 작성자 : </div>
                 <div th:text = "*{createdDate}"> 작성시간 </div>
-                <hr>
+                <br>
                 <br>
                 <div th:text = "*{suggestionContent}"> 내용 </div>
                 <hr>
+
+
 
                 <!-- 수정,삭제 버튼 시작 -->
                 <div class="text-end">
@@ -45,9 +47,41 @@
                 </div>
                 <!-- 수정,삭제 버튼 끝 -->
 
+                <br>
 
-                <h5>건의사항 게시판 글</h5>
+                <!-- 댓글 시작 -->
+                <h4> 댓글 </h4>
+                <div class="list-group" th:each="suggestionReply : *{suggestionReplyList}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <b><h6 class="mb-1" th:text = "${suggestionReply.createdBy}"> 글쓴이 </h6></b>
+                            <small> </small>
+                        </div>
+                        <p class="mb-1" th:text = "${suggestionReply.suggestionReplyContent}" > 댓글 내용 </p>
+                        <small th:text = "${suggestionReply.createdDate}" > 댓글 작성 날짜 </small>
+                    <hr>
+                </div>
 
+                <form action = "#" th:action="@{/suggestion/replyInsert}" th:object="${suggestionReplyDto}" method="post">
+                    <div class="card">
+                        <div class="card-body">
+                            <textarea class="form-control" id="suggestionReplyContent" rows="2" th:name="suggestionReplyContent"></textarea>
+
+                            <input type="hidden" id="suggestionId" th:value="${suggestionDto.id}" th:name="suggestionId">
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="text-end">
+                                <button type = "submit" class="btn btn-primary"> 등록 </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- 댓글 끝 -->
+
+                <br>
+                <br>
+
+                <h4>건의사항 게시판 글</h4>
                 <table class="table">
                     <thead>
                     <tr>

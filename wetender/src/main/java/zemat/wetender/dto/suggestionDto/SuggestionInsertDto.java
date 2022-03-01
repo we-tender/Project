@@ -9,7 +9,7 @@ public class SuggestionInsertDto {
     private String suggestionTitle;
     private String suggestionContent;
 
-    public SuggestionInsertDto(Long id, String suggestionTitle, String suggestionContent) {
+    public SuggestionInsertDto(String suggestionTitle, String suggestionContent) {
         this.suggestionTitle = suggestionTitle;
         this.suggestionContent = suggestionContent;
     }
