@@ -18,6 +18,7 @@ public class LiquorService {
 
     private final LiquorRepository liquorRepository;
 
+    @Transactional
     public Long insertLiquor(Liquor liquor) {
         Liquor savedLiquor = liquorRepository.save(liquor);
         return savedLiquor.getId();

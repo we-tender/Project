@@ -23,10 +23,7 @@ import zemat.wetender.repository.IngredientRepository;
 import zemat.wetender.repository.LiquorRepository;
 import zemat.wetender.repository.MemberRepository;
 import zemat.wetender.repository.SuggestionRepository;
-import zemat.wetender.service.IngredientService;
-import zemat.wetender.service.LiquorService;
-import zemat.wetender.service.SuggestionService;
-import zemat.wetender.service.SupportersService;
+import zemat.wetender.service.*;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
@@ -589,6 +586,4 @@ public class InitTestData {
         }
         return multipartFiles;
     }
-
-
 }

@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.repository.CocktailRepository;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public class CocktailService {
 
     private final CocktailRepository cocktailRepository;
 
-    public List<Cocktail> findTop20ByRecommendation() {
+    public List<CocktailHomeDto> findTop20ByRecommendation() {
         PageRequest pageRequest = PageRequest.of(0, 20);
         Page<Cocktail> page = cocktailRepository.findByCocktailRecommendation(pageRequest);
-
-        return page.getContent();
+        List<CocktailHomeDto> cocktailHomeDtos = page.map(CocktailHomeDto::new).getContent();
+        return cocktailHomeDtos;
     }
 }

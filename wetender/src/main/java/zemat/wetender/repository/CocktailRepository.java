@@ -9,6 +9,8 @@ import zemat.wetender.domain.cocktail.Cocktail;
 
 public interface CocktailRepository extends JpaRepository<Cocktail,Long> {
 
-    @Query(value = "select c from Cocktail c order by c.cocktailRecommendation desc")
+    @Query(value = "select c from Cocktail c join fetch c.cocktailFiles " +
+            "order by c.cocktailRecommendation desc",
+            countQuery = "select count(c) from Cocktail c")
     Page<Cocktail> findByCocktailRecommendation(Pageable pageable);
 }

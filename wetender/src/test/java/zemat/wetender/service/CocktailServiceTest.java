@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import zemat.wetender.InitTestData;
 import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.ingredient.IngredientFile;
@@ -17,6 +18,7 @@ import zemat.wetender.domain.ingredient.IngredientFileStore;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
+import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.repository.IngredientRepository;
 import zemat.wetender.repository.LiquorRepository;
 
@@ -213,40 +215,15 @@ class CocktailServiceTest {
         return multipartFiles;
     }
 
-    // 220225 미구현 테스트...
     @Test
-    public void 칵테일_상위20추천수_조회() throws IOException {
-        insertCocktailEntity();
-
-        List<Cocktail> findCocktails = cocktailService.findTop20ByRecommendation();
-        for (Cocktail cocktail : findCocktails) {
-            System.out.println("cocktail = " + cocktail);
+    public void 칵테일_상위20추천수_조회_with_Dto() throws IOException {
+        List<CocktailHomeDto> cocktailHomeDtos = cocktailService.findTop20ByRecommendation();
+        for (CocktailHomeDto cocktailHomeDto : cocktailHomeDtos) {
+            System.out.println("===========================================================");
+            System.out.println("칵테일이름 = " + cocktailHomeDto.getName());
+            System.out.println("추천수 = " + cocktailHomeDto.getRecommendation());
+            System.out.println("이미지파일 = " + cocktailHomeDto.getMainImage());
+            System.out.println("===========================================================");
         }
-    }
-
-    public void insertCocktailEntity() throws IOException {
-        List<CocktailTaste> cocktailTastes = new ArrayList<>();
-        for (String str : Arrays.asList("맵다", "달다", "쓰다", "짜다", "시다", "떫다", "톡쏜다", "맛이안난다", "독하다", "맛있다")) {
-            cocktailTastes.add(new CocktailTaste(str));
-        }
-
-        CocktailSequence cocktailSequence1 = new CocktailSequence("술을 따른다");
-        CocktailSequence cocktailSequence2 = new CocktailSequence("과일즙을 넣는다");
-        CocktailSequence cocktailSequence3 = new CocktailSequence("섞는다");
-
-//        Cocktail cocktail = Cocktail.builder()
-//                .cocktailName("칵테일")
-//                .cocktailEName("cocktail")
-//                .cocktailAbv(40)
-//                .cocktailBase("잭다니엘")
-//                .cocktailContent("취한다..")
-//                .cocktailOneLine("생각보다 잘 취한다..")
-//                .cocktailTastes(Arrays.asList(cocktailTastes.get(i % 10)))
-//                .cocktailFiles(getCocktailFiles())
-//                .cocktailSequences(Arrays.asList(cocktailSequence1, cocktailSequence2, cocktailSequence3))
-//                .cocktailIngredients(getCocktailIngredient())
-//                .cocktailRecommendation(i)
-//                .build();
-//        supportersService.cocktailSave(cocktail);
     }
 }
