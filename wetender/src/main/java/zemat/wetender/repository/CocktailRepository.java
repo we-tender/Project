@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.cocktail.Cocktail;
 
 public interface CocktailRepository extends JpaRepository<Cocktail,Long> {
@@ -13,4 +12,8 @@ public interface CocktailRepository extends JpaRepository<Cocktail,Long> {
             "order by c.cocktailRecommendation desc",
             countQuery = "select count(c) from Cocktail c")
     Page<Cocktail> findByCocktailRecommendation(Pageable pageable);
+
+    @Query(countQuery = "select count(*) from Cocktail m")
+    Page<Cocktail> findByCocktailNameContainingIgnoreCaseOrCocktailEnameContainingIgnoreCase(Pageable pageable, String cocktailName, String cocktailEname);
+
 }

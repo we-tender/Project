@@ -47,25 +47,15 @@
                 </div>
                 <!-- 쓰기 버튼 끝 -->
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">제목</th>
-                        <th scope="col">한줄평</th>
-                        <th scope="col">글쓴이</th>
-                        <th scope="col">작성일</th>
-                    </tr>
-                    </thead>
+                <!-- 주류 보여지는 div -->
+                <div class="liquor-all">
+                    <div th:each="liquor : ${liquorDtos}" class="liquor-detail" th:onclick="|location.href='@{/liquor/{id} (id=${liquor.id})}'|" style="cursor:pointer;" >
+                        <img th:src="|images/${liquor.images[0].storeLiquorFileName}|" width="300" height="300"><br/>
+                        <span th:text="${liquor.name}">제목</span><br/>
+                        <span th:text="${liquor.oneLine}">한줄평</span>
+                    </div>
+                </div>
 
-                    <tbody>
-                    <tr th:each = "liquor : ${liquorDtos}">
-                        <td> <a th:text = "${liquor.name}" > 제목 </a></td>
-                        <td th:text = "${liquor.oneLine}"></td>
-                        <td th:text = "${liquor.createdBy}"></td>
-                        <td th:text = "${liquor.createdDate}"></td>
-                    </tr>
-                    </tbody>
-                </table>
 
                 <!-- 페이징 오버뷰 -->
                 <nav aria-label="Page navigation example">

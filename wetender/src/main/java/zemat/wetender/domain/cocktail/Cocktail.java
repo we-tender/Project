@@ -76,6 +76,7 @@ public class Cocktail extends BaseEntity {
         this.cocktailOneLine = cocktailOneLine;
         this.cocktailContent = cocktailContent;
         this.cocktailRecommendation = cocktailRecommendation;
+        //
 
         if(cocktailTastes != null){
             for (CocktailTaste cocktailTaste : cocktailTastes) {
