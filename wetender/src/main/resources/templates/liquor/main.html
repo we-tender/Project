@@ -22,78 +22,98 @@
 
 <section>
     <!-- 리스트 시작 -->
+    <div class="container">
+        <h2><a th:href = "@{/liquor/main}"> 주류 게시판 </a></h2>
 
-    <div class="col-lg-8 mx-auto p-3 py-md-5">
-        <main>
-
-            <div class="container">
-                <h2><a th:href = "@{/liquor/main}"> 주류 게시판 </a></h2>
-
-                <!--검색 폼-->
-                <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/suggestion/main}">
-                    <div class="col-auto">
-                        <label for="searchText" class="visually-hidden">검색</label>
-                        <!--                    파람을 쓰면 URL에 값을 담을 수 있다. -->
-                        <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}" >
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-light mb-3">검색</button>
-                    </div>
-                </form>
-
-                <!-- 쓰기 버튼 시작 -->
-                <div class="text-end">
-                    <a type="button" class="btn btn-primary"> 쓰기 </a>
-                </div>
-                <!-- 쓰기 버튼 끝 -->
-
-                <!-- 주류 보여지는 div -->
-                <div class="liquor-all">
-                    <div th:each="liquor : ${liquorDtos}" class="liquor-detail" th:onclick="|location.href='@{/liquor/{id} (id=${liquor.id})}'|" style="cursor:pointer;" >
-                        <img th:src="|images/${liquor.images[0].storeLiquorFileName}|" width="300" height="300"><br/>
-                        <span th:text="${liquor.name}">제목</span><br/>
-                        <span th:text="${liquor.oneLine}">한줄평</span>
-                    </div>
-                </div>
-
-
-                <!-- 페이징 오버뷰 -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
-                        <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
-                        <li class="page-item"  th:classappend="${1 == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
-                            <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
-                        <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
-                        <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-                        <li class="page-item " th:classappend="${i == liquorDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
-                            <a class="page-link" href="#"  th:href="@{/liquor/main(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
-
-                        <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
-                        <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-                        <li class="page-item" th:classappend="${liquorDtos.totalPages == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
-                            <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-
-
-                <!-- 쓰기 버튼 시작 -->
-                <div class="text-end">
-                    <!-- 클래스에 버튼을 썼기 때문에 a(앵커)로 바꿔도 자연스럽게 버튼모양으로 표현-->
-                    <a type="button" class="btn btn-primary" >쓰기</a>
-                </div>
-                <!-- 쓰기 버튼 끝 -->
-
-
+        <!--검색 폼-->
+        <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/liquor/main}">
+            <div class="col-auto">
+                <label for="keyword" class="visually-hidden">검색</label>
+                <!--                    파람을 쓰면 URL에 값을 담을 수 있다. -->
+                <input type="text" class="form-control" id="keyword" name="keyword" th:value="${param.keyword}" >
             </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-light mb-3">검색</button>
+            </div>
+        </form>
+
+        <!-- Property List Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="row g-0 gx-5 align-items-end">
+                    <div class="col-lg-6">
+                        <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                            <h1 class="mb-3">주류 목록</h1>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
+                        <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">추천수</a>
+                            </li>
+                            <li class="nav-item me-2">
+                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">조회수</a>
+                            </li>
+                            <li class="nav-item me-0">
+                                <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">댓글수</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div id="tab-1" class="tab-pane fade show p-0 active">
+                        <div class="row g-4">
+                            <div th:each ="liquor : ${liquorDtos}" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s" th:onclick="|location.href='@{/liquor/{id} (id=${liquor.id})}'|" style="cursor:pointer;">
+                                <div class="property-item rounded overflow-hidden">
+                                    <div class="position-relative overflow-hidden">
+                                        <img class="img-fluid" th:src="|images/${liquor.images[0].storeLiquorFileName}|" alt="">
+<!--                                                <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">MD 추천</div>-->
+<!--                                                <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
+                                    </div>
+                                    <div class="p-4 pb-0">
+                                        <h5 class="text-primary mb-3" th:text="${liquor.eName}">영문이름</h5>
+                                        <h3 class="d-block h5 mb-2" th:text="${liquor.name}">한글이름</h3>
+                                        <p th:text = "${liquor.oneLine}">한줄평</p>
+                                    </div>
+<!--                                            <div class="d-flex border-top">-->
+<!--                                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>-->
+<!--                                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
+<!--                                                <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
+<!--                                            </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Property List End -->
 
 
-            <!-- 리스트 끝 -->
-        </main>
+        <!-- 페이징 오버뷰 -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
+                <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
+                <li class="page-item"  th:classappend="${1 == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                    <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
+                <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
+                <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                <li class="page-item " th:classappend="${i == liquorDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
+                    <a class="page-link" href="#"  th:href="@{/liquor/main(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
+
+                <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
+                <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                <li class="page-item" th:classappend="${liquorDtos.totalPages == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                    <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
+    <!-- 리스트 끝 -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/liquor/main.css}">
 </section>
 </body>
 

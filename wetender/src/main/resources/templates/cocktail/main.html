@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
+<!--head 에 입력변수를 받아 title 바꾼다.-->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="navbar-top.css" rel="stylesheet">
+</head>
+
+<body>
+
+<section>
+    <!-- 리스트 시작 -->
+
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+        <main>
+
+            <div class="container">
+                <h2><a th:href = "@{/cocktail/main}"> 주류 게시판 </a></h2>
+
+                <!--검색 폼-->
+                <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/suggestion/main}">
+                    <div class="col-auto">
+                        <label for="searchText" class="visually-hidden">검색</label>
+                        <!--                    파람을 쓰면 URL에 값을 담을 수 있다. -->
+                        <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}" >
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-light mb-3">검색</button>
+                    </div>
+                </form>
+
+                <!-- 쓰기 버튼 시작 -->
+                <div class="text-end">
+                    <a type="button" class="btn btn-primary"> 쓰기 </a>
+                </div>
+                <!-- 쓰기 버튼 끝 -->
+
+                <!-- 주류 보여지는 div -->
+                <div class="liquor-all">
+                    <div th:each="liquor : ${liquorDtos}" class="liquor-detail" th:onclick="|location.href='@{/liquor/{id} (id=${liquor.id})}'|" style="cursor:pointer;" >
+                        <img th:src="|images/${liquor.images[0].storeLiquorFileName}|" width="300" height="300"><br/>
+                        <span th:text="${liquor.name}">제목</span><br/>
+                        <span th:text="${liquor.oneLine}">한줄평</span>
+                    </div>
+                </div>
+
+
+                <!-- 페이징 오버뷰 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
+                        <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
+                        <li class="page-item"  th:classappend="${1 == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                            <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
+                        <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
+                        <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                        <li class="page-item " th:classappend="${i == liquorDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
+                            <a class="page-link" href="#"  th:href="@{/liquor/main(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
+
+                        <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
+                        <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                        <li class="page-item" th:classappend="${liquorDtos.totalPages == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                            <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+
+
+                <!-- 쓰기 버튼 시작 -->
+                <div class="text-end">
+                    <!-- 클래스에 버튼을 썼기 때문에 a(앵커)로 바꿔도 자연스럽게 버튼모양으로 표현-->
+                    <a type="button" class="btn btn-primary" >쓰기</a>
+                </div>
+                <!-- 쓰기 버튼 끝 -->
+
+
+            </div>
+
+
+            <!-- 리스트 끝 -->
+        </main>
+    </div>
+</section>
+</body>
+
+
+
+
+
+</html>

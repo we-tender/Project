@@ -1,6 +1,7 @@
 package zemat.wetender.domain.cocktail;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
@@ -29,6 +30,12 @@ public class CocktailFile extends BaseEntity {
     public CocktailFile(String uploadFileName, String storeFileName) {
         this.uploadCocktailFileName = uploadFileName;
         this.storeCocktailFileName = storeFileName;
+    }
+    @Builder
+    public CocktailFile(Long id, String uploadCocktailFileName, String storeCocktailFileName) {
+        this.id = id;
+        this.uploadCocktailFileName = uploadCocktailFileName;
+        this.storeCocktailFileName = storeCocktailFileName;
     }
 
     public void setCocktail(Cocktail cocktail) {
