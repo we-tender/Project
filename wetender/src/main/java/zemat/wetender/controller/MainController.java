@@ -2,19 +2,32 @@ package zemat.wetender.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.security.core.AuthenticatedPrincipal;
+import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.cocktail.CocktailFileStore;
+import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
+import zemat.wetender.service.CocktailService;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class MainController {
+
+    private final CocktailService cocktailService;
+    private final CocktailFileStore cocktailFileStore;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -25,29 +38,18 @@ public class MainController {
             UserDetails principalDetails = (UserDetails) authentication.getPrincipal();
             model.addAttribute("sessionMember", principalDetails);
         }
-        addMembers(model);
+        getCocktailTop20(model);
         return "fragment/main";
     }
 
-    public void addMembers(Model model) {
-        List<MemberDto> list = new ArrayList<>();
-        list.add(new MemberDto("ABC1", 10));
-        list.add(new MemberDto("ABC2", 20));
-        list.add(new MemberDto("ABC3", 30));
-        list.add(new MemberDto("ABC4", 40));
-        list.add(new MemberDto("ABC5", 50));
-        list.add(new MemberDto("ABC6", 60));
-        list.add(new MemberDto("ABC7", 70));
-        list.add(new MemberDto("ABC8", 80));
-        list.add(new MemberDto("ABC9", 90));
-        model.addAttribute("members", list);
+    @ResponseBody
+    @GetMapping("/cocktailTop20Images/{filename}")
+    public Resource cocktailTop20Images(@PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:" + cocktailFileStore.getFullPath(filename));
     }
 
-    @Data
-    @AllArgsConstructor
-    static class MemberDto {
-        private String memberName;
-        private int memberAge;
-
+    public void getCocktailTop20(Model model) {
+        List<CocktailHomeDto> cocktailTop20 = cocktailService.findTop20ByRecommendation();
+        model.addAttribute("cocktailTop20", cocktailTop20);
     }
 }

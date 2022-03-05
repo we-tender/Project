@@ -16,21 +16,18 @@
                 </div>
             </div>
             <div class="contents">
-                <div class="contents-inline1-row" th:each="member : ${members}">
+                <div class="contents-inline1-row" th:each="cocktail : ${cocktailTop20}">
                     <ul>
                         <li>
-                            <span th:text="|이름: ${member.getMemberName()}|">멤버이름</span>
-                            <span th:text="|이름: ${member.getMemberAge()}|">멤버나이</span>
+                            <img th:src="|/cocktailTop20Images/${cocktail.getMainImage()}|">
+                        </li>
+                        <li>
+                            <span th:text="|${cocktail.getName()}|">이름</span>
+                            <span th:text="|${cocktail.getEname()}|">영어이름</span>
                         </li>
                     </ul>
                 </div>
             </div>
-        </div>
-        <div class="container">
-            <h2>WeTender Main</h2>
-            <a th:href="@{/supporters/main}">서포터즈 페이지</a> <br> <!--칵테일 화면-->
-            <a th:href="@{/liquor/main}">주류 페이지</a> <br><!--주류 화면-->
-            <a th:href="@{/suggestion/main}">건의사항 페이지</a> <!--건의사항 화면-->
         </div>
     </section>
 
