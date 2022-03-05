@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
+<!--head 에 입력변수를 받아 title 바꾼다.-->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="navbar-top.css" rel="stylesheet">
+</head>
+
+
+
+<section>
+    <div class="col-lg-8 mx-auto p-3 py-md-5">
+        <main>
+            <div class="container" th:object = "${noticeBoardDto}" >
+                <h2><a th:href = "@{/noticeBoard/main}"> 공지사항 </a></h2>
+
+                <br>
+
+                <h3 th:text = "*{noticeBoardTitle}" >제목</h3>
+
+                <br>
+                <div th:text = "*{createdBy}"> 작성자 : </div>
+                <div th:text = "*{createdDate}"> 작성시간 </div>
+                <br>
+                <br>
+                <div th:text = "*{noticeBoardContent}"> 내용 </div>
+                <hr>
+
+
+
+                <!-- 수정,삭제 버튼 시작 -->
+                <div class="text-end">
+                    <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert(noticeBoardId = *{id})}"> 수정 </a>
+                    <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
+                </div>
+                <!-- 수정,삭제 버튼 끝 -->
+
+                <br>
+
+<!--                &lt;!&ndash; 댓글 시작 &ndash;&gt;-->
+<!--                <h4> 댓글 </h4>-->
+<!--                <div class="list-group" th:each="suggestionReply : *{suggestionReplyList}">-->
+<!--                        <div class="d-flex w-100 justify-content-between">-->
+<!--                            <b><h6 class="mb-1" th:text = "${suggestionReply.createdBy}"> 글쓴이 </h6></b>-->
+<!--                            <small> </small>-->
+<!--                        </div>-->
+<!--                        <p class="mb-1" th:text = "${suggestionReply.suggestionReplyContent}" > 댓글 내용 </p>-->
+<!--                        <small th:text = "${suggestionReply.createdDate}" > 댓글 작성 날짜 </small>-->
+<!--                    <hr>-->
+<!--                </div>-->
+
+<!--                <form action = "#" th:action="@{/suggestion/replyInsert}" th:object="${suggestionReplyDto}" method="post">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-body">-->
+<!--                            <textarea class="form-control" id="suggestionReplyContent" rows="2" th:name="suggestionReplyContent"></textarea>-->
+
+<!--                            <input type="hidden" id="suggestionId" th:value="${suggestionDto.id}" th:name="suggestionId">-->
+<!--                        </div>-->
+
+<!--                        <div class="card-footer">-->
+<!--                            <div class="text-end">-->
+<!--                                <button type = "submit" class="btn btn-primary"> 등록 </button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--                &lt;!&ndash; 댓글 끝 &ndash;&gt;-->
+
+                <br>
+                <br>
+
+                <h4>공지사항 게시판 글</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">제목</th>
+                        <th scope="col">글쓴이</th>
+                        <th scope="col">작성일</th>
+                        <th scope="col">조회수</th>
+                        <th scope="col">좋아요</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each = "noticeBoardDto : ${noticeBoardDtos}">
+
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class= "fw-bold"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id})}"> 제목 </a></td>
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdBy}"></td>
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdDate}"></td>
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.views}"></td>
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.heart}"></td>
+
+
+                        <td th:if = "${noticeBoardDto.id} != (*{id})"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id})}"> 제목 </a></td>
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdBy}"></td>
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdDate}"></td>
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.views}"></td>
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.heart}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="text-end">
+                    <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/main}"> 전체 글 보기 </a>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+
+
+
+
+</section>
+</html>

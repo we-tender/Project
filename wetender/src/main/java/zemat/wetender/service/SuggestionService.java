@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.domain.suggestion.SuggestionReply;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
+import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
 import zemat.wetender.repository.SuggestionReplyRepository;
 import zemat.wetender.repository.SuggestionRepository;
@@ -26,13 +27,11 @@ public class SuggestionService {
     private final SuggestionRepository suggestionRepository;
     private final SuggestionReplyRepository suggestionReplyRepository;
 
-    // 건의사항 저장
-    public Long insert(Suggestion suggestion) {
-
-        Suggestion suggestion1 = suggestionRepository.save(suggestion);
-
-        return suggestion1.getId();
-
+    // 건의사항 등록, 수정
+    public Long insert(SuggestionInsertDto suggestionInsertDto) {
+        Suggestion suggestion = new Suggestion(suggestionInsertDto);
+        Suggestion save = suggestionRepository.save(suggestion);
+        return save.getId();
     }
 
     // 건의사항 전체 조회
@@ -54,11 +53,9 @@ public class SuggestionService {
     // 건의사항 삭제
     public void delete(Long suggestionId)
     {
-
         Optional<Suggestion> suggestionFind = suggestionRepository.findById(suggestionId);
         Suggestion suggestion = suggestionFind.get();
         suggestionRepository.delete(suggestion);
-
     }
 
 
@@ -94,7 +91,9 @@ public class SuggestionService {
             if(start > size)
                 break;
 
-            suggestions.add(suggestionRepository.findById(start).get());
+            if(suggestionRepository.existsById(start))
+                suggestions.add(suggestionRepository.findById(start).get());
+
             start += 1;
         }
 

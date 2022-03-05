@@ -61,7 +61,8 @@
 
                     <tbody>
                     <tr th:each = "noticeBoard : ${noticeBoardDtos}">
-                        <td> <a th:text = "${noticeBoard.noticeBoardTitle}" > 제목 </a></td>
+                        <td> <a th:text = "${noticeBoard.noticeBoardTitle}"
+                                th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
                         <td th:text = "${noticeBoard.createdBy}"></td>
                         <td th:text = "${noticeBoard.createdDate}"></td>
                         <td th:text = "${noticeBoard.views}"></td>

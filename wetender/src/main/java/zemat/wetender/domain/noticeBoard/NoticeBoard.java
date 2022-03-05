@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.base.BasePostEntity;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
 
 import javax.persistence.*;
@@ -31,11 +32,12 @@ public class NoticeBoard extends BasePostEntity {
     private NoticeStatus status;
 
 
-
-
     public NoticeBoard(NoticeBoardInsertDto noticeBoardInsertDto) {
+        this.id = noticeBoardInsertDto.getId();
         this.noticeBoardTitle = noticeBoardInsertDto.getNoticeBoardTitle();
         this.noticeBoardContent = noticeBoardInsertDto.getNoticeBoardContent();
         this.status = noticeBoardInsertDto.getStatus();
     }
+
+
 }

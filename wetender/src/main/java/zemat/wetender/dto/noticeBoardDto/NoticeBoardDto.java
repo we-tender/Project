@@ -24,6 +24,9 @@ public class NoticeBoardDto {
     private long views;
     private long heart;
 
+    public NoticeBoardDto() {
+    }
+
     public NoticeBoardDto(NoticeBoard noticeBoard) {
         this.id = noticeBoard.getId();
         this.noticeBoardTitle = noticeBoard.getNoticeBoardTitle();

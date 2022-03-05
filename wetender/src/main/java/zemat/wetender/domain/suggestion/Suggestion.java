@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
+import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 
 import javax.persistence.*;
 
@@ -28,10 +29,15 @@ public class Suggestion extends BaseEntity {
     @OneToMany(mappedBy = "suggestion")
     private List<SuggestionReply> suggestionReplyList = new ArrayList<>();
 
-
     public Suggestion(String suggestionTitle, String suggestionContent) {
         this.suggestionTitle = suggestionTitle;
         this.suggestionContent = suggestionContent;
+    }
+
+    public Suggestion(SuggestionInsertDto suggestionInsertDto) {
+        this.id = suggestionInsertDto.getId();
+        this.suggestionTitle = suggestionInsertDto.getSuggestionTitle();
+        this.suggestionContent = suggestionInsertDto.getSuggestionContent();
     }
 
     public Suggestion(SuggestionDto suggestionDto) {

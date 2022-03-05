@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class SuggestionInsertDto {
 
+    private Long id;
     private String suggestionTitle;
     private String suggestionContent;
 

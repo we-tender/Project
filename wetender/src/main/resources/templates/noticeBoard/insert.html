@@ -29,9 +29,9 @@
         <br>
         <!--    action에 주소를 넣는다     object에   GetMapping에 전달받은 객체를 넣는다.-->
         <!--            사진을 저장하기 위해 enctype 추가 -->
-        <form action="#" th:action="@{/noticeBoard/insert}" th:object="${noticeBoardInsertDto}"  method="post">
+        <form action="#" th:action="@{/noticeBoard/insert}" th:object="${noticeBoardDto}"  method="post">
 
-<!--          <input type="hidden" th:field="*{id}">-->
+          <input type="hidden" th:field="*{id}">
 
 
           <!-- 상태 기입 상자 -->
@@ -40,8 +40,7 @@
               <select class="form-control" id="status" th:name="status">
               <option th:each="status : ${T(zemat.wetender.domain.noticeBoard.NoticeStatus).values()}"
                       th:value="${status}"
-                      th:text="${status}"
-              >option
+                      th:text="${status}">
               </option>
             </select>
           </div>
@@ -51,7 +50,8 @@
           <div class="mb-3">
             <label for="noticeBoardTitle" class="form-label">제목</label>
             <input type="text" class="form-control"
-                   id="noticeBoardTitle" th:name="noticeBoardTitle">
+                   id="noticeBoardTitle" th:name="noticeBoardTitle"
+                   th:field="*{noticeBoardTitle}">
           </div>
 
 
@@ -60,13 +60,13 @@
             <label for="noticeBoardContent" class="form-label">내용</label>
             <textarea class="form-control" id="noticeBoardContent" rows="4"
                       th:name="noticeBoardContent"
-                      ></textarea>
+                      th:field="*{noticeBoardContent}"></textarea>
           </div>
 
           <!-- 버튼 -->
           <div class="text-end">
             <button type="submit" class="btn btn-primary">확인</button>
-            <a type="button" class="btn btn-primary">취소</a>
+            <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/main}">취소</a>
           </div>
         </form>
       </div>

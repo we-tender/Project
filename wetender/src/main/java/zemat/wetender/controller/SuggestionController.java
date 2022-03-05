@@ -39,14 +39,13 @@ public class SuggestionController {
         // 페이지
         int startPage = Math.max(1, suggestions.getPageable().getPageNumber() - 4);
         int endPage = Math.min(suggestions.getTotalPages(), suggestions.getPageable().getPageNumber() + 4);
-
         if (endPage == 0) startPage = 0;
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
-
         model.addAttribute("suggestionDtos", suggestionDtos);
+
+
 
         return "suggestion/main";
     }
@@ -71,10 +70,7 @@ public class SuggestionController {
 
     @PostMapping("/insert")
     public String insert(@ModelAttribute SuggestionInsertDto suggestionInsertDto) {
-
-        Suggestion suggestion = new Suggestion(suggestionInsertDto.getSuggestionTitle(), suggestionInsertDto.getSuggestionContent());
-        suggestionService.insert(suggestion);
-
+        suggestionService.insert(suggestionInsertDto);
         return "redirect:/suggestion/main";
     }
     // 건의사항 등록, 수정 끝
@@ -95,7 +91,6 @@ public class SuggestionController {
             Model model,
             @RequestParam(required = true) Long suggestionId
     ) {
-
         // 게시글 기능
         Optional<Suggestion> suggestionFind = suggestionService.findById(suggestionId);
         Suggestion suggestion = suggestionFind.get();
@@ -103,9 +98,6 @@ public class SuggestionController {
 
         model.addAttribute("suggestionDto", suggestionDto);
         // 게시글 기능
-
-
-
 
         // 게시판 기능
         List<Suggestion> suggestions = suggestionService.detail_list(suggestionId);
@@ -116,16 +108,13 @@ public class SuggestionController {
         model.addAttribute("suggestionDtos", suggestionDtos);
         // 게시판 기능
 
-
         return "suggestion/detail";
     }
 
     // 건의사항 댓글 등록
     @PostMapping("/replyInsert")
     public String replyInsert(@ModelAttribute SuggestionReplyInsertDto suggestionReplyInsertDto) {
-
         Long id = suggestionService.replyInsert(suggestionReplyInsertDto);
-
         return "redirect:/suggestion/detail?suggestionId=" + id;
     }
 

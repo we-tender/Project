@@ -15,6 +15,9 @@ import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.service.NoticeBoardService;
 
+import javax.swing.*;
+import java.util.List;
+
 @Controller
 @RequestMapping("/noticeBoard")
 @RequiredArgsConstructor
@@ -50,22 +53,58 @@ public class NoticeBoardController {
 
     }
 
+    // 공지사항 게시글 페이지
+    @GetMapping("/detail")
+    public String detail(Model model, @RequestParam(required = true) Long noticeBoardId) {
 
-    // 공지사항 등록 페이지
+        // 게시글
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+
+
+        // 조회수 +1
+        noticeBoardService.viewsUp(noticeBoardId);
+
+        // 5개 게시판
+        List<NoticeBoardDto> noticeBoardDtos = noticeBoardService.detail_list(noticeBoardId);
+        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
+
+
+        return "noticeBoard/detail";
+
+    }
+
+
+    // 공지사항 등록, 수정 페이지
     @GetMapping("/insert")
-    public String insertForm(Model model) {
+    public String insertForm(Model model, @RequestParam(required = false) Long noticeBoardId) {
+
+        if(noticeBoardId != null) {
+            NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
+            model.addAttribute("noticeBoardDto", noticeBoardDto);
+        }
+        else {
+            NoticeBoardDto noticeBoardDto = new NoticeBoardDto();
+            model.addAttribute("noticeBoardDto", noticeBoardDto);
+        }
+
         return "noticeBoard/insert";
     }
 
     // 공지사항 등록
     @PostMapping("/insert")
     public String insert(@ModelAttribute NoticeBoardInsertDto noticeBoardInsertDto) {
-
         noticeBoardService.insert(noticeBoardInsertDto);
-
         return "redirect:/noticeBoard/main";
-
     }
+
+    // 공지사항 삭제
+    @GetMapping("/delete")
+    public String delete(@RequestParam(required = true) Long noticeBoardId) {
+        noticeBoardService.delete(noticeBoardId);
+        return "redirect:/noticeBoard/main";
+    }
+
 
 
 
