@@ -9,24 +9,28 @@
 <body>
 
     <section>
-        <div class="container-grid">
-            <div class="contents">
+        <div class="main-container-grid">
+            <div class="main-contents">
                 <div id="slide-ads">
-                    광고이미지
+                    <img src="/images/slide-ads0.png">
                 </div>
             </div>
-            <div class="contents">
-                <div class="contents-inline1-row" th:each="cocktail : ${cocktailTop20}">
-                    <ul>
-                        <li>
-                            <img th:src="|/cocktailTop20Images/${cocktail.getMainImage()}|">
-                        </li>
-                        <li>
+            <div class="main-contents">
+                <figure class="main-contents-inline1-row" th:each="cocktail : ${cocktailTop20}" th:onclick="|location.href='@{#}'|">
+                    <img th:src="|/cocktailTop20Images/${cocktail.getMainImage()}|">
+                    <figcaption>
+                        <p>
                             <span th:text="|${cocktail.getName()}|">이름</span>
                             <span th:text="|${cocktail.getEname()}|">영어이름</span>
-                        </li>
-                    </ul>
-                </div>
+                        </p>
+                        <hr color="#FFFFFF">
+                        <p>
+                            <span th:text="|${cocktail.getBase()}|">기주</span>
+                            <span th:text="|${cocktail.getAbv()}|">도수</span>
+                            <span th:text="|${cocktail.getRecommendation()}|">추천수</span>
+                        </p>
+                    </figcaption>
+                </figure>
             </div>
         </div>
     </section>

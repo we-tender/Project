@@ -7,13 +7,6 @@
     margin-bottom : 10px;
     padding : 0;
 }
-.container-grid {
-    display : grid;
-}
-.container-header {
-    margin : 0rem 10rem 0rem 10rem;
-}
-
 
 /* 사이드랑 컨텐츠 */
 /*** Layout ***/
@@ -129,11 +122,86 @@
     border-radius: 0 30px 30px 0;
 }
 
-/* 슬라이드 */
-#slide-ads {
-    width : 100%;
+
+/* 여기부터 다시 작업중.. */
+.main-container-grid {
+    display : grid;
+}
+.main-container-header {
+    margin : 1rem 1rem 1rem 1rem;
+}
+.main-contents {
+    display : flex;
+    margin : 1rem 1rem 1rem 1rem;
+}
+.main-contents ul {
+    list-style-type : none;
+    padding-left : 0;
+    margin-bottom : 0;
+}
+.main-contents ul li {
+    margin-bottom : 0.3rem;
+}
+.main-contents-inline1-row {
+    flex : 1;
+    display : flex;
+    justify-content : center;
+    align-items : center;
     height : 20rem;
-    border : 1px solid #000;
-    background : #faa;
+    width : 20rem;
+    margin : 1rem;
+}
+.main-contents-inline1-row img {
+    width : 100%;
+    height : 100%;
+    object-fit : contain;
+    border : 1px solid #DFDFDF;
+    -webkit-transform : scale(1);
+    -moz-transform : scale(1);
+    -ms-transform : scale(1);
+    -o-transform : scale(1);
+    transform : scale(1);
+    -webkit-transition : .2s;
+    -moz-transition : .2s;
+    -ms-transition : .2s;
+    -o-transition : .2s;
+    transition : .2s;
+}
+.main-contents-inline1-row:hover img {
+    -webkit-transform : scale(1.2);
+    -moz-transform : scale(1.2);
+    -ms-transform : scale(1.2);
+    -o-transform : scale(1.2);
+    transform : scale(1.2);
+}
+figure {
+    cursor : pointer;
+    position : relative;
+}
+figcaption {
+    position : absolute;
+    opacity : 0;
+    width : 120%;
+    height : 120%;
+    box-sizing : border-box;
+    padding : 4px;
+    background : #7F7F7F;
+    color : #FFFFFF;
+    font-size: 1rem;
+    transition : .2s;
+}
+figure:hover figcaption {
+    opacity : .8;
+}
+
+/* 슬라이드 광고 이미지 */
+#slide-ads {
+    flex : 1;
+    display : flex;
+    height : 20rem;
+    /*border : 1px solid #000;*/
+}
+#slide-ads img {
+    width : auto;
 }
 
