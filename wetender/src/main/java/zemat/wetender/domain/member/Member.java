@@ -5,9 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zemat.wetender.domain.base.BaseTimeEntity;
+import zemat.wetender.domain.noticeBoard.NoticeBoardLikes;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -39,6 +42,11 @@ public class Member extends BaseTimeEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Role memberRole;
+
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<NoticeBoardLikes> noticeBoardLikesList = new ArrayList<>();
+
 
     public Member(String idName, String password, String name, String email, String address, String phone) {
         this(idName, password, name, null, email, address, phone, false, null);

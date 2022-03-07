@@ -1,4 +1,4 @@
-package zemat.wetender.repository;
+package zemat.wetender.repository.noticeBoard;
 
 
 import org.springframework.data.domain.Page;

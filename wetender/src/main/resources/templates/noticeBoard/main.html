@@ -78,7 +78,7 @@
                             <td th:text = "${noticeBoard.createdBy}"></td>
                             <td th:text = "${noticeBoard.createdDate}"></td>
                             <td th:text = "${noticeBoard.views}"></td>
-                            <td th:text = "${noticeBoard.likes}"></td>
+                            <td th:text = "${noticeBoard.noticeBoardLikesList.size()}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -111,7 +111,7 @@
                         <td th:text = "${noticeBoard.createdBy}"></td>
                         <td th:text = "${noticeBoard.createdDate}"></td>
                         <td th:text = "${noticeBoard.views}"></td>
-                        <td th:text = "${noticeBoard.likes}"></td>
+                        <td th:text = "${noticeBoard.noticeBoardLikesList.size()}"></td>
                     </tr>
                     </tbody>
                 </table>

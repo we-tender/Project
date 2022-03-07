@@ -19,8 +19,6 @@ public class BasePostEntity extends BaseEntity{
     @Column(columnDefinition = "integer default 0")
     private long views;
 
-    @Column(columnDefinition = "integer default 0")
-    private long likes;
 
 
 

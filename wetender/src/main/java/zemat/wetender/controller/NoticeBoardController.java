@@ -5,21 +5,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.noticeBoard.NoticeStatus;
-import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardLikesInsertDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardReplyInsertDto;
-import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.service.NoticeBoardService;
 
-import javax.swing.*;
 import java.util.List;
 
 @Controller
@@ -107,6 +106,15 @@ public class NoticeBoardController {
         List<NoticeBoardDto> noticeBoardDtos = noticeBoardService.detail_list(noticeBoardId);
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 
+        // id 가저오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("sessionMember", null);
+        } else {
+            UserDetails principalDetails = (UserDetails) authentication.getPrincipal();
+            model.addAttribute("sessionMember", principalDetails);
+        }
+
         return "noticeBoard/detail";
     }
 
@@ -119,8 +127,12 @@ public class NoticeBoardController {
 
 
 
-
-
+    // 공지사항 좋아요
+    @PostMapping("/likesInsert")
+    public String likesInsert(@ModelAttribute NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
+        Long id = noticeBoardService.likes(noticeBoardLikesInsertDto);
+        return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
+    }
 
 
 

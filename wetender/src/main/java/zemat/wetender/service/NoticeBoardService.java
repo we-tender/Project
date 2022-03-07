@@ -6,15 +6,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zemat.wetender.domain.member.Member;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
+import zemat.wetender.domain.noticeBoard.NoticeBoardLikes;
 import zemat.wetender.domain.noticeBoard.NoticeBoardReply;
-import zemat.wetender.domain.noticeBoard.NoticeStatus;
-import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardLikesInsertDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardReplyInsertDto;
-import zemat.wetender.repository.NoticeBoardReplyRepository;
-import zemat.wetender.repository.NoticeBoardRepository;
+import zemat.wetender.repository.MemberRepository;
+import zemat.wetender.repository.noticeBoard.NoticeBoardLikesRepository;
+import zemat.wetender.repository.noticeBoard.NoticeBoardReplyRepository;
+import zemat.wetender.repository.noticeBoard.NoticeBoardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,8 @@ public class NoticeBoardService {
 
     private final NoticeBoardRepository noticeBoardRepository;
     private final NoticeBoardReplyRepository noticeBoardReplyRepository;
+    private final NoticeBoardLikesRepository noticeBoardLikesRepository;
+    private final MemberRepository memberRepository;
 
     // 공지사항 등록, 수정
     public Long insert(NoticeBoardInsertDto noticeBoardInsertDto) {
@@ -111,6 +116,28 @@ public class NoticeBoardService {
         return noticeBoardId;
     }
 
+    // 공지사항 좋아요 저장하기, 삭제하기
+    public Long likes(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
+        String memberName = noticeBoardLikesInsertDto.getMemberNameLikes();
+        Member member = memberRepository.findByMemberIdName(memberName).get();
+        Long noticeBoardId = noticeBoardLikesInsertDto.getNoticeBoardIdLikes();
+        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
+        NoticeBoardLikes noticeBoardLikes = new NoticeBoardLikes(member, noticeBoard);
+
+        Optional<NoticeBoardLikes> byMemberAndNoticeBoard = noticeBoardLikesRepository.findByMemberAndNoticeBoard(member, noticeBoard);
+
+        if(byMemberAndNoticeBoard.isEmpty()) {
+            noticeBoardLikesRepository.save(noticeBoardLikes);
+        }
+        else {
+            noticeBoardLikesRepository.delete(byMemberAndNoticeBoard.get());
+        }
+
+
+
+
+        return noticeBoardId;
+    }
 
 
 }

@@ -5,9 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.base.BasePostEntity;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
 
 import javax.persistence.*;
@@ -33,6 +31,10 @@ public class NoticeBoard extends BasePostEntity {
 
     @OneToMany(mappedBy = "noticeBoard")
     private List<NoticeBoardReply> noticeBoardReplyList = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "noticeBoard", cascade = CascadeType.ALL)
+    private List<NoticeBoardLikes> noticeBoardLikesList = new ArrayList<>();
 
 
     public NoticeBoard(NoticeBoardInsertDto noticeBoardInsertDto) {
