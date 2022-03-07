@@ -38,9 +38,9 @@
           <div class="form-group mx-sm-1 mb-2">
               <label for="status" class="form-label">전체공지 여부</label>
               <select class="form-control" id="status" th:name="status">
-              <option th:each="status : ${T(zemat.wetender.domain.noticeBoard.NoticeStatus).values()}"
-                      th:value="${status}"
-                      th:text="${status}">
+              <option th:each= "status : ${T(zemat.wetender.domain.noticeBoard.NoticeStatus).values()}"
+                      th:value= "${status}"
+                      th:text= "${status}">
               </option>
             </select>
           </div>

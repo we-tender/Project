@@ -11,6 +11,8 @@ import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,10 +28,11 @@ public class NoticeBoard extends BasePostEntity {
     private String noticeBoardTitle;
     private String noticeBoardContent;
 
-    // 전체공개, 일부분 공개 여부 설정
     // ALL. Part
-    @Enumerated(EnumType.STRING)
-    private NoticeStatus status;
+    private String status;
+
+    @OneToMany(mappedBy = "noticeBoard")
+    private List<NoticeBoardReply> noticeBoardReplyList = new ArrayList<>();
 
 
     public NoticeBoard(NoticeBoardInsertDto noticeBoardInsertDto) {

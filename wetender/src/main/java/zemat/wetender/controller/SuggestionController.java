@@ -35,19 +35,21 @@ public class SuggestionController {
         Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageable);
         Page<SuggestionDto> suggestionDtos = suggestions.map(suggestion -> new SuggestionDto(suggestion));
 
-
         // 페이지
-        int startPage = Math.max(1, suggestions.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(suggestions.getTotalPages(), suggestions.getPageable().getPageNumber() + 4);
-        if (endPage == 0) startPage = 0;
+        int maxpage = 4;
+        int startPage = Math.max(1, suggestions.getPageable().getPageNumber() - maxpage);
+        int endPage = Math.min(suggestions.getTotalPages(), suggestions.getPageable().getPageNumber() + maxpage);
+
+        if ( endPage == 0 ) {
+            startPage = 0;
+        }
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("suggestionDtos", suggestionDtos);
 
-
-
         return "suggestion/main";
+
     }
     // 건의사항 메인페이지 끝
 
@@ -87,9 +89,8 @@ public class SuggestionController {
 
     // 상세 페이지 시작
     @GetMapping("/detail")
-    public String detail(
-            Model model,
-            @RequestParam(required = true) Long suggestionId
+    public String detail(Model model,
+                         @RequestParam(required = true) Long suggestionId
     ) {
         // 게시글 기능
         Optional<Suggestion> suggestionFind = suggestionService.findById(suggestionId);

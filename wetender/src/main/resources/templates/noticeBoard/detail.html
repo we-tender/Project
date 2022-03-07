@@ -40,43 +40,48 @@
 
 
 
-                <!-- 수정,삭제 버튼 시작 -->
-                <div class="text-end">
-                    <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert(noticeBoardId = *{id})}"> 수정 </a>
-                    <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
+
+                <!-- 좋아요. 수정,삭제 버튼 시작 -->
+                <div class="container">
+                    <div class="text-end">
+                        <a type="button" class="btn btn-primary" style="float:left;"> 좋아요 </a>
+                        <p style="float:left;" th:text="*{likes}">좋아요 수</p>
+                        <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert(noticeBoardId = *{id})}"> 수정 </a>
+                        <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
+                    </div>
                 </div>
-                <!-- 수정,삭제 버튼 끝 -->
+                <!-- 좋아요, 수정,삭제 버튼 끝 -->
 
                 <br>
 
-<!--                &lt;!&ndash; 댓글 시작 &ndash;&gt;-->
-<!--                <h4> 댓글 </h4>-->
-<!--                <div class="list-group" th:each="suggestionReply : *{suggestionReplyList}">-->
-<!--                        <div class="d-flex w-100 justify-content-between">-->
-<!--                            <b><h6 class="mb-1" th:text = "${suggestionReply.createdBy}"> 글쓴이 </h6></b>-->
-<!--                            <small> </small>-->
-<!--                        </div>-->
-<!--                        <p class="mb-1" th:text = "${suggestionReply.suggestionReplyContent}" > 댓글 내용 </p>-->
-<!--                        <small th:text = "${suggestionReply.createdDate}" > 댓글 작성 날짜 </small>-->
-<!--                    <hr>-->
-<!--                </div>-->
+                <!-- 댓글 시작 -->
+                <h4> 댓글 </h4>
+                <div class="list-group" th:each="noticeBoardReply : *{noticeBoardReplyList}">
+                        <div class="d-flex w-100 justify-content-between">
+                            <b><h6 class="mb-1" th:text = "${noticeBoardReply.createdBy}"> 글쓴이 </h6></b>
+                            <small> </small>
+                        </div>
+                        <p class="mb-1" th:text = "${noticeBoardReply.noticeBoardReplyContent}" > 댓글 내용 </p>
+                        <small th:text = "${noticeBoardReply.createdDate}" > 댓글 작성 날짜 </small>
+                    <hr>
+                </div>
 
-<!--                <form action = "#" th:action="@{/suggestion/replyInsert}" th:object="${suggestionReplyDto}" method="post">-->
-<!--                    <div class="card">-->
-<!--                        <div class="card-body">-->
-<!--                            <textarea class="form-control" id="suggestionReplyContent" rows="2" th:name="suggestionReplyContent"></textarea>-->
+                <form action = "#" th:action="@{/noticeBoard/replyInsert}" th:object="${noticeBoardReplyInsertDto}" method="post">
+                    <div class="card">
+                        <div class="card-body">
+                            <textarea class="form-control" id="noticeBoardReplyContent" rows="2" th:name="noticeBoardReplyContent"></textarea>
 
-<!--                            <input type="hidden" id="suggestionId" th:value="${suggestionDto.id}" th:name="suggestionId">-->
-<!--                        </div>-->
+                            <input type="hidden" id="noticeBoardId" th:value="${noticeBoardDto.id}" th:name="noticeBoardId">
+                        </div>
 
-<!--                        <div class="card-footer">-->
-<!--                            <div class="text-end">-->
-<!--                                <button type = "submit" class="btn btn-primary"> 등록 </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--                &lt;!&ndash; 댓글 끝 &ndash;&gt;-->
+                        <div class="card-footer">
+                            <div class="text-end">
+                                <button type = "submit" class="btn btn-primary"> 등록 </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- 댓글 끝 -->
 
                 <br>
                 <br>
@@ -100,14 +105,14 @@
                         <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdBy}"></td>
                         <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdDate}"></td>
                         <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.views}"></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.heart}"></td>
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.likes}"></td>
 
 
                         <td th:if = "${noticeBoardDto.id} != (*{id})"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id})}"> 제목 </a></td>
                         <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdBy}"></td>
                         <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdDate}"></td>
                         <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.views}"></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.heart}"></td>
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.likes}"></td>
                     </tr>
                     </tbody>
                 </table>

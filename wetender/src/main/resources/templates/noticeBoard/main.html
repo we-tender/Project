@@ -16,14 +16,14 @@
 
     <!-- Custom styles for this template -->
     <link href="navbar-top.css" rel="stylesheet">
+
+
+
 </head>
 
 <body>
 
 <section>
-    <!-- 리스트 시작 -->
-
-
     <div class="col-lg-8 mx-auto p-3 py-md-5">
         <main>
 
@@ -42,15 +42,58 @@
                     </div>
                 </form>
 
-                <!-- 쓰기 버튼 시작 -->
+                <!-- 공지사항 collapse 버튼 -->
                 <div class="text-end">
-                    <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert}" >쓰기</a>
+                    <a type="button"
+                       class="btn btn-primary"
+                       data-toggle="collapse"
+                       data-target="#noticeAll"
+                    >전체공지</a>
                 </div>
-                <!-- 쓰기 버튼 끝 -->
+                <!-- 공지사항 collapse 버튼 -->
 
+                <!-- 공지사항 전체 공개 글 -->
+                <div class="collapse" id="noticeAll">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">글쓴이</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">조회수</th>
+                            <th scope="col">좋아요</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr class="table-light"
+                            th:each = "noticeBoard : ${noticeBoardAllDtos}">
+                            <td><span class="badge badge-pill badge-danger"
+                                      style="background-color:#ffe3e4; color:red"
+                                        >공지</span></td>
+                            <td> <a style="color:red"
+                                    th:text = "${noticeBoard.noticeBoardTitle}"
+                                    th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
+                            <td th:text = "${noticeBoard.createdBy}"></td>
+                            <td th:text = "${noticeBoard.createdDate}"></td>
+                            <td th:text = "${noticeBoard.views}"></td>
+                            <td th:text = "${noticeBoard.likes}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <br>
+                </div>
+
+
+
+
+                <!-- 공지사항 전체글 -->
                 <table class="table">
                     <thead>
                     <tr>
+                        <th scope="col">번호</th>
                         <th scope="col">제목</th>
                         <th scope="col">글쓴이</th>
                         <th scope="col">작성일</th>
@@ -61,12 +104,14 @@
 
                     <tbody>
                     <tr th:each = "noticeBoard : ${noticeBoardDtos}">
+                        <td
+                                th:text = "${noticeBoard.id}"></td>
                         <td> <a th:text = "${noticeBoard.noticeBoardTitle}"
                                 th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
                         <td th:text = "${noticeBoard.createdBy}"></td>
                         <td th:text = "${noticeBoard.createdDate}"></td>
                         <td th:text = "${noticeBoard.views}"></td>
-                        <td th:text = "${noticeBoard.heart}"></td>
+                        <td th:text = "${noticeBoard.likes}"></td>
                     </tr>
                     </tbody>
                 </table>

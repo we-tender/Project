@@ -20,7 +20,7 @@ public class BasePostEntity extends BaseEntity{
     private long views;
 
     @Column(columnDefinition = "integer default 0")
-    private long heart;
+    private long likes;
 
 
 

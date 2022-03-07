@@ -5,13 +5,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
+import zemat.wetender.domain.noticeBoard.NoticeStatus;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardReplyInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.service.NoticeBoardService;
 
@@ -35,45 +39,24 @@ public class NoticeBoardController {
         // 검색 기능
         Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageable);
         Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
-
+        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 
         // 페이지
         int startPage = Math.max(1, noticeBoardDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(noticeBoardDtos.getTotalPages(), noticeBoardDtos.getPageable().getPageNumber() + 4);
-
-        if (endPage == 0) startPage = 0;
-
+        if (endPage == 0) {
+            startPage = 0;
+        }
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
-
+        // 전체 공지 사항
+        Page<NoticeBoardDto> noticeBoardAllDtos = noticeBoardService.statusFindPage(NoticeStatus.ALL, pageable);
+        model.addAttribute("noticeBoardAllDtos", noticeBoardAllDtos);
 
         return "noticeBoard/main";
 
     }
-
-    // 공지사항 게시글 페이지
-    @GetMapping("/detail")
-    public String detail(Model model, @RequestParam(required = true) Long noticeBoardId) {
-
-        // 게시글
-        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
-        model.addAttribute("noticeBoardDto", noticeBoardDto);
-
-
-        // 조회수 +1
-        noticeBoardService.viewsUp(noticeBoardId);
-
-        // 5개 게시판
-        List<NoticeBoardDto> noticeBoardDtos = noticeBoardService.detail_list(noticeBoardId);
-        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
-
-
-        return "noticeBoard/detail";
-
-    }
-
 
     // 공지사항 등록, 수정 페이지
     @GetMapping("/insert")
@@ -83,12 +66,14 @@ public class NoticeBoardController {
             NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
             model.addAttribute("noticeBoardDto", noticeBoardDto);
         }
+
         else {
             NoticeBoardDto noticeBoardDto = new NoticeBoardDto();
             model.addAttribute("noticeBoardDto", noticeBoardDto);
         }
 
         return "noticeBoard/insert";
+
     }
 
     // 공지사항 등록
@@ -104,6 +89,35 @@ public class NoticeBoardController {
         noticeBoardService.delete(noticeBoardId);
         return "redirect:/noticeBoard/main";
     }
+
+    // 공지사항 게시글 페이지
+    @GetMapping("/detail")
+    public String detail(Model model,
+                         @RequestParam(required = true) Long noticeBoardId)
+    {
+
+        // 게시글
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+
+        // 조회수 +1
+        noticeBoardService.viewsUp(noticeBoardId);
+
+        // 5개 게시판
+        List<NoticeBoardDto> noticeBoardDtos = noticeBoardService.detail_list(noticeBoardId);
+        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
+
+        return "noticeBoard/detail";
+    }
+
+    // 공지사항 댓글 등록
+    @PostMapping("/replyInsert")
+    public String replyInsert(@ModelAttribute NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
+        Long id = noticeBoardService.replyInsert(noticeBoardReplyInsertDto);
+        return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
+    }
+
+
 
 
 

@@ -7,9 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
+import zemat.wetender.domain.noticeBoard.NoticeBoardReply;
+import zemat.wetender.domain.noticeBoard.NoticeStatus;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardReplyInsertDto;
+import zemat.wetender.repository.NoticeBoardReplyRepository;
 import zemat.wetender.repository.NoticeBoardRepository;
 
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ import java.util.Optional;
 public class NoticeBoardService {
 
     private final NoticeBoardRepository noticeBoardRepository;
+    private final NoticeBoardReplyRepository noticeBoardReplyRepository;
 
     // 공지사항 등록, 수정
     public Long insert(NoticeBoardInsertDto noticeBoardInsertDto) {
@@ -35,6 +40,12 @@ public class NoticeBoardService {
     // 공지사항 조회
     public Page<NoticeBoard> keywordFindPage(String keyword, Pageable pageable) {
         return noticeBoardRepository.findByNoticeBoardTitleOrNoticeBoardContentContaining(keyword, keyword, pageable);
+    }
+
+    // 공지사항 상태로 조회
+    public Page<NoticeBoardDto> statusFindPage(String noticeStatus, Pageable pageable) {
+        Page<NoticeBoard> byStatus = noticeBoardRepository.findByStatusContaining(noticeStatus, pageable);
+        return byStatus.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
     }
 
     // 공지사항 삭제
@@ -62,34 +73,42 @@ public class NoticeBoardService {
     {
         List<NoticeBoardDto> noticeBoardDtos = new ArrayList<>();
         Long start = 0L;
-
         int size = noticeBoardRepository.findAll().size();
-
-        if(size <= 5)
+        if(size <= 5) {
             start = 1L;
+        }
         else
         {
-            if(noticeBoardID == 1L || noticeBoardID == 2L)
+            if(noticeBoardID == 1L || noticeBoardID == 2L) {
                 start = 1L;
-            else if(noticeBoardID == size || noticeBoardID == size -1L)
+            }
+            else if(noticeBoardID == size || noticeBoardID == size -1L) {
                 start = size - 4L;
-            else
+            }
+            else {
                 start = noticeBoardID - 2L;
+            }
         }
-
         for(int i = 0; i < 5; i++)
         {
-            if(start > size)
+            if(start > size) {
                 break;
-
-            if(noticeBoardRepository.existsById(start))
+            }
+            if(noticeBoardRepository.existsById(start)) {
                 noticeBoardDtos.add(new NoticeBoardDto(noticeBoardRepository.findById(start).get()));
-
+            }
             start += 1;
         }
-
         return noticeBoardDtos;
+    }
 
+    // 공지사항 댓글 저장하기
+    public Long replyInsert(NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
+        Long noticeBoardId = noticeBoardReplyInsertDto.getNoticeBoardId();
+        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
+        NoticeBoardReply noticeBoardReply = new NoticeBoardReply(noticeBoard, noticeBoardReplyInsertDto);
+        noticeBoardReplyRepository.save(noticeBoardReply);
+        return noticeBoardId;
     }
 
 
