@@ -2,13 +2,8 @@ package zemat.wetender.dto.ingredientDto;
 
 import lombok.Getter;
 import lombok.Setter;
-import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.ingredient.IngredientFile;
-import zemat.wetender.domain.liquor.Liquor;
-import zemat.wetender.domain.liquor.LiquorFile;
-import zemat.wetender.dto.liquorDto.LiquorDto;
-import zemat.wetender.dto.liquorDto.LiquorFileDto;
 
 import java.util.ArrayList;
 import java.util.List;

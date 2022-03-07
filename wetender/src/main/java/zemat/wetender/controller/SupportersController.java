@@ -19,7 +19,7 @@ import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.ingredientDto.IngredientDto;
-import zemat.wetender.dto.liquorDto.LiquorDto;
+import zemat.wetender.dto.liquorDto.LiquorPopDto;
 import zemat.wetender.dto.supportersDto.CocktailInsertForm;
 import zemat.wetender.dto.supportersDto.IngredientInsertForm;
 import zemat.wetender.dto.supportersDto.LiquorInsertForm;
@@ -238,11 +238,11 @@ public class SupportersController {
         PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "liquorName"));
         Page<Liquor> liquors = liquorService.pageFindKeyword(pageRequest,keyword);
 
-        Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
+        Page<LiquorPopDto> liquorPopDtos = liquors.map(liquor -> new LiquorPopDto(liquor.getId(), liquor.getLiquorName(), liquor.getLiquorEname()));
 
         model.addAttribute("id",id);
         model.addAttribute("name",name);
-        model.addAttribute("liquors",liquorDtos);
+        model.addAttribute("liquors",liquorPopDtos);
 
         return "supporters/pop/liquorPop";
     }

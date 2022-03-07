@@ -11,6 +11,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import zemat.wetender.domain.cocktail.CocktailFileStore;
+import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.liquorDto.LiquorDto;
@@ -18,6 +20,10 @@ import zemat.wetender.dto.supportersDto.LiquorInsertForm;
 import zemat.wetender.service.LiquorService;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Controller
@@ -27,6 +33,7 @@ public class LiquorController {
 
     private final LiquorService liquorService;
     private final LiquorFileStore liquorFileStore;
+    private final CocktailFileStore cocktailFileStore;
 
 
     // 주류 메인(게시판)
@@ -58,13 +65,26 @@ public class LiquorController {
         return new UrlResource("file:" + liquorFileStore.getFullPath(filename));
     }
 
+    // 칵테일 이미지 보이게 설정
+    @ResponseBody
+    @GetMapping("/images/cocktail/{filename}")
+    public Resource cocktailDownloadImage(@PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:" + cocktailFileStore.getFullPath(filename));
+    }
+
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Long liquorId, Model model){
         Liquor liquor = liquorService.findById(liquorId);
-
         LiquorDto liquorDto = new LiquorDto(liquor);
+        Map<String,String> cocktails = new ConcurrentHashMap<>();
+        for (CocktailIngredient cocktail : liquorDto.getCocktails()) {
+            String cocktailName = cocktail.getCocktail().getCocktailName();
+            String storeCocktailFileName = cocktail.getCocktail().getCocktailFiles().get(0).getStoreCocktailFileName();
+            cocktails.put(cocktailName,storeCocktailFileName);
+        }
 
         model.addAttribute("liquorDto", liquorDto);
+        model.addAttribute("cocktails",cocktails);
 
         return "liquor/detail";
     }

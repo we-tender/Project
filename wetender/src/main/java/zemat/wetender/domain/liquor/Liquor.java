@@ -1,5 +1,6 @@
 package zemat.wetender.domain.liquor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class Liquor extends BaseEntity {
 
     @OneToMany(mappedBy = "liquor",cascade = CascadeType.ALL)
     private List<LiquorFile> liquorFiles = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "liquor")
     private List<CocktailIngredient> cocktailIngredients = new ArrayList<>();

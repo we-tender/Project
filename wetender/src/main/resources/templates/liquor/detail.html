@@ -9,11 +9,23 @@
   <body>
 
     <section>
-      <div th:each="liquor : ${liquorDto}">
-        <img th:src="|images/${liquor.images[0].storeLiquorFileName}|" width="300" height="300"><br/>
-        <span th:text="${liquor.name}">제목</span><br/>
-        <span th:text="${liquor.oneLine}">한줄평</span>
+      <div>
+        <img th:src="|images/${liquorDto.images[0].storeLiquorFileName}|" width="300" height="300"><br/>
+        <img th:src="|images/${liquorDto.images[1].storeLiquorFileName}|" width="300" height="300"><br/>
+        <span th:text="${liquorDto.name}">이름</span><br/>
+        <span th:text="${liquorDto.eName}">영문이름</span>
+        <span th:text="${liquorDto.oneLine}">한줄평</span>
+        <span th:text="${liquorDto.abv}">도수</span>
+        <span th:text="${liquorDto.content}">소개글</span>
+        <div th:each="cocktail : ${cocktails}">
+          <span th:text="${cocktail.key}">연관칵테일이름</span>
+          <!-- 연관칵테일 이미지 -->
+          <img th:src="|images/cocktail/${cocktail.value}|" width="300" height="300"><br/>
+        </div>
       </div>
+      <!--  js & css    -->
+      <link rel="stylesheet" type="text/css" th:href="@{/css/liquor/detail.css}">
+      <script th:src="@{/js/liquor/detail.js}"></script>
     </section>
 
   </body>

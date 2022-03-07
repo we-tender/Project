@@ -3,6 +3,7 @@ package zemat.wetender.dto.liquorDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
+import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 
@@ -28,6 +29,8 @@ public class LiquorDto {
 
     private List<LiquorFileDto> images = new ArrayList<>();
 
+    private List<CocktailIngredient> cocktails = new ArrayList<>();
+
     // baseEntity
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
@@ -45,6 +48,7 @@ public class LiquorDto {
         this.abv = liquor.getLiquorAbv();
         this.oneLine = liquor.getLiquorOneLine();
         this.content = liquor.getLiquorContent();
+        this.cocktails = liquor.getCocktailIngredients();
 
         List<LiquorFile> liquorFiles = liquor.getLiquorFiles();
         for (LiquorFile liquorFile : liquorFiles) {
@@ -57,23 +61,24 @@ public class LiquorDto {
         this.lastModifiedBy = liquor.getLastModifiedBy();
     }
 
-    public Liquor toEntity(){
-
-        List<LiquorFile> liquorFiles = new ArrayList<>();
-        for (LiquorFileDto image : images) {
-            LiquorFile liquorFile = image.toEntity();
-            liquorFiles.add(liquorFile);
-        }
-
-        return Liquor.builder()
-                .id(id)
-                .liquorOneLine(oneLine)
-                .liquorAbv(abv)
-                .liquorName(name)
-                .liquorEname(eName)
-                .liquorContent(content)
-                .liquorFiles(liquorFiles)
-                .build();
-
-    }
+    //현재 미사용
+//    public Liquor toEntity(){
+//
+//        List<LiquorFile> liquorFiles = new ArrayList<>();
+//        for (LiquorFileDto image : images) {
+//            LiquorFile liquorFile = image.toEntity();
+//            liquorFiles.add(liquorFile);
+//        }
+//
+//        return Liquor.builder()
+//                .id(id)
+//                .liquorOneLine(oneLine)
+//                .liquorAbv(abv)
+//                .liquorName(name)
+//                .liquorEname(eName)
+//                .liquorContent(content)
+//                .liquorFiles(liquorFiles)
+//                .build();
+//
+//    }
 }

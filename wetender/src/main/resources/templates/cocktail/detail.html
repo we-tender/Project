@@ -7,8 +7,35 @@
 </head>
 
 <body>
+
 <section>
-<h1> eee</h1>
-<section>
+  <div>
+    <div th:each="image : ${cocktailDto.images}">
+      <img th:src="|images/${image.storeCocktailFileName}|" width="300" height="300"><br/>
+    </div>
+    <span th:text="${cocktailDto.name}">이름</span><br/>
+    <span th:text="${cocktailDto.eName}">영문이름</span><br/>
+    <span th:text="${cocktailDto.oneLine}">한줄평</span><br/>
+    <span th:text="${cocktailDto.abv}">도수</span><br/>
+    <span th:text="${cocktailDto.content}">소개글</span><br/>
+    <div th:each="taste : ${cocktailDto.tastes}">
+      <span th:text="${taste.cocktailTasteName}">칵테일 맛</span><br/>
+    </div>
+    <div th:each="sequence : ${cocktailDto.sequences}">
+      <span th:text="${sequence.cocktailSequenceContent}">칵테일 순서</span><br/>
+    </div>
+    <div th:each="ingredient : ${cocktailDto.cocktailIngredients}">
+      <span th:if="${ingredient.liquor}" th:text="${ingredient.liquor.liquorName}">칵테일 주류이름</span>
+      <span th:if="${ingredient.liquor}" th:text="${ingredient.liquor.liquorEname}">칵테일 주류영문이름</span>
+      <span th:if="${ingredient.ingredient}" th:text="${ingredient.ingredient.ingredientName}">칵테일 재료이름</span>
+      <span th:if="${ingredient.ingredient}" th:text="${ingredient.ingredient.ingredientEname}">칵테일 재료영문이름</span>
+      <span th:text="${ingredient.cocktailIngredientQty}">칵테일재료 양</span><br/>
+    </div>
+  </div>
+  <!--  js & css    -->
+<!--  <link rel="stylesheet" type="text/css" th:href="@{/css/cocktail/detail.css}">-->
+<!--  <script th:src="@{/js/cocktail/detail.js}"></script>-->
+</section>
+
 </body>
 </html>
