@@ -449,6 +449,7 @@ public class InitTestData {
                 .liquorAbv(40)
                 .liquorOneLine("아메리칸 위스키")
                 .liquorContent("잭 다니엘스 테네시 위스키는 세계에서 가장 많이 팔리는 위스키입니다. ")
+                .liquorRecommendation(199L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "gin", 3));
@@ -458,6 +459,7 @@ public class InitTestData {
                 .liquorAbv(60)
                 .liquorOneLine("몰트향이 강하며 단맛이 나는 술")
                 .liquorContent("노간주나무 열매를 알코올에 침전시켜 증류하는 과정을 통해 만든 약용주. 네덜란드에서 영국으로 넘어오면서 향이 약해지고 단맛이 없어지는 등 드라이하게 변함")
+                .liquorRecommendation(118L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "rum", 3));
@@ -467,6 +469,7 @@ public class InitTestData {
                 .liquorAbv(45)
                 .liquorOneLine("사탕수수술")
                 .liquorContent("사탕수수를 발효, 증류하여 만든 증류주")
+                .liquorRecommendation(162L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "vodka", 3));
@@ -476,6 +479,7 @@ public class InitTestData {
                 .liquorAbv(40)
                 .liquorOneLine("무색 무취 무향을 특징으로 하는 증류주")
                 .liquorContent("치열한 전투에서의 필수품 독하디 독한 술 엔진 연료로 사용 가능")
+                .liquorRecommendation(132L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "whisky", 3));
@@ -485,6 +489,7 @@ public class InitTestData {
                 .liquorAbv(40)
                 .liquorOneLine("스코틀랜드에서 유래한 증류주")
                 .liquorContent("기원전 스코틀랜드 지방에서 전해 내려오는 보리를 발효시켜 알코올을 추출하여 만든 전통 증류주")
+                .liquorRecommendation(211L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "vermuth", 3));
@@ -494,6 +499,7 @@ public class InitTestData {
                 .liquorAbv(40)
                 .liquorOneLine("주정강화 와인의 한 종류")
                 .liquorContent("레드/화이트 와인에 쑥, 용담, 키니네, 창포 등의 향료나 약초를 넣어 향미를 낸 강화 와인")
+                .liquorRecommendation(208L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "sangreDeToro", 3));
@@ -506,6 +512,7 @@ public class InitTestData {
                         "정통 스페인 레드 와인답게 위풍당당하고 강렬한 이미지를 보여주는 와인이다." +
                         "스피이시한 향이 느껴지고 입안에서는 부드러운 질감을 즐길 수 있다." +
                         "스튜와 볶음밥, 소고기 스테이크, 바비큐 등 다양한 음식과 매칭하기 좋다.")
+                .liquorRecommendation(170L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "tripleSec", 3));
@@ -516,6 +523,7 @@ public class InitTestData {
                 .liquorOneLine("오렌지 향이 나는 리큐어")
                 .liquorContent("트리플 섹은 칵테일에 들어가며, 요리에도 들어가는데, 주로 단 맛을 내고 향을 내는 재료로 쓰인다." +
                         "섹 이란 단어는 프랑스어로 무미건조(dry) 하다는 의미이다. 이름 유래로 세배 더 드라이한 것이라는 설이 있다.")
+                .liquorRecommendation(255L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "tripleSec", 3));
@@ -525,6 +533,7 @@ public class InitTestData {
                 .liquorAbv(30)
                 .liquorOneLine("칵테일에 주로 사용되는 드라이한 맛의 화이트럼")
                 .liquorContent("실버, 라이트 럼이라고도 부른다. 사탕수수를 짠 즙을 몇 차례 증류한 럼. 상대적으로 향이 적기에 칵테일 베이스로 가장 많이 쓰임")
+                .liquorRecommendation(181L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "josecuervo", 2));
@@ -535,6 +544,7 @@ public class InitTestData {
                 .liquorOneLine("쿠엘보 골드 라고도 불리는 데킬라 하면 가장 먼저 떠오르는 술!")
                 .liquorContent("전 세계 판매 1위를 차지하는 제품으로 전형적인 레포사도(3개월 이상 숙성)한 데킬라. " +
                         "에스페샬 레포사도는 색처럼 달콤하고 향긋한 아가베향과 오크향의 풍미가 가득 느껴진다.")
+                .liquorRecommendation(279L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "jimbeam", 3));
@@ -545,6 +555,7 @@ public class InitTestData {
                 .liquorOneLine("바닐라 카라멜향맛의 부드럽고 달콤한 여운을 주는 짐빔!")
                 .liquorContent("순수하고 전통적인 버번의 풍미를 느끼게 해주는 짐빔화이트는 1795년 이래로 변함없는 품질로 사랑받고 있다. " +
                         "최소 4년 이상을 오크통에서 숙성하였기에 오크통의 풍부한 카라멜향을 느낄 수 있다.")
+                .liquorRecommendation(233L)
                 .liquorFiles(liquorFiles)
                 .build());
         liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "angosturaBitters", 2));
@@ -555,6 +566,7 @@ public class InitTestData {
                 .liquorOneLine("앙고스트라가 없는 칵테일 캐비닛은 소금과 후추가 없는 주방과 같다!")
                 .liquorContent("44.7도의 높은 도수를 가지고 있음에도 음식이나 음료의 첨가제로 다른 재료와 혼합되어 non-alcoholic이 되는 신기한 제품! " +
                         "허브, 과일, 스피이스의 향기로운 부케가 느껴지는 풍미로 음료와 음식 맛을 한층 향상시킨다!")
+                .liquorRecommendation(123L)
                 .liquorFiles(liquorFiles)
                 .build());
 

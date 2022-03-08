@@ -83,7 +83,11 @@
     margin : 1rem;
 }
 
-/* 보더 색변경 */
+
+/* 공통 */
 .border-pink {
     border : 1px solid #fb8bb5;
+}
+.border-gray {
+    border : 1px solid #dfdfdf;
 }

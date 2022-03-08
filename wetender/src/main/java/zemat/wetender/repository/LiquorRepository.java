@@ -17,4 +17,9 @@ public interface LiquorRepository extends JpaRepository<Liquor,Long> {
     Page<Liquor> findByLiquorNameContainingIgnoreCaseOrLiquorEnameContainingIgnoreCase(Pageable pageable, String liquorName, String LiquorEname);
 
     Optional<Liquor> findByLiquorName(String liquorName);
+
+    @Query(value = "select l from Liquor l join fetch l.liquorFiles " +
+            "order by l.liquorRecommendation desc",
+            countQuery = "select count(l) from Liquor l")
+    Page<Liquor> findByLiquorRecommendation(Pageable pageable);
 }

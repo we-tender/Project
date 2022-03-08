@@ -20,7 +20,7 @@ public class CocktailService {
     private final CocktailRepository cocktailRepository;
 
     public List<CocktailHomeDto> findTop20ByRecommendation() {
-        PageRequest pageRequest = PageRequest.of(0, 20);
+        PageRequest pageRequest = PageRequest.of(0, 4);
         Page<Cocktail> page = cocktailRepository.findByCocktailRecommendation(pageRequest);
         List<CocktailHomeDto> cocktailHomeDtos = page.map(CocktailHomeDto::new).getContent();
         return cocktailHomeDtos;

@@ -15,19 +15,52 @@
                     <img src="/images/slide-ads0.png">
                 </div>
             </div>
+        </div>
+        <div class="main-container-grid border-gray">
+            <div class="main-container header">
+                <h4>칵테일 베스트</h4>
+            </div>
             <div class="main-contents">
-                <figure class="main-contents-inline1-row" th:each="cocktail : ${cocktailTop20}" th:onclick="|location.href='@{#}'|">
+                <figure class="main-contents-inline1-row" th:each="cocktail : ${cocktailTop20}" th:onclick="|location.href='@{/cocktail/{id}(id=${cocktail.getId()})}'|">
                     <img th:src="|/cocktailTop20Images/${cocktail.getMainImage()}|">
                     <figcaption>
                         <p>
                             <span th:text="|${cocktail.getName()}|">이름</span>
                             <span th:text="|${cocktail.getEname()}|">영어이름</span>
                         </p>
-                        <hr color="#FFFFFF">
+                        <hr class="border-gray">
                         <p>
-                            <span th:text="|${cocktail.getBase()}|">기주</span>
-                            <span th:text="|${cocktail.getAbv()}|">도수</span>
-                            <span th:text="|${cocktail.getRecommendation()}|">추천수</span>
+                            <span th:text="|기주 : ${cocktail.getBase()}|">기주</span>
+                            <span th:text="|도수 : ${cocktail.getAbv()}|">도수</span>
+                            <span th:text="|추천수 : ${cocktail.getRecommendation()}|">추천수</span>
+                        </p>
+                        <p>
+                            <span th:text="|한줄평 : ${cocktail.getOneLine()}|">한줄평</span>
+                        </p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+        &nbsp;
+        <div class="main-container-grid border-gray">
+            <div class="main-container header">
+                <h4>주류 베스트</h4>
+            </div>
+            <div class="main-contents">
+                <figure class="main-contents-inline1-row" th:each="liquor : ${liquorTop20}" th:onclick="|location.href='@{/liquor/{id}(id=${liquor.getId()})}'|">
+                    <img th:src="|/liquorTop20Images/${liquor.getMainImage()}|">
+                    <figcaption>
+                        <p>
+                            <span th:text="|${liquor.getName()}|">이름</span>
+                            <span th:text="|${liquor.getEname()}|">영어이름</span>
+                        </p>
+                        <hr class="border-gray">
+                        <p>
+                            <span th:text="|도수 : ${liquor.getAbv()}|">도수</span>
+                            <span th:text="|추천수 : ${liquor.getRecommendation()}|">추천수</span>
+                        </p>
+                        <p>
+                            <span th:text="|한줄평 : ${liquor.getOneLine()}|">한줄평</span>
                         </p>
                     </figcaption>
                 </figure>
