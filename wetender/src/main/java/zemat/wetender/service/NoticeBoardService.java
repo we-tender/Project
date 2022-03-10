@@ -4,6 +4,7 @@ package zemat.wetender.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.member.Member;
@@ -133,11 +134,14 @@ public class NoticeBoardService {
             noticeBoardLikesRepository.delete(byMemberAndNoticeBoard.get());
         }
 
-
-
-
         return noticeBoardId;
     }
 
+    // 조회수 정렬
+    public List<NoticeBoard> allSortBy(String gijoon) {
+
+        Sort sort = Sort.by(Sort.Direction.DESC, gijoon);
+        return noticeBoardRepository.findAll(sort);
+    }
 
 }

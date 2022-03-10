@@ -21,6 +21,16 @@
 
 
 <section>
+
+    <!-- jquery를 적용하기 위한 코드   -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" th:src="@{/js/noticeBoard/noticeBoard.js}"></script>
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+
     <div class="col-lg-8 mx-auto p-3 py-md-5">
         <main>
             <div class="container" th:object = "${noticeBoardDto}" >
@@ -41,23 +51,29 @@
 
                 <!-- 좋아요. 수정,삭제 버튼 시작 -->
                 <div class="container">
-                    <div class="text-end">
+                    <div class= "text-end">
 
                         <th:block th:if="${sessionMember}">
-                            <form action="#" th:action="@{/noticeBoard/likesInsert}" th:object="${noticeBoardLikesInsertDto}" method="post">
 
-                                <input type="hidden" id="noticeBoardIdLikes" name="noticeBoardIdLikes" th:value="${noticeBoardDto.id}">
-                                <input type="hidden" id="memberNameLikes" name="memberNameLikes" th:value="${sessionMember.getUsername()}">
+                            <form>
+                                <input id="noticeBoardIdLikes" type="hidden" name="noticeBoardIdLikes" th:value="${noticeBoardDto.id}">
+                                <input id="memberNameLikes" type="hidden"  name="memberNameLikes" th:value="${sessionMember.getUsername()}">
 
-                                <button type="submit" class="btn btn-primary" style="float:left;"> 좋아요 </button>
+                                <button class="btn btn-primary" type="button" style="float:left;" onclick="noticeBoardLikes()"> 좋아요 </button>
                             </form>
                         </th:block>
 
                         <th:block th:unless="${sessionMember}">
-                            <button type="submit" class="btn btn-primary" style="float:left;"> 좋아요 </button>
+                            <button class="btn btn-primary" type="button"
+                                    onclick="noticeBoardLikes()"
+                                    style="float:left;" > 좋아요 </button>
                         </th:block>
 
-                        <p style="float:left;" th:text="*{noticeBoardLikesList.size()}">좋아요 수</p>
+
+
+                        <p id="likesFlag"  name="likesFlag" style="float:left; display:none;" th:text="*{noticeBoardLikesList.size()}"></p>
+                        <p id="noticeBoardLikes" name="noticeBoardLikes" style="float:left;" th:text="*{noticeBoardLikesList.size()}">좋아요 수</p>
+
                         <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert(noticeBoardId = *{id})}"> 수정 </a>
                         <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
                     </div>

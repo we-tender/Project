@@ -1,6 +1,9 @@
 package zemat.wetender.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +25,7 @@ public class MemberService {
     public Long join(MemberJoinForm form) {
         duplicateMember(form.getIdname());
         confirmPassword(form.getPwd1(), form.getPwd2());
-        /**
+        /*
          * 비밀번호 확인 체크 로직 -> javascript
          * */
 
@@ -49,4 +52,18 @@ public class MemberService {
     public Member findByMemberIdName(String memberIdName) {
         return memberRepository.findByMemberIdName(memberIdName).orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디입니다!"));
     }
+
+
+    // 세션의 멤버 데이터를 가져오는 함수
+    public UserDetails getMember() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
+            return null;
+        } else {
+            UserDetails principalDetails = (UserDetails) authentication.getPrincipal();
+            return principalDetails;
+        }
+    }
+
+
 }

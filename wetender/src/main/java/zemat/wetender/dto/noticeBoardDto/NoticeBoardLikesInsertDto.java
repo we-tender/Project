@@ -1,10 +1,9 @@
 package zemat.wetender.dto.noticeBoardDto;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter @Setter
+@Data
 public class NoticeBoardLikesInsertDto {
 
     private Long noticeBoardIdLikes;

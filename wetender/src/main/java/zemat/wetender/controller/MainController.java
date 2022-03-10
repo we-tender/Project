@@ -1,7 +1,5 @@
 package zemat.wetender.controller;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -10,10 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import zemat.wetender.domain.cocktail.Cocktail;
+import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.CocktailFileStore;
 import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
@@ -22,7 +17,6 @@ import zemat.wetender.service.CocktailService;
 import zemat.wetender.service.LiquorService;
 
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -69,4 +63,5 @@ public class MainController {
         List<LiquorHomeDto> liquorTop20 = liquorService.findTop20ByRecommendation();
         model.addAttribute("liquorTop20", liquorTop20);
     }
+
 }
