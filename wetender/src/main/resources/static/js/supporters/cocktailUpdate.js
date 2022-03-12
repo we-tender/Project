@@ -2,8 +2,51 @@
 // HTML 요소의 동적 제어 기능
 $(document).ready(function(){
 
-    let liquorIngredientCnt = 1;
-    let cocktailIngredientCnt = 1;
+    let liquorIngredientCnt = Number($('input[name="liquorIngredientCnt"]').val());
+    let cocktailIngredientCnt = Number($('input[name="cocktailIngredientCnt"]').val());
+
+
+    //초기 데이터 함수 걸기*****************************************************************************************
+    $('.sequenceBtnRemove').click(function(){
+        $(this).parent("div").remove();
+    });
+
+    $('.liquorIngredientBtnRemove').click(function(){
+        $(this).parent("div").remove();
+    });
+
+    $('.cocktailIngredientBtnRemove').click(function(){
+        $(this).parent("div").remove();
+    });
+
+    /* 주류 선택 버튼 */
+    $('.liquorIngredientSearch').click(function(e){
+
+        e.preventDefault();
+
+        let liquorBtnId = $(this).data('id');
+        let liquorBtnName = $(this).data('name');
+        let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
+        let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+
+        window.open(popUrl,"주류 찾기",popOption);
+
+    });
+
+    /* 재료 선택 버튼 */
+    $('.cocktailIngredientSearch').click(function(e){
+
+        e.preventDefault();
+
+        let ingredientBtnId = $(this).data('id');
+        let ingredientBtnName = $(this).data('name');
+        let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId + "&name=" + ingredientBtnName;
+        let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+
+        window.open(popUrl,"식재료 찾기",popOption);
+
+    });
+    //*****************************************************************************************
 
     // 칵테일 순서 추가
     $('.sequenceBtnAdd').click(function(){

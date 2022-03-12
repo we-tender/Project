@@ -26,6 +26,8 @@ public class CocktailDetailDto {
 
     private List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
 
+    private List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
+
     private List<CocktailTaste> tastes = new ArrayList<>();
 
     private List<CocktailSequence> sequences = new ArrayList<>();
@@ -40,6 +42,7 @@ public class CocktailDetailDto {
         this.oneLine = cocktail.getCocktailOneLine();
         this.content = cocktail.getCocktailContent();
         this.cocktailIngredients = cocktail.getCocktailIngredients();
+        this.cocktailLiquors = cocktail.getCocktailLiquors();
         this.tastes = cocktail.getCocktailTastes();
         this.sequences = cocktail.getCocktailSequences();
 

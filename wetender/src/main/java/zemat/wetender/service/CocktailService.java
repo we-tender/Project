@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.cocktail.CocktailIngredient;
+import zemat.wetender.domain.cocktail.CocktailLiquor;
+import zemat.wetender.domain.cocktail.CocktailSequence;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.repository.CocktailRepository;
 
@@ -26,11 +29,22 @@ public class CocktailService {
         return cocktailHomeDtos;
     }
 
+    @Transactional
+    public void updateCocktail(Long cocktailId, Cocktail updateCocktail, List<CocktailSequence> cocktailSequences, List<CocktailLiquor> cocktailLiquors, List<CocktailIngredient> cocktailIngredients) {
+        Cocktail cocktail = cocktailRepository.findById(cocktailId).get();
+        cocktail.update(updateCocktail, cocktailSequences, cocktailLiquors, cocktailIngredients);
+    }
+
     public Cocktail findById(Long cocktailId){
         return cocktailRepository.findById(cocktailId).get();
     }
 
     public Page<Cocktail> pageFindKeyword(Pageable pageable, String keyword){
         return cocktailRepository.findByCocktailNameContainingIgnoreCaseOrCocktailEnameContainingIgnoreCase(pageable,keyword,keyword);
+    }
+
+    @Transactional
+    public void deleteCocktail(Long cocktailId){
+        cocktailRepository.deleteById(cocktailId);
     }
 }

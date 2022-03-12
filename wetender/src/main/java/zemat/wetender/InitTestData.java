@@ -122,11 +122,15 @@ public class InitTestData {
                 .cocktailIngredientQty("50g")
                 .ingredient(ingredientService.findByIngredientName("설탕"))
                 .build());
-        cocktailIngredients.add(CocktailIngredient.builder()
+
+        // CocktailLiquor
+        List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
+
+        cocktailLiquors.add(CocktailLiquor.builder()
                 .cocktailIngredientQty("1병")
                 .liquor(liquorService.findByLiquorName("산그레 데 토로"))
                 .build());
-        cocktailIngredients.add(CocktailIngredient.builder()
+        cocktailLiquors.add(CocktailLiquor.builder()
                 .cocktailIngredientQty("10cl")
                 .liquor(liquorService.findByLiquorName("트리플 섹"))
                 .build());
@@ -143,6 +147,7 @@ public class InitTestData {
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
                 .cocktailIngredients(cocktailIngredients)
+                .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(100)
                 .build();
         supportersService.cocktailSave(cocktail);
@@ -152,12 +157,13 @@ public class InitTestData {
         cocktailFiles.clear();
         cocktailSequences.clear();
         cocktailIngredients.clear();
+        cocktailLiquors.clear();
 
         // Taste
-        cocktailTastes.add(new CocktailTaste("새콤하다"));
-        cocktailTastes.add(new CocktailTaste("달다"));
-        cocktailTastes.add(new CocktailTaste("민트맛"));
-        cocktailTastes.add(new CocktailTaste("상큼하다"));
+        cocktailTastes.add(new CocktailTaste("새콤한맛"));
+        cocktailTastes.add(new CocktailTaste("단맛"));
+        cocktailTastes.add(new CocktailTaste("시원한맛"));
+        cocktailTastes.add(new CocktailTaste("상큼한맛"));
 
         // File
         cocktailFiles = cocktailFileStore.storeFiles(getMultipartFiles(basicPath, "mojito", 2));
@@ -195,7 +201,8 @@ public class InitTestData {
                 .cocktailIngredientQty("2컵")
                 .ingredient(ingredientService.findByIngredientName("얼음"))
                 .build());
-        cocktailIngredients.add(CocktailIngredient.builder()
+
+        cocktailLiquors.add(CocktailLiquor.builder()
                 .cocktailIngredientQty("500ml")
                 .liquor(liquorService.findByLiquorName("바카디 카르타 블랑카"))
                 .build());
@@ -213,6 +220,7 @@ public class InitTestData {
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
                 .cocktailIngredients(cocktailIngredients)
+                .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(88)
                 .build();
         supportersService.cocktailSave(cocktail);
@@ -222,6 +230,7 @@ public class InitTestData {
         cocktailFiles.clear();
         cocktailSequences.clear();
         cocktailIngredients.clear();
+        cocktailLiquors.clear();
 
         // Taste
         cocktailTastes.add(new CocktailTaste("독특하다"));
@@ -263,11 +272,12 @@ public class InitTestData {
                 .cocktailIngredientQty("2컵")
                 .ingredient(ingredientService.findByIngredientName("얼음"))
                 .build());
-        cocktailIngredients.add(CocktailIngredient.builder()
+
+        cocktailLiquors.add(CocktailLiquor.builder()
                 .cocktailIngredientQty("1/2oz")
                 .liquor(liquorService.findByLiquorName("트리플 섹"))
                 .build());
-        cocktailIngredients.add(CocktailIngredient.builder()
+        cocktailLiquors.add(CocktailLiquor.builder()
                 .cocktailIngredientQty("1+1/2oz")
                 .liquor(liquorService.findByLiquorName("호세 쿠엘보"))
                 .build());
@@ -285,6 +295,7 @@ public class InitTestData {
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
                 .cocktailIngredients(cocktailIngredients)
+                .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(110)
                 .build();
         supportersService.cocktailSave(cocktail);
@@ -294,6 +305,7 @@ public class InitTestData {
         cocktailFiles.clear();
         cocktailSequences.clear();
         cocktailIngredients.clear();
+        cocktailLiquors.clear();
 
         // Taste
         cocktailTastes.add(new CocktailTaste("달다"));
@@ -333,11 +345,12 @@ public class InitTestData {
                 .cocktailIngredientQty("2컵")
                 .ingredient(ingredientService.findByIngredientName("얼음"))
                 .build());
-        cocktailIngredients.add(CocktailIngredient.builder()
+
+        cocktailLiquors.add(CocktailLiquor.builder()
                 .cocktailIngredientQty("1/2oz")
                 .liquor(liquorService.findByLiquorName("앙고스트라비터스"))
                 .build());
-        cocktailIngredients.add(CocktailIngredient.builder()
+        cocktailLiquors.add(CocktailLiquor.builder()
                 .cocktailIngredientQty("1+1/2oz")
                 .liquor(liquorService.findByLiquorName("짐빔"))
                 .build());
@@ -355,6 +368,7 @@ public class InitTestData {
                 .cocktailFiles(cocktailFiles)
                 .cocktailSequences(cocktailSequences)
                 .cocktailIngredients(cocktailIngredients)
+                .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(157)
                 .build();
         supportersService.cocktailSave(cocktail);

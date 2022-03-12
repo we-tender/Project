@@ -32,6 +32,7 @@ public class IngredientService {
         return ingredientRepository.findById(ingredientId).get();
     }
 
+
     @Transactional
     public Ingredient findByIngredientName(String ingredientName) {
         Ingredient ingredient = ingredientRepository.findByIngredientName(ingredientName).orElseThrow(() -> new IllegalStateException("존재하지 않는 재료입니다!"));

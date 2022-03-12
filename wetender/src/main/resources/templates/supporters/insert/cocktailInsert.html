@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
+<head>
+</head>
+<body>
+<section>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>칵테일 입력 폼</h2>
+        </div>
+        <form action="item.html" th:action th:object="${form}" method="post" enctype="multipart/form-data">
+            <div>
+                <label th:for="name">칵테일이름</label>
+                <input type="text" th:field="*{name}"
+                       th:errorclass="field-error"
+                       class="form-control" placeholder="이름을 입력하세요">
+                <div class="field-error" th:errors="*{name}">
+                    상품명 오류
+                </div>
+            </div>
+            <div>
+                <label th:for="eName">칵테일영문이름</label>
+                <input type="text" th:field="*{eName}" class="form-control" placeholder="영문명을 입력하세요">
+                <div class="field-error" th:errors="*{eName}">
+                    상품명 오류
+                </div>
+            </div>
+            <div>
+                <label th:for="base">칵테일 기주</label>
+                <input type="text" th:field="*{base}" th:errorclass="field-error" class="form-control" placeholder="기주를 입력하세요">
+                <div class="field-error" th:errors="*{base}">
+                    상품명 오류
+                </div>
+            </div>
+            <div>
+                <label th:for="abv">칵테일 도수</label>
+                <input type="number" th:field="*{abv}" th:errorclass="field-error" class="form-control" placeholder="도수를 입력하세요">
+                <div class="field-error" th:errors="*{abv}">
+                    상품명 오류
+                </div>
+            </div>
+            <div>
+                <label th:for="oneLine">칵테일 한줄설명</label>
+                <input type="text" th:field="*{oneLine}" th:errorclass="field-error" class="form-control" placeholder="한줄설명을 입력하세요">
+                <div class="field-error" th:errors="*{oneLine}">
+                    상품명 오류
+                </div>
+            </div>
+            <div>
+                <label th:for="content">칵테일 설명</label>
+                <input type="text" th:field="*{content}" th:errorclass="field-error" class="form-control" placeholder="설명을 입력하세요">
+                <div class="field-error" th:errors="*{content}">
+                    상품명 오류
+                </div>
+            </div>
+            <div>
+                <label th:for="images">칵테일 이미지</label>
+                <input type="file" multiple="multiple" th:field="*{images}" th:errorclass="field-error" class="form-control" placeholder="파일을 등록해주세요">
+                <div class="field-error" th:errors="*{images}">
+                    상품명 오류
+                </div>
+            </div>
+            <div>
+                <label th:for="taste">칵테일 맛</label>
+                <div th:each="taste : ${tastes}" class="form-check form-check-inline">
+                    <input type="checkbox" th:field="*{tastes}" th:value="${taste.key}" class="form-check-input">
+                    <label th:for="${#ids.prev('tastes')}" th:text="${taste.value}" class="form-check-label">맛</label>
+                </div>
+            </div>
+            <div id="sequence" class="col-lg-6 col-md-6 form-group mt-3">
+                <label th:for="sequence" >칵테일 순서</label><br>
+                <input type="button" class="sequenceBtnAdd" value="순서 추가"><br>
+                <div>
+                    <input type="text" class="sequenceContent" name="sequenceContent" placeholder="순서">
+                    <input type="button" class="sequenceBtnRemove" name="sequenceDel" value="삭제"><br>
+                </div>
+            </div>
+            <hr class="my-4"/>
+            <div id="liquorIngredient" class="col-lg-6 col-md-6 form-group mt-3">
+                <label th:for="liquorIngredient" >주류 등록</label><br>
+                <input type="button" class="liquorIngredientBtnAdd" value="주류 추가"><br>
+                <div>
+                    <input type="hidden" class="liquorIngredientId" id="liquorIngredientId1" name="liquorIngredientId1">
+                    <input type="text" class="liquorIngredientContent" id="liquorIngredientContent1" name="liquorIngredientContent1" readonly="readonly">
+                    <input type="button" class="liquorIngredientSearch" data-id="liquorIngredientId1" data-name="liquorIngredientContent1" name="liquorIngredientSearch" value="주류 선택">
+                    <input type="text" class="liquorIngredientQty" name="liquorIngredientQty" placeholder="재료 양">
+                    <input type="button" class="liquorIngredientBtnRemove" name="liquorIngredientDel" value="삭제"><br>
+                </div>
+            </div>
+            <hr class="my-4"/>
+            <div id="cocktailIngredient" class="col-lg-6 col-md-6 form-group mt-3">
+                <label th:for="cocktailIngredient" >재료 등록</label><br>
+                <input type="button" class="cocktailIngredientBtnAdd" value="재료 추가"><br>
+                <div>
+                    <input type="hidden" class="cocktailIngredientId" id="cocktailIngredientId1" name="cocktailIngredientId1">
+                    <input type="text" class="cocktailIngredientContent" id="cocktailIngredientContent1" name="cocktailIngredientContent1" readonly="readonly">
+                    <input type="button" class="cocktailIngredientSearch" data-id="cocktailIngredientId1" data-name="cocktailIngredientContent1" name="cocktailIngredientSearch" value="재료 선택">
+                    <input type="text" class="cocktailIngredientQty" name="cocktailIngredientQty" placeholder="재료 양">
+                    <input type="button" class="cocktailIngredientBtnRemove" name="cocktailIngredientDel" value="삭제"><br>
+                </div>
+            </div>
+            <hr class="my-4"/>
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">칵테일 등록</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/supporters/main}'|"
+                        type="button">취소</button>
+            </div>
+        </form>
+    </div>
+    <!-- js적용  -->
+    <script type="text/javascript" th:src="@{/js/supporters/cocktailInsert.js}"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</section>
+</body>
+</html>

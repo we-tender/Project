@@ -13,6 +13,8 @@
     <div th:each="image : ${cocktailDto.images}">
       <img th:src="|images/${image.storeCocktailFileName}|" width="300" height="300"><br/>
     </div>
+    <button type="button" th:onclick="|location.href='@{/supporters/cocktail/update/{id} (id=${cocktailDto.id})}'|">수정하기</button><br/>
+    <button type="button" th:onclick="|location.href='@{/supporters/cocktail/delete/{id} (id=${cocktailDto.id})}'|">삭제하기</button><br/>
     <span th:text="${cocktailDto.name}">이름</span><br/>
     <span th:text="${cocktailDto.eName}">영문이름</span><br/>
     <span th:text="${cocktailDto.oneLine}">한줄평</span><br/>
@@ -24,11 +26,14 @@
     <div th:each="sequence : ${cocktailDto.sequences}">
       <span th:text="${sequence.cocktailSequenceContent}">칵테일 순서</span><br/>
     </div>
+    <div th:each="liquor : ${cocktailDto.cocktailLiquors}">
+      <span th:text="${liquor.liquor.liquorName}">칵테일 주류이름</span><br/>
+      <span th:text="${liquor.liquor.liquorEname}">칵테일 주류영문이름</span><br/>
+      <span th:text="${liquor.cocktailIngredientQty}">칵테일주류 양</span><br/>
+    </div>
     <div th:each="ingredient : ${cocktailDto.cocktailIngredients}">
-      <span th:if="${ingredient.liquor}" th:text="${ingredient.liquor.liquorName}">칵테일 주류이름</span>
-      <span th:if="${ingredient.liquor}" th:text="${ingredient.liquor.liquorEname}">칵테일 주류영문이름</span>
-      <span th:if="${ingredient.ingredient}" th:text="${ingredient.ingredient.ingredientName}">칵테일 재료이름</span>
-      <span th:if="${ingredient.ingredient}" th:text="${ingredient.ingredient.ingredientEname}">칵테일 재료영문이름</span>
+      <span th:text="${ingredient.ingredient.ingredientName}">칵테일 재료이름</span><br/>
+      <span th:text="${ingredient.ingredient.ingredientEname}">칵테일 재료영문이름</span><br/>
       <span th:text="${ingredient.cocktailIngredientQty}">칵테일재료 양</span><br/>
     </div>
   </div>

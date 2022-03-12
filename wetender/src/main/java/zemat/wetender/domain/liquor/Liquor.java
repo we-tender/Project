@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.cocktail.CocktailIngredient;
+import zemat.wetender.domain.cocktail.CocktailLiquor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -41,10 +42,10 @@ public class Liquor extends BaseEntity {
 
 
     @OneToMany(mappedBy = "liquor")
-    private List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
+    private List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
 
-    public void addCocktailIngredient(CocktailIngredient cocktailIngredient){
-        cocktailIngredients.add(cocktailIngredient);
+    public void addCocktailLiquor(CocktailLiquor cocktailLiquor){
+        cocktailLiquors.add(cocktailLiquor);
     }
 
     public void addLiquorFile(LiquorFile liquorFile){

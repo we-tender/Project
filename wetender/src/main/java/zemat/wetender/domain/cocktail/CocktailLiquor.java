@@ -1,8 +1,9 @@
 package zemat.wetender.domain.cocktail;
 
-import lombok.*;
-import zemat.wetender.domain.base.BaseEntity;
-import zemat.wetender.domain.ingredient.Ingredient;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import zemat.wetender.domain.liquor.Liquor;
 
 import javax.persistence.*;
@@ -10,11 +11,11 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class CocktailIngredient extends BaseEntity {
+public class CocktailLiquor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cocktail_ingredient_id")
+    @Column(name = "cocktail_liquor_id")
     private Long id;
 
     private String cocktailIngredientQty;
@@ -24,20 +25,19 @@ public class CocktailIngredient extends BaseEntity {
     Cocktail cocktail;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ingredient_id")
-    Ingredient ingredient;
+    @JoinColumn(name = "liquor_id")
+    Liquor liquor;
 
     public void setCocktail(Cocktail cocktail) {
         this.cocktail = cocktail;
     }
 
     @Builder
-    public CocktailIngredient(String cocktailIngredientQty, Ingredient ingredient) {
+    public CocktailLiquor(String cocktailIngredientQty, Liquor liquor) {
         this.cocktailIngredientQty = cocktailIngredientQty;
-        this.ingredient = ingredient;
-        if(ingredient != null){
-            ingredient.addCocktailIngredient(this);
+        this.liquor = liquor;
+        if(liquor != null){
+            liquor.addCocktailLiquor(this);
         }
     }
-
 }

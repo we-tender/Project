@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 import zemat.wetender.domain.cocktail.CocktailIngredient;
+import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 
@@ -29,7 +30,7 @@ public class LiquorDto {
 
     private List<LiquorFileDto> images = new ArrayList<>();
 
-    private List<CocktailIngredient> cocktails = new ArrayList<>();
+    private List<CocktailLiquor> cocktails = new ArrayList<>();
 
     // baseEntity
     private LocalDateTime createdDate;
@@ -48,7 +49,7 @@ public class LiquorDto {
         this.abv = liquor.getLiquorAbv();
         this.oneLine = liquor.getLiquorOneLine();
         this.content = liquor.getLiquorContent();
-        this.cocktails = liquor.getCocktailIngredients();
+        this.cocktails = liquor.getCocktailLiquors();
 
         List<LiquorFile> liquorFiles = liquor.getLiquorFiles();
         for (LiquorFile liquorFile : liquorFiles) {

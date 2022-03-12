@@ -44,7 +44,7 @@ public class LiquorService {
     @Transactional
     public Liquor findByLiquorName(String liquorName) {
         Liquor liquor = liquorRepository.findByLiquorName(liquorName).orElseThrow(() -> new IllegalStateException("존재하지 않는 술입니다!"));
-        liquor.getCocktailIngredients().size();
+        liquor.getCocktailLiquors().size();
         return liquor;
     }
 

@@ -12,16 +12,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.domain.cocktail.CocktailFileStore;
-import zemat.wetender.domain.cocktail.CocktailIngredient;
-import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.dto.cocktailDto.CocktailDetailDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
-import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.service.CocktailService;
 
 import java.net.MalformedURLException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 @RequestMapping("/cocktail")

@@ -4,15 +4,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.web.multipart.MultipartFile;
+import zemat.wetender.domain.cocktail.CocktailTaste;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
 public class CocktailInsertForm {
-
-    private Long id;
 
     @NotBlank(message = "공백 x")
     private String name;
@@ -32,7 +32,10 @@ public class CocktailInsertForm {
     private String content;
 
 //    @NotNull(message = "한장의 이미지는 있어야합니다!") 안먹는데 이유 아직 못찾음..
-    private List<MultipartFile> images;
+    private List<MultipartFile> images = new ArrayList<>();
 
-    private List<String> tastes;
+    private List<String> tastes = new ArrayList<>();
+
+    private List<String> sequences = new ArrayList<>();
+
 }
