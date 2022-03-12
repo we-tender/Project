@@ -24,6 +24,16 @@
 <body>
 
 <section>
+    <!-- jquery를 적용하기 위한 코드   -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" th:src="@{/js/noticeBoard/noticeBoard.js}"></script>
+
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
+
+
     <div class="col-lg-8 mx-auto p-3 py-md-5">
         <main>
 
@@ -91,16 +101,16 @@
                 <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s" style="float:right;">
                     <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">최신수</a>
+                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" onclick='noticeBoardSortBy("latest")'>최신수</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-1">추천수</a>
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" onclick='noticeBoardSortBy("views")'>조회수</a>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">조회수</a>
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" onclick='noticeBoardSortBy("likes")'>추천수</a>
                         </li>
                         <li class="nav-item me-0">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">댓글수</a>
+                            <a class="btn btn-outline-primary" data-bs-toggle="pill" onclick='noticeBoardSortBy("replies")'>댓글수</a>
                         </li>
                     </ul>
                 </div>
@@ -108,53 +118,55 @@
 
 
                 <!-- 공지사항 전체글 -->
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">번호</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">글쓴이</th>
-                        <th scope="col">작성일</th>
-                        <th scope="col">조회수</th>
-                        <th scope="col">좋아요</th>
-                    </tr>
-                    </thead>
+                <div id="noticeBoardResult">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">글쓴이</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">조회수</th>
+                            <th scope="col">좋아요</th>
+                        </tr>
+                        </thead>
 
-                    <tbody>
-                    <tr th:each = "noticeBoard : ${noticeBoardDtos}">
-                        <td
-                                th:text = "${noticeBoard.id}"></td>
-                        <td> <a th:text = "${noticeBoard.noticeBoardTitle}"
-                                th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
-                        <td th:text = "${noticeBoard.createdBy}"></td>
-                        <td th:text = "${noticeBoard.createdDate}"></td>
-                        <td th:text = "${noticeBoard.views}"></td>
-                        <td th:text = "${noticeBoard.noticeBoardLikesList.size()}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <tbody>
+                        <tr th:each = "noticeBoard : ${noticeBoardDtos}">
+                            <td
+                                    th:text = "${noticeBoard.id}"></td>
+                            <td> <a th:text = "${noticeBoard.noticeBoardTitle}"
+                                    th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
+                            <td th:text = "${noticeBoard.createdBy}"></td>
+                            <td th:text = "${noticeBoard.createdDate}"></td>
+                            <td th:text = "${noticeBoard.views}"></td>
+                            <td th:text = "${noticeBoard.noticeBoardLikesList.size()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
 
-                <!-- 페이징 오버뷰 -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
-                        <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
-                        <li class="page-item"  th:classappend="${1 == noticeBoardDtos.pageable.pageNumber + 1} ? 'disabled' " >
-                            <a class="page-link" href="#" th:href="@{/noticeBoard/main(page=${noticeBoardDtos.pageable.pageNumber - 1}, keyword=${param.keyword}  )}" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
-                        <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
-                        <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-                        <li class="page-item " th:classappend="${i == noticeBoardDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
-                            <a class="page-link" href="#"  th:href="@{/noticeBoard/main(page=${i-1}, keyword=${param.keyword}   )}"  th:text="${i}">1</a></li>
+                    <!-- 페이징 오버뷰 -->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
+                            <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
+                            <li class="page-item"  th:classappend="${1 == noticeBoardDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                                <a class="page-link" href="#" th:href="@{/noticeBoard/main(page=${noticeBoardDtos.pageable.pageNumber - 1}, keyword=${param.keyword}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
+                            <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
+                            <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                            <li class="page-item " th:classappend="${i == noticeBoardDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
+                                <a class="page-link" href="#"  th:href="@{/noticeBoard/main(page=${i-1}, keyword=${param.keyword}   )}"  th:text="${i}">1</a></li>
 
-                        <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
-                        <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-                        <li class="page-item" th:classappend="${noticeBoardDtos.totalPages == noticeBoardDtos.pageable.pageNumber + 1} ? 'disabled' " >
-                            <a class="page-link" href="#" th:href="@{/noticeBoard/main(page=${noticeBoardDtos.pageable.pageNumber + 1}, keyword=${param.keyword})}">Next</a>
-                        </li>
-                    </ul>
-                </nav>
+                            <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
+                            <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                            <li class="page-item" th:classappend="${noticeBoardDtos.totalPages == noticeBoardDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                                <a class="page-link" href="#" th:href="@{/noticeBoard/main(page=${noticeBoardDtos.pageable.pageNumber + 1}, keyword=${param.keyword})}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 
 
 

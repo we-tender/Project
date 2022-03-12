@@ -27,6 +27,8 @@ public class NoticeBoardDto {
     private String lastModifiedBy;
 
     private long views;
+    private long likes;
+    private long replies;
 
     public NoticeBoardDto() {
     }
@@ -43,6 +45,10 @@ public class NoticeBoardDto {
         this.lastModifiedDate = noticeBoard.getLastModifiedDate();
         this.createdBy = noticeBoard.getCreatedBy();
         this.lastModifiedBy = noticeBoard.getLastModifiedBy();
+
         this.views = noticeBoard.getViews();
+        this.likes = noticeBoard.getLikes();
+        this.replies = noticeBoard.getReplies();
+
     }
 }

@@ -3,7 +3,9 @@ package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +39,12 @@ public class NoticeBoardController {
                        @PageableDefault(size = 10) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String keyword) {
 
-
         // 검색 기능
         Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageable);
+
+        // 정렬 기능을 넣어야 하는데..
+
+
         Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 
@@ -60,6 +65,14 @@ public class NoticeBoardController {
         model.addAttribute("sessionMember", memberService.getMember());
 
         return "noticeBoard/main";
+    }
+
+    // 공지사항 메인페이지 검색, 정렬 결과 반환
+    @RequestMapping(value = "findAllByKeywordAndSort", method = RequestMethod.POST)
+    public String findAllByKeywordAndSort(NoticeBoardKeywordSortDto noticeBoardKeywordSortDto) {
+
+
+        return "redirect:/noticeBoard/detail?noticeBoardId=1";
     }
 
 
@@ -123,24 +136,44 @@ public class NoticeBoardController {
     @PostMapping("/replyInsert")
     public String replyInsert(@ModelAttribute NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
         Long id = noticeBoardService.replyInsert(noticeBoardReplyInsertDto);
+        noticeBoardService.repliesUpdate(noticeBoardReplyInsertDto);
         return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
     }
 
     // 공지사항 좋아요
     @RequestMapping(value = "/likesInsert", method=RequestMethod.POST)
     public String likesInsert(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
-        System.out.println("===========동작===========");
         Long id = noticeBoardService.likes(noticeBoardLikesInsertDto);
+        noticeBoardService.likesUpdate(noticeBoardLikesInsertDto);
         return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
     }
 
 
-    @GetMapping("/testcase")
-    public String testCase() {
-        return "noticeBoard/testcase";
+    // 공지사항 정렬
+    @RequestMapping(value = "/sortBy", method = RequestMethod.POST)
+    public String sortBy(Model model, NoticeBoardKeywordSortDto Dto,
+                         Pageable pageable) {
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, Dto.getSortBy()));
+
+
+
+        Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(Dto.getKeyword(), pageRequest);
+        Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
+
+        int startPage = Math.max(1, noticeBoardDtos.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(noticeBoardDtos.getTotalPages(), noticeBoardDtos.getPageable().getPageNumber() + 4);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
+
+        return "/noticeBoard/main :: #noticeBoardResult";
     }
-
-
 
 
 }

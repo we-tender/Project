@@ -14,10 +14,16 @@ import javax.persistence.MappedSuperclass;
 @EntityListeners(AuditingEntityListener.class)
 public class BasePostEntity extends BaseEntity{
 
-    //  조회수와 좋아요를 포함함
+    //  조회수, 좋아요, 댓글수
 
     @Column(columnDefinition = "integer default 0")
     private long views;
+
+    @Column(columnDefinition = "integer default 0")
+    private long likes;
+
+    @Column(columnDefinition = "integer default 0")
+    private long replies;
 
 
 

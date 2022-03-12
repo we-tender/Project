@@ -114,7 +114,16 @@ public class NoticeBoardService {
         NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
         NoticeBoardReply noticeBoardReply = new NoticeBoardReply(noticeBoard, noticeBoardReplyInsertDto);
         noticeBoardReplyRepository.save(noticeBoardReply);
+
+
         return noticeBoardId;
+    }
+
+    // 댓글수 갱신 함수
+    public void repliesUpdate(NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
+        Long noticeBoardId = noticeBoardReplyInsertDto.getNoticeBoardId();
+        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
+        noticeBoard.setReplies(noticeBoard.getNoticeBoardReplyList().size());
     }
 
     // 공지사항 좋아요 저장하기, 삭제하기
@@ -137,11 +146,16 @@ public class NoticeBoardService {
         return noticeBoardId;
     }
 
-    // 조회수 정렬
-    public List<NoticeBoard> allSortBy(String gijoon) {
-
-        Sort sort = Sort.by(Sort.Direction.DESC, gijoon);
-        return noticeBoardRepository.findAll(sort);
+    // 좋아요 수 갱신 함수
+    public void likesUpdate(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
+        Long noticeBoardId = noticeBoardLikesInsertDto.getNoticeBoardIdLikes();
+        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
+        noticeBoard.setLikes(noticeBoard.getNoticeBoardLikesList().size());
     }
+
+
+
+
+
 
 }

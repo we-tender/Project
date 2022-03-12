@@ -32,10 +32,18 @@ public class NoticeBoard extends BasePostEntity {
     @OneToMany(mappedBy = "noticeBoard")
     private List<NoticeBoardReply> noticeBoardReplyList = new ArrayList<>();
 
-
     @OneToMany(mappedBy = "noticeBoard", cascade = CascadeType.ALL)
     private List<NoticeBoardLikes> noticeBoardLikesList = new ArrayList<>();
 
+    @Override
+    public void setLikes(long likes) {
+        super.setLikes(likes);
+    }
+
+    @Override
+    public void setReplies(long replies) {
+        super.setReplies(replies);
+    }
 
     public NoticeBoard(NoticeBoardInsertDto noticeBoardInsertDto) {
         this.id = noticeBoardInsertDto.getId();

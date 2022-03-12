@@ -85,3 +85,61 @@ function noticeBoardLikes() {
 }
 
 
+// 정렬 기능
+function noticeBoardSortBy(sortBy) {
+
+    var sortByData="";
+    var keywordData="";
+
+
+    if(sortBy === 'views') {
+        sortByData = "views";
+    }
+    else if(sortBy === 'latest') {
+        sortByData = "createdBy";
+    }
+    else if(sortBy === 'likes') {
+        sortByData = "likes";
+    }
+    else if(sortBy === 'replies') {
+        sortByData = "replies";
+    }
+
+
+
+    var noticeBoardKeywordSortDto = {
+        keyword:keywordData,
+        sortBy:sortByData
+    }
+
+    $.ajax({
+        url: "/noticeBoard/sortBy",
+        data: noticeBoardKeywordSortDto,
+        type: "POST",
+
+
+        beforeSend: function (jqXHR, settings) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           if(token && header) {
+               jqXHR.setRequestHeader(header, token);
+           }
+        },
+
+        success: function(result) {
+                  if (result) {
+                      alert("완료");
+                  } else {
+                      alert("전송된 값 없음");
+                  }
+              },
+        error: function() {
+            alert("에러 발생");
+        }
+    }).done(function (fragment)  {
+        $("#noticeBoardResult").replaceWith(fragment);
+    })
+
+
+}
+
