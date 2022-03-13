@@ -69,9 +69,8 @@ public class NoticeBoardService {
 
     // 조회수 올리기
     public void viewsUp(Long noticeBoardId) {
-        NoticeBoard noticeBoard = noticeBoardRepository.findById(noticeBoardId).get();
-        long views = noticeBoard.getViews() + 1L;
-        noticeBoard.setViews(views);
+        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
+        noticeBoard.viewsAdd();
     }
 
     // 건의사항 ID를 기준 5개 조회하기
@@ -79,7 +78,9 @@ public class NoticeBoardService {
     {
         List<NoticeBoardDto> noticeBoardDtos = new ArrayList<>();
         Long start = 0L;
+
         int size = noticeBoardRepository.findAll().size();
+
         if(size <= 5) {
             start = 1L;
         }
@@ -114,48 +115,33 @@ public class NoticeBoardService {
         NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
         NoticeBoardReply noticeBoardReply = new NoticeBoardReply(noticeBoard, noticeBoardReplyInsertDto);
         noticeBoardReplyRepository.save(noticeBoardReply);
-
-
+        noticeBoard.repliesAdd();
         return noticeBoardId;
-    }
-
-    // 댓글수 갱신 함수
-    public void repliesUpdate(NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
-        Long noticeBoardId = noticeBoardReplyInsertDto.getNoticeBoardId();
-        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
-        noticeBoard.setReplies(noticeBoard.getNoticeBoardReplyList().size());
     }
 
     // 공지사항 좋아요 저장하기, 삭제하기
     public Long likes(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
         String memberName = noticeBoardLikesInsertDto.getMemberNameLikes();
         Member member = memberRepository.findByMemberIdName(memberName).get();
+
         Long noticeBoardId = noticeBoardLikesInsertDto.getNoticeBoardIdLikes();
         NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
+
         NoticeBoardLikes noticeBoardLikes = new NoticeBoardLikes(member, noticeBoard);
 
         Optional<NoticeBoardLikes> byMemberAndNoticeBoard = noticeBoardLikesRepository.findByMemberAndNoticeBoard(member, noticeBoard);
 
         if(byMemberAndNoticeBoard.isEmpty()) {
             noticeBoardLikesRepository.save(noticeBoardLikes);
+            noticeBoard.likesAdd();
         }
         else {
             noticeBoardLikesRepository.delete(byMemberAndNoticeBoard.get());
+            noticeBoard.likesRemove();
         }
 
         return noticeBoardId;
     }
-
-    // 좋아요 수 갱신 함수
-    public void likesUpdate(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
-        Long noticeBoardId = noticeBoardLikesInsertDto.getNoticeBoardIdLikes();
-        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
-        noticeBoard.setLikes(noticeBoard.getNoticeBoardLikesList().size());
-    }
-
-
-
-
 
 
 }

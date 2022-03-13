@@ -71,8 +71,9 @@
                             <th scope="col">제목</th>
                             <th scope="col">글쓴이</th>
                             <th scope="col">작성일</th>
-                            <th scope="col">조회수</th>
                             <th scope="col">좋아요</th>
+                            <th scope="col">댓글수</th>
+                            <th scope="col">조회수</th>
                         </tr>
                         </thead>
 
@@ -87,8 +88,9 @@
                                     th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
                             <td th:text = "${noticeBoard.createdBy}"></td>
                             <td th:text = "${noticeBoard.createdDate}"></td>
+                            <td th:text = "${noticeBoard.likes}"></td>
+                            <td th:text = "${noticeBoard.replies}"></td>
                             <td th:text = "${noticeBoard.views}"></td>
-                            <td th:text = "${noticeBoard.noticeBoardLikesList.size()}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -126,8 +128,9 @@
                             <th scope="col">제목</th>
                             <th scope="col">글쓴이</th>
                             <th scope="col">작성일</th>
-                            <th scope="col">조회수</th>
                             <th scope="col">좋아요</th>
+                            <th scope="col">댓글수</th>
+                            <th scope="col">조회수</th>
                         </tr>
                         </thead>
 
@@ -139,8 +142,9 @@
                                     th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
                             <td th:text = "${noticeBoard.createdBy}"></td>
                             <td th:text = "${noticeBoard.createdDate}"></td>
+                            <td th:text = "${noticeBoard.likes}"></td>
+                            <td th:text = "${noticeBoard.replies}"></td>
                             <td th:text = "${noticeBoard.views}"></td>
-                            <td th:text = "${noticeBoard.noticeBoardLikesList.size()}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -173,8 +177,12 @@
 
                 <!-- 쓰기 버튼 시작 -->
                 <div class="text-end">
-                    <!-- 클래스에 버튼을 썼기 때문에 a(앵커)로 바꿔도 자연스럽게 버튼모양으로 표현-->
-                    <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert}" >쓰기</a>
+                    <th:block th:if="${sessionMember}">
+                        <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert}" >쓰기</a>
+                    </th:block>
+                    <th:block th:unless="${sessionMember}">
+                        <a type="button" class="btn btn-primary" th:href="@{/loginForm}" >쓰기</a>
+                    </th:block>
                 </div>
                 <!-- 쓰기 버튼 끝 -->
 

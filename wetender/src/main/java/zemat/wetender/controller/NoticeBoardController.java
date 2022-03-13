@@ -136,7 +136,6 @@ public class NoticeBoardController {
     @PostMapping("/replyInsert")
     public String replyInsert(@ModelAttribute NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
         Long id = noticeBoardService.replyInsert(noticeBoardReplyInsertDto);
-        noticeBoardService.repliesUpdate(noticeBoardReplyInsertDto);
         return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
     }
 
@@ -144,7 +143,6 @@ public class NoticeBoardController {
     @RequestMapping(value = "/likesInsert", method=RequestMethod.POST)
     public String likesInsert(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
         Long id = noticeBoardService.likes(noticeBoardLikesInsertDto);
-        noticeBoardService.likesUpdate(noticeBoardLikesInsertDto);
         return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
     }
 

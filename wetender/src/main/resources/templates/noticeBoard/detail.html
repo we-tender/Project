@@ -64,15 +64,16 @@
                         </th:block>
 
                         <th:block th:unless="${sessionMember}">
-                            <button class="btn btn-primary" type="button"
-                                    onclick="noticeBoardLikes()"
-                                    style="float:left;" > 좋아요 </button>
+                            <a class="btn btn-primary" type="button"
+                                    th:href="@{/loginForm}"
+                                    style="float:left;" > 좋아요 </a>
                         </th:block>
 
 
 
                         <p id="likesFlag"  name="likesFlag" style="float:left; display:none;" th:text="*{noticeBoardLikesList.size()}"></p>
                         <p id="noticeBoardLikes" name="noticeBoardLikes" style="float:left;" th:text="*{noticeBoardLikesList.size()}">좋아요 수</p>
+
 
                         <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert(noticeBoardId = *{id})}"> 수정 </a>
                         <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
@@ -106,7 +107,15 @@
 
                         <div class="card-footer">
                             <div class="text-end">
-                                <button type = "submit" class="btn btn-primary"> 등록 </button>
+
+                                <th:block th:if="${sessionMember}">
+                                    <button type = "submit" class="btn btn-primary"> 등록 </button>
+                                </th:block>
+
+                                <th:block th:unless="${sessionMember}">
+                                    <a type = "submit" class="btn btn-primary" th:href="@{/loginForm}"> 등록 </a>
+                                </th:block>
+
                             </div>
                         </div>
                     </div>
@@ -120,29 +129,34 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th scope="col">번호</th>
                         <th scope="col">제목</th>
                         <th scope="col">글쓴이</th>
                         <th scope="col">작성일</th>
-                        <th scope="col">조회수</th>
                         <th scope="col">좋아요</th>
+                        <th scope="col">댓글수</th>
+                        <th scope="col">조회수</th>
                     </tr>
                     </thead>
 
                     <tbody>
                     <tr th:each = "noticeBoardDto : ${noticeBoardDtos}">
 
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.id}"></td>
                         <td th:if = "${noticeBoardDto.id} == (*{id})" class= "fw-bold"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id})}"> 제목 </a></td>
                         <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdBy}"></td>
                         <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdDate}"></td>
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.likes}"></td>
+                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.replies}"></td>
                         <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.views}"></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.noticeBoardLikesList.size()}"></td>
 
-
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.id}"></td>
                         <td th:if = "${noticeBoardDto.id} != (*{id})"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id})}"> 제목 </a></td>
                         <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdBy}"></td>
                         <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdDate}"></td>
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.likes}"></td>
+                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.replies}"></td>
                         <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.views}"></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.noticeBoardLikesList.size()}"></td>
                     </tr>
                     </tbody>
                 </table>
