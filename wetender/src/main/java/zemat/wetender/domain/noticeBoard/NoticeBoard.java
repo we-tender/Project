@@ -29,7 +29,7 @@ public class NoticeBoard extends BasePostEntity {
     // ALL. Part
     private String status;
 
-    @OneToMany(mappedBy = "noticeBoard")
+    @OneToMany(mappedBy = "noticeBoard", cascade = CascadeType.ALL)
     private List<NoticeBoardReply> noticeBoardReplyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "noticeBoard", cascade = CascadeType.ALL)
