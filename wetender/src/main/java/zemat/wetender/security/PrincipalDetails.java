@@ -1,5 +1,8 @@
 package zemat.wetender.security;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import zemat.wetender.domain.member.Member;
@@ -19,6 +22,8 @@ import java.util.Collection;
  *
  */
 
+@Getter @Setter
+@EqualsAndHashCode
 public class PrincipalDetails implements UserDetails {
 
     private Member member;
