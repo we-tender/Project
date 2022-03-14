@@ -15,6 +15,7 @@ import zemat.wetender.domain.cocktail.CocktailFileStore;
 import zemat.wetender.dto.cocktailDto.CocktailDetailDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.service.CocktailService;
+import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;
 
@@ -26,6 +27,7 @@ public class CocktailController {
 
     private final CocktailService cocktailService;
     private final CocktailFileStore cocktailFileStore;
+    private final MemberService memberService;
 
     // 주류 메인(게시판)
     @GetMapping("/main")
@@ -45,6 +47,8 @@ public class CocktailController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("cocktailDtos", cocktailDtos);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
         return "cocktail/main";
     }
 
@@ -60,6 +64,7 @@ public class CocktailController {
         Cocktail cocktail = cocktailService.findById(cocktailId);
         CocktailDetailDto cocktailDetailDto = new CocktailDetailDto(cocktail);
         model.addAttribute("cocktailDto",cocktailDetailDto);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "cocktail/detail";
     }

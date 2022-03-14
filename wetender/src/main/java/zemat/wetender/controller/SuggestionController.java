@@ -12,6 +12,7 @@ import zemat.wetender.domain.suggestion.SuggestionReply;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
+import zemat.wetender.service.MemberService;
 import zemat.wetender.service.SuggestionService;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class SuggestionController {
 
     private final SuggestionService suggestionService;
+    private final MemberService memberService;
 
     // 건의사항 메인페이지 시작
     @GetMapping("/main")
@@ -47,7 +49,7 @@ public class SuggestionController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("suggestionDtos", suggestionDtos);
-
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "suggestion/main";
 
     }
@@ -67,6 +69,7 @@ public class SuggestionController {
             model.addAttribute("suggestionDto", suggestionDto);
         }
 
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "suggestion/insert";
     }
 
@@ -109,6 +112,7 @@ public class SuggestionController {
         model.addAttribute("suggestionDtos", suggestionDtos);
         // 게시판 기능
 
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "suggestion/detail";
     }
 

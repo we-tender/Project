@@ -18,6 +18,7 @@ import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.service.LiquorService;
+import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;
 import java.util.Map;
@@ -32,6 +33,7 @@ public class LiquorController {
     private final LiquorService liquorService;
     private final LiquorFileStore liquorFileStore;
     private final CocktailFileStore cocktailFileStore;
+    private final MemberService memberService;
 
 
     // 주류 메인(게시판)
@@ -53,6 +55,8 @@ public class LiquorController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("liquorDtos", liquorDtos);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
         return "liquor/main";
     }
 
@@ -83,6 +87,7 @@ public class LiquorController {
 
         model.addAttribute("liquorDto", liquorDto);
         model.addAttribute("cocktails",cocktails);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "liquor/detail";
     }

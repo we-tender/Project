@@ -55,7 +55,7 @@ public class MemberService {
 
 
     // 세션의 멤버 데이터를 가져오는 함수
-    public UserDetails getMember() {
+    public UserDetails getSessionMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
             return null;

@@ -50,18 +50,17 @@ public class MemberController {
 
     @GetMapping("/member/mypage")
     public String myPage(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails principalDetails = (UserDetails) authentication.getPrincipal();
+        UserDetails principalDetails = memberService.getSessionMember();
         model.addAttribute("sessionMember", principalDetails);
         Member findMember = memberService.findByMemberIdName(principalDetails.getUsername());
         model.addAttribute("member", findMember);
-//        findMember.get
 
         return "member/myPage";
     }
 
     @GetMapping("/member/list")
-    public String memberList() {
+    public String memberList(Model model) {
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "member/memberlist";
     }
 }

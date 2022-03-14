@@ -62,7 +62,7 @@ public class NoticeBoardController {
         model.addAttribute("noticeBoardAllDtos", noticeBoardAllDtos);
 
         // id 가져오기
-        model.addAttribute("sessionMember", memberService.getMember());
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "noticeBoard/main";
     }
@@ -90,7 +90,7 @@ public class NoticeBoardController {
             model.addAttribute("noticeBoardDto", noticeBoardDto);
         }
 
-        model.addAttribute("sessionMember", memberService.getMember());
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "noticeBoard/insert";
 
@@ -127,7 +127,7 @@ public class NoticeBoardController {
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 
         // id 가저오기
-        model.addAttribute("sessionMember", memberService.getMember());
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "noticeBoard/detail";
     }
