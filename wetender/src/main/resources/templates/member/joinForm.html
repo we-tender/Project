@@ -18,36 +18,36 @@
             <div class="main-contents">
                 <div class="main-contents-inline1-row">
                     <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post">
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="idname">ID</label></h5>
-                            <input th:field="*{idname}" class="input-1" type="text" placeholder=" 아이디를 입력해주세요.">
+                            <input th:field="*{idname}" class="width-100" type="text" placeholder="아이디를 입력해주세요.">
                         </div>
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="pwd1">PASSWORD</label></h5>
-                            <input th:field="*{pwd1}" class="input-1" type="password" placeholder=" 비밀번호를 입력해주세요.">
+                            <input th:field="*{pwd1}" class="width-100" type="password" placeholder="비밀번호를 입력해주세요.">
                         </div>
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="pwd2">CONFIRM</label></h5>
-                            <input th:field="*{pwd2}" class="input-1" type="password" placeholder=" 비밀번호를 한번 더 입력해주세요.">
+                            <input th:field="*{pwd2}" class="width-100" type="password" placeholder="비밀번호를 한번 더 입력해주세요.">
                         </div>
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="name">NAME</label></h5>
-                            <input th:field="*{name}" class="input-1" type="text" placeholder=" 이름을 입력해주세요.">
+                            <input th:field="*{name}" class="width-100" type="text" placeholder="이름을 입력해주세요.">
                         </div>
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="email">EAMIL</label></h5>
-                            <input th:field="*{email}" class="input-1" type="email" placeholder=" 이메일을 입력해주세요.">
+                            <input th:field="*{email}" class="width-100" type="email" placeholder="이메일을 입력해주세요.">
                         </div>
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="address">ADDRESS</label></h5>
-                            <input th:field="*{address}" class="input-1" type="text" placeholder=" 주소를 입력해주세요.">
+                            <input th:field="*{address}" class="width-100" type="text" placeholder="주소를 입력해주세요.">
                         </div>
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="phone">CONTACT</label></h5>
-                            <input th:field="*{phone}" class="input-1" type="tel" placeholder=" 연락처를 입력해주세요.">
+                            <input th:field="*{phone}" class="width-100" type="tel" placeholder="연락처를 입력해주세요.">
                         </div>
-                        <div class="padding-05">
-                            <button class="width-100 btn-1" type="submit">JOIN US</button>
+                        <div class="padding-05 btn-1">
+                            <button class="width-100" type="submit">JOIN US</button>
                         </div>
                     </form>
                 </div>

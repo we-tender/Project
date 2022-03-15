@@ -1,13 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>칵테일Main</title>
 </head>
+
 <body>
-    <a th:href="@{/supporters/cocktailInsert}">칵테일 등록</a>
-    <a th:href="@{/supporters/liquorInsert}">주류 등록</a>
-    <a th:href="@{/supporters/ingredientInsert}">식재료 등록</a>
+
+    <section>
+        <a th:href="@{/supporters/cocktailInsert}">칵테일 등록</a>
+        <a th:href="@{/supporters/liquorInsert}">주류 등록</a>
+        <a th:href="@{/supporters/ingredientInsert}">식재료 등록</a>
+    </section>
+
 </body>
+
 </html>

@@ -1,47 +1,66 @@
-
-
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
 <head>
-  <meta charset="utf-8">
-  <link href="../css/bootstrap.min.css" th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
+    <meta charset="utf-8">
 </head>
+
 <body>
-<div class="container">
-  <div class="py-5 text-center">
-    <h2>식재료 등록 폼</h2>
-  </div>
-  <h4 class="mb-3">식재료 입력</h4>
-  <form th:action th:object="${form}" method="post" enctype="multipart/form-data">
-<!--    <div th:if="${#fields.hasGlobalErrors()}">-->
-<!--      <p class="field-error" th:each="err : ${#fields.globalErrors()}"-->
-<!--         th:text="${err}">글로벌 오류 메시지</p>-->
-<!--    </div>-->
-    <div>
-      <label th:for="name">식재료 이름</label>
-      <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
-    </div>
-    <div>
-      <label th:for="eName">식재료 영문이름</label>
-      <input type="text" th:field="*{eName}" class="form-control" placeholder="영문명을 입력하세요">
-    </div>
-    <div>
-      <label th:for="content">식재료 설명</label>
-      <input type="text" th:field="*{content}" class="form-control" placeholder="설명을 입력하세요">
-    </div>
-    <div>
-      <label th:for="images">식재료 이미지</label>
-      <input type="file" multiple="multiple" th:field="*{images}" class="form-control" placeholder="파일을 등록해주세요">
-    </div>
-    <div class="col">
-      <button class="w-100 btn btn-primary btn-lg" type="submit">식재료 등록</button>
-    </div>
-    <div class="col">
-      <button class="w-100 btn btn-secondary btn-lg"
-              th:onclick="|location.href='@{/supporters/main}'|"
-              type="button">취소</button>
-    </div>
-  </form>
-</div> <!-- /container -->
+
+    <section>
+        <div class="main-container-grid">
+            <div class="main-contents-header">
+                <div class="main-contents-inline1-row">
+                    <h2>식재료 등록 폼</h2>
+                </div>
+            </div>
+            <div class="main-contents">
+                <div class="main-contents-inline1-row">
+                    <form th:action th:object="${form}" method="post" enctype="multipart/form-data">
+                        <!--    <div th:if="${#fields.hasGlobalErrors()}">-->
+                        <!--      <p class="field-error" th:each="err : ${#fields.globalErrors()}"-->
+                        <!--         th:text="${err}">글로벌 오류 메시지</p>-->
+                        <!--    </div>-->
+                        <div class="width-20rem padding-05 input-1">
+                            <h5><label th:for="name">식재료 이름</label></h5>
+                            <input type="text" th:field="*{name}" class="width-100" placeholder="이름을 입력하세요">
+                        </div>
+                        <div class="width-20rem padding-05 input-1">
+                            <h5><label th:for="eName">식재료 영문이름</label></h5>
+                            <input type="text" th:field="*{eName}" class="width-100" placeholder="영문명을 입력하세요">
+                        </div>
+                        <div class="width-20rem padding-05 input-1">
+                            <h5><label th:for="content">식재료 설명</label></h5>
+                            <input type="text" th:field="*{content}" class="width-100" placeholder="설명을 입력하세요">
+                        </div>
+                        <div class="display-flex padding-05 input-file">
+                            <label th:for="images">식재료 이미지</label>
+                            <input type="file" multiple="multiple" id="images" th:field="*{images}">
+                            <input class="upload-name" placeholder="파일을 등록해주세요">
+                        </div>
+                        <div class="width-20rem padding-05 btn-1">
+                            <button type="submit" class="width-100">등록</button>
+                        </div>
+                        <div class="width-20rem padding-05 btn-2">
+                            <button th:onclick="|location.href='@{/supporters/main}'|"
+                                    class="width-100"
+                                    type="button">취소</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                    var fileTarget = $('#images');
+                    fileTarget.on('change', function(){
+                    var cur=$(".input-file input[type='file']").val();
+                    $(".upload-name").val(cur);
+                });
+            });
+        </script>
+    </section>
+
 </body>
+
 </html>

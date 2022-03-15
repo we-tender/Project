@@ -26,10 +26,7 @@ import zemat.wetender.dto.supportersDto.CocktailInsertForm;
 import zemat.wetender.dto.supportersDto.CocktailUpdateForm;
 import zemat.wetender.dto.supportersDto.IngredientInsertForm;
 import zemat.wetender.dto.supportersDto.LiquorInsertForm;
-import zemat.wetender.service.CocktailService;
-import zemat.wetender.service.IngredientService;
-import zemat.wetender.service.LiquorService;
-import zemat.wetender.service.SupportersService;
+import zemat.wetender.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -49,6 +46,7 @@ public class SupportersController {
     private final CocktailFileStore cocktailFileStore;
     private final LiquorService liquorService;
     private final IngredientService ingredientService;
+    private final MemberService memberService;
 
     private final LiquorFileStore liquorFileStore;
     private final IngredientFileStore ingredientFileStore;
@@ -72,6 +70,7 @@ public class SupportersController {
 
     @GetMapping("/main")
     public String main(Model model) {
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "supporters/main";
     }
 
@@ -79,6 +78,7 @@ public class SupportersController {
     @GetMapping("/cocktailInsert")
     public String cocktailInsertForm(Model model){
         model.addAttribute("form", new CocktailInsertForm());
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "supporters/insert/cocktailInsert";
     }
@@ -188,6 +188,7 @@ public class SupportersController {
     public String liquorInsertForm(Model model){
 
         model.addAttribute("form", new LiquorInsertForm());
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "supporters/insert/liquorInsert";
     }
@@ -214,6 +215,7 @@ public class SupportersController {
     public String ingredientInsertForm(Model model){
 
         model.addAttribute("form", new IngredientInsertForm());
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "supporters/insert/ingredientInsert";
     }

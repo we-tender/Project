@@ -20,16 +20,16 @@
             <div class="main-contents">
                 <div class="main-contents-inline1-row">
                     <form th:field="idnamePwdForm" th:action="@{/member/login}" th:object="${memberLoginForm}" method="post">
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="idname">ID</label></h5>
-                            <input th:field="*{idname}" type="text" class="input-1" placeholder=" 아이디를 입력해주세요.">
+                            <input th:field="*{idname}" type="text" class="width-100" placeholder="아이디를 입력해주세요.">
                         </div>
-                        <div class="width-20rem padding-05">
+                        <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="pwd">PASSWORD</label></h5>
-                            <input th:field="*{pwd}" type="password" class="input-1" placeholder=" 비밀번호를 입력해주세요.">
+                            <input th:field="*{pwd}" type="password" class="width-100" placeholder="비밀번호를 입력해주세요.">
                         </div>
-                        <div class="padding-05">
-                            <button class="width-100 btn-1" type="submit">login</button>
+                        <div class="padding-05 btn-1">
+                            <button class="width-100" type="submit">login</button>
                         </div>
                     </form>
                 </div>
