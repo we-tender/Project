@@ -63,7 +63,6 @@
     flex : 1;
     display : flex;
     justify-content : center;
-    align-items : center;
     height : 12rem;
     margin : 1rem;
 }
@@ -71,7 +70,6 @@
     flex : 2;
     display : flex;
     justify-content : center;
-    align-items : center;
     height : 12rem;
     margin : 1rem;
 }
@@ -81,13 +79,4 @@
     flex-direction : column;
     height : 12rem;
     margin : 1rem;
-}
-
-
-/* 공통 */
-.border-pink {
-    border : 1px solid #fb8bb5;
-}
-.border-gray {
-    border : 1px solid #dfdfdf;
 }
