@@ -106,7 +106,6 @@ function noticeBoardSortBy(sortBy) {
     }
 
 
-
     var noticeBoardKeywordSortDto = {
         keyword:keywordData,
         sortBy:sortByData
@@ -139,6 +138,47 @@ function noticeBoardSortBy(sortBy) {
     }).done(function (fragment)  {
         $("#noticeBoardResult").replaceWith(fragment);
     })
+}
+
+
+function replyDelete() {
+
+    var noticeBoardReplyIdData = $("#noticeBoardReplyId").val();
+    var noticeBoardIdData = $("#noticeBoardId").val();
+    var noticeBoardReplyDeleteDto = {
+        noticeBoardId:noticeBoardIdData,
+        noticeBoardReplyId:noticeBoardReplyIdData
+    };
+
+    $.ajax({
+        url: "/noticeBoard/replyDeleteAjax",
+        data: noticeBoardReplyDeleteDto,
+        type: "POST",
+
+
+        beforeSend: function (jqXHR, settings) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           if(token && header) {
+               jqXHR.setRequestHeader(header, token);
+           }
+        },
+
+         success: function(result) {
+            if (result) {
+                alert("완료");
+            } else {
+                alert("전송된 값 없음");
+            }
+         },
+         error: function() {
+            alert("에러 발생");
+         }
+
+    }).done(function (fragment) {
+        $("#replyResult").replaceWith(fragment);
+    });
+
 
 
 }

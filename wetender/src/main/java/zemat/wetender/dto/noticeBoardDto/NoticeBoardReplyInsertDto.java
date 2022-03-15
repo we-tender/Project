@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter @Setter
 public class NoticeBoardReplyInsertDto {
 
+    private Long noticeBoardReplyId;
     private Long noticeBoardId;
     private String noticeBoardReplyContent;
 

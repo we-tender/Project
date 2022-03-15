@@ -53,4 +53,6 @@ public class NoticeBoard extends BasePostEntity {
     }
 
 
+
+
 }

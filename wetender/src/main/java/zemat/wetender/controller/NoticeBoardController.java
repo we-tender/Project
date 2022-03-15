@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
+import zemat.wetender.domain.noticeBoard.NoticeBoardReply;
 import zemat.wetender.domain.noticeBoard.NoticeStatus;
 import zemat.wetender.dto.noticeBoardDto.*;
 import zemat.wetender.service.MemberService;
@@ -65,14 +66,6 @@ public class NoticeBoardController {
         model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "noticeBoard/main";
-    }
-
-    // 공지사항 메인페이지 검색, 정렬 결과 반환
-    @RequestMapping(value = "findAllByKeywordAndSort", method = RequestMethod.POST)
-    public String findAllByKeywordAndSort(NoticeBoardKeywordSortDto noticeBoardKeywordSortDto) {
-
-
-        return "redirect:/noticeBoard/detail?noticeBoardId=1";
     }
 
 
@@ -137,6 +130,31 @@ public class NoticeBoardController {
     public String replyInsert(@ModelAttribute NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
         Long id = noticeBoardService.replyInsert(noticeBoardReplyInsertDto);
         return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
+    }
+
+    // 공지사항 댓글 삭제
+    @GetMapping("/replyDelete")
+    public String replyDelete(@RequestParam(required = true) Long noticeBoardReplyId) {
+        noticeBoardService.replyDelete(noticeBoardReplyId);
+        return "redirect:/noticeBoard/detail?noticeBoardId=1";
+    }
+
+    // 공지사항 댓글 삭제 Ajax
+    @RequestMapping(value = "/replyDeleteAjax", method = RequestMethod.POST)
+    public String replyDeleteAjax(Model model, NoticeBoardReplyDeleteDto Dto) {
+        Long noticeBoardReplyId = Dto.getNoticeBoardReplyId();
+        noticeBoardService.replyDelete(noticeBoardReplyId);
+
+        Long noticeBoardId = Dto.getNoticeBoardId();
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
+
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+
+        System.out.println("Dto = " + Dto);
+        System.out.println("noticeBoardDto = " + noticeBoardDto);
+
+        return "/noticeBoard/detail :: #replyResult";
+
     }
 
     // 공지사항 좋아요

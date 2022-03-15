@@ -35,12 +35,25 @@ public class NoticeBoardService {
     private final MemberRepository memberRepository;
 
     // 공지사항 등록, 수정
-    public Long insert(NoticeBoardInsertDto noticeBoardInsertDto) {
+    public Long insert(NoticeBoardInsertDto Dto) {
 
-        NoticeBoard noticeBoard = new NoticeBoard(noticeBoardInsertDto);
-        NoticeBoard save = noticeBoardRepository.save(noticeBoard);
-        return save.getId();
+        // 아이디가 없는 경우 새로 생성
+        if( Dto.getId() == null ) {
+            NoticeBoard noticeBoard = new NoticeBoard(Dto);
+            NoticeBoard save = noticeBoardRepository.save(noticeBoard);
+            return save.getId();
+        }
 
+        // 아이디가 있는 경우 수정
+        else {
+            NoticeBoard noticeBoard = noticeBoardRepository.getById(Dto.getId());
+
+            noticeBoard.setStatus(Dto.getStatus());
+            noticeBoard.setNoticeBoardTitle(Dto.getNoticeBoardTitle());
+            noticeBoard.setNoticeBoardContent(Dto.getNoticeBoardContent());
+
+            return noticeBoard.getId();
+        }
     }
 
     // 공지사항 조회
@@ -77,6 +90,7 @@ public class NoticeBoardService {
     public List<NoticeBoardDto> detail_list(Long noticeBoardID)
     {
         List<NoticeBoardDto> noticeBoardDtos = new ArrayList<>();
+
         Long start = 0L;
 
         int size = noticeBoardRepository.findAll().size();
@@ -102,9 +116,13 @@ public class NoticeBoardService {
                 break;
             }
             if(noticeBoardRepository.existsById(start)) {
-                noticeBoardDtos.add(new NoticeBoardDto(noticeBoardRepository.findById(start).get()));
+                noticeBoardDtos.add(new NoticeBoardDto(noticeBoardRepository.getById(start)));
+                start += 1;
             }
-            start += 1;
+            else {
+
+            }
+
         }
         return noticeBoardDtos;
     }
@@ -118,6 +136,15 @@ public class NoticeBoardService {
         noticeBoard.repliesAdd();
         return noticeBoardId;
     }
+
+    // 공지사항 댓글 삭제하기
+    public void replyDelete(Long noticeBoardReplyId) {
+        NoticeBoardReply noticeBoardReply = noticeBoardReplyRepository.getById(noticeBoardReplyId);
+        noticeBoardReplyRepository.delete(noticeBoardReply);
+    }
+
+
+
 
     // 공지사항 좋아요 저장하기, 삭제하기
     public Long likes(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {

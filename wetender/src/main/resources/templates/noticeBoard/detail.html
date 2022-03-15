@@ -68,12 +68,8 @@
                                     style="float:left;" > 좋아요 </a>
                         </th:block>
 
-
-
                         <p id="likesFlag"  name="likesFlag" style="float:left; display:none;" th:text="*{noticeBoardLikesList.size()}"></p>
                         <p id="noticeBoardLikes" name="noticeBoardLikes" style="float:left;" th:text="*{noticeBoardLikesList.size()}">좋아요 수</p>
-
-
 
                         <th:block th:if="${sessionMember}">
                             <th:block th:if="${sessionMember.getUsername()} == *{createdBy}">
@@ -93,16 +89,38 @@
 
                 <!-- 댓글 시작 -->
                 <!-- 댓글 목록 -->
-                <h4> 댓글 </h4>
-                <div class="list-group" th:each="noticeBoardReply : *{noticeBoardReplyList}">
+              `  <h4> 댓글 </h4>
+                <form>   <!-- 폼 안에 결과가 반영되는 Div가 있어야 하나? -->
+                <div id = "replyResult">
+                    <div th:if="${noticeBoardDto} != null" th:object = "${noticeBoardDto}">
+                    <div class="list-group" th:each="noticeBoardReply : *{noticeBoardReplyList}">
                         <div class="d-flex w-100 justify-content-between">
                             <b><h6 class="mb-1" th:text = "${noticeBoardReply.createdBy}"> 글쓴이 </h6></b>
                             <small> </small>
                         </div>
                         <p class="mb-1" th:text = "${noticeBoardReply.noticeBoardReplyContent}" > 댓글 내용 </p>
                         <small th:text = "${noticeBoardReply.createdDate}" > 댓글 작성 날짜 </small>
-                    <hr>
+
+                        <div class="container">
+                            <div class="text-end">
+    <!--                    <th:block th:if="${sessionMember}">-->
+    <!--                        <th:block th:if="${sessionMember.getUsername()} == *{createdBy}">-->
+                                <a type="button" class="btn btn-primary" > 수정 </a>
+                                <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/replyDelete(noticeBoardReplyId = ${noticeBoardReply.id})}"> 삭제 </a>
+
+                                <input id="noticeBoarId" type="hidden" name="noticeBoarId" th:value="*{id}"/>
+                                <input id="noticeBoardReplyId" type="hidden" name="noticeBoardReplyId" th:value="${noticeBoardReply.id}"/>
+                                <button type="button" class="btn btn-primary" onclick="replyDelete()"> 삭제 Ajax </button>
+
+    <!--                        </th:block>-->
+    <!--                    </th:block>-->
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    </div>
                 </div>
+                </form>
 
                 <!-- 댓글 작성 -->
                 <form action = "#" th:action="@{/noticeBoard/replyInsert}" th:object="${noticeBoardReplyInsertDto}" method="post">
