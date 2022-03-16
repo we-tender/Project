@@ -158,7 +158,7 @@ public class NoticeBoardService {
 
         Optional<NoticeBoardLikes> byMemberAndNoticeBoard = noticeBoardLikesRepository.findByMemberAndNoticeBoard(member, noticeBoard);
 
-        if(byMemberAndNoticeBoard.isEmpty()) {
+        if ( byMemberAndNoticeBoard.isEmpty() ) {
             noticeBoardLikesRepository.save(noticeBoardLikes);
             noticeBoard.likesAdd();
         }
@@ -168,6 +168,22 @@ public class NoticeBoardService {
         }
 
         return noticeBoardId;
+    }
+
+    // 공지사항 좋아요 확인
+    public boolean likesCheck(Long noticeBoardId, String username) {
+
+        Member member = memberRepository.findByMemberIdName(username).get();
+        NoticeBoard noticeBoard = noticeBoardRepository.getById(noticeBoardId);
+
+        Optional<NoticeBoardLikes> byMemberAndNoticeBoard = noticeBoardLikesRepository.findByMemberAndNoticeBoard(member, noticeBoard);
+
+        if ( byMemberAndNoticeBoard.isEmpty()) {
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
 

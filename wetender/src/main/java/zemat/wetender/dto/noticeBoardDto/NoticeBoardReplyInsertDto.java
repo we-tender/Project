@@ -1,13 +1,14 @@
 package zemat.wetender.dto.noticeBoardDto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Data
 public class NoticeBoardReplyInsertDto {
 
-    private Long noticeBoardReplyId;
     private Long noticeBoardId;
+    private Long noticeBoardReplyId;
     private String noticeBoardReplyContent;
 
 }

@@ -51,18 +51,9 @@ function noticeBoardLikes() {
            if(token && header) {
                jqXHR.setRequestHeader(header, token);
            }
-        },
-
-        success: function(result) {
-                  if (result) {
-                      alert("완료");
-                  } else {
-                      alert("전송된 값 없음");
-                  }
-              },
-        error: function() {
-            alert("에러 발생");
         }
+    }).done(function (fragment) {
+        $("#likesResult").replaceWith(fragment);
     })
 
 
@@ -90,7 +81,6 @@ function noticeBoardSortBy(sortBy) {
 
     var sortByData="";
     var keywordData="";
-
 
     if(sortBy === 'views') {
         sortByData = "views";
@@ -123,28 +113,17 @@ function noticeBoardSortBy(sortBy) {
            if(token && header) {
                jqXHR.setRequestHeader(header, token);
            }
-        },
-
-        success: function(result) {
-                  if (result) {
-                      alert("완료");
-                  } else {
-                      alert("전송된 값 없음");
-                  }
-              },
-        error: function() {
-            alert("에러 발생");
         }
     }).done(function (fragment)  {
         $("#noticeBoardResult").replaceWith(fragment);
     })
 }
 
-
+// 댓글 삭제
 function replyDelete() {
-
     var noticeBoardReplyIdData = $("#noticeBoardReplyId").val();
     var noticeBoardIdData = $("#noticeBoardId").val();
+
     var noticeBoardReplyDeleteDto = {
         noticeBoardId:noticeBoardIdData,
         noticeBoardReplyId:noticeBoardReplyIdData
@@ -155,6 +134,34 @@ function replyDelete() {
         data: noticeBoardReplyDeleteDto,
         type: "POST",
 
+        beforeSend: function (jqXHR, settings) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           if(token && header) {
+               jqXHR.setRequestHeader(header, token);
+           }
+        }
+
+    }).done(function (fragment) {
+        $("#replyResult").replaceWith(fragment);
+    });
+}
+
+
+// 댓글 저장
+function replyInsert() {
+    var noticeBoardIdData = $("#noticeBoardId").val();
+    var noticeBoardReplyContentData = $("#noticeBoardReplyContent").val();
+
+    var noticeBoardReplyInsertDto = {
+        noticeBoardId:noticeBoardIdData,
+        noticeBoardReplyContent:noticeBoardReplyContentData
+    };
+
+    $.ajax({
+        url: "/noticeBoard/replyInsertAjax",
+        data: noticeBoardReplyInsertDto,
+        type: "POST",
 
         beforeSend: function (jqXHR, settings) {
            var header = $("meta[name='_csrf_header']").attr("content");
@@ -162,24 +169,11 @@ function replyDelete() {
            if(token && header) {
                jqXHR.setRequestHeader(header, token);
            }
-        },
-
-         success: function(result) {
-            if (result) {
-                alert("완료");
-            } else {
-                alert("전송된 값 없음");
-            }
-         },
-         error: function() {
-            alert("에러 발생");
-         }
+        }
 
     }).done(function (fragment) {
-        $("#replyResult").replaceWith(fragment);
-    });
-
+       $("#replyResult").replaceWith(fragment);
+   });
 
 
 }
-

@@ -63,7 +63,10 @@ public class NoticeBoardController {
         model.addAttribute("noticeBoardAllDtos", noticeBoardAllDtos);
 
         // id 가져오기
-        model.addAttribute("sessionMember", memberService.getSessionMember());
+        UserDetails sessionMember = memberService.getSessionMember();
+        model.addAttribute("sessionMember", sessionMember);
+
+
 
         return "noticeBoard/main";
     }
@@ -120,24 +123,33 @@ public class NoticeBoardController {
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 
         // id 가저오기
-        model.addAttribute("sessionMember", memberService.getSessionMember());
+        UserDetails sessionMember = memberService.getSessionMember();
+        model.addAttribute("sessionMember",sessionMember);
+
+        if(sessionMember != null) {
+            boolean checkResult = noticeBoardService.likesCheck(noticeBoardId, sessionMember.getUsername());
+            model.addAttribute("checkResult", checkResult);
+        }
 
         return "noticeBoard/detail";
     }
 
-    // 공지사항 댓글 등록
-    @PostMapping("/replyInsert")
-    public String replyInsert(@ModelAttribute NoticeBoardReplyInsertDto noticeBoardReplyInsertDto) {
-        Long id = noticeBoardService.replyInsert(noticeBoardReplyInsertDto);
-        return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
+
+
+    // 공지사항 댓글 등록 Ajax
+    @RequestMapping(value = "/replyInsertAjax", method = RequestMethod.POST)
+    public String replyInsert(Model model, NoticeBoardReplyInsertDto Dto) {
+        Long id = noticeBoardService.replyInsert(Dto);
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(id);
+
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+
+        return "/noticeBoard/detail :: #replyResult";
+
     }
 
-    // 공지사항 댓글 삭제
-    @GetMapping("/replyDelete")
-    public String replyDelete(@RequestParam(required = true) Long noticeBoardReplyId) {
-        noticeBoardService.replyDelete(noticeBoardReplyId);
-        return "redirect:/noticeBoard/detail?noticeBoardId=1";
-    }
 
     // 공지사항 댓글 삭제 Ajax
     @RequestMapping(value = "/replyDeleteAjax", method = RequestMethod.POST)
@@ -149,20 +161,31 @@ public class NoticeBoardController {
         NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
 
         model.addAttribute("noticeBoardDto", noticeBoardDto);
-
-        System.out.println("Dto = " + Dto);
-        System.out.println("noticeBoardDto = " + noticeBoardDto);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #replyResult";
-
     }
 
     // 공지사항 좋아요
     @RequestMapping(value = "/likesInsert", method=RequestMethod.POST)
-    public String likesInsert(NoticeBoardLikesInsertDto noticeBoardLikesInsertDto) {
-        Long id = noticeBoardService.likes(noticeBoardLikesInsertDto);
-        return "redirect:/noticeBoard/detail?noticeBoardId=" + id;
+    public String likesInsert(NoticeBoardLikesInsertDto Dto, Model model) {
+        Long id = noticeBoardService.likes(Dto);
+        boolean checkResult = noticeBoardService.likesCheck(Dto.getNoticeBoardIdLikes(), Dto.getMemberNameLikes());
+        model.addAttribute("checkResult", checkResult);
+
+
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(Dto.getNoticeBoardIdLikes());
+
+
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+        return "/noticeBoard/detail :: #likesResult";
     }
+
+
+
+
 
 
     // 공지사항 정렬
