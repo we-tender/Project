@@ -252,6 +252,9 @@ public class SupportersController {
 
         Page<LiquorPopDto> liquorPopDtos = liquors.map(liquor -> new LiquorPopDto(liquor.getId(), liquor.getLiquorName(), liquor.getLiquorEname()));
 
+
+        int number = liquorPopDtos.getNumber();
+
         model.addAttribute("id",id);
         model.addAttribute("name",name);
         model.addAttribute("liquors",liquorPopDtos);

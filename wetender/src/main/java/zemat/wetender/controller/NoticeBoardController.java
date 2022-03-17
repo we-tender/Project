@@ -43,7 +43,6 @@ public class NoticeBoardController {
         // 검색 기능
         Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageable);
 
-        // 정렬 기능을 넣어야 하는데..
 
 
         Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
@@ -134,8 +133,6 @@ public class NoticeBoardController {
         return "noticeBoard/detail";
     }
 
-
-
     // 공지사항 댓글 등록 Ajax
     @RequestMapping(value = "/replyInsertAjax", method = RequestMethod.POST)
     public String replyInsert(Model model, NoticeBoardReplyInsertDto Dto) {
@@ -145,11 +142,20 @@ public class NoticeBoardController {
         model.addAttribute("noticeBoardDto", noticeBoardDto);
         model.addAttribute("sessionMember", memberService.getSessionMember());
 
-
         return "/noticeBoard/detail :: #replyResult";
-
     }
 
+    // 공지사항 댓글 수정 Ajax
+    @RequestMapping(value = "/replyEditAjax", method = RequestMethod.POST)
+    public String replyEdit(Model model, NoticeBoardReplyInsertDto Dto) {
+        noticeBoardService.replyEdit(Dto);
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(Dto.getNoticeBoardId());
+
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+        return "/noticeBoard/detail :: #replyResult";
+    }
 
     // 공지사항 댓글 삭제 Ajax
     @RequestMapping(value = "/replyDeleteAjax", method = RequestMethod.POST)
@@ -185,9 +191,6 @@ public class NoticeBoardController {
 
 
 
-
-
-
     // 공지사항 정렬
     @RequestMapping(value = "/sortBy", method = RequestMethod.POST)
     public String sortBy(Model model, NoticeBoardKeywordSortDto Dto,
@@ -195,8 +198,6 @@ public class NoticeBoardController {
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
         PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, Dto.getSortBy()));
-
-
 
         Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(Dto.getKeyword(), pageRequest);
         Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));

@@ -89,12 +89,11 @@ public class NoticeBoardService {
     // 건의사항 ID를 기준 5개 조회하기
     public List<NoticeBoardDto> detail_list(Long noticeBoardID)
     {
+
+
         List<NoticeBoardDto> noticeBoardDtos = new ArrayList<>();
-
         Long start = 0L;
-
         int size = noticeBoardRepository.findAll().size();
-
         if(size <= 5) {
             start = 1L;
         }
@@ -135,6 +134,18 @@ public class NoticeBoardService {
         noticeBoardReplyRepository.save(noticeBoardReply);
         noticeBoard.repliesAdd();
         return noticeBoardId;
+    }
+
+    // 공지사항 댓글 변경하기
+    public void replyEdit(NoticeBoardReplyInsertDto Dto) {
+        Long noticeBoardReplyId = Dto.getNoticeBoardReplyId();
+        NoticeBoardReply byId = noticeBoardReplyRepository.getById(noticeBoardReplyId);
+
+        System.out.println("================================");
+        System.out.println("Dto = " + Dto);
+        
+        
+        byId.setNoticeBoardReplyContent(Dto.getNoticeBoardReplyContent());
     }
 
     // 공지사항 댓글 삭제하기

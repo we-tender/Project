@@ -57,22 +57,6 @@ function noticeBoardLikes() {
     })
 
 
-    // 화면 상에서만 +1, -1 을 실행하는 부분
-    const resultElement = document.getElementById('noticeBoardLikes');
-    let number = resultElement.innerText;
-
-    const flagElement = document.getElementById('likesFlag');
-    let flag = flagElement.innerText;
-
-    if( parseInt(number) === parseInt(flag) ) {
-        number = parseInt(number) + 1;
-    }
-    else if( parseInt(number) !==  parseInt(flag) ) {
-        number = parseInt(number) - 1;
-    }
-
-    resultElement.innerText = number;
-
 }
 
 
@@ -120,8 +104,9 @@ function noticeBoardSortBy(sortBy) {
 }
 
 // 댓글 삭제
-function replyDelete() {
-    var noticeBoardReplyIdData = $("#noticeBoardReplyId").val();
+function replyDelete(noticeBoardReplyId) {
+
+    var noticeBoardReplyIdData = noticeBoardReplyId;
     var noticeBoardIdData = $("#noticeBoardId").val();
 
     var noticeBoardReplyDeleteDto = {
@@ -174,6 +159,84 @@ function replyInsert() {
     }).done(function (fragment) {
        $("#replyResult").replaceWith(fragment);
    });
+}
+
+// 댓글 수정 양식 출현
+function replyEditForm(noticeBoardReplyId) {
+// 아이디에 맞게 가져오는 법을 알아야한다.
+
+    var reply = "reply".concat(noticeBoardReplyId);
+    var replyEdit = "replyEdit".concat(noticeBoardReplyId);
+
+    const replyElement = document.getElementById(reply);
+    const replyEditElement = document.getElementById(replyEdit);
+
+    replyElement.style.display = "none";
+    replyEditElement.style.display = "block";
+
+}
+
+// 댓글 수정 양식 닫기
+function replyEditFormCancel(noticeBoardReplyId) {
+
+    var reply = "reply".concat(noticeBoardReplyId);
+    var replyEdit = "replyEdit".concat(noticeBoardReplyId);
+
+    const replyElement = document.getElementById(reply);
+    const replyEditElement = document.getElementById(replyEdit);
+
+    replyElement.style.display = "block";
+    replyEditElement.style.display = "none";
+
+}
+
+// 댓글 수정 저장
+function replyEditSave(noticeBoardReplyId) {
+
+    var replyContentElement = "#replyContentEdit".concat(noticeBoardReplyId);
+
+    var noticeBoardIdData = $("#noticeBoardId").val();
+    var noticeBoardReplyContentEditData = $(replyContentElement).val();
+
+    var noticeBoardReplyInsertDto = {
+        noticeBoardId:noticeBoardIdData,
+        noticeBoardReplyId:noticeBoardReplyId,
+        noticeBoardReplyContent:noticeBoardReplyContentEditData
+    };
+
+
+    var reply = "reply".concat(noticeBoardReplyId);
+    var replyEdit = "replyEdit".concat(noticeBoardReplyId);
+
+    const replyElement = document.getElementById(reply);
+    const replyEditElement = document.getElementById(replyEdit);
+
+    replyElement.style.display = "block";
+    replyEditElement.style.display = "none";
+
+    $.ajax({
+        url: "/noticeBoard/replyEditAjax",
+        data: noticeBoardReplyInsertDto,
+        type: "POST",
+
+        beforeSend: function (jqXHR, settings) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           if(token && header) {
+               jqXHR.setRequestHeader(header, token);
+           }
+        }
+
+    }).done(function (fragment) {
+        $("#replyResult").replaceWith(fragment);
+    });
+
+
+
+
+
+
+
 
 
 }

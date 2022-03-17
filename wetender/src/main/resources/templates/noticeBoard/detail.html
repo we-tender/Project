@@ -86,9 +86,9 @@
 
 
 
-                        <p style="float:left;" >&nbsp;&nbsp; </p>
+                        <p style="float:left;" >&nbsp;&nbsp;</p>
                         <p id="noticeBoardLikes" name="noticeBoardLikes" style="float:left;" th:text="${noticeBoardDto.likes}">좋아요 수</p>
-                        <p id="likesFlag"  name="likesFlag" style="float:left; display:none;" th:text="*{likes}"></p>
+
 
                         </div>
 
@@ -118,32 +118,63 @@
                 <form>   <!-- 폼 안에 결과가 반영되는 Div가 있어야 하나? -->
                 <div id = "replyResult">
                     <div th:object = "${noticeBoardDto}">
-                    <div class="list-group" th:each="noticeBoardReply : *{noticeBoardReplyList}">
-
-                        <div class="d-flex w-100 justify-content-between">
-                            <b><h6 class="mb-1" th:text = "${noticeBoardReply.createdBy}"> 글쓴이 </h6></b>
-                            <small> </small>
-                        </div>
-
-                        <p class="mb-1" id="|content + ${noticeBoardReply.id}|" th:text = "${noticeBoardReply.noticeBoardReplyContent}" > 댓글 내용 </p>
-
-                        <small th:text = "${noticeBoardReply.createdDate}" > 댓글 작성 날짜 </small>
+                        <div class="list-group" th:each="noticeBoardReply : *{noticeBoardReplyList}">
 
 
-                        <div class="container">
-                            <div class="text-end">
-                                <th:block th:if="${sessionMember}">
-                                    <th:block th:if="${sessionMember.getUsername()} == ${noticeBoardReply.createdBy}">
-                                        <input id="noticeBoarId" type="hidden" name="noticeBoarId" th:value="${noticeBoardDto.id}"/>
-                                        <input id="noticeBoardReplyId" type="hidden" name="noticeBoardReplyId" th:value="${noticeBoardReply.id}"/>
-                                        <a type="button" class="btn btn-primary" > 수정 </a>
-                                        <button type="button" class="btn btn-primary" onclick="replyDelete()"> 삭제 </button>
-                                    </th:block>
-                                </th:block>
+                            <!-- 댓글 낱개 -->
+                            <div th:id="'reply' + ${noticeBoardReply.id}" style="display:block">
+
+                                <div class="d-flex w-100 justify-content-between">
+                                    <b><h6 class="mb-1" th:text = "${noticeBoardReply.createdBy}"> 글쓴이 </h6></b>
+                                    <small> </small>
+                                </div>
+
+                                <p class="mb-1" th:text = "${noticeBoardReply.noticeBoardReplyContent}" > 댓글 내용 </p>
+                                <small th:text = "${noticeBoardReply.createdDate}" > 댓글 작성 날짜 </small>
+
+                                <!-- 댓글 수정, 삭제 -->
+                                <div class="container">
+                                    <div class="text-end">
+                                        <th:block th:if="${sessionMember}">
+                                            <th:block th:if="${sessionMember.getUsername()} == ${noticeBoardReply.createdBy}">
+
+                                                <input id="noticeBoarId" type="hidden" name="noticeBoarId" th:value="${noticeBoardDto.id}"/>
+                                                <input th:id="noticeBoardReplyId + ${noticeBoardReply.id}" type="hidden" name="noticeBoardReplyId" th:value="${noticeBoardReply.id}"/>
+
+                                                <button type="button" class="btn btn-primary" th:onclick="replyEditForm([[${noticeBoardReply.id}]])"> 수정 </button>
+                                                <button type="button" class="btn btn-primary" th:onclick="replyDelete([[${noticeBoardReply.id}]])"> 삭제 </button>
+                                            </th:block>
+                                        </th:block>
+                                    </div>
+                                </div>
                             </div>
+
+
+                            <!-- 댓글 수정 폼 -->
+                            <div th:id="'replyEdit' + ${noticeBoardReply.id}" style="display:none">
+
+                                <div class="d-flex w-100 justify-content-between">
+                                    <b><h6 class="mb-1" th:text = "${noticeBoardReply.createdBy}"> 글쓴이 </h6></b>
+                                    <small> </small>
+                                </div>
+
+                                <textarea class="form-control" th:id="'replyContentEdit' + ${noticeBoardReply.id}" rows="2"></textarea>
+
+                                <div class="container">
+                                    <div class="text-end">
+                                        <input id="noticeBoarIdEdit"  name="noticeBoarIdEdit" type="hidden" th:value="${noticeBoardDto.id}"/>
+                                        <input th:id="noticeBoardReplyId + ${noticeBoardReply.id}"  name="noticeBoardReplyId" type="hidden" th:value="${noticeBoardReply.id}"/>
+                                        <a type="button" class="btn btn-primary" th:onclick="replyEditSave([[${noticeBoardReply.id}]])"> 저장 </a>
+                                        <button type="button" class="btn btn-primary" th:onclick="replyEditFormCancel([[${noticeBoardReply.id}]])"> 취소 </button>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <hr>
+
                         </div>
-                        <hr>
-                    </div>
                     </div>
                 </div>
 
@@ -161,7 +192,7 @@
                             <div class="text-end">
 
                                 <th:block th:if="${sessionMember}">
-                                    <button type = "button" class="btn btn-primary" onclick="replyInsert()"> 댓글 등록 </button>
+                                    <button type = "button" class="btn btn-primary" onclick="replyInsert()"> 등록 </button>
                                 </th:block>
 
                                 <th:block th:unless="${sessionMember}">

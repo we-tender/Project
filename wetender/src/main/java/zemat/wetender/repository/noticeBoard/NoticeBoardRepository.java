@@ -9,6 +9,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.noticeBoard.NoticeStatus;
 
+import javax.persistence.EntityManager;
+
 public interface NoticeBoardRepository extends JpaRepository<NoticeBoard, Long> {
 
     // 검색 조회 ( 제목, 내용 )
@@ -16,6 +18,8 @@ public interface NoticeBoardRepository extends JpaRepository<NoticeBoard, Long> 
 
     // 전체 공지사항 조회
     Page<NoticeBoard> findByStatusContaining(String noticeStatus, Pageable pageable);
+
+
 
 
 }
