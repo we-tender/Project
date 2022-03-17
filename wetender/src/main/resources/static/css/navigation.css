@@ -1,121 +1,120 @@
-/* 상단 (네비게이션) */
+/* 상단 (nav-top) */
 /* 헤더, 배너, 메뉴로 구분 */
 
-/* 네비 전체 */
-#navigation {
+#nav-top {
     border-bottom : 1px solid #fb8bb5;
     margin : 10px;
 }
-#nav-header {
+#nav-top-header {
     border-bottom : 1px solid #fb8bb5;
     display : flex;
     margin : 10px;
     padding : 10px;
 }
-#nav-header-icon {
+#nav-top-header-icon {
     flex : 1;
     display : flex;
     justify-content : flex-start;
 }
-#nav-header-menu {
+#nav-top-header-menu {
     flex : 1;
     display : flex;
     justify-content : flex-end;
 }
-#nav-header ul {
+#nav-top-header ul {
     list-style-type : none;
     padding-left : 0;
     margin-bottom : 0;
 }
-#nav-header ul li {
+#nav-top-header ul li {
     display : inline;
     border-left : 1px solid #000;
     padding : 0px 10px 0px 10px;
     margin : 5px 0px 5px 0px;
 }
-#nav-header ul li:first-child {
+#nav-top-header ul li:first-child {
     border-left : none;
 }
-#nav-header ul a {
+#nav-top-header ul a {
     cursor : pointer;
 }
-#nav-header ul a:hover {
+#nav-top-header ul a:hover {
     color : #fb8bb5;
     font-weight : bold;
 }
-#nav-header ul form {
+#nav-top-header ul form {
     display : inline;
 }
-#nav-header ul button {
+#nav-top-header ul button {
     border : none;
     background-color : transparent;
 }
-#nav-header ul button:hover {
+#nav-top-header ul button:hover {
     color : #fb8bb5;
     font-weight : bold;
 }
-#nav-banner {
+#nav-top-banner {
     border-bottom : 1px solid #fb8bb5;
     display : flex;
     justify-content : center;
     padding : 10px;
 }
-#nav-banner-img img {
+#nav-top-banner-img img {
     width : 100px;
     height : 100px;
 }
-#nav-banner-search {
+#nav-top-banner-search {
     display : flex;
     align-items : center;
     width : 50%;
 }
-#nav-banner-search form {
+#nav-top-banner-search form {
     width : 100%;
 }
-#nav-banner-search form img {
+#nav-top-banner-search form img {
     width : 25px;
     height : 25px;
 }
-#nav-banner-search form input {
+#nav-top-banner-search form input {
     width : 80%;
 }
-#nav-banner-search form input:focus {
+#nav-top-banner-search form input:focus {
     outline : 1px solid #fb8bb5;
 }
-#nav-menu {
+#nav-top-menu {
     display : flex;
     flex-wrap : warp;
     justify-content : center;
 }
-#nav-menu ul {
+#nav-top-menu ul {
     list-style-type : none;
     padding-left : 0;
     margin-bottom : 0;
 }
-#nav-menu ul li {
+#nav-top-menu ul li {
     display : inline;
     border-left : 1px solid #000;
     padding : 0px 10px 0px 10px;
     margin : 5px 0px 5px 0px;
 }
-#nav-menu ul li:first-child {
+#nav-top-menu ul li:first-child {
     border-left : none;
 }
-#nav-menu ul a {
+#nav-top-menu ul a {
     cursor : pointer;
 }
-#nav-menu ul a:hover {
+#nav-top-menu ul a:hover {
     color : #fb8bb5;
     font-weight : bold;
 }
-#nav-menu ul form {
+#nav-top-menu ul form {
     display : inline;
 }
-#nav-menu ul button {
+#nav-top-menu ul button {
     border : none;
     background-color : transparent;
 }
-#nav-menu ul button:hover {
+#nav-top-menu ul button:hover {
     color : #fb8bb5;
     font-weight : bold;
 }

@@ -3,9 +3,9 @@
 
 <body>
 
-    <nav th:fragment="nav1" id="navigation">
-        <div id="nav-header">
-            <div id="nav-header-icon">
+    <nav th:fragment="nav_top" id="nav-top">
+        <div id="nav-top-header">
+            <div id="nav-top-header-icon">
                 <ul>
                     <li><a href="#"><img src="/images/youtube-icon.png" width="20px" height="20px"></a></li>
                     <li><a href="#"><img src="/images/instagram-icon.png" width="20px" height="20px"></a></li>
@@ -14,7 +14,7 @@
                     <li><a href="#"><img src="/images/kakao-icon.png" width="20px" height="20px"></a></li>
                 </ul>
             </div>
-            <div id="nav-header-menu">
+            <div id="nav-top-header-menu">
                 <!-- 로그인 전 -->
                 <th:block th:unless="${sessionMember}">
                     <ul>
@@ -54,11 +54,11 @@
             </div>
         </div>
 
-        <div id="nav-banner">
-            <div id="nav-banner-img">
+        <div id="nav-top-banner">
+            <div id="nav-top-banner-img">
                 <a th:href="@{/}" ><img src="/images/wetenderLogo.png"></a>
             </div>
-            <div id="nav-banner-search">
+            <div id="nav-top-banner-search">
                 <form>
                     <input type="text" placeholder="Search...">
                     <button type="submit"><img src="/images/search.png"></button>
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div id="nav-menu">
+        <div id="nav-top-menu">
             <th:block th:unless="${sessionMember}">
                 <ul>
                     <li>

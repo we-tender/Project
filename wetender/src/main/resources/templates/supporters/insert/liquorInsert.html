@@ -15,47 +15,55 @@
                 </div>
             </div>
             <div class="main-contents">
-                <div class="main-contents-inline1-row">
-                    <form th:action th:object="${form}" method="post" enctype="multipart/form-data">
+                <form th:action th:object="${form}" method="post" enctype="multipart/form-data">
+                    <div class="main-contents-inline1-row">
                     <!--    <div th:if="${#fields.hasGlobalErrors()}">-->
                     <!--      <p class="field-error" th:each="err : ${#fields.globalErrors()}"-->
                     <!--         th:text="${err}">글로벌 오류 메시지</p>-->
                     <!--    </div>-->
-                        <div class="width-20rem padding-05 input-1">
+                        <div class="width-15rem padding-05 input-1">
                             <h5><label th:for="name">주류이름</label></h5>
                             <input type="text" th:field="*{name}" class="width-100" placeholder="이름을 입력하세요">
                         </div>
-                        <div class="width-20rem padding-05 input-1">
+                        <div class="width-15rem padding-05 input-1">
                             <h5><label th:for="eName">주류영문이름</label></h5>
                             <input type="text" th:field="*{eName}" class="width-100" placeholder="영문명을 입력하세요">
                         </div>
-                        <div class="width-20rem padding-05 input-1">
+                        <div class="width-10rem padding-05 input-1">
                             <h5><label th:for="abv">주류 도수</label></h5>
                             <input type="number" th:field="*{abv}" class="width-100" placeholder="도수를 입력하세요">
                         </div>
-                        <div class="width-20rem padding-05 input-1">
+                    </div>
+                    <div class="main-contents-inline1-row">
+                        <div class="width-40rem padding-05 input-1">
                             <h5><label th:for="oneLine">주류 한줄설명</label></h5>
                             <input type="text" th:field="*{oneLine}" class="width-100" placeholder="한줄설명을 입력하세요">
                         </div>
-                        <div class="width-20rem padding-05 input-1">
+                    </div>
+                    <div class="main-contents-inline1-row">
+                        <div class="width-40rem padding-05 input-1">
                             <h5><label th:for="content">주류 설명</label></h5>
                             <input type="text" th:field="*{content}" class="width-100" placeholder="설명을 입력하세요">
                         </div>
-                        <div class="display-flex padding-05 input-file">
+                    </div>
+                    <div class="main-contents-inline1-row">
+                        <div class="display-flex width-100 padding-05 input-file">
                             <label th:for="images">주류 이미지</label>
                             <input type="file" multiple="multiple" id="images" th:field="*{images}">
                             <input class="upload-name" placeholder="파일을 등록해주세요">
                         </div>
-                        <div class="width-20rem padding-05 btn-1">
+                    </div>
+                    <div class="main-contents-inline1-row">
+                        <div class="width-10rem padding-05 btn-1">
                             <button type="submit" class="width-100">등록</button>
                         </div>
-                        <div class="width-20rem padding-05 btn-2">
+                        <div class="width-10rem padding-05 btn-2">
                             <button th:onclick="|location.href='@{/supporters/main}'|"
                                     class="width-100"
                                     type="button">취소</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
         <script>

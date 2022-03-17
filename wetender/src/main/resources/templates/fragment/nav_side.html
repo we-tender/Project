@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+    <!-- Sidebar Start -->
+    <nav th:fragment="nav_side" class="nav-side height-min-50rem">
+        <div class="nav-side-menu">
+            <ul>
+                <li class="nav-side-menu-item">
+                    <a th:href="@{/noticeBoard/main}">공지사항</a>
+                </li>
+                <li class="nav-side-menu-item">
+                    <a th:href="@{/cocktail/main}">칵테일</a>
+                </li>
+                <li class="nav-side-menu-item">
+                    <a th:href="@{/liquor/main}" >주류</a>
+                </li>
+                <li class="nav-side-menu-item">
+                    <a href="#">커뮤니티</a>
+                </li>
+                <li class="nav-side-menu-item">
+                    <a th:href="@{/suggestion/main}">건의사항</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+</body>
+
+
+
+
+
+
+
+
+

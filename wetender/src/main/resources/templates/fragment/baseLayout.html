@@ -28,32 +28,16 @@
 
 <body>
     <!-- navigation -->
-    <div th:replace="~{fragment/navigation :: nav1}"></div>
+    <div th:replace="~{fragment/nav_top :: nav_top}"></div>
 
-<!--    기존 main-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-
-<!--            <div class="col-sm-2">-->
-<!--                <div th:replace="~{fragment/sideNavigation :: sideNavigation}"></div>-->
-<!--            </div>-->
-
-<!--            <div class="col-sm-8">-->
-<!--                <div th:replace="${content}"></div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-    <!-- main content -->
-    <div class="container-fluid position-relative bg-white d-flex p-0">
-        <div th:replace="~{fragment/sideNavigation :: sideNavigation}"></div>
-        <div class="content">
-            <section th:replace="${mainContents}"></section>
-        </div>
+    <!-- container : sidebar + content -->
+    <div class="main-wrapper">
+        <div th:replace="~{fragment/nav_side :: nav_side}"></div>
+        <div class="main-section"><section th:replace="${mainContents}"></section></div>
     </div>
 
     <!-- footer -->
-    <div th:replace="~{fragment/footer :: footer1}"></div>
+    <div th:replace="~{fragment/footer :: foo}"></div>
 
 </body>
 </html>
