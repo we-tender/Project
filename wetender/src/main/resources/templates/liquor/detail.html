@@ -10,8 +10,11 @@
 
     <section>
       <div>
-        <img th:src="|images/${liquorDto.images[0].storeLiquorFileName}|" width="300" height="300"><br/>
-        <img th:src="|images/${liquorDto.images[1].storeLiquorFileName}|" width="300" height="300"><br/>
+        <div th:each="image : ${liquorDto.images}">
+          <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|" width="300" height="300"><br/>
+        </div>
+        <button type="button" th:onclick="|location.href='@{/supporters/liquor/update/{id} (id=${liquorDto.id})}'|">수정하기</button><br/>
+        <button type="button" id="delete" th:onclick="|location.href='@{/supporters/liquor/delete/{id} (id=${liquorDto.id})}'|">삭제하기</button><br/>
         <span th:text="${liquorDto.name}">이름</span><br/>
         <span th:text="${liquorDto.eName}">영문이름</span>
         <span th:text="${liquorDto.oneLine}">한줄평</span>

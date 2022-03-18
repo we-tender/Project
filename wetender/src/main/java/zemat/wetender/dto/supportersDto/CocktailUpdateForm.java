@@ -3,8 +3,8 @@ package zemat.wetender.dto.supportersDto;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.web.multipart.MultipartFile;
 import zemat.wetender.domain.cocktail.*;
+import zemat.wetender.dto.AttachFileDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -35,7 +35,7 @@ public class CocktailUpdateForm {
     @NotBlank
     private String content;
 
-    private List<MultipartFile> images = new ArrayList<>();
+    private List<AttachFileDto> attachList = new ArrayList<>();
 
     private List<String> tastes = new ArrayList<>();
 
@@ -95,11 +95,15 @@ public class CocktailUpdateForm {
     }
 
 
-    public Cocktail toEntity() throws IOException {
+    public Cocktail toEntity(){
 
         List<CocktailTaste> cocktailTastes = new ArrayList<>();
         for (String taste : tastes) {
             cocktailTastes.add(new CocktailTaste(taste));
+        }
+        List<CocktailFile> cocktailFiles = new ArrayList<>();
+        for (AttachFileDto cocktailFileDto : attachList) {
+            cocktailFiles.add(cocktailFileDto.toCocktailFileEntity());
         }
 
         return Cocktail.builder()
@@ -109,6 +113,7 @@ public class CocktailUpdateForm {
                 .cocktailBase(base)
                 .cocktailEName(eName)
                 .cocktailOneLine(oneLine)
+                .cocktailFiles(cocktailFiles)
                 .cocktailTastes(cocktailTastes)
                 .build();
 

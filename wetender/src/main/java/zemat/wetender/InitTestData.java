@@ -1,42 +1,35 @@
 package zemat.wetender;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnailator;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.apache.commons.io.IOUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.ingredient.IngredientFile;
-import zemat.wetender.domain.ingredient.IngredientFileStore;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
-import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.domain.member.Member;
-import zemat.wetender.domain.suggestion.Suggestion;
-import zemat.wetender.repository.IngredientRepository;
-import zemat.wetender.repository.LiquorRepository;
 import zemat.wetender.repository.MemberRepository;
-import zemat.wetender.repository.SuggestionRepository;
 import zemat.wetender.service.*;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static zemat.wetender.domain.member.Role.*;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class InitTestData {
@@ -45,18 +38,25 @@ public class InitTestData {
     private final PasswordEncoder passwordEncoder;
 
     private final LiquorService liquorService;
-    private final LiquorFileStore liquorFileStore;
 
     private final IngredientService ingredientService;
-    private final IngredientFileStore ingredientFileStore;
 
     private final SupportersService supportersService;
-    private final CocktailFileStore cocktailFileStore;
 
     private final SuggestionService suggestionService;
 
     private static final String basicPath = "src/main/resources/static/images/initData/";
     // "src/test/resources/static/images/"
+
+    @Value("${cocktailFile.dir}")
+    private String cocktailFileDir;
+
+    @Value("${liquorFile.dir}")
+    private String liquorFileDir;
+
+    @Value("${ingredientFile.dir}")
+    private String ingredientFileDir;
+
 
     /**
      * 테스트 데이터 - 서버 실행 시 DB에 저장된다
@@ -95,7 +95,7 @@ public class InitTestData {
         cocktailTastes.add(new CocktailTaste("상큼하다"));
 
         // File
-        List<CocktailFile> cocktailFiles = cocktailFileStore.storeFiles(getMultipartFiles(basicPath, "sangria", 2));
+        List<CocktailFile> cocktailFiles = uploadFiles(getMultipartFiles(basicPath, "sangria", 2));
 
         // Sequnece
         List<CocktailSequence> cocktailSequences = new ArrayList<>();
@@ -166,7 +166,7 @@ public class InitTestData {
         cocktailTastes.add(new CocktailTaste("상큼한맛"));
 
         // File
-        cocktailFiles = cocktailFileStore.storeFiles(getMultipartFiles(basicPath, "mojito", 2));
+        cocktailFiles = uploadFiles((getMultipartFiles(basicPath, "mojito", 2)));
 
         // Sequnece
         cocktailSequences.add(new CocktailSequence("민트잎은 찬물에 담가두었다가 건져 줄기에서 잎을 한장씩 뜯어 준비한다"));
@@ -223,6 +223,7 @@ public class InitTestData {
                 .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(88)
                 .build();
+
         supportersService.cocktailSave(cocktail);
 
         ////////////////////////////////////////////////마가리타////////////////////////////////////////////////
@@ -240,7 +241,7 @@ public class InitTestData {
         cocktailTastes.add(new CocktailTaste("짜다"));
 
         // File
-        cocktailFiles = cocktailFileStore.storeFiles(getMultipartFiles(basicPath, "margarita", 2));
+        cocktailFiles = uploadFiles(getMultipartFiles(basicPath, "margarita", 2));
 
         // Sequnece
         cocktailSequences.add(new CocktailSequence("레몬 조각으로 칵테일 글라스 가장자리에 레몬즙을 발라준다"));
@@ -313,7 +314,7 @@ public class InitTestData {
         cocktailTastes.add(new CocktailTaste("텁텁하다"));
 
         // File
-        cocktailFiles = cocktailFileStore.storeFiles(getMultipartFiles(basicPath, "oldFashioned", 2));
+        cocktailFiles = uploadFiles(getMultipartFiles(basicPath, "oldFashioned", 2));
 
         // Sequnece
         cocktailSequences.add(new CocktailSequence("글라스에 각설탕 1개를 넣는다"));
@@ -380,67 +381,67 @@ public class InitTestData {
         List<Ingredient> ingredients = new ArrayList<>();
         List<IngredientFile> ingredientFiles;
 
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "lemon", 3));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "lemon", 3));
         ingredients.add(Ingredient.builder()
                 .ingredientName("레몬")
                 .ingredientEname("lemon")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "lime", 3));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "lime", 3));
         ingredients.add(Ingredient.builder()
                 .ingredientName("라임")
                 .ingredientEname("lime")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "sugar", 3));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "sugar", 3));
         ingredients.add(Ingredient.builder()
                 .ingredientName("설탕")
                 .ingredientEname("sugar")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "carbonatedWater", 4));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "carbonatedWater", 4));
         ingredients.add(Ingredient.builder()
                 .ingredientName("탄산수")
                 .ingredientEname("carbonated water")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "orange", 2));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "orange", 2));
         ingredients.add(Ingredient.builder()
                 .ingredientName("오렌지")
                 .ingredientEname("orange")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "cinnamonPowder", 2));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "cinnamonPowder", 2));
         ingredients.add(Ingredient.builder()
                 .ingredientName("시나몬가루")
                 .ingredientEname("cinnamon powder")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "ice", 2));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "ice", 2));
         ingredients.add(Ingredient.builder()
                 .ingredientName("얼음")
                 .ingredientEname("ice")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "mintleaf", 1));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "mintleaf", 1));
         ingredients.add(Ingredient.builder()
                 .ingredientName("민트잎")
                 .ingredientEname("mint leaf")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "salt", 2));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "salt", 2));
         ingredients.add(Ingredient.builder()
                 .ingredientName("소금")
                 .ingredientEname("salt")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "mapleSyrup", 2));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "mapleSyrup", 2));
         ingredients.add(Ingredient.builder()
                 .ingredientName("메이플시럽")
                 .ingredientEname("maplesyrup")
                 .ingredientFiles(ingredientFiles)
                 .build());
-        ingredientFiles = ingredientFileStore.storeFiles(getMultipartFiles(basicPath, "cherry", 3));
+        ingredientFiles = uploadIngredientFiles(getMultipartFiles(basicPath, "cherry", 3));
         ingredients.add(Ingredient.builder()
                 .ingredientName("체리")
                 .ingredientEname("cherry")
@@ -456,7 +457,7 @@ public class InitTestData {
         List<Liquor> liquors = new ArrayList<>();
         List<LiquorFile> liquorFiles;
 
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "jackdaniel", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "jackdaniel", 3));
         liquors.add(Liquor.builder()
                 .liquorName("잭다니엘")
                 .liquorEname("jackdaniel")
@@ -466,7 +467,7 @@ public class InitTestData {
                 .liquorRecommendation(199L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "gin", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "gin", 3));
         liquors.add(Liquor.builder()
                 .liquorName("진")
                 .liquorEname("gin")
@@ -476,7 +477,7 @@ public class InitTestData {
                 .liquorRecommendation(118L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "rum", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "rum", 3));
         liquors.add(Liquor.builder()
                 .liquorName("럼")
                 .liquorEname("rum")
@@ -486,7 +487,7 @@ public class InitTestData {
                 .liquorRecommendation(162L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "vodka", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "vodka", 3));
         liquors.add(Liquor.builder()
                 .liquorName("보드카")
                 .liquorEname("vodka")
@@ -496,7 +497,7 @@ public class InitTestData {
                 .liquorRecommendation(132L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "whisky", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "whisky", 3));
         liquors.add(Liquor.builder()
                 .liquorName("위스키")
                 .liquorEname("whisky")
@@ -506,7 +507,7 @@ public class InitTestData {
                 .liquorRecommendation(211L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "vermuth", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "vermuth", 3));
         liquors.add(Liquor.builder()
                 .liquorName("베르뭇")
                 .liquorEname("vermuth")
@@ -516,7 +517,7 @@ public class InitTestData {
                 .liquorRecommendation(208L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "sangreDeToro", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "sangreDeToro", 3));
         liquors.add(Liquor.builder()
                 .liquorName("산그레 데 토로")
                 .liquorEname("sangre de toro")
@@ -529,7 +530,7 @@ public class InitTestData {
                 .liquorRecommendation(170L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "tripleSec", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "tripleSec", 3));
         liquors.add(Liquor.builder()
                 .liquorName("트리플 섹")
                 .liquorEname("triple sec")
@@ -540,7 +541,7 @@ public class InitTestData {
                 .liquorRecommendation(255L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "tripleSec", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "tripleSec", 3));
         liquors.add(Liquor.builder()
                 .liquorName("바카디 카르타 블랑카")
                 .liquorEname("bacardi carta blanca")
@@ -550,7 +551,7 @@ public class InitTestData {
                 .liquorRecommendation(181L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "josecuervo", 2));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "josecuervo", 2));
         liquors.add(Liquor.builder()
                 .liquorName("호세 쿠엘보")
                 .liquorEname("jose cuervo especial reposado")
@@ -561,7 +562,7 @@ public class InitTestData {
                 .liquorRecommendation(279L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "jimbeam", 3));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "jimbeam", 3));
         liquors.add(Liquor.builder()
                 .liquorName("짐빔")
                 .liquorEname("jim beam")
@@ -572,7 +573,7 @@ public class InitTestData {
                 .liquorRecommendation(233L)
                 .liquorFiles(liquorFiles)
                 .build());
-        liquorFiles = liquorFileStore.storeFiles(getMultipartFiles(basicPath, "angosturaBitters", 2));
+        liquorFiles = uploadLiquorFiles(getMultipartFiles(basicPath, "angosturaBitters", 2));
         liquors.add(Liquor.builder()
                 .liquorName("앙고스트라비터스")
                 .liquorEname("angostura bitters")
@@ -612,5 +613,202 @@ public class InitTestData {
             multipartFiles.add(multipartFile);
         }
         return multipartFiles;
+    }
+
+    private String getFolder(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String str = sdf.format(date);
+        return str.replace("-",File.separator);
+    }
+
+    private boolean checkImageType(File file){
+        try{
+            String contentType = Files.probeContentType(file.toPath());
+            return contentType.startsWith("image");
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private List<CocktailFile> uploadFiles(List<MultipartFile> multipartFiles){
+        List<CocktailFile> list = new ArrayList<>();
+
+        String uploadFolderPath = getFolder();
+        File uploadPath = new File(cocktailFileDir, uploadFolderPath);
+
+        if(uploadPath.exists() == false){
+            uploadPath.mkdirs();
+        }
+
+        for (MultipartFile multipartFile : multipartFiles) {
+
+            String uploadFileName = multipartFile.getOriginalFilename();
+            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") +1);
+
+            UUID uuid = UUID.randomUUID();
+            String storeFileName = uuid.toString() + "_" + uploadFileName;
+
+            try {
+                File savefile = new File(uploadPath,storeFileName);
+                multipartFile.transferTo(savefile);
+
+                if(checkImageType(savefile)){
+                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
+
+                    FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(savefile.toPath()), false, savefile.getName(), (int) savefile.length(), savefile.getParentFile());
+                    try {
+                        InputStream input = new FileInputStream(savefile);
+                        OutputStream os = fileItem.getOutputStream();
+                        IOUtils.copy(input, os);
+                        os.close();
+                        input.close();
+                    } catch (IOException ex) {
+                        // do something.
+                    }
+
+                    MultipartFile saveMultipartFile = new CommonsMultipartFile(fileItem);
+                    InputStream inputStream = saveMultipartFile.getInputStream();
+                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
+
+                    thumbnail.close();
+                    inputStream.close();
+
+                    CocktailFile cocktailFile = CocktailFile.builder()
+                            .uuid(uuid.toString())
+                            .fileType(true)
+                            .uploadPath(uploadFolderPath)
+                            .fileName(uploadFileName)
+                            .build();
+
+                    list.add(cocktailFile);
+                }
+            } catch (Exception e){
+                log.error(e.getMessage());
+            }
+        }
+
+        return list;
+    }
+
+    private List<IngredientFile> uploadIngredientFiles(List<MultipartFile> multipartFiles){
+        List<IngredientFile> list = new ArrayList<>();
+
+        String uploadFolderPath = getFolder();
+        File uploadPath = new File(ingredientFileDir, uploadFolderPath);
+
+        if(uploadPath.exists() == false){
+            uploadPath.mkdirs();
+        }
+
+        for (MultipartFile multipartFile : multipartFiles) {
+
+            String uploadFileName = multipartFile.getOriginalFilename();
+            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") +1);
+
+            UUID uuid = UUID.randomUUID();
+            String storeFileName = uuid.toString() + "_" + uploadFileName;
+
+            try {
+                File savefile = new File(uploadPath,storeFileName);
+                multipartFile.transferTo(savefile);
+
+                if(checkImageType(savefile)){
+                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
+
+                    FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(savefile.toPath()), false, savefile.getName(), (int) savefile.length(), savefile.getParentFile());
+                    try {
+                        InputStream input = new FileInputStream(savefile);
+                        OutputStream os = fileItem.getOutputStream();
+                        IOUtils.copy(input, os);
+                        os.close();
+                        input.close();
+                    } catch (IOException ex) {
+                        // do something.
+                    }
+
+                    MultipartFile saveMultipartFile = new CommonsMultipartFile(fileItem);
+                    InputStream inputStream = saveMultipartFile.getInputStream();
+                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
+
+                    thumbnail.close();
+                    inputStream.close();
+
+                    IngredientFile ingredientFile = IngredientFile.builder()
+                            .uuid(uuid.toString())
+                            .fileType(true)
+                            .uploadPath(uploadFolderPath)
+                            .fileName(uploadFileName)
+                            .build();
+
+                    list.add(ingredientFile);
+                }
+            } catch (Exception e){
+                log.error(e.getMessage());
+            }
+        }
+
+        return list;
+    }
+
+    private List<LiquorFile> uploadLiquorFiles(List<MultipartFile> multipartFiles){
+        List<LiquorFile> list = new ArrayList<>();
+
+        String uploadFolderPath = getFolder();
+        File uploadPath = new File(liquorFileDir, uploadFolderPath);
+
+        if(uploadPath.exists() == false){
+            uploadPath.mkdirs();
+        }
+
+        for (MultipartFile multipartFile : multipartFiles) {
+
+            String uploadFileName = multipartFile.getOriginalFilename();
+            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") +1);
+
+            UUID uuid = UUID.randomUUID();
+            String storeFileName = uuid.toString() + "_" + uploadFileName;
+
+            try {
+                File savefile = new File(uploadPath,storeFileName);
+                multipartFile.transferTo(savefile);
+
+                if(checkImageType(savefile)){
+                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
+
+                    FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(savefile.toPath()), false, savefile.getName(), (int) savefile.length(), savefile.getParentFile());
+                    try {
+                        InputStream input = new FileInputStream(savefile);
+                        OutputStream os = fileItem.getOutputStream();
+                        IOUtils.copy(input, os);
+                        os.close();
+                        input.close();
+                    } catch (IOException ex) {
+                        // do something.
+                    }
+
+                    MultipartFile saveMultipartFile = new CommonsMultipartFile(fileItem);
+                    InputStream inputStream = saveMultipartFile.getInputStream();
+                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
+
+                    thumbnail.close();
+                    inputStream.close();
+
+                    LiquorFile liquorFile = LiquorFile.builder()
+                            .uuid(uuid.toString())
+                            .fileType(true)
+                            .uploadPath(uploadFolderPath)
+                            .fileName(uploadFileName)
+                            .build();
+
+                    list.add(liquorFile);
+                }
+            } catch (Exception e){
+                log.error(e.getMessage());
+            }
+        }
+
+        return list;
     }
 }

@@ -1,6 +1,8 @@
 package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.core.Authentication;
@@ -9,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import zemat.wetender.domain.cocktail.CocktailFileStore;
-import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.dto.liquorDto.LiquorHomeDto;
 import zemat.wetender.service.CocktailService;
@@ -19,14 +19,20 @@ import zemat.wetender.service.LiquorService;
 import java.net.MalformedURLException;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MainController {
 
     private final CocktailService cocktailService;
-    private final CocktailFileStore cocktailFileStore;
     private final LiquorService liquorService;
-    private final LiquorFileStore liquorFileStore;
+
+    @Value("${cocktailFile.dir}")
+    private String cocktailFileDir;
+
+
+    @Value("${liquorFile.dir}")
+    private String liquorFileDir;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -42,17 +48,28 @@ public class MainController {
         return "fragment/main";
     }
 
+    // 칵테일 이미지 보이게 설정
     @ResponseBody
-    @GetMapping("/cocktailTop20Images/{filename}")
-    public Resource cocktailTop20Images(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + cocktailFileStore.getFullPath(filename));
+    @GetMapping("/cocktailTop20Images/{year}/{month}/{day}/{filename}")
+    public Resource cocktailDownloadImage(@PathVariable String year,
+                                          @PathVariable String month,
+                                          @PathVariable String day,
+                                          @PathVariable String filename) throws MalformedURLException {
+        log.info("파일확인 file:" + cocktailFileDir + year + "/"+ month + "/" + day + "/" + filename);
+        return new UrlResource("file:" + cocktailFileDir + year + "/"+ month + "/" + day + "/" + filename);
     }
 
+    // 주류 이미지 보이게 설정
     @ResponseBody
-    @GetMapping("/liquorTop20Images/{filename}")
-    public Resource liquorTop20Images(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + liquorFileStore.getFullPath(filename));
+    @GetMapping("/liquorTop20Images/{year}/{month}/{day}/{filename}")
+    public Resource liquorTop20Images(@PathVariable String year,
+                                          @PathVariable String month,
+                                          @PathVariable String day,
+                                          @PathVariable String filename) throws MalformedURLException {
+        log.info("파일확인 file:" + liquorFileDir + year + "/"+ month + "/" + day + "/" + filename);
+        return new UrlResource("file:" + liquorFileDir + year + "/"+ month + "/" + day + "/" + filename);
     }
+
 
     public void getCocktailTop20(Model model) {
         List<CocktailHomeDto> cocktailTop20 = cocktailService.findTop20ByRecommendation();

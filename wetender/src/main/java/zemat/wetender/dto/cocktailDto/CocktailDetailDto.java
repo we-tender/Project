@@ -3,6 +3,7 @@ package zemat.wetender.dto.cocktailDto;
 import lombok.Getter;
 import lombok.Setter;
 import zemat.wetender.domain.cocktail.*;
+import zemat.wetender.dto.AttachFileDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class CocktailDetailDto {
 
     private String content;
 
-    private List<CocktailFileDto> images = new ArrayList<>();
+    private List<AttachFileDto> images = new ArrayList<>();
 
     private List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
 
@@ -32,7 +33,7 @@ public class CocktailDetailDto {
 
     private List<CocktailSequence> sequences = new ArrayList<>();
 
-    private void addCocktailFileDto(CocktailFile cocktailFile){ images.add(new CocktailFileDto(cocktailFile));}
+    private void addCocktailFileDto(CocktailFile cocktailFile){ images.add(new AttachFileDto(cocktailFile));}
 
     public CocktailDetailDto(Cocktail cocktail) {
         this.id = cocktail.getId();

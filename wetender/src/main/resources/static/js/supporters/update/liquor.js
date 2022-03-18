@@ -1,15 +1,14 @@
+
+// HTML 요소의 동적 제어 기능
 $(document).ready(function(){
 
     $("button[type='submit']").on("click", function(e){
         e.preventDefault();
-        console.log("submit clicked");
-
         let formObj = $("form[role='form']");
         let str = "";
         console.dir(formObj);
         $(".uploadResult ul li").each(function(i, obj){
             const jobj = $(obj);
-            console.dir(obj);
             str += "<input type='hidden' name='attachList[" + i +"].fileName' ";
             str += "value='" + jobj.data("filename") + "'>";
             str += "<input type='hidden' name='attachList[" + i +"].uuid' ";
@@ -38,7 +37,38 @@ $(document).ready(function(){
         return true;
     }
 
-    //
+    const liquorId = $("#id").val();
+    console.log(liquorId);
+    
+    $.getJSON("/supporters/update/liquorFileList", {liquorId : liquorId}, function(arr){
+        console.log(arr);
+        let str = "";
+
+        $(arr).each(function(i, obj){
+            //image type
+            const fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
+            str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
+            str += "<span>" + obj.fileName + "</span>";
+            str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
+            str += " class='btn btn-warning btn-circle'>";
+            str += "<i class=fa fa-time'></i></button><br>";
+            str += "<img src='/supporters/display/liquor?fileName=" + fileCellPath + "'></div></li>";
+        });
+        $(".uploadResult ul").html(str);
+    });
+
+    // 이미지 삭제
+    $(".uploadResult").on("click","button", function(e){
+        console.log("delete file");
+
+        if(confirm("Remove this file ?")){
+            const targetLi = $(this).closest("li");
+            targetLi.remove();
+        }
+    });
+
+    // 파일 변경 감지
     $("input[type='file']").change(function(e){
         console.log(e);
         const formData = new FormData();
@@ -52,7 +82,7 @@ $(document).ready(function(){
         }
 
         $.ajax({
-            url : "/supporters/insert/image",
+            url : "/supporters/upload/image/liquor",
             processData : false,
             contentType : false,
             data : formData,
@@ -82,36 +112,15 @@ $(document).ready(function(){
             //image type
             const fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
             str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
-            str += " data-filename='" +obj.fileName + "' data-type='" +obj.type +"'><div>";
+            str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
             str += "<span>" + obj.fileName + "</span>";
             str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
             str += " class='btn btn-warning btn-circle'>";
             str += "<i class=fa fa-time'></i></button><br>";
-            str += "<img src='/supporters/display?fileName=" + fileCellPath + "'></div></li>";
+            str += "<img src='/supporters/display/liquor?fileName=" + fileCellPath + "'></div></li>";
         });
         uploadUl.append(str);
     }
 
-    $(".uploadResult").on("click","button", function(e){
-        console.log("delete file");
-        const targetFile = $(this).data("file");
-        const type = $(this).data("type");
-        const targetLi = $(this).closest("li");
-
-        $.ajax({
-            url : "/supporters/deleteFile",
-            data : {fileName : targetFile, type : type},
-            dataType : "text",
-            type : 'POST',
-            beforeSend: function (jqXHR, settings) {
-                var header = $("meta[name='_csrf_header']").attr("content");
-                var token = $("meta[name='_csrf']").attr("content");
-                jqXHR.setRequestHeader(header, token);
-            },
-            success : function(result){
-                alert(result);
-                targetLi.remove();
-            }
-        })
-    })
 });
+

@@ -11,7 +11,7 @@
 <section>
   <div>
     <div th:each="image : ${cocktailDto.images}">
-      <img th:src="|images/${image.storeCocktailFileName}|" width="300" height="300"><br/>
+      <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|" width="300" height="300"><br/>
     </div>
     <button type="button" th:onclick="|location.href='@{/supporters/cocktail/update/{id} (id=${cocktailDto.id})}'|">수정하기</button><br/>
     <button type="button" th:onclick="|location.href='@{/supporters/cocktail/delete/{id} (id=${cocktailDto.id})}'|">삭제하기</button><br/>

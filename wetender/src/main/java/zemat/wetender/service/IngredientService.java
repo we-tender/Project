@@ -39,4 +39,15 @@ public class IngredientService {
         ingredient.getCocktailIngredients().size();
         return ingredient;
     }
+
+    @Transactional
+    public void update(Long ingredientId, Ingredient updateIngredient) {
+        Ingredient ingredient = ingredientRepository.findById(ingredientId).get();
+        ingredient.update(updateIngredient);
+    }
+
+    @Transactional
+    public void deleteById(Long ingredientId){
+        ingredientRepository.deleteById(ingredientId);
+    }
 }

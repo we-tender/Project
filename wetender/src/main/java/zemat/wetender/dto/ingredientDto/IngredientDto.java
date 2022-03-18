@@ -2,8 +2,11 @@ package zemat.wetender.dto.ingredientDto;
 
 import lombok.Getter;
 import lombok.Setter;
+import zemat.wetender.domain.cocktail.CocktailIngredient;
+import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.ingredient.IngredientFile;
+import zemat.wetender.dto.AttachFileDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +23,12 @@ public class IngredientDto {
 
     private String content;
 
-    private List<IngredientFileDto> images = new ArrayList<>();
+    private List<AttachFileDto> images = new ArrayList<>();
+
+    private List<CocktailIngredient> cocktails = new ArrayList<>();
 
     public void addIngredientFileDto(IngredientFile ingredientFile){
-        images.add(new IngredientFileDto(ingredientFile));
+        images.add(new AttachFileDto(ingredientFile));
     }
 
     public IngredientDto(Ingredient ingredient) {
@@ -40,8 +45,8 @@ public class IngredientDto {
     public Ingredient toEntity(){
 
         List<IngredientFile> ingredientFiles = new ArrayList<>();
-        for (IngredientFileDto image : images) {
-            IngredientFile ingredientFile = image.toEntity();
+        for (AttachFileDto image : images) {
+            IngredientFile ingredientFile = image.toIntgredientFileEntity();
             ingredientFiles.add(ingredientFile);
         }
 

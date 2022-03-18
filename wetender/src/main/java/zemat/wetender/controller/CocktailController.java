@@ -2,6 +2,7 @@ package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
@@ -11,15 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.Cocktail;
-import zemat.wetender.domain.cocktail.CocktailFileStore;
 import zemat.wetender.dto.cocktailDto.CocktailDetailDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.service.CocktailService;
 import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/cocktail")
@@ -28,19 +26,11 @@ import java.util.Map;
 public class CocktailController {
 
     private final CocktailService cocktailService;
-    private final CocktailFileStore cocktailFileStore;
     private final MemberService memberService;
 
-    /*@ModelAttribute("sideMenuItems")
-    public Map<String, Boolean> sideMenu() {
-        Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
-        sideMenuItems.put("noticeBoard", false);
-        sideMenuItems.put("cocktail", true);
-        sideMenuItems.put("liquor", false);
-        sideMenuItems.put("community", false);
-        sideMenuItems.put("suggestion", false);
-        return sideMenuItems;
-    }*/
+
+    @Value("${cocktailFile.dir}")
+    private String cocktailFileDir;
 
     // 주류 메인(게시판)
     @GetMapping("/main")
@@ -69,14 +59,20 @@ public class CocktailController {
 
     // 칵테일 이미지 보이게 설정
     @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource cocktailDownloadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + cocktailFileStore.getFullPath(filename));
+    @GetMapping("/images/{year}/{month}/{day}/{filename}")
+    public Resource cocktailDownloadImage(@PathVariable String year,
+                                          @PathVariable String month,
+                                          @PathVariable String day,
+                                          @PathVariable String filename) throws MalformedURLException {
+            log.info("file:" + cocktailFileDir + filename);
+            return new UrlResource("file:" + cocktailFileDir + year + "/"+ month + "/" + day + "/" + filename);
     }
 
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Long cocktailId, Model model){
         Cocktail cocktail = cocktailService.findById(cocktailId);
+        String fileName = cocktail.getCocktailFiles().get(0).getFileName();
+        log.info("fileName확인" + fileName);
         CocktailDetailDto cocktailDetailDto = new CocktailDetailDto(cocktail);
         model.addAttribute("cocktailDto",cocktailDetailDto);
         model.addAttribute("sessionMember", memberService.getSessionMember());

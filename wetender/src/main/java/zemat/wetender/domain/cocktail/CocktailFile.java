@@ -18,24 +18,24 @@ public class CocktailFile extends BaseEntity {
     @Column(name = "cocktailFile_id")
     private Long id;
 
-    private String uploadCocktailFileName;
+    private String uuid;
 
-    private String storeCocktailFileName;
+    private String uploadPath;
+
+    private String fileName;
+
+    private boolean fileType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cocktail_id")
     private Cocktail cocktail;
 
-
-    public CocktailFile(String uploadFileName, String storeFileName) {
-        this.uploadCocktailFileName = uploadFileName;
-        this.storeCocktailFileName = storeFileName;
-    }
     @Builder
-    public CocktailFile(Long id, String uploadCocktailFileName, String storeCocktailFileName) {
-        this.id = id;
-        this.uploadCocktailFileName = uploadCocktailFileName;
-        this.storeCocktailFileName = storeCocktailFileName;
+    public CocktailFile(String uuid, String uploadPath, String fileName, boolean fileType) {
+        this.uuid = uuid;
+        this.uploadPath = uploadPath;
+        this.fileName = fileName;
+        this.fileType = fileType;
     }
 
     public void setCocktail(Cocktail cocktail) {

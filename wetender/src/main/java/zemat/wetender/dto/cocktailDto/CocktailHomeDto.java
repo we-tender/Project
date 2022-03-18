@@ -2,6 +2,7 @@ package zemat.wetender.dto.cocktailDto;
 
 import lombok.Getter;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.cocktail.CocktailFile;
 
 @Getter
 public class CocktailHomeDto {
@@ -22,6 +23,7 @@ public class CocktailHomeDto {
         this.abv = cocktail.getCocktailAbv();
         this.oneLine = cocktail.getCocktailOneLine();
         this.recommendation = cocktail.getCocktailRecommendation();
-        this.mainImage = cocktail.getCocktailFiles().get(0).getStoreCocktailFileName();
+        CocktailFile cocktailFile = cocktail.getCocktailFiles().get(0);
+        this.mainImage = cocktailFile.getUploadPath() +"/" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName();
     }
 }

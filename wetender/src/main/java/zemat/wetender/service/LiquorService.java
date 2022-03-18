@@ -7,6 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.cocktail.CocktailIngredient;
+import zemat.wetender.domain.cocktail.CocktailLiquor;
+import zemat.wetender.domain.cocktail.CocktailSequence;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.dto.liquorDto.LiquorHomeDto;
@@ -53,5 +56,16 @@ public class LiquorService {
         Page<Liquor> page = liquorRepository.findByLiquorRecommendation(pageRequest);
         List<LiquorHomeDto> liquorHomeDtos = page.map(LiquorHomeDto::new).getContent();
         return liquorHomeDtos;
+    }
+
+    @Transactional
+    public void update(Long liquorId, Liquor updateLiquor) {
+        Liquor liquor = liquorRepository.findById(liquorId).get();
+        liquor.update(updateLiquor);
+    }
+
+    @Transactional
+    public void deleteById(Long liquorId){
+        liquorRepository.deleteById(liquorId);
     }
 }

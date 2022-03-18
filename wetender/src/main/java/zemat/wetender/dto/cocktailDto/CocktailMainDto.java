@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.domain.cocktail.CocktailFile;
+import zemat.wetender.dto.AttachFileDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class CocktailMainDto {
 
     private String oneLine;
 
-    private List<CocktailFileDto> images = new ArrayList<>();
+    private List<AttachFileDto> images = new ArrayList<>();
 
     // baseEntity
     private LocalDateTime createdDate;
@@ -31,7 +32,7 @@ public class CocktailMainDto {
     private String lastModifiedBy;
 
     public void addCocktailFileDto(CocktailFile cocktailFile){
-        images.add(new CocktailFileDto(cocktailFile));
+        images.add(new AttachFileDto(cocktailFile));
     }
 
     public CocktailMainDto(Cocktail cocktail) {

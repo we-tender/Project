@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
+  <head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+  </head>
+
+  <body>
+    <section>
+      <div>
+        <div th:each="image : ${ingredientDto.images}">
+          <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|" width="300" height="300"><br/>
+        </div>
+        <button type="button" th:onclick="|location.href='@{/supporters/ingredient/update/{id} (id=${ingredientDto.id})}'|">수정하기</button><br/>
+        <button type="button" th:onclick="|location.href='@{/supporters/ingredient/delete/{id} (id=${ingredientDto.id})}'|">삭제하기</button><br/>
+        <span th:text="${ingredientDto.name}">이름</span><br/>
+        <span th:text="${ingredientDto.eName}">영문이름</span>
+        <span th:text="${ingredientDto.content}">소개글</span>
+        <div th:each="cocktail : ${cocktails}">
+          <span th:text="${cocktail.key}">연관칵테일이름</span>
+          <!-- 연관칵테일 이미지 -->
+          <img th:src="|images/cocktail/${cocktail.value}|" width="300" height="300"><br/>
+        </div>
+      </div>
+      <!--  js & css    -->
+      <link rel="stylesheet" type="text/css" th:href="@{/css/ingredient/detail.css}">
+      <script th:src="@{/js/ingredient/detail.js}"></script>
+    </section>
+
+  </body>
+</html>

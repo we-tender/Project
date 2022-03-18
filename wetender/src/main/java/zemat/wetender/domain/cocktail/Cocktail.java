@@ -1,6 +1,5 @@
 package zemat.wetender.domain.cocktail;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -128,7 +127,9 @@ public class Cocktail extends BaseEntity {
 
         this.cocktailTastes.clear();
         addCocktailTastes(updateCocktail.getCocktailTastes());
-//        this.cocktailFiles = updateCocktail.getCocktailFiles();
+
+        this.cocktailFiles.clear();
+        addCocktailFiles(updateCocktail.getCocktailFiles());
 
         this.cocktailSequences.clear();
         addCocktailSequences(cocktailSequences);

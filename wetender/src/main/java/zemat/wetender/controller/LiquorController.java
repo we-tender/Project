@@ -1,6 +1,5 @@
 package zemat.wetender.controller;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -11,17 +10,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import zemat.wetender.domain.cocktail.CocktailFileStore;
-import zemat.wetender.domain.cocktail.CocktailIngredient;
+import zemat.wetender.domain.cocktail.CocktailFile;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
-import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.service.LiquorService;
 import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,20 +28,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LiquorController {
 
     private final LiquorService liquorService;
-    private final LiquorFileStore liquorFileStore;
-    private final CocktailFileStore cocktailFileStore;
     private final MemberService memberService;
 
-    /*@ModelAttribute("sideMenuItems")
-    public Map<String, Boolean> sideMenu() {
-        Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
-        sideMenuItems.put("noticeBoard", false);
-        sideMenuItems.put("cocktail", false);
-        sideMenuItems.put("liquor", true);
-        sideMenuItems.put("community", false);
-        sideMenuItems.put("suggestion", false);
-        return sideMenuItems;
-    }*/
+
+    @Value("${cocktailFile.dir}")
+    private String cocktailFileDir;
+
+    @Value("${liquorFile.dir}")
+    private String liquorFileDir;
 
     // 주류 메인(게시판)
     @GetMapping("/main")
@@ -71,19 +61,33 @@ public class LiquorController {
         return "liquor/main";
     }
 
-    // 주류 이미지 보이게 설정
+//    // 주류 이미지 보이게 설정
+//    @ResponseBody
+//    @GetMapping("/images/{filename}")
+//    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
+//        return new UrlResource("file:" + liquorFileStore.getFullPath(filename));
+//    }
+
+    // 칵테일 이미지 보이게 설정
     @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + liquorFileStore.getFullPath(filename));
+    @GetMapping("/images/{year}/{month}/{day}/{filename}")
+    public Resource liquorDownloadImage(@PathVariable String year,
+                                          @PathVariable String month,
+                                          @PathVariable String day,
+                                          @PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:" + liquorFileDir + year + "/"+ month + "/" + day + "/" + filename);
     }
 
     // 칵테일 이미지 보이게 설정
     @ResponseBody
-    @GetMapping("/images/cocktail/{filename}")
-    public Resource cocktailDownloadImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:" + cocktailFileStore.getFullPath(filename));
+    @GetMapping("/images/cocktail/{year}/{month}/{day}/{filename}")
+    public Resource cocktailDownloadImage(@PathVariable String year,
+                                          @PathVariable String month,
+                                          @PathVariable String day,
+                                          @PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:" + cocktailFileDir + year + "/"+ month + "/" + day + "/" + filename);
     }
+
 
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Long liquorId, Model model){
@@ -92,7 +96,8 @@ public class LiquorController {
         Map<String,String> cocktails = new ConcurrentHashMap<>();
         for (CocktailLiquor cocktail : liquorDto.getCocktails()) {
             String cocktailName = cocktail.getCocktail().getCocktailName();
-            String storeCocktailFileName = cocktail.getCocktail().getCocktailFiles().get(0).getStoreCocktailFileName();
+            CocktailFile cocktailFile = cocktail.getCocktail().getCocktailFiles().get(0);
+            String storeCocktailFileName = cocktailFile.getUploadPath() +"/" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName();
             cocktails.put(cocktailName,storeCocktailFileName);
         }
 

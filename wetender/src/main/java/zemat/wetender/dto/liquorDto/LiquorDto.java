@@ -7,6 +7,7 @@ import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
+import zemat.wetender.dto.AttachFileDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class LiquorDto {
 
     private String content;
 
-    private List<LiquorFileDto> images = new ArrayList<>();
+    private List<AttachFileDto> images = new ArrayList<>();
 
     private List<CocktailLiquor> cocktails = new ArrayList<>();
 
@@ -39,7 +40,7 @@ public class LiquorDto {
     private String lastModifiedBy;
 
     public void addLiquorFileDto(LiquorFile liquorFile){
-        images.add(new LiquorFileDto(liquorFile));
+        images.add(new AttachFileDto(liquorFile));
     }
 
     public LiquorDto(Liquor liquor) {

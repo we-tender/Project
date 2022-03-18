@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.domain.cocktail.CocktailFile;
 import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 
@@ -37,9 +38,8 @@ public class Liquor extends BaseEntity {
 
     private Long liquorRecommendation;
 
-    @OneToMany(mappedBy = "liquor",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "liquor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LiquorFile> liquorFiles = new ArrayList<>();
-
 
     @OneToMany(mappedBy = "liquor")
     private List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
@@ -48,9 +48,11 @@ public class Liquor extends BaseEntity {
         cocktailLiquors.add(cocktailLiquor);
     }
 
-    public void addLiquorFile(LiquorFile liquorFile){
-        liquorFile.setLiquor(this);
-        liquorFiles.add(liquorFile);
+    public void addLiquorFiles(List<LiquorFile> addLiquorFiles){
+        for (LiquorFile liquorFile : addLiquorFiles) {
+            liquorFile.setLiquor(this);
+            liquorFiles.add(liquorFile);
+        }
     }
 
     @Builder
@@ -64,8 +66,19 @@ public class Liquor extends BaseEntity {
         this.liquorView = liquorView;
         this.liquorRecommendation = liquorRecommendation;
 
-        for (LiquorFile liquorFile : liquorFiles) {
-            addLiquorFile(liquorFile);
+        if(liquorFiles != null){
+            addLiquorFiles(liquorFiles);
         }
+    }
+
+    public void update(Liquor updateLiquor) {
+        this.liquorName = updateLiquor.getLiquorName();
+        this.liquorEname = updateLiquor.getLiquorEname();
+        this.liquorAbv = updateLiquor.getLiquorAbv();
+        this.liquorOneLine = updateLiquor.getLiquorOneLine();
+        this.liquorContent = updateLiquor.getLiquorContent();
+
+        this.liquorFiles.clear();
+        addLiquorFiles(updateLiquor.getLiquorFiles());
     }
 }

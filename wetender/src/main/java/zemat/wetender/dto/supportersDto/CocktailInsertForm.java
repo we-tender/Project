@@ -1,17 +1,15 @@
 package zemat.wetender.dto.supportersDto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.web.multipart.MultipartFile;
-import zemat.wetender.domain.cocktail.CocktailTaste;
+import zemat.wetender.dto.AttachFileDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Data
 public class CocktailInsertForm {
 
     @NotBlank(message = "공백 x")
@@ -31,8 +29,7 @@ public class CocktailInsertForm {
     @NotBlank
     private String content;
 
-//    @NotNull(message = "한장의 이미지는 있어야합니다!") 안먹는데 이유 아직 못찾음..
-    private List<MultipartFile> images = new ArrayList<>();
+    private List<AttachFileDto> attachList;
 
     private List<String> tastes = new ArrayList<>();
 

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zemat.wetender.domain.cocktail.Cocktail;
 
 import javax.persistence.*;
 
@@ -17,9 +18,13 @@ public class LiquorFile {
     @Column(name = "liquorFile_id")
     private Long id;
 
-    private String uploadLiquorFileName;
+    private String uuid;
 
-    private String storeLiquorFileName;
+    private String uploadPath;
+
+    private String fileName;
+
+    private boolean fileType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "liquor_id")
@@ -29,15 +34,12 @@ public class LiquorFile {
         this.liquor = liquor;
     }
 
-    public LiquorFile(String uploadLiquorFileName, String storeLiquorFileName) {
-        this.uploadLiquorFileName = uploadLiquorFileName;
-        this.storeLiquorFileName = storeLiquorFileName;
-    }
-
     @Builder
-    public LiquorFile(Long id, String uploadLiquorFileName, String storeLiquorFileName) {
-        this.id = id;
-        this.uploadLiquorFileName = uploadLiquorFileName;
-        this.storeLiquorFileName = storeLiquorFileName;
+    public LiquorFile(String uuid, String uploadPath, String fileName, boolean fileType) {
+        this.uuid = uuid;
+        this.uploadPath = uploadPath;
+        this.fileName = fileName;
+        this.fileType = fileType;
     }
 }
+

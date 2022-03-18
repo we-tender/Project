@@ -30,7 +30,7 @@ public class CocktailService {
     }
 
     @Transactional
-    public void updateCocktail(Long cocktailId, Cocktail updateCocktail, List<CocktailSequence> cocktailSequences, List<CocktailLiquor> cocktailLiquors, List<CocktailIngredient> cocktailIngredients) {
+    public void update(Long cocktailId, Cocktail updateCocktail, List<CocktailSequence> cocktailSequences, List<CocktailLiquor> cocktailLiquors, List<CocktailIngredient> cocktailIngredients) {
         Cocktail cocktail = cocktailRepository.findById(cocktailId).get();
         cocktail.update(updateCocktail, cocktailSequences, cocktailLiquors, cocktailIngredients);
     }
@@ -44,7 +44,7 @@ public class CocktailService {
     }
 
     @Transactional
-    public void deleteCocktail(Long cocktailId){
+    public void deleteById(Long cocktailId){
         cocktailRepository.deleteById(cocktailId);
     }
 }

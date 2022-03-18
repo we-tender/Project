@@ -2,8 +2,7 @@ package zemat.wetender.dto.supportersDto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
-import org.springframework.web.multipart.MultipartFile;
+import zemat.wetender.dto.AttachFileDto;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -26,5 +25,5 @@ public class LiquorInsertForm {
     @NotNull
     private String content;
 
-    private List<MultipartFile> images;
+    private List<AttachFileDto> attachList;
 }

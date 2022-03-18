@@ -16,8 +16,18 @@ spring:
   data:
     web:
       pageable:
-        default-page-size: 10
-        max-page-size: 2000
+        default-page-size: 10 # 기본 페이지 설정(10개씩)
+        max-page-size: 2000   # 페이지 개수
+
+  servlet:
+    multipart:
+      max-file-size: 50MB # 개별 파일 당 용량 설정
+      max-request-size: 50MB # 한 요청에서의 모든 파일 용량 최대치
+
+      # 추후 핸들러 설정 필요
+      #FileSizeLimitExceededException: maxFileSize 초과 시 발생
+      # SizeLimitExceededException: maxRequestSize 초과 시 발생
+
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace

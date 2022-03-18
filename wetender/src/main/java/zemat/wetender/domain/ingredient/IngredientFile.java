@@ -17,9 +17,13 @@ public class IngredientFile {
     @Column(name = "ingredientFile_id")
     private Long id;
 
-    private String uploadIngredientFileName;
+    private String uuid;
 
-    private String storeIngredientFileName;
+    private String uploadPath;
+
+    private String fileName;
+
+    private boolean fileType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingredient_id")
@@ -28,18 +32,13 @@ public class IngredientFile {
     public void setIngredient(Ingredient ingredient) {
         this.ingredient = ingredient;
     }
-
-
-    public IngredientFile(String uploadIngredientFileName, String storeIngredientFileName) {
-        this.uploadIngredientFileName = uploadIngredientFileName;
-        this.storeIngredientFileName = storeIngredientFileName;
-    }
-
     @Builder
-    public IngredientFile(Long id, String uploadIngredientFileName, String storeIngredientFileName) {
-        this.id = id;
-        this.uploadIngredientFileName = uploadIngredientFileName;
-        this.storeIngredientFileName = storeIngredientFileName;
+    public IngredientFile(String uuid, String uploadPath, String fileName, boolean fileType) {
+        this.uuid = uuid;
+        this.uploadPath = uploadPath;
+        this.fileName = fileName;
+        this.fileType = fileType;
     }
+
 
 }

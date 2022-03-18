@@ -1,7 +1,9 @@
 package zemat.wetender.dto.liquorDto;
 
 import lombok.Getter;
+import zemat.wetender.domain.cocktail.CocktailFile;
 import zemat.wetender.domain.liquor.Liquor;
+import zemat.wetender.domain.liquor.LiquorFile;
 
 @Getter
 public class LiquorHomeDto {
@@ -20,6 +22,8 @@ public class LiquorHomeDto {
         this.abv = liquor.getLiquorAbv();
         this.oneLine = liquor.getLiquorOneLine();
         this.recommendation = liquor.getLiquorRecommendation();
-        this.mainImage = liquor.getLiquorFiles().get(0).getStoreLiquorFileName();
+
+        LiquorFile liquorFile = liquor.getLiquorFiles().get(0);
+        this.mainImage = liquorFile.getUploadPath() +"/" + liquorFile.getUuid() + "_" + liquorFile.getFileName();
     }
 }
