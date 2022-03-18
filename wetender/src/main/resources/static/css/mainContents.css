@@ -73,7 +73,9 @@
 .nav-side ul li a:hover {
     color : #000;
 }
-
+.clicked_item {
+    background : #fb8bb5;
+}
 
 /*** Navbar ***/
 /*.sidebar .navbar .navbar-nav .nav-link {

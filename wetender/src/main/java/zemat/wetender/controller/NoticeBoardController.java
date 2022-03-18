@@ -23,7 +23,9 @@ import zemat.wetender.service.MemberService;
 import zemat.wetender.service.NoticeBoardService;
 
 import javax.lang.model.SourceVersion;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/noticeBoard")
@@ -33,6 +35,16 @@ public class NoticeBoardController {
     private final NoticeBoardService noticeBoardService;
     private final MemberService memberService;
 
+    @ModelAttribute("sideMenuItems")
+    public Map<String, Boolean> sideMenu() {
+        Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
+        sideMenuItems.put("noticeBoard", true);
+        sideMenuItems.put("cocktail", false);
+        sideMenuItems.put("liquor", false);
+        sideMenuItems.put("community", false);
+        sideMenuItems.put("suggestion", false);
+        return sideMenuItems;
+    }
 
     // 공지사항 메인 페이지
     @GetMapping("/main")

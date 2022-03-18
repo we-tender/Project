@@ -18,6 +18,8 @@ import zemat.wetender.service.CocktailService;
 import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cocktail")
@@ -28,6 +30,17 @@ public class CocktailController {
     private final CocktailService cocktailService;
     private final CocktailFileStore cocktailFileStore;
     private final MemberService memberService;
+
+    @ModelAttribute("sideMenuItems")
+    public Map<String, Boolean> sideMenu() {
+        Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
+        sideMenuItems.put("noticeBoard", false);
+        sideMenuItems.put("cocktail", true);
+        sideMenuItems.put("liquor", false);
+        sideMenuItems.put("community", false);
+        sideMenuItems.put("suggestion", false);
+        return sideMenuItems;
+    }
 
     // 주류 메인(게시판)
     @GetMapping("/main")

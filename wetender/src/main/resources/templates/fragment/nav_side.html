@@ -5,6 +5,10 @@
 
     <!-- Sidebar Start -->
     <nav th:fragment="nav_side" class="nav-side height-min-50rem">
+        <input type="hidden" class="nav-side-menu-state"
+               th:each="sideMenuItem : ${sideMenuItems}"
+               th:id="|side-menu-${sideMenuItem.key}|"
+               th:value="${sideMenuItem.value}">
         <div class="nav-side-menu">
             <ul>
                 <li class="nav-side-menu-item">
@@ -24,6 +28,23 @@
                 </li>
             </ul>
         </div>
+        <script>
+            $('.nav-side-menu-item').each(function(idx){
+                $(this).attr('item-idx', idx);
+            });
+
+            $('.nav-side-menu-state').each(function(idx){
+                var thisId = $(this).attr('id');
+                var thisValue = $(this).attr('value');
+                if (thisValue == 'true') {
+                    //console.log('성공 - idx:' + idx + ' thisId:' + thisId + ' value:' + thisValue);
+                    $('.nav-side-menu-item[item-idx=' + idx + ']').addClass('clicked_item');
+                } else {
+                    //console.log('실패 - idx:' + idx + ' thisId:' + thisId + ' value:' + thisValue);
+                    $('.nav-side-menu-item[item-idx=' + idx + ']').removeClass('clicked_item');
+                }
+            });
+        </script>
     </nav>
 
 </body>

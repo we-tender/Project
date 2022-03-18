@@ -15,9 +15,7 @@ import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
 import zemat.wetender.service.MemberService;
 import zemat.wetender.service.SuggestionService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/suggestion")
@@ -26,6 +24,17 @@ public class SuggestionController {
 
     private final SuggestionService suggestionService;
     private final MemberService memberService;
+
+    @ModelAttribute("sideMenuItems")
+    public Map<String, Boolean> sideMenu() {
+        Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
+        sideMenuItems.put("noticeBoard", false);
+        sideMenuItems.put("cocktail", false);
+        sideMenuItems.put("liquor", false);
+        sideMenuItems.put("community", false);
+        sideMenuItems.put("suggestion", true);
+        return sideMenuItems;
+    }
 
     // 건의사항 메인페이지 시작
     @GetMapping("/main")
