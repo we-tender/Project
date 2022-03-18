@@ -35,7 +35,7 @@ public class NoticeBoardController {
     private final NoticeBoardService noticeBoardService;
     private final MemberService memberService;
 
-    @ModelAttribute("sideMenuItems")
+    /*@ModelAttribute("sideMenuItems")
     public Map<String, Boolean> sideMenu() {
         Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
         sideMenuItems.put("noticeBoard", true);
@@ -44,7 +44,7 @@ public class NoticeBoardController {
         sideMenuItems.put("community", false);
         sideMenuItems.put("suggestion", false);
         return sideMenuItems;
-    }
+    }*/
 
     // 공지사항 메인 페이지
     @GetMapping("/main")
@@ -77,7 +77,7 @@ public class NoticeBoardController {
         UserDetails sessionMember = memberService.getSessionMember();
         model.addAttribute("sessionMember", sessionMember);
 
-
+        model.addAttribute("sideMenu", "nav-side-menu-noticeBoard");
 
         return "noticeBoard/main";
     }

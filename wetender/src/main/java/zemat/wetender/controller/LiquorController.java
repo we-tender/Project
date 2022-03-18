@@ -36,7 +36,7 @@ public class LiquorController {
     private final CocktailFileStore cocktailFileStore;
     private final MemberService memberService;
 
-    @ModelAttribute("sideMenuItems")
+    /*@ModelAttribute("sideMenuItems")
     public Map<String, Boolean> sideMenu() {
         Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
         sideMenuItems.put("noticeBoard", false);
@@ -45,7 +45,7 @@ public class LiquorController {
         sideMenuItems.put("community", false);
         sideMenuItems.put("suggestion", false);
         return sideMenuItems;
-    }
+    }*/
 
     // 주류 메인(게시판)
     @GetMapping("/main")
@@ -67,7 +67,7 @@ public class LiquorController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("liquorDtos", liquorDtos);
         model.addAttribute("sessionMember", memberService.getSessionMember());
-
+        model.addAttribute("sideMenu", "nav-side-menu-liquor");
         return "liquor/main";
     }
 

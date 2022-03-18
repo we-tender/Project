@@ -31,7 +31,7 @@ public class CocktailController {
     private final CocktailFileStore cocktailFileStore;
     private final MemberService memberService;
 
-    @ModelAttribute("sideMenuItems")
+    /*@ModelAttribute("sideMenuItems")
     public Map<String, Boolean> sideMenu() {
         Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
         sideMenuItems.put("noticeBoard", false);
@@ -40,7 +40,7 @@ public class CocktailController {
         sideMenuItems.put("community", false);
         sideMenuItems.put("suggestion", false);
         return sideMenuItems;
-    }
+    }*/
 
     // 주류 메인(게시판)
     @GetMapping("/main")
@@ -61,6 +61,8 @@ public class CocktailController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("cocktailDtos", cocktailDtos);
         model.addAttribute("sessionMember", memberService.getSessionMember());
+        model.addAttribute("sideMenu", "nav-side-menu-cocktail");
+
 
         return "cocktail/main";
     }

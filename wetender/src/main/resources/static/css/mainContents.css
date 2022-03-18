@@ -73,7 +73,7 @@
 .nav-side ul li a:hover {
     color : #000;
 }
-.clicked_item {
+.selected-item {
     background : #fb8bb5;
 }
 

@@ -6,24 +6,22 @@
     <!-- Sidebar Start -->
     <nav th:fragment="nav_side" class="nav-side height-min-50rem">
         <input type="hidden" class="nav-side-menu-state"
-               th:each="sideMenuItem : ${sideMenuItems}"
-               th:id="|side-menu-${sideMenuItem.key}|"
-               th:value="${sideMenuItem.value}">
+               th:value="${sideMenu}">
         <div class="nav-side-menu">
             <ul>
-                <li class="nav-side-menu-item">
+                <li class="nav-side-menu-item" id="nav-side-menu-noticeBoard">
                     <a th:href="@{/noticeBoard/main}">공지사항</a>
                 </li>
-                <li class="nav-side-menu-item">
+                <li class="nav-side-menu-item" id="nav-side-menu-cocktail">
                     <a th:href="@{/cocktail/main}">칵테일</a>
                 </li>
-                <li class="nav-side-menu-item">
+                <li class="nav-side-menu-item" id="nav-side-menu-liquor">
                     <a th:href="@{/liquor/main}" >주류</a>
                 </li>
                 <li class="nav-side-menu-item">
                     <a href="#">커뮤니티</a>
                 </li>
-                <li class="nav-side-menu-item">
+                <li class="nav-side-menu-item" id="nav-side-menu-suggestion">
                     <a th:href="@{/suggestion/main}">건의사항</a>
                 </li>
             </ul>
@@ -33,15 +31,14 @@
                 $(this).attr('item-idx', idx);
             });
 
-            $('.nav-side-menu-state').each(function(idx){
-                var thisId = $(this).attr('id');
-                var thisValue = $(this).attr('value');
-                if (thisValue == 'true') {
-                    //console.log('성공 - idx:' + idx + ' thisId:' + thisId + ' value:' + thisValue);
-                    $('.nav-side-menu-item[item-idx=' + idx + ']').addClass('clicked_item');
-                } else {
-                    //console.log('실패 - idx:' + idx + ' thisId:' + thisId + ' value:' + thisValue);
-                    $('.nav-side-menu-item[item-idx=' + idx + ']').removeClass('clicked_item');
+            $(document).ready(function(){
+                const selectMenu = $('.nav-side-menu-state').attr('value');
+                const sideMenuItems = document.querySelectorAll('.nav-side-menu-item');
+                for (let i = 0; i < sideMenuItems.length; i++) {
+                    const curMenu = $('.nav-side-menu-item[item-idx=' + i + ']').attr('id');
+                    if (selectMenu === curMenu) {
+                        $('.nav-side-menu-item[item-idx=' + i + ']').addClass('selected-item');
+                    }
                 }
             });
         </script>

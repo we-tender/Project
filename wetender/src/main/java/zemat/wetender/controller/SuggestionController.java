@@ -25,7 +25,7 @@ public class SuggestionController {
     private final SuggestionService suggestionService;
     private final MemberService memberService;
 
-    @ModelAttribute("sideMenuItems")
+    /*@ModelAttribute("sideMenuItems")
     public Map<String, Boolean> sideMenu() {
         Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
         sideMenuItems.put("noticeBoard", false);
@@ -34,7 +34,7 @@ public class SuggestionController {
         sideMenuItems.put("community", false);
         sideMenuItems.put("suggestion", true);
         return sideMenuItems;
-    }
+    }*/
 
     // 건의사항 메인페이지 시작
     @GetMapping("/main")
@@ -59,6 +59,7 @@ public class SuggestionController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("suggestionDtos", suggestionDtos);
         model.addAttribute("sessionMember", memberService.getSessionMember());
+        model.addAttribute("sideMenu", "nav-side-menu-suggestion");
         return "suggestion/main";
 
     }
