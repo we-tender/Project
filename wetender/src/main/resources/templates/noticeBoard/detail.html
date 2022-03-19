@@ -251,23 +251,22 @@
 
                             <li class="page-item"  th:classappend="${1 == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' " >
                                 <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber - 1}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+
+
+
                             </li>
 
                             <li class="page-item " th:classappend="${i == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
                                 <a class="page-link" href="#"  th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${i-1} )}"  th:text="${i}">1</a></li>
 
 
-                            <!-- 여기서 왜 +2를 해야 제대로 작동하는지 모르겠다.  -->
+
                             <li class="page-item" th:classappend="${noticeBoardDtoList.totalPages == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' " >
                                 <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber + 1} )}">Next</a>
 
                             </li>
                         </ul>
                     </nav>
-
-
-
-
                 </div>
 
 

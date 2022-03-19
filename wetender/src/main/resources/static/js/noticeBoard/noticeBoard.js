@@ -230,11 +230,10 @@ function replyEditSave(noticeBoardReplyId) {
     }).done(function (fragment) {
         $("#replyResult").replaceWith(fragment);
     });
+}
 
-
-
-
-
+// 게시글 페이지 움직이기
+function movePage() {
 
 
 

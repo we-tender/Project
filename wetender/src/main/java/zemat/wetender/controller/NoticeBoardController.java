@@ -50,10 +50,17 @@ public class NoticeBoardController {
     @GetMapping("/main")
     public String main(Model model,
                        @PageableDefault(size = 5) Pageable pageable,
-                       @RequestParam(required = false, defaultValue = "") String keyword) {
+                       @RequestParam(required = false, defaultValue = "") String keyword,
+                       @RequestParam(required = false) String sortBy) {
 
-        // 검색 기능
-        Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageable);
+
+        if(sortBy == null) sortBy = "createdBy";
+
+        int page = pageable.getPageNumber();
+
+        PageRequest pageRequest = PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC, sortBy));
+
+        Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageRequest);
 
         Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
@@ -66,6 +73,7 @@ public class NoticeBoardController {
         }
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("sortBy", sortBy);
 
         // 전체 공지 사항
         Page<NoticeBoardDto> noticeBoardAllDtos = noticeBoardService.statusFindPage(NoticeStatus.ALL, pageable);
@@ -100,6 +108,7 @@ public class NoticeBoardController {
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("sortBy", Dto.getSortBy());
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 
         return "/noticeBoard/main :: #noticeBoardResult";
