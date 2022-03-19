@@ -49,13 +49,11 @@ public class NoticeBoardController {
     // 공지사항 메인 페이지
     @GetMapping("/main")
     public String main(Model model,
-                       @PageableDefault(size = 10) Pageable pageable,
+                       @PageableDefault(size = 5) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String keyword) {
 
         // 검색 기능
         Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageable);
-
-
 
         Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
@@ -79,7 +77,32 @@ public class NoticeBoardController {
 
         model.addAttribute("sideMenu", "nav-side-menu-noticeBoard");
 
+
         return "noticeBoard/main";
+    }
+
+    // 공지사항 메인 정렬
+    @RequestMapping(value = "/sortBy", method = RequestMethod.POST)
+    public String sortBy(Model model, NoticeBoardKeywordSortDto Dto,
+                         Pageable pageable) {
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        PageRequest pageRequest = PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC, Dto.getSortBy()));
+
+        Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(Dto.getKeyword(), pageRequest);
+        Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
+
+        int startPage = Math.max(1, noticeBoardDtos.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(noticeBoardDtos.getTotalPages(), noticeBoardDtos.getPageable().getPageNumber() + 4);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
+
+        return "/noticeBoard/main :: #noticeBoardResult";
     }
 
 
@@ -120,7 +143,9 @@ public class NoticeBoardController {
     // 공지사항 게시글 페이지
     @GetMapping("/detail")
     public String detail(Model model,
-                         @RequestParam(required = true) Long noticeBoardId) {
+                         @RequestParam(required = true) Long noticeBoardId,
+                         @PageableDefault(size=5) Pageable pageable) {
+
 
         // 게시글
         NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
@@ -130,8 +155,25 @@ public class NoticeBoardController {
         noticeBoardService.viewsUp(noticeBoardId);
 
         // 5개 게시판
-        List<NoticeBoardDto> noticeBoardDtos = noticeBoardService.detail_list(noticeBoardId);
-        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
+        Page<NoticeBoardDto> noticeBoardDtoList = noticeBoardService.detail_list(noticeBoardId, pageable);
+
+        int startPage = Math.max(1, noticeBoardDtoList.getPageable().getPageNumber() - 3);
+        int endPage = Math.min(noticeBoardDtoList.getTotalPages(), noticeBoardDtoList.getPageable().getPageNumber() + 3);
+
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        System.out.println("====================");
+        System.out.println("noticeBoardDtoList = " + noticeBoardDtoList.getPageable().getPageSize());
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("noticeBoardDtoList", noticeBoardDtoList);
+
+
+
+
 
         // id 가저오기
         UserDetails sessionMember = memberService.getSessionMember();
@@ -203,29 +245,7 @@ public class NoticeBoardController {
 
 
 
-    // 공지사항 정렬
-    @RequestMapping(value = "/sortBy", method = RequestMethod.POST)
-    public String sortBy(Model model, NoticeBoardKeywordSortDto Dto,
-                         Pageable pageable) {
 
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, Dto.getSortBy()));
-
-        Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(Dto.getKeyword(), pageRequest);
-        Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
-
-        int startPage = Math.max(1, noticeBoardDtos.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(noticeBoardDtos.getTotalPages(), noticeBoardDtos.getPageable().getPageNumber() + 4);
-        if (endPage == 0) {
-            startPage = 0;
-        }
-
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("noticeBoardDtos", noticeBoardDtos);
-
-        return "/noticeBoard/main :: #noticeBoardResult";
-    }
 
 
 }

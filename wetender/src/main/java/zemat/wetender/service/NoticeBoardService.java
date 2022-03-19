@@ -3,6 +3,7 @@ package zemat.wetender.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -87,43 +88,18 @@ public class NoticeBoardService {
     }
 
     // 건의사항 ID를 기준 5개 조회하기
-    public List<NoticeBoardDto> detail_list(Long noticeBoardID)
+    public Page<NoticeBoardDto> detail_list(Long noticeBoardID, Pageable pageable)
     {
+//        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+//        int size = 3;
+//        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<NoticeBoard> noticeBoards = noticeBoardRepository.findAll(pageable);
+        Page<NoticeBoardDto> noticeBoardDtoPage = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
 
 
-        List<NoticeBoardDto> noticeBoardDtos = new ArrayList<>();
-        Long start = 0L;
-        int size = noticeBoardRepository.findAll().size();
-        if(size <= 5) {
-            start = 1L;
-        }
-        else
-        {
-            if(noticeBoardID == 1L || noticeBoardID == 2L) {
-                start = 1L;
-            }
-            else if(noticeBoardID == size || noticeBoardID == size -1L) {
-                start = size - 4L;
-            }
-            else {
-                start = noticeBoardID - 2L;
-            }
-        }
-        for(int i = 0; i < 5; i++)
-        {
-            if(start > size) {
-                break;
-            }
-            if(noticeBoardRepository.existsById(start)) {
-                noticeBoardDtos.add(new NoticeBoardDto(noticeBoardRepository.getById(start)));
-                start += 1;
-            }
-            else {
 
-            }
 
-        }
-        return noticeBoardDtos;
+        return noticeBoardDtoPage;
     }
 
     // 공지사항 댓글 저장하기

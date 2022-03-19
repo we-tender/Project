@@ -209,40 +209,66 @@
                 <br>
 
                 <h4>공지사항 게시판 글</h4>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">번호</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">글쓴이</th>
-                        <th scope="col">작성일</th>
-                        <th scope="col">좋아요</th>
-                        <th scope="col">댓글수</th>
-                        <th scope="col">조회수</th>
-                    </tr>
-                    </thead>
+                <div id="noticeBoardDetailList">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">번호</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">글쓴이</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">좋아요</th>
+                            <th scope="col">댓글수</th>
+                            <th scope="col">조회수</th>
+                        </tr>
+                        </thead>
 
-                    <tbody>
-                    <tr th:each = "noticeBoardDto : ${noticeBoardDtos}">
+                        <tbody>
+                        <tr th:each = "noticeBoardDto : ${noticeBoardDtoList}">
 
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.id}"></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class= "fw-bold"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id})}"> 제목 </a></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdBy}"></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdDate}"></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.likes}"></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.replies}"></td>
-                        <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.views}"></td>
+                            <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.id}"></td>
+                            <td th:if = "${noticeBoardDto.id} == (*{id})" class= "fw-bold"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id}, page=${#numbers.formatInteger( (noticeBoardDto.id-1)/noticeBoardDtoList.pageable.pageSize, 0)}    )}"> 제목 </a></td>
+                            <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdBy}"></td>
+                            <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.createdDate}"></td>
+                            <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.likes}"></td>
+                            <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.replies}"></td>
+                            <td th:if = "${noticeBoardDto.id} == (*{id})" class = "fw-bold" th:text = "${noticeBoardDto.views}"></td>
 
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.id}"></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id})}"> 제목 </a></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdBy}"></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdDate}"></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.likes}"></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.replies}"></td>
-                        <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.views}"></td>
-                    </tr>
-                    </tbody>
-                </table>
+                            <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.id}"></td>
+                            <td th:if = "${noticeBoardDto.id} != (*{id})"> <a th:text = "${noticeBoardDto.noticeBoardTitle}" th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.Id}, page=${#numbers.formatInteger( (noticeBoardDto.id-1)/ noticeBoardDtoList.pageable.pageSize,0)}  )}"> 제목 </a></td>
+                            <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdBy}"></td>
+                            <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.createdDate}"></td>
+                            <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.likes}"></td>
+                            <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.replies}"></td>
+                            <td th:if = "${noticeBoardDto.id} != (*{id})" th:text = "${noticeBoardDto.views}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 페이징 오버뷰 -->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+
+                            <li class="page-item"  th:classappend="${1 == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' " >
+                                <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber - 1}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+
+                            <li class="page-item " th:classappend="${i == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
+                                <a class="page-link" href="#"  th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${i-1} )}"  th:text="${i}">1</a></li>
+
+
+                            <!-- 여기서 왜 +2를 해야 제대로 작동하는지 모르겠다.  -->
+                            <li class="page-item" th:classappend="${noticeBoardDtoList.totalPages == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' " >
+                                <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber + 1} )}">Next</a>
+
+                            </li>
+                        </ul>
+                    </nav>
+
+
+
+
+                </div>
 
 
                 <div class="text-end">

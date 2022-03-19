@@ -20,6 +20,9 @@ public interface NoticeBoardRepository extends JpaRepository<NoticeBoard, Long> 
     Page<NoticeBoard> findByStatusContaining(String noticeStatus, Pageable pageable);
 
 
+    Page<NoticeBoard> findAll(Pageable pageable);
+
+
 
 
 }

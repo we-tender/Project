@@ -88,7 +88,7 @@
                                         >공지</span></td>
                             <td> <a style="color:red"
                                     th:text = "${noticeBoard.noticeBoardTitle}"
-                                    th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
+                                    th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardAllDtos.pageable.pageSize, 0) }     )}"> 제목 </a></td>
                             <td th:text = "${noticeBoard.createdBy}"></td>
                             <td th:text = "${noticeBoard.createdDate}"></td>
                             <td th:text = "${noticeBoard.likes}"></td>
@@ -142,7 +142,7 @@
                             <td
                                     th:text = "${noticeBoard.id}"></td>
                             <td> <a th:text = "${noticeBoard.noticeBoardTitle}"
-                                    th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id})}"> 제목 </a></td>
+                                    th:href = "@{/noticeBoard/detail( noticeBoardId=${noticeBoard.id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardDtos.pageable.pageSize, 0)} )}"> 제목 </a></td>
                             <td th:text = "${noticeBoard.createdBy}"></td>
                             <td th:text = "${noticeBoard.createdDate}"></td>
                             <td th:text = "${noticeBoard.likes}"></td>
@@ -173,6 +173,8 @@
                             </li>
                         </ul>
                     </nav>
+
+
                 </div>
 
 
