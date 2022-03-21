@@ -10,12 +10,12 @@
 
     <section>
         <div class="main-container-grid">
-            <div class="main-contents-header">
-                <div class="main-contents-inline1-row">
-                    <h2><a th:href="@{/}">WETENDER</a></h2>
+            <div class="main-contents column-center">
+                <div class="main-contents-header">
+                    <div class="main-contents-inline1-row">
+                        <h2><a th:href="@{/}">WETENDER</a></h2>
+                    </div>
                 </div>
-            </div>
-            <div class="main-contents">
                 <div class="main-contents-inline1-row">
                     <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post">
                         <div class="width-20rem padding-05 input-1">

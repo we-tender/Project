@@ -18,7 +18,7 @@
                 <li class="nav-side-menu-item" id="nav-side-menu-liquor">
                     <a th:href="@{/liquor/main}" >주류</a>
                 </li>
-                <li class="nav-side-menu-item">
+                <li class="nav-side-menu-item" id="nav-side-menu-community">
                     <a href="#">커뮤니티</a>
                 </li>
                 <li class="nav-side-menu-item" id="nav-side-menu-suggestion">
@@ -35,10 +35,12 @@
                 const selectMenu = $('.nav-side-menu-state').attr('value');
                 const sideMenuItems = document.querySelectorAll('.nav-side-menu-item');
                 for (let i = 0; i < sideMenuItems.length; i++) {
-                    const curMenu = $('.nav-side-menu-item[item-idx=' + i + ']').attr('id');
+                    const curMenu = sideMenuItems.item(i).id;
                     if (selectMenu === curMenu) {
-                        $('.nav-side-menu-item[item-idx=' + i + ']').addClass('selected-item');
+                        sideMenuItems.item(i).className += ' selected-item';
                     }
+                    //const curMenu = $('.nav-side-menu-item[item-idx=' + i + ']').attr('id');
+                    //$('.nav-side-menu-item[item-idx=' + i + ']').addClass('selected-item');
                 }
             });
         </script>

@@ -128,6 +128,26 @@
 .main-container-grid {
     display : grid;
 }
+.main-contents {
+    display : flex;
+    margin : 1rem 1rem 1rem 1rem;
+}
+.row-center {
+    flex-direction : row;
+    justify-content : center;
+}
+.column-center {
+    flex-direction : column;
+    align-items : center;
+}
+.main-contents ul {
+    list-style-type : none;
+    padding-left : 0;
+    margin-bottom : 0;
+}
+.main-contents ul li {
+    margin-bottom : 0.3rem;
+}
 .main-contents-header {
     margin : 1rem 1rem 1rem 1rem;
 }
@@ -137,19 +157,6 @@
 }
 .main-contents-header a:hover {
     color : #e9e9e9;
-}
-.main-contents {
-    display : flex;
-    justify-content : center;
-    margin : 1rem 1rem 1rem 1rem;
-}
-.main-contents ul {
-    list-style-type : none;
-    padding-left : 0;
-    margin-bottom : 0;
-}
-.main-contents ul li {
-    margin-bottom : 0.3rem;
 }
 .main-contents-inline1-row {
     flex : 1;
@@ -329,12 +336,12 @@ figure:hover figcaption {
     border : 1px solid #fb8bb5;
     background-color : #fb8bb5;
 }
+.input-file label:hover {
+    background-color : #DF6694
+}
 .input-file label:active {
     outline : 0;
     box-shadow : 0 0 0 .25rem #fbcfd0;
-}
-.input-file label:hover {
-    background-color : #DF6694
 }
 .input-file .upload-name {
     flex : 1 1 100%;

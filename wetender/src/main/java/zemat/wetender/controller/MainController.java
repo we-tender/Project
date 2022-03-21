@@ -15,6 +15,7 @@ import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.dto.liquorDto.LiquorHomeDto;
 import zemat.wetender.service.CocktailService;
 import zemat.wetender.service.LiquorService;
+import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -26,23 +27,14 @@ public class MainController {
 
     private final CocktailService cocktailService;
     private final LiquorService liquorService;
+    private final MemberService memberService;
 
-    @Value("${cocktailFile.dir}")
-    private String cocktailFileDir;
-
-
-    @Value("${liquorFile.dir}")
-    private String liquorFileDir;
+    @Value("${cocktailFile.dir}") private String cocktailFileDir;
+    @Value("${liquorFile.dir}") private String liquorFileDir;
 
     @GetMapping("/")
     public String home(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getPrincipal().equals("anonymousUser")) {
-            model.addAttribute("sessionMember", null);
-        } else {
-            UserDetails principalDetails = (UserDetails) authentication.getPrincipal();
-            model.addAttribute("sessionMember", principalDetails);
-        }
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         getCocktailTop20(model);
         getLiquorTop20(model);
         return "fragment/main";
@@ -80,5 +72,4 @@ public class MainController {
         List<LiquorHomeDto> liquorTop20 = liquorService.findTop20ByRecommendation();
         model.addAttribute("liquorTop20", liquorTop20);
     }
-
 }

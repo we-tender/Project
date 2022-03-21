@@ -10,14 +10,13 @@
 
     <section>
         <div class="main-container-grid">
-            <div class="main-contents-header">
-                <div class="main-contents-inline1-row">
-                    <h2><a th:href="@{/}">WETENDER</a></h2>
+            <div class="main-contents column-center">
+                <div class="main-contents-header">
+                    <div class="main-contents-inline1-row">
+                        <h2><a th:href="@{/}">WETENDER</a></h2>
+                    </div>
                 </div>
-            </div>
-
-            <!--<span th:if="${errorMessage != null}" th:text="${errorMessage}"></span>-->
-            <div class="main-contents">
+                <!--<span th:if="${errorMessage != null}" th:text="${errorMessage}"></span>-->
                 <div class="main-contents-inline1-row">
                     <form th:field="idnamePwdForm" th:action="@{/member/login}" th:object="${memberLoginForm}" method="post">
                         <div class="width-20rem padding-05 input-1">
