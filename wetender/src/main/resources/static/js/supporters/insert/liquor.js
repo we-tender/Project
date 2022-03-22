@@ -67,6 +67,11 @@ $(document).ready(function(){
             success : function(result){
                 console.log(result);
                 showUploadResult(result); // 업로드 결과 처리 함수
+                var uploadNum = $('#uploadNum').val();
+                uploadNum *= 1; // String -> int 변환
+                uploadNum += result.length;
+                $('#uploadNum').val(uploadNum);
+                $('.upload-state').val("파일 " + uploadNum + " 개 선택");
             }
         });
     });
@@ -114,6 +119,11 @@ $(document).ready(function(){
                 success : function(result){
                     alert(result);
                     targetLi.remove();
+                    var uploadNum = $('#uploadNum').val();
+                    uploadNum *= 1; // String -> int 변환
+                    uploadNum -= 1;
+                    $('#uploadNum').val(uploadNum);
+                    $('.upload-state').val("파일 " + uploadNum + "개 선택");
                 }
             });
         }

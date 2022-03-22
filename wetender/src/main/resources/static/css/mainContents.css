@@ -124,7 +124,7 @@
 }*/
 
 
-/* 여기부터 다시 작업중.. */
+/* 프레임 설정 */
 .main-container-grid {
     display : grid;
 }
@@ -164,7 +164,13 @@
     justify-content : center;
     margin : 1rem;
 }
-.main-contents-inline1-row img {
+
+/* 이미지 설정 */
+figure {
+    cursor : pointer;
+    position : relative;
+}
+figure img {
     width : 20rem;
     height : 20rem;
     object-fit : contain;
@@ -180,24 +186,21 @@
     -o-transition : .2s;
     transition : .2s;
 }
-.main-contents-inline1-row:hover img {
-    -webkit-transform : scale(1.2);
-    -moz-transform : scale(1.2);
-    -ms-transform : scale(1.2);
-    -o-transform : scale(1.2);
-    transform : scale(1.2);
-}
-figure {
-    cursor : pointer;
-    position : relative;
+figure:hover img {
+    -webkit-transform : scale(1.1);
+    -moz-transform : scale(1.1);
+    -ms-transform : scale(1.1);
+    -o-transform : scale(1.1);
+    transform : scale(1.1);
 }
 figcaption {
     position : absolute;
+    top : -1rem;
     opacity : 0;
-    width : 120%;
-    height : 120%;
+    width : 110%;
+    height : 110%;
     box-sizing : border-box;
-    padding : 4px;
+    padding : .2rem;
     background : #7F7F7F;
     color : #FFFFFF;
     font-size: 1rem;
@@ -207,7 +210,7 @@ figure:hover figcaption {
     opacity : .8;
 }
 
-/* 슬라이드 광고 이미지 */
+/* 슬라이드 광고 */
 .slide-area {
     width : 1000px;
     height : 22rem;
@@ -277,31 +280,7 @@ figure:hover figcaption {
     background : #000;
 }
 
-/* 공통 */
-.width-10rem {
-    width : 10rem;
-}
-.width-15rem {
-    width : 15rem;
-}
-.width-20rem {
-    width : 20rem;
-}
-.width-40rem {
-    width : 40rem;
-}
-.width-100 {
-    width : 100%;
-}
-.height-min-50rem {
-    min-height : 50rem;
-}
-.display-flex {
-    display : flex;
-}
-.padding-05 {
-    padding : 0.5rem;
-}
+/* 입력 폼, 버튼 */
 .input-1 input {
     height : 2rem;
     font-size : 1rem;
@@ -312,6 +291,20 @@ figure:hover figcaption {
     background-color : #e9e9e9;
 }
 .input-1 input:focus {
+    color : #212529;
+    background-color : #fff;
+    outline : 0;
+    box-shadow : 0 0 0 .25rem #fbcfd0;
+}
+.input-1 textarea {
+    font-size : 1rem;
+    border : 0;
+    border-radius : .5rem;
+    outline : none;
+    text-indent : 1rem;
+    background-color : #e9e9e9;
+}
+.input-1 textarea:focus {
     color : #212529;
     background-color : #fff;
     outline : 0;
@@ -328,6 +321,7 @@ figure:hover figcaption {
 }
 .input-file label {
     flex : 1 1 10rem;
+    height : 2rem;
     padding : .2rem .2rem;
     text-align : center;
     cursor : pointer;
@@ -343,7 +337,7 @@ figure:hover figcaption {
     outline : 0;
     box-shadow : 0 0 0 .25rem #fbcfd0;
 }
-.input-file .upload-name {
+.input-file .upload-state {
     flex : 1 1 100%;
     height : 2rem;
     font-size : 1rem;
@@ -353,7 +347,7 @@ figure:hover figcaption {
     background-color : #e9e9e9;
     border-radius : .5rem;
 }
-.input-file .upload-name:focus {
+.input-file .upload-state:focus {
     background-color : #fff;
     outline : 0;
     box-shadow : 0 0 0 .25rem #fbcfd0;
@@ -389,6 +383,32 @@ figure:hover figcaption {
 }
 .btn-2 button:hover {
     background-color : #c0b5b7
+}
+
+/* 공통 */
+.width-10rem {
+    width : 10rem;
+}
+.width-15rem {
+    width : 15rem;
+}
+.width-20rem {
+    width : 20rem;
+}
+.width-40rem {
+    width : 40rem;
+}
+.width-100 {
+    width : 100%;
+}
+.height-min-50rem {
+    min-height : 50rem;
+}
+.display-flex {
+    display : flex;
+}
+.padding-05 {
+    padding : 0.5rem;
 }
 .border-pink {
     border : 1px solid #fb8bb5;

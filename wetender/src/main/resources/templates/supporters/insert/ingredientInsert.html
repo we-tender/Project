@@ -36,7 +36,7 @@
                         <div class="display-flex width-100 padding-05 input-file">
                             <label th:for="images">식재료 이미지</label>
                             <input type="file" multiple="multiple" id="images" th:field="*{images}">
-                            <input class="upload-name" placeholder="파일을 등록해주세요">
+                            <input class="upload-name width-100" placeholder="파일을 등록해주세요">
                         </div>
                     </div>
                     <div class="main-contents-inline1-row">
@@ -57,7 +57,7 @@
             $(document).ready(function(){
                     var fileTarget = $('#images');
                     fileTarget.on('change', function(){
-                    var cur=$(".input-file input[type='file']").val();
+                    var cur = $(".input-file input[type='file']").val();
                     $(".upload-name").val(cur);
                 });
             });
