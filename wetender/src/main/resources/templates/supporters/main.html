@@ -8,9 +8,56 @@
 
 <body>
 <section>
-    <a th:href="@{/supporters/insert/cocktail}">칵테일 등록</a>
-    <a th:href="@{/supporters/insert/liquor}">주류 등록</a>
-    <a th:href="@{/supporters/insert/ingredient}">식재료 등록</a>
+    <div class="container-grid">
+        <div class="contents-header">
+            <p><img src="/images/pink-bullet.png" width="10rem" height="40rem"><span th:text="| ${sessionMember.getUsername()} 서포터즈 페이지|"></span></p>
+        </div>
+        <div class="contents-flex flex-column border-pink">
+            <label for="activityList" class="border-pink"><span>활동 내역</span></label>
+            <div id="activityList" class="contents-flex flex-row border-pink">
+                <div class="contents-flex flex-column flex-110">총 n개의 등록 및 수정</div>
+                <div class="contents-flex flex-column flex-110">
+                    <p>칵테일 a건</p>
+                    <p>주류 b건</p>
+                </div>
+                <div class="contents-flex flex-column flex-110">현재 랭킹</div>
+            </div>
+        </div>
+        <div class="contents-flex flex-column">
+            <ul class="contents-flex flex-row">
+                <li class="contents-flex flex-column-center flex-110 padding-05 border-pink">
+                    <h4 class="contents-flex flex-column-center">
+                        <img src="/images/cocktail-icon.png" width="50px">
+                        <a th:href="@{/supporters/insert/cocktail}">
+                            <strong>Cocktail register</strong><br>
+                            <span>칵테일 등록</span>
+                        </a>
+                    </h4>
+                    <p th:text="|${sessionMember.getUsername()} 서포터 님께서 추천하는 칵테일을 등록해주세요!|"></p>
+                </li>
+                <li class="contents-flex flex-column-center flex-110 padding-05 border-pink">
+                    <h4 class="contents-flex flex-column-center">
+                        <img src="/images/liquor-icon.png" width="50px">
+                        <a th:href="@{/supporters/insert/liquor}">
+                            <strong>Liquor register</strong><br>
+                            <span>주류 등록</span>
+                        </a>
+                    </h4>
+                    <p>주류 상품을 등록해주세요!</p>
+                </li>
+                <li class="contents-flex flex-column-center flex-110 padding-05 border-pink">
+                    <h4 class="contents-flex flex-column-center">
+                        <img src="/images/ingredient-icon.png" width="50px">
+                        <a th:href="@{/supporters/insert/ingredient}">
+                            <strong>Ingredient register</strong><br>
+                            <span>식재료 등록</span>
+                        </a>
+                    </h4>
+                    <p>재료를 등록해주세요!</p>
+                </li>
+            </ul>
+        </div>
+    </div>
 </section>
 </body>
 

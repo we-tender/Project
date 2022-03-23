@@ -9,14 +9,12 @@
 <body>
 
     <section>
-        <div class="main-container-grid">
-            <div class="main-contents column-center">
-                <div class="main-contents-header">
-                    <div class="main-contents-inline1-row">
-                        <h2><a th:href="@{/}">WETENDER</a></h2>
-                    </div>
+        <div class="container-grid">
+            <div class="contents-flex flex-column-center">
+                <div class="contents-header">
+                    <h2><a th:href="@{/}">WETENDER</a></h2>
                 </div>
-                <div class="main-contents-inline1-row">
+                <div class="contents-flex">
                     <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post">
                         <div class="width-20rem padding-05 input-1">
                             <h5><label th:for="idname">ID</label></h5>

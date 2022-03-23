@@ -31,9 +31,9 @@
     <nav th:replace="~{fragment/nav_top :: nav_top}"></nav>
 
     <!-- container : sidebar + content -->
-    <div class="main-wrapper">
+    <div class="contents-wrapper">
         <div th:replace="~{fragment/nav_side :: nav_side}"></div>
-        <div class="main-section">
+        <div class="contents-section">
             <section th:replace="${mainContents}"></section>
         </div>
     </div>

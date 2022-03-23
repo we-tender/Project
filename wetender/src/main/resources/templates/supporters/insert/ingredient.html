@@ -8,16 +8,14 @@
 <body>
 
     <section>
-        <div class="main-container-grid">
-            <div class="main-contents column-center">
-                <div class="main-contents-header">
-                    <div class="main-contents-inline1-row">
-                        <h2>식재료 등록 폼</h2>
-                    </div>
+        <div class="container-grid">
+            <div class="contents-flex flex-column-center">
+                <div class="contents-header">
+                    <h2>식재료 등록 폼</h2>
                 </div>
-                <div class="main-contents">
+                <div class="contents-flex">
                     <form role="form" th:action th:object="${form}" method="post" enctype="multipart/form-data">
-                        <div class="main-contents-inline1-row">
+                        <div class="contents-flex">
                             <meta name="_csrf" th:content="${_csrf.token}">
                             <meta name="_csrf_header" th:content="${_csrf.headerName}">
                             <div class="width-20rem padding-05 input-1">
@@ -29,7 +27,7 @@
                                 <input type="text" th:field="*{eName}" class="width-100" placeholder="영문명을 입력하세요">
                             </div>
                         </div>
-                        <div class="main-contents-inline1-row">
+                        <div class="contents-flex">
                             <div class="width-40rem padding-05 input-1">
                                 <label th:for="content">식재료 설명</label>
                                 <textarea col="50" row="3" th:field="*{content}" class="width-100" placeholder="설명을 입력하세요"></textarea>
@@ -37,7 +35,7 @@
                         </div>
 
                         <!-- 이미지 -->
-                        <div class="main-contents-inline1-row">
+                        <div class="contents-flex">
                             <div class="width-40rem padding-05 input-file">
                                 <div class="uploadDiv display-flex">
                                     <label th:for="uploadFile">file Attach</label>
@@ -55,7 +53,7 @@
                         </div>
                         <!-- 이미지 끝 -->
 
-                        <div class="main-contents-inline1-row">
+                        <div class="contents-flex flex-row-center">
                             <div class="width-10rem padding-05 btn-1">
                                 <button class="width-100" type="submit">식재료 등록</button>
                             </div>

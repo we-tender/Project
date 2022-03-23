@@ -9,8 +9,8 @@
 <body>
 
     <section>
-        <div class="main-container-grid">
-            <div class="main-contents">
+        <div class="container-grid">
+            <div class="contents-flex">
                 <div class="slide-area">
                     <div class="slide-ads">
                         <div id="slide-ad0"><img src="/images/slide-ads0.png"></div>
@@ -25,11 +25,11 @@
                 </div>
             </div>
         </div>
-        <div class="main-container-grid border-gray">
-            <div class="main-contents-header">
+        <div class="container-grid border-gray">
+            <div class="contents-header">
                 <h4>칵테일 베스트</h4>
             </div>
-            <div class="main-contents">
+            <div class="contents-flex">
                 <figure class="main-contents-inline1-row" th:each="cocktail : ${cocktailTop20}" th:onclick="|location.href='@{/cocktail/{id}(id=${cocktail.getId()})}'|">
                     <img th:src="|/cocktailTop20Images/${cocktail.getMainImage()}|">
                     <figcaption>
@@ -51,11 +51,11 @@
             </div>
         </div>
         &nbsp;
-        <div class="main-container-grid border-gray">
-            <div class="main-contents-header">
+        <div class="container-grid border-gray">
+            <div class="contents-header">
                 <h4>주류 베스트</h4>
             </div>
-            <div class="main-contents">
+            <div class="contents-flex">
                 <figure class="main-contents-inline1-row" th:each="liquor : ${liquorTop20}" th:onclick="|location.href='@{/liquor/{id}(id=${liquor.getId()})}'|">
                     <img th:src="|/liquorTop20Images/${liquor.getMainImage()}|">
                     <figcaption>
