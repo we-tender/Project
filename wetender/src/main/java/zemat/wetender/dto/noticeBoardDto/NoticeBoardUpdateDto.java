@@ -4,13 +4,14 @@ package zemat.wetender.dto.noticeBoardDto;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import zemat.wetender.domain.noticeBoard.NoticeStatus;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
-public class NoticeBoardInsertDto {
+public class NoticeBoardUpdateDto {
 
+    @NotNull
     private Long id;
 
     @NotBlank
@@ -23,12 +24,11 @@ public class NoticeBoardInsertDto {
     private String status;
 
 
-    public NoticeBoardInsertDto() {
-    }
-
-    public NoticeBoardInsertDto(String noticeBoardTitle, String noticeBoardContent, String status) {
+    public NoticeBoardUpdateDto(String noticeBoardTitle, String noticeBoardContent, String status) {
         this.noticeBoardTitle = noticeBoardTitle;
         this.noticeBoardContent = noticeBoardContent;
         this.status = status;
     }
+
+
 }

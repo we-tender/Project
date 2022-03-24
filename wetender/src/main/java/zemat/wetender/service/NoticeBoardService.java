@@ -12,10 +12,7 @@ import zemat.wetender.domain.member.Member;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.noticeBoard.NoticeBoardLikes;
 import zemat.wetender.domain.noticeBoard.NoticeBoardReply;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardLikesInsertDto;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardReplyInsertDto;
+import zemat.wetender.dto.noticeBoardDto.*;
 import zemat.wetender.repository.MemberRepository;
 import zemat.wetender.repository.noticeBoard.NoticeBoardLikesRepository;
 import zemat.wetender.repository.noticeBoard.NoticeBoardReplyRepository;
@@ -37,24 +34,19 @@ public class NoticeBoardService {
 
     // 공지사항 등록, 수정
     public Long insert(NoticeBoardInsertDto Dto) {
+        NoticeBoard noticeBoard = new NoticeBoard(Dto);
+        NoticeBoard save = noticeBoardRepository.save(noticeBoard);
+        return save.getId();
+    }
 
-        // 아이디가 없는 경우 새로 생성
-        if( Dto.getId() == null ) {
-            NoticeBoard noticeBoard = new NoticeBoard(Dto);
-            NoticeBoard save = noticeBoardRepository.save(noticeBoard);
-            return save.getId();
-        }
+    public Long update(NoticeBoardUpdateDto Dto) {
+        NoticeBoard noticeBoard = noticeBoardRepository.getById(Dto.getId());
 
-        // 아이디가 있는 경우 수정
-        else {
-            NoticeBoard noticeBoard = noticeBoardRepository.getById(Dto.getId());
+        noticeBoard.setStatus(Dto.getStatus());
+        noticeBoard.setNoticeBoardTitle(Dto.getNoticeBoardTitle());
+        noticeBoard.setNoticeBoardContent(Dto.getNoticeBoardContent());
 
-            noticeBoard.setStatus(Dto.getStatus());
-            noticeBoard.setNoticeBoardTitle(Dto.getNoticeBoardTitle());
-            noticeBoard.setNoticeBoardContent(Dto.getNoticeBoardContent());
-
-            return noticeBoard.getId();
-        }
+        return noticeBoard.getId();
     }
 
     // 공지사항 조회

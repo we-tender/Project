@@ -14,7 +14,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.noticeBoard.NoticeBoardReply;
 import zemat.wetender.domain.noticeBoard.NoticeStatus;
@@ -115,30 +118,57 @@ public class NoticeBoardController {
     }
 
 
-    // 공지사항 등록, 수정 페이지
+    // 공지사항 등록 페이지
     @GetMapping("/insert")
-    public String insertForm(Model model, @RequestParam(required = false) Long noticeBoardId) {
-
-        if(noticeBoardId != null) {
-            NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
-            model.addAttribute("noticeBoardDto", noticeBoardDto);
-        }
-
-        else {
-            NoticeBoardDto noticeBoardDto = new NoticeBoardDto();
-            model.addAttribute("noticeBoardDto", noticeBoardDto);
-        }
-
+    public String insertForm(Model model) {
+        model.addAttribute("noticeBoardInsertDto", new NoticeBoardInsertDto());
         model.addAttribute("sessionMember", memberService.getSessionMember());
-
         return "noticeBoard/insert";
-
     }
 
     // 공지사항 등록
     @PostMapping("/insert")
-    public String insert(@ModelAttribute NoticeBoardInsertDto noticeBoardInsertDto) {
+    public String insert(@Validated @ModelAttribute NoticeBoardInsertDto noticeBoardInsertDto,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("sessionMember", memberService.getSessionMember());
+            return "noticeBoard/insert";
+        }
+
         noticeBoardService.insert(noticeBoardInsertDto);
+
+
+        return "redirect:/noticeBoard/main";
+    }
+
+    // 공지사항 수정 페이지
+    @GetMapping("/update")
+    public String updateForm(Model model, @RequestParam(required = false) Long noticeBoardId) {
+
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
+
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+        return "noticeBoard/update";
+    }
+
+    // 공지사항 수정
+    @PostMapping("/update")
+    public String update(@Validated @ModelAttribute("noticeBoardDto") NoticeBoardUpdateDto noticeBoardUpdateDto,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if(bindingResult.hasErrors()) {
+            System.out.println("bindingResult = {}" + bindingResult);
+            model.addAttribute("sessionMember", memberService.getSessionMember());
+            return "noticeBoard/update";
+        }
+
+        noticeBoardService.update(noticeBoardUpdateDto);
+
         return "redirect:/noticeBoard/main";
     }
 

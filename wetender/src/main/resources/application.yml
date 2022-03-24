@@ -28,6 +28,9 @@ spring:
       #FileSizeLimitExceededException: maxFileSize 초과 시 발생
       # SizeLimitExceededException: maxRequestSize 초과 시 발생
 
+  messages:
+    basename: errors
+
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace
@@ -40,3 +43,4 @@ liquorFile:
 
 ingredientFile:
   dir: C:/images/ingredient/
+

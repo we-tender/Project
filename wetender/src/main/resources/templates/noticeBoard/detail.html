@@ -96,7 +96,7 @@
 
                         <th:block th:if="${sessionMember}">
                             <th:block th:if="${sessionMember.getUsername()} == *{createdBy}">
-                                <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/insert(noticeBoardId = *{id})}"> 수정 </a>
+                                <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/update(noticeBoardId = *{id})}"> 수정 </a>
                                 <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
                             </th:block>
                         </th:block>

@@ -22,27 +22,15 @@
 
 
 <section>
-
-  <style>
-        .container {
-            max-width: 560px;
-        }
-        .field-error {
-            border-color: #dc3545;
-            color: #dc3545;
-        }
-    </style>
-
-
   <div class="col-lg-8 mx-auto p-3 py-md-5">
     <main>
       <div class="container">
         <h2>공지사항 등록</h2>
         <br>
         <!--    action에 주소를 넣는다     object에   GetMapping에 전달받은 객체를 넣는다.-->
-        <!--            사진을 저장하기 위해 enctype 추가 -->
-        <form action="#" th:action="@{/noticeBoard/insert}" th:object="${noticeBoardInsertDto}"  method="post">
+        <form action="#" th:action="@{/noticeBoard/update}" th:object="${noticeBoardDto}"  method="post">
 
+          <input type="hidden" th:field="*{id}">
 
           <!-- 상태 기입 상자 -->
           <div class="form-group mx-sm-1 mb-2">
@@ -60,10 +48,13 @@
           <div class="mb-3">
             <label for="noticeBoardTitle" class="form-label">제목</label>
             <input type="text" class="form-control"
-                   id="noticeBoardTitle" th:name="noticeBoardTitle">
+                   id="noticeBoardTitle" th:name="noticeBoardTitle"
+                   th:field="*{noticeBoardTitle}">
+
             <div class="field-error" th:errors="*{noticeBoardTitle}">
               제목 오류
             </div>
+
           </div>
 
 
@@ -71,11 +62,13 @@
           <div class="mb-3">
             <label for="noticeBoardContent" class="form-label">내용</label>
             <textarea class="form-control" id="noticeBoardContent" rows="4"
-                      th:name="noticeBoardContent">
-            </textarea>
+                      th:name="noticeBoardContent"
+                      th:field="*{noticeBoardContent}"></textarea>
+
             <div class="field-error" th:errors="*{noticeBoardContent}">
               내용 오류
             </div>
+
           </div>
 
           <!-- 버튼 -->
@@ -84,6 +77,7 @@
             <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/main(sortBy = 'createdBy')}">취소</a>
           </div>
         </form>
+
       </div>
     </main>
   </div>
