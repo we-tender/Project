@@ -9,22 +9,23 @@
 <body>
 
     <section>
-        <div class="container-grid">
-            <div class="contents-flex">
-                <div class="slide-area">
-                    <div class="slide-ads">
-                        <div id="slide-ad0"><img src="/images/slide-ads0.png"></div>
-                        <div id="slide-ad1"><img src="/images/slide-ads1.png"></div>
-                        <div id="slide-ad2"><img src="/images/slide-ads2.png"></div>
-                    </div>
-                    <div class="slide-btns">
-                        <a href="#slide-ad0">1</a>
-                        <a href="#slide-ad1">2</a>
-                        <a href="#slide-ad2">3</a>
-                    </div>
+        <div class="slide-container">
+            <div class="slide-area">
+                <div class="slide">
+                    <div data-index=1>1</div>
+                    <div data-index=2>2</div>
+                    <div data-index=3>3</div>
+                    <div data-index=4>4</div>
                 </div>
             </div>
+            <div class="slide-button">
+                <span class="slide-button-item active"></span>
+                <span class="slide-button-item"></span>
+                <span class="slide-button-item"></span>
+                <span class="slide-button-item"></span>
+            </div>
         </div>
+
         <div class="container-grid border-gray">
             <div class="contents-header">
                 <h4>칵테일 베스트</h4>
@@ -75,6 +76,43 @@
                 </figure>
             </div>
         </div>
+        
+        <script>
+            let interval;
+            let activeIndex = 1;
+
+            $(document).ready(function(){
+                interval = setInterval(changeActiveIndex, 2500);
+                $('.slide-button-item').on('click', function(){
+                    // slide button의 색상 변경
+                    const index = $(this).index();
+                    activeIndex = index;
+                    changeActiveIndex();
+                    clearInterval(interval);
+                    // animation 재설정을 위해 animation을 잠시 제거한다.
+                    $('.slide').css('animation', 'none');
+                    // animation 재설정
+                    $('.slide').animate({marginLeft:`${-100 * index}%`}, 1, function(){
+                        //1초의 시간 여유(해당 이미지로 이동하는 animation을 위한 시간)를 두고 다시 animation을 설정한다.
+                        setTimeout(function(){
+                            $('.slide').css('animation',`animation${index+1} 10s infinite`)
+                            interval = setInterval(changeActiveIndex, 2500);
+                        }, 1000);
+                    })
+                });
+            })
+            function changeActiveIndex(){
+                if(activeIndex > 3) {
+                    activeIndex %= 4;
+                }
+                changeActiveBtn();
+                activeIndex += 1;
+            }
+            function changeActiveBtn(){
+                $('.slide-button-item').removeClass('active');
+                $(`.slide-button span:eq(${activeIndex})`).addClass('active');
+            }
+        </script>
     </section>
 
 </body>
