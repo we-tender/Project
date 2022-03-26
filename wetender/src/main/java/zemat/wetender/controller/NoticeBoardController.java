@@ -139,7 +139,6 @@ public class NoticeBoardController {
 
         noticeBoardService.insert(noticeBoardInsertDto);
 
-
         return "redirect:/noticeBoard/main";
     }
 
@@ -162,7 +161,6 @@ public class NoticeBoardController {
                          Model model) {
 
         if(bindingResult.hasErrors()) {
-            System.out.println("bindingResult = {}" + bindingResult);
             model.addAttribute("sessionMember", memberService.getSessionMember());
             return "noticeBoard/update";
         }
