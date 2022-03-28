@@ -163,6 +163,15 @@
     flex-direction : row;
     justify-content : center;
 }
+.flex-row-center-bottom {
+    flex-direction : row;
+    justify-content : center;
+    align-items : flex-end;
+}
+.flex-row-evenly {
+    flex-direction : row;
+    justify-content : space-evenly;
+}
 .flex-column {
     flex-direction : column;
 }
@@ -170,11 +179,20 @@
     flex-direction : column;
     align-items : center;
 }
+.flex-wrap {
+    flex-wrap : wrap;
+}
 .flex-110 {
     flex : 1 1 0%;
 }
 .flex-11auto {
     flex : 1 1 auto;
+}
+.grid-rows-main {
+    grid-template-rows : 400px minmax(10rem, auto) minmax(20rem, auto) minmax(20rem, auto);
+}
+.grid-row-gap-1rem {
+    row-gap : 1rem;
 }
 
 /* 이미지 설정 */
@@ -208,6 +226,7 @@ figure:hover img {
 figcaption {
     position : absolute;
     top : -1rem;
+    left : -1rem;
     opacity : 0;
     width : 110%;
     height : 110%;
@@ -220,6 +239,22 @@ figcaption {
 }
 figure:hover figcaption {
     opacity : .8;
+}
+@media (min-width: 992px) {
+    figure img {
+        width : 20rem;
+        height : 20rem;
+    }
+}
+@media (max-width: 991.98px) {
+    figure img {
+        width : 15rem;
+        height : 15rem;
+    }
+    figcaption {
+        top : -.75rem;
+        left : -.75rem;
+    }
 }
 
 /* 슬라이드 광고 */
@@ -438,7 +473,13 @@ figure:hover figcaption {
     background-color : #c0b5b7
 }
 
-/* 공통 wdith height padding border */
+/* 공통 text background wdith height padding border */
+.text-align-center {
+    text-align : center;
+}
+.background-gray {
+    background : #f1f1f1;
+}
 .width-10rem {
     width : 10rem;
 }
@@ -460,11 +501,20 @@ figure:hover figcaption {
 .padding-05 {
     padding : 0.5rem;
 }
+.padding-top-30p {
+    padding : 30%;
+}
 .border-pink {
     border : 1px solid #fb8bb5;
 }
 .border-gray {
     border : 1px solid #dfdfdf;
+}
+.border-radius-80p {
+    border-radius : 80%;
+}
+.margin-0 {
+    margin : 0;
 }
 
 
