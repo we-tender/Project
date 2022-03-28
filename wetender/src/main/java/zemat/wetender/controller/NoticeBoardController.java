@@ -54,7 +54,7 @@ public class NoticeBoardController {
     public String main(Model model,
                        @PageableDefault(size = 5) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String keyword,
-                       @RequestParam(required = false) String sortBy) {
+                       @RequestParam(required = false) String sortBy)  {
 
 
         if(sortBy == null) sortBy = "createdBy";
@@ -88,7 +88,6 @@ public class NoticeBoardController {
 
         model.addAttribute("sideMenu", "nav-side-menu-noticeBoard");
 
-
         return "noticeBoard/main";
     }
 
@@ -96,6 +95,7 @@ public class NoticeBoardController {
     @RequestMapping(value = "/sortBy", method = RequestMethod.POST)
     public String sortBy(Model model, NoticeBoardKeywordSortDto Dto,
                          Pageable pageable) {
+
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
         PageRequest pageRequest = PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC, Dto.getSortBy()));
@@ -105,13 +105,13 @@ public class NoticeBoardController {
 
         int startPage = Math.max(1, noticeBoardDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(noticeBoardDtos.getTotalPages(), noticeBoardDtos.getPageable().getPageNumber() + 4);
+
         if (endPage == 0) {
             startPage = 0;
         }
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("sortBy", Dto.getSortBy());
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 
         return "/noticeBoard/main :: #noticeBoardResult";
