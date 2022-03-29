@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -72,4 +74,22 @@ public class MainController {
         List<LiquorHomeDto> liquorTop20 = liquorService.findTop20ByRecommendation();
         model.addAttribute("liquorTop20", liquorTop20);
     }
+
+    // 전체 검색
+    @GetMapping("mainSearch")
+    public void mainSearch( @PageableDefault(size = 5) Pageable pageable,
+                            @RequestParam(required = false, defaultValue = "") String keyword,
+                            Model model) {
+
+
+
+
+
+
+    }
+
+
+
+
+
 }

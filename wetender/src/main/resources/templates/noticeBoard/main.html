@@ -103,19 +103,24 @@
 
 
                 <!-- 최신순 추천수 조회수 댓글수-->
+                <div id="noticeBoardResult">
                 <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s" style="float:right;">
                     <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary active" data-bs-toggle="pill" onclick='noticeBoardSortBy("latest")'>최신수</a>
+                            <button class="base" th:classappend="${sortBy} == 'createdBy' ? 'btn btn-outline-primary active' : 'btn btn-outline-primary'"
+                               data-bs-toggle="pill" onclick='noticeBoardSortBy("createdBy")'>최신수</button>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" onclick='noticeBoardSortBy("views")'>조회수</a>
+                            <button class="base" th:classappend="${sortBy} == 'views' ? 'btn btn-outline-primary active' : 'btn btn-outline-primary'"
+                               data-bs-toggle="pill" onclick='noticeBoardSortBy("views")'>조회수</button>
                         </li>
                         <li class="nav-item me-2">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" onclick='noticeBoardSortBy("likes")'>추천수</a>
+                            <button class="base" th:classappend="${sortBy} == 'likes' ? 'btn btn-outline-primary active' : 'btn btn-outline-primary'"
+                                    data-bs-toggle="pill" onclick='noticeBoardSortBy("likes")'>추천수</button>
                         </li>
                         <li class="nav-item me-0">
-                            <a class="btn btn-outline-primary" data-bs-toggle="pill" onclick='noticeBoardSortBy("replies")'>댓글수</a>
+                            <button class="base" th:classappend="${sortBy} == 'replies' ? 'btn btn-outline-primary active' : 'btn btn-outline-primary'"
+                                    data-bs-toggle="pill" onclick='noticeBoardSortBy("replies")'>댓글수</button>
                         </li>
                     </ul>
                 </div>
@@ -123,7 +128,7 @@
 
 
                 <!-- 공지사항 전체글 -->
-                <div id="noticeBoardResult">
+
                     <table class="table">
                         <thead>
                         <tr>

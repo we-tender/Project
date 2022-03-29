@@ -69,7 +69,7 @@ function noticeBoardSortBy(sortBy) {
     if(sortBy === 'views') {
         sortByData = "views";
     }
-    else if(sortBy === 'latest') {
+    else if(sortBy === 'createdBy') {
         sortByData = "createdBy";
     }
     else if(sortBy === 'likes') {

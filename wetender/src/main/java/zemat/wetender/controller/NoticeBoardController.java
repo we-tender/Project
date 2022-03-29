@@ -110,6 +110,7 @@ public class NoticeBoardController {
             startPage = 0;
         }
 
+        model.addAttribute("sortBy", Dto.getSortBy());
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);

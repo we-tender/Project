@@ -39,6 +39,7 @@ public class CocktailService {
         return cocktailRepository.findById(cocktailId).get();
     }
 
+
     public Page<Cocktail> pageFindKeyword(Pageable pageable, String keyword){
         return cocktailRepository.findByCocktailNameContainingIgnoreCaseOrCocktailEnameContainingIgnoreCase(pageable,keyword,keyword);
     }
