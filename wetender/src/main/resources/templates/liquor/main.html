@@ -30,7 +30,7 @@
             <div class="col-auto">
                 <label for="keyword" class="visually-hidden">검색</label>
                 <!--                    파람을 쓰면 URL에 값을 담을 수 있다. -->
-                <input type="text" class="form-control" id="keyword" name="keyword" th:value="${param.keyword}" >
+                <input type="text" class="form-control" id="keyword" name="keyword" th:value="${param.keyword}"/>
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-light mb-3">검색</button>
@@ -111,6 +111,8 @@
                 </li>
             </ul>
         </nav>
+
+
     </div>
     <!-- 리스트 끝 -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/liquor/main.css}">

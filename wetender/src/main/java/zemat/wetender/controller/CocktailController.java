@@ -44,7 +44,6 @@ public class CocktailController {
         // 페이지
         int startPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
-
         if(endPage == 0) startPage = 0;
 
         model.addAttribute("startPage", startPage);

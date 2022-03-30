@@ -58,12 +58,14 @@
             <div id="nav-top-banner-img">
                 <a th:href="@{/}" ><img src="/images/wetenderLogo.png"></a>
             </div>
+            <!--            -->
             <div id="nav-top-banner-search">
-                <form>
-                    <input type="text" placeholder="Search...">
+                <form th:action="@{/mainSearch}" method="GET">
+                    <input type="text" th:name="keyword" th:value="${param.keyword}" placeholder="Search...">
                     <button type="submit"><img src="/images/search.png"></button>
                 </form>
             </div>
+
         </div>
 
         <div id="nav-top-menu">

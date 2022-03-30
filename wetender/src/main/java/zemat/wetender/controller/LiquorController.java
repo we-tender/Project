@@ -68,7 +68,7 @@ public class LiquorController {
 //        return new UrlResource("file:" + liquorFileStore.getFullPath(filename));
 //    }
 
-    // 칵테일 이미지 보이게 설정
+    // 주류 이미지 보이게 설정
     @ResponseBody
     @GetMapping("/images/{year}/{month}/{day}/{filename}")
     public Resource liquorDownloadImage(@PathVariable String year,
