@@ -11,76 +11,55 @@
 <body>
 
     <section>
-        <!-- 리스트 시작 -->
-        <div class="container">
-            <h2><a th:href = "@{/cocktail/main}"> 주류 게시판 </a></h2>
 
-            <!--검색 폼-->
-            <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/cocktail/main}">
-                <div class="col-auto">
-                    <label for="keyword" class="visually-hidden">검색</label>
-                    <!--                    파람을 쓰면 URL에 값을 담을 수 있다. -->
-                    <input type="text" class="form-control" id="keyword" name="keyword" th:value="${param.keyword}" >
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-light mb-3">검색</button>
-                </div>
-            </form>
-
-            <!-- Property List Start -->
-            <div class="container-xxl py-5">
-                <div class="container">
-                    <div class="row g-0 gx-5 align-items-end">
-                        <div class="col-lg-6">
-                            <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                                <h1 class="mb-3">칵테일 목록</h1>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 text-start text-lg-end wow slideInRight" data-wow-delay="0.1s">
-                            <ul class="nav nav-pills d-inline-flex justify-content-end mb-5">
-                                <li class="nav-item me-2">
-                                    <a class="btn btn-outline-primary active" data-bs-toggle="pill" href="#tab-1">추천수</a>
-                                </li>
-                                <li class="nav-item me-2">
-                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-2">조회수</a>
-                                </li>
-                                <li class="nav-item me-0">
-                                    <a class="btn btn-outline-primary" data-bs-toggle="pill" href="#tab-3">댓글수</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
-                            <div class="row g-4">
-                                <div th:each ="cocktail : ${cocktailDtos}" class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s" th:onclick="|location.href='@{/cocktail/{id} (id=${cocktail.id})}'|" style="cursor:pointer;">
-                                    <div class="property-item rounded overflow-hidden">
-                                        <div class="position-relative overflow-hidden">
-                                            <img class="img-fluid" th:src="|images/${cocktail.images[0].uploadPath}/${cocktail.images[0].uuid}_${cocktail.images[0].fileName}|" alt="">
-                                            <!--                                                <div class="bg-primary rounded text-white position-absolute start-0 top-0 m-4 py-1 px-3">MD 추천</div>-->
-                                            <!--                                                <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Appartment</div>-->
-                                        </div>
-                                        <div class="p-4 pb-0">
-                                            <h5 class="text-primary mb-3" th:text="${cocktail.eName}">영문이름</h5>
-                                            <h3 class="d-block h5 mb-2" th:text="${cocktail.name}">한글이름</h3>
-                                            <p th:text = "${cocktail.oneLine}">한줄평</p>
-                                        </div>
-                                        <!--                                            <div class="d-flex border-top">-->
-                                        <!--                                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>1000 Sqft</small>-->
-                                        <!--                                                <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>3 Bed</small>-->
-                                        <!--                                                <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>2 Bath</small>-->
-                                        <!--                                            </div>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="container-grid">
+            <!-- 헤더 -->
+            <div class="contents-header">
+                <div>
+                    <img src="/images/pink-bullet.png" width="10rem" height="40rem">
+                    <h4 class="inline-block margin-0 vertical-align-middle"><strong th:text="| 칵테일|"></strong></h4>
                 </div>
             </div>
-            <!-- Property List End -->
+            <hr class="border-pink">
 
+            <!-- 검색 폼 -->
+            <div class="contents-flex flex-row-end">
+                <form method="GET" th:action="@{/liquor/main}">
+                    <div class="width-20rem padding-05rem input-1">
+                        <input type="text" class="width-15rem" th:filed="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요">
+                        <!--파람을 쓰면 URL에 값을 담을 수 있다.-->
+                        <div class="inline-block">
+                            <button class="btn-1" type="submit">검색</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-            <!-- 페이징 오버뷰 -->
+            <!-- Image Start -->
+            <div class="contents-flex flex-row-center">
+                <ul class="contents-grid grid-col-4 grid-column-gap-105rem">
+                    <li th:each ="cocktail : ${cocktailDtos}" data-wow-delay="0.1s" th:onclick="|location.href='@{/cocktail/{id} (id=${cocktail.id})}'|">
+                        <figure class="img-wrap border-gray">
+                            <img th:src="|images/${cocktail.images[0].uploadPath}/${cocktail.images[0].uuid}_${cocktail.images[0].fileName}|" alt="">
+                            <div class="width-20rem">
+                                <div>
+                                    <h5><strong th:text="${cocktail.eName}">영문이름</strong></h5>
+                                    <h5><span th:text="${cocktail.name}">한글이름</span></h5>
+                                    <p th:text="${cocktail.oneLine}">한줄평</p>
+                                </div>
+                                <div class="contents-flex margin-0 border-top-dashed1">
+                                    <small class="flex-110 text-align-center border-right-dashed1"><i class=""></i>1000 Sqft</small>
+                                    <small class="flex-110 text-align-center border-right-dashed1"><i class=""></i>3 Bed</small>
+                                    <small class="flex-110 text-align-center" ><i class=""></i>2 Bath</small>
+                                </div>
+                            </div>
+                        </figure>
+                    </li>
+                </ul>
+            </div>
+            <!-- Image End -->
+
+            <!-- 페이지 -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
                     <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
@@ -102,8 +81,6 @@
                 </ul>
             </nav>
         </div>
-        <!-- 리스트 끝 -->
-        <link rel="stylesheet" type="text/css" th:href="@{/css/cocktail/main.css}">
     </section>
 
 </body>
