@@ -126,6 +126,9 @@
 .container-grid {
     display : grid;
 }
+.contents-grid {
+    display : grid;
+}
 .contents-flex {
     display : flex;
     margin : 1rem 1rem 1rem 1rem;
@@ -163,13 +166,16 @@
     flex-direction : row;
     justify-content : center;
 }
+.flex-row-end {
+    flex-direction : row;
+    justify-content : flex-end;
+}
 .flex-row-center-bottom {
     flex-direction : row;
     justify-content : center;
     align-items : flex-end;
 }
-.flex-row-evenly {
-    flex-direction : row;
+.flex-evenly {
     justify-content : space-evenly;
 }
 .flex-column {
@@ -188,42 +194,47 @@
 .flex-11auto {
     flex : 1 1 auto;
 }
-.grid-rows-main {
+.grid-row-main {
     grid-template-rows : 400px minmax(10rem, auto) minmax(20rem, auto) minmax(20rem, auto);
 }
 .grid-row-gap-1rem {
     row-gap : 1rem;
 }
+.grid-col-4 {
+    grid-template-columns : 20rem 20rem 20rem 20rem;
+}
+.grid-column-gap-105rem {
+    column-gap : 1.5rem;
+}
+
 
 /* 이미지 설정 */
-figure {
+.img-wrap {
     cursor : pointer;
     position : relative;
+    overflow : hidden;
 }
-figure img {
+.img-wrap img {
     width : 20rem;
     height : 20rem;
     object-fit : contain;
-    border : 1px solid #dfdfdf;
-    -webkit-transform : scale(1);
-    -moz-transform : scale(1);
-    -ms-transform : scale(1);
-    -o-transform : scale(1);
-    transform : scale(1);
     -webkit-transition : .2s;
     -moz-transition : .2s;
     -ms-transition : .2s;
     -o-transition : .2s;
     transition : .2s;
 }
-figure:hover img {
+.img-wrap:hover {
+    overflow : hidden;
+}
+.img-wrap:hover img {
     -webkit-transform : scale(1.1);
     -moz-transform : scale(1.1);
     -ms-transform : scale(1.1);
     -o-transform : scale(1.1);
     transform : scale(1.1);
 }
-figcaption {
+.img-wrap figcaption {
     position : absolute;
     top : -1rem;
     left : -1rem;
@@ -237,21 +248,21 @@ figcaption {
     font-size: 1rem;
     transition : .2s;
 }
-figure:hover figcaption {
+.img-wrap:hover figcaption {
     opacity : .8;
 }
 @media (min-width: 992px) {
-    figure img {
+    .img-wrap img {
         width : 20rem;
         height : 20rem;
     }
 }
 @media (max-width: 991.98px) {
-    figure img {
+    .img-wrap img {
         width : 15rem;
         height : 15rem;
     }
-    figcaption {
+    .img-wrap figcaption {
         top : -.75rem;
         left : -.75rem;
     }
@@ -440,7 +451,9 @@ figure:hover figcaption {
     outline : 0;
     box-shadow : 0 0 0 .25rem #fbcfd0;
 }
-.btn-1 button {
+.btn-1 {
+    color : #000;
+    text-decoration : none;
     text-align : center;
     text-transform : uppercase;
     transition : 0.5s;
@@ -449,14 +462,36 @@ figure:hover figcaption {
     border : 1px solid #fb8bb5;
     background-color : #fb8bb5
 }
-.btn-1 button:focus {
+.btn-1:focus {
     outline : 0;
     box-shadow : 0 0 0 .25rem #fbcfd0;
 }
-.btn-1 button:hover {
+.btn-1:hover {
+    color : #000;
     background-color : #DF6694
 }
-.btn-2 button {
+.btn-2 {
+    color : #000;
+    text-decoration : none;
+    text-align : center;
+    text-transform : uppercase;
+    transition : 0.5s;
+    box-shadow : 0 0 1rem #eee;
+    border-radius : .5rem;
+    border : 1px solid #fb8bb5;
+    background-color : #ffffff;
+}
+.btn-2:focus {
+    outline : 0;
+    box-shadow : 0 0 0 .25rem #fbcfd0;
+}
+.btn-2:hover {
+    color : #000;
+    background-color : #fb8bb5
+}
+.btn-cancel-1 {
+    color : #000;
+    text-decoration : none;
     text-align : center;
     text-transform : uppercase;
     transition : 0.5s;
@@ -465,15 +500,21 @@ figure:hover figcaption {
     border : 1px solid #cac6c7;
     background-color : #cac6c7
 }
-.btn-2 button:focus {
+.btn-cancel-1:focus {
     outline : 0;
     box-shadow : 0 0 0 .25rem #b4a4a7;
 }
-.btn-2 button:hover {
+.btn-cancel-1:hover {
     background-color : #c0b5b7
 }
 
 /* 공통 text background wdith height padding border */
+.inline-block {
+    display : inline-block;
+}
+.vertical-align-middle {
+    vertical-align : middle;
+}
 .text-align-center {
     text-align : center;
 }
@@ -489,6 +530,12 @@ figure:hover figcaption {
 .width-20rem {
     width : 20rem;
 }
+.width-25rem {
+    width : 25rem;
+}
+.width-30rem {
+    width : 30rem;
+}
 .width-40rem {
     width : 40rem;
 }
@@ -498,7 +545,7 @@ figure:hover figcaption {
 .height-min-50rem {
     min-height : 50rem;
 }
-.padding-05 {
+.padding-05rem {
     padding : 0.5rem;
 }
 .padding-top-30p {
@@ -507,14 +554,26 @@ figure:hover figcaption {
 .border-pink {
     border : 1px solid #fb8bb5;
 }
+.border-bottom-pink {
+    border-bottom : 1px solid #fb8bb5;
+}
 .border-gray {
     border : 1px solid #dfdfdf;
+}
+.border-top-dashed1 {
+    border-top: 1px dashed rgba(0, 185, 142, .3);
+}
+.border-right-dashed1 {
+    border-right: 1px dashed rgba(0, 185, 142, .3);
 }
 .border-radius-80p {
     border-radius : 80%;
 }
 .margin-0 {
     margin : 0;
+}
+.margin-05rem {
+    margin : 0.5rem;
 }
 
 

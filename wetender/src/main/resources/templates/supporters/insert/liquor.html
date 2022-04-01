@@ -18,27 +18,27 @@
                         <meta name="_csrf" th:content="${_csrf.token}">
                         <meta name="_csrf_header" th:content="${_csrf.headerName}">
                         <div class="contents-flex">
-                            <div class="width-15rem padding-05 input-1">
+                            <div class="width-15rem padding-05rem input-1">
                                 <label th:for="name">주류이름</label>
                                 <input type="text" th:field="*{name}" class="width-100" placeholder="이름을 입력하세요">
                             </div>
-                            <div class="width-15rem padding-05 input-1">
+                            <div class="width-15rem padding-05rem input-1">
                                 <label th:for="eName">주류영문이름</label>
                                 <input type="text" th:field="*{eName}" class="width-100" placeholder="영문명을 입력하세요">
                             </div>
-                            <div class="width-10rem padding-05 input-1">
+                            <div class="width-10rem padding-05rem input-1">
                                 <label th:for="abv">주류 도수</label>
                                 <input type="number" th:field="*{abv}" class="width-100" placeholder="도수를 입력하세요">
                             </div>
                         </div>
                         <div class="contents-flex">
-                            <div class="width-40rem padding-05 input-1">
+                            <div class="width-40rem padding-05rem input-1">
                                 <label th:for="oneLine">주류 한줄설명</label>
                                 <input type="text" th:field="*{oneLine}" class="width-100" placeholder="한줄설명을 입력하세요">
                             </div>
                         </div>
                         <div class="contents-flex">
-                            <div class="width-40rem padding-05 input-1">
+                            <div class="width-40rem padding-05rem input-1">
                                 <label th:for="content">주류 설명</label>
                                 <textarea col="50" row="3" th:field="*{content}" class="width-100" placeholder="설명을 입력하세요"></textarea>
                             </div>
@@ -46,7 +46,7 @@
 
                         <!-- 이미지 -->
                         <div class="contents-flex">
-                            <div class="width-40rem padding-05 input-file">
+                            <div class="width-40rem padding-05rem input-file">
                                 <div class="uploadDiv display-flex">
                                     <label th:for="uploadFile">file Attach</label>
                                     <input type="file" id="uploadFile" name="uploadFile" multiple>
@@ -64,11 +64,11 @@
                         <!-- 이미지 끝 -->
 
                         <div class="contents-flex flex-row-center">
-                            <div class="width-10rem padding-05 btn-1">
-                                <button class="width-100" type="submit">주류 등록</button>
+                            <div class="width-10rem padding-05rem">
+                                <button class="btn-1 width-100" type="submit">주류 등록</button>
                             </div>
-                            <div class="width-10rem padding-05 btn-2">
-                                <button class="width-100"
+                            <div class="width-10rem padding-05rem">
+                                <button class="btn-cancel-1 width-100"
                                         th:onclick="|location.href='@{/supporters/main}'|"
                                         type="button">취소</button>
                             </div>

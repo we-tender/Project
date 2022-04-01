@@ -10,7 +10,10 @@
 <section>
     <div class="container-grid">
         <div class="contents-header">
-            <p><img src="/images/pink-bullet.png" width="10rem" height="40rem"><span th:text="| ${sessionMember.getUsername()} 서포터즈 페이지|"></span></p>
+            <p>
+                <img src="/images/pink-bullet.png" width="10rem" height="40rem">
+                <span th:text="| ${sessionMember.getUsername()} 서포터즈 페이지|"></span>
+            </p>
         </div>
         <div class="contents-flex flex-column border-pink">
             <label for="activityList" class="border-pink"><span>활동 내역</span></label>
@@ -25,7 +28,7 @@
         </div>
         <div class="contents-flex flex-column">
             <ul class="contents-flex flex-row">
-                <li class="contents-flex flex-column-center flex-110 padding-05 border-pink">
+                <li class="contents-flex flex-column-center flex-110 padding-05rem border-pink">
                     <h4 class="contents-flex flex-column-center">
                         <img src="/images/cocktail-icon.png" width="50px">
                         <a th:href="@{/supporters/insert/cocktail}">
@@ -35,7 +38,7 @@
                     </h4>
                     <p th:text="|${sessionMember.getUsername()} 서포터 님께서 추천하는 칵테일을 등록해주세요!|"></p>
                 </li>
-                <li class="contents-flex flex-column-center flex-110 padding-05 border-pink">
+                <li class="contents-flex flex-column-center flex-110 padding-05rem border-pink">
                     <h4 class="contents-flex flex-column-center">
                         <img src="/images/liquor-icon.png" width="50px">
                         <a th:href="@{/supporters/insert/liquor}">
@@ -45,7 +48,7 @@
                     </h4>
                     <p>주류 상품을 등록해주세요!</p>
                 </li>
-                <li class="contents-flex flex-column-center flex-110 padding-05 border-pink">
+                <li class="contents-flex flex-column-center flex-110 padding-05rem border-pink">
                     <h4 class="contents-flex flex-column-center">
                         <img src="/images/ingredient-icon.png" width="50px">
                         <a th:href="@{/supporters/insert/ingredient}">
