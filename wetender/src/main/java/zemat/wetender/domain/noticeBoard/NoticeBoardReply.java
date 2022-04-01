@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zemat.wetender.domain.base.BasePostEntity;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardReplyInsertDto;
+import zemat.wetender.dto.noticeBoardDto.reply.NoticeBoardReplyInsertDto;
 
 import javax.persistence.*;
 

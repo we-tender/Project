@@ -7,6 +7,7 @@ import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
+import zemat.wetender.domain.liquor.LiquorReply;
 import zemat.wetender.dto.AttachFileDto;
 
 import java.time.LocalDateTime;
@@ -33,11 +34,19 @@ public class LiquorDto {
 
     private List<CocktailLiquor> cocktails = new ArrayList<>();
 
+    // 댓글
+    private List<LiquorReply> liquorReplyList = new ArrayList<>();
+
     // baseEntity
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
     private String createdBy;
     private String lastModifiedBy;
+
+    // BasePostEntity
+    private long views;
+    private long likes;
+    private long replies;
 
     public void addLiquorFileDto(LiquorFile liquorFile){
         images.add(new AttachFileDto(liquorFile));
@@ -61,6 +70,12 @@ public class LiquorDto {
         this.lastModifiedDate = liquor.getLastModifiedDate();
         this.createdBy = liquor.getCreatedBy();
         this.lastModifiedBy = liquor.getLastModifiedBy();
+
+        this.liquorReplyList = liquor.getLiquorReplyList();
+        this.views = liquor.getViews();
+        this.likes = liquor.getViews();
+        this.replies = liquor.getReplies();
+
     }
 
     //현재 미사용

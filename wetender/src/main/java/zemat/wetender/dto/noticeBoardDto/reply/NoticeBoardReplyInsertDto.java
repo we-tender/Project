@@ -1,4 +1,4 @@
-package zemat.wetender.dto.noticeBoardDto;
+package zemat.wetender.dto.noticeBoardDto.reply;
 
 import lombok.Data;
 import lombok.Getter;

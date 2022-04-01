@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.domain.base.BasePostEntity;
 import zemat.wetender.domain.cocktail.CocktailFile;
 import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
@@ -17,7 +18,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Liquor extends BaseEntity {
+public class Liquor extends BasePostEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +44,13 @@ public class Liquor extends BaseEntity {
 
     @OneToMany(mappedBy = "liquor")
     private List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
+
+
+    // 댓글
+    @OneToMany(mappedBy = "liquor", cascade = CascadeType.ALL)
+    private List<LiquorReply> liquorReplyList = new ArrayList<>();
+
+
 
     public void addCocktailLiquor(CocktailLiquor cocktailLiquor){
         cocktailLiquors.add(cocktailLiquor);

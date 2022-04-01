@@ -93,6 +93,7 @@ public class LiquorController {
     public String detail(@PathVariable("id") Long liquorId, Model model){
         Liquor liquor = liquorService.findById(liquorId);
         LiquorDto liquorDto = new LiquorDto(liquor);
+
         Map<String,String> cocktails = new ConcurrentHashMap<>();
         for (CocktailLiquor cocktail : liquorDto.getCocktails()) {
             String cocktailName = cocktail.getCocktail().getCocktailName();

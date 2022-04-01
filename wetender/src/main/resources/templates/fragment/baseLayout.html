@@ -27,6 +27,11 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!--    <script th:src="@{/js/baseLayout/baseLayout.js}" ></script>-->
+
+<!-- csrf ajax 통신 -->
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
 </head>
 
 <body>

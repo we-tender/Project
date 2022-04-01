@@ -3,9 +3,7 @@ package zemat.wetender.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.member.Member;
@@ -13,13 +11,12 @@ import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.noticeBoard.NoticeBoardLikes;
 import zemat.wetender.domain.noticeBoard.NoticeBoardReply;
 import zemat.wetender.dto.noticeBoardDto.*;
+import zemat.wetender.dto.noticeBoardDto.reply.NoticeBoardReplyInsertDto;
 import zemat.wetender.repository.MemberRepository;
 import zemat.wetender.repository.noticeBoard.NoticeBoardLikesRepository;
 import zemat.wetender.repository.noticeBoard.NoticeBoardReplyRepository;
 import zemat.wetender.repository.noticeBoard.NoticeBoardRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -121,8 +118,6 @@ public class NoticeBoardService {
         NoticeBoardReply noticeBoardReply = noticeBoardReplyRepository.getById(noticeBoardReplyId);
         noticeBoardReplyRepository.delete(noticeBoardReply);
     }
-
-
 
 
     // 공지사항 좋아요 저장하기, 삭제하기
