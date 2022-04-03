@@ -25,7 +25,9 @@ public class BasePostEntity extends BaseEntity{
     @Column(columnDefinition = "integer default 0")
     private long replies;
 
-    public void viewsAdd() {this.views += 1L;}
+    public void viewsAdd() {
+        this.views += 1L;
+    }
 
     public void likesAdd() {
         this.likes += 1L;

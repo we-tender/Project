@@ -19,6 +19,7 @@ import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.member.Member;
 import zemat.wetender.repository.MemberRepository;
 import zemat.wetender.service.*;
+import zemat.wetender.service.liquor.LiquorService;
 
 import javax.annotation.PostConstruct;
 

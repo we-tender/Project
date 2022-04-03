@@ -1,4 +1,4 @@
-package zemat.wetender.service;
+package zemat.wetender.service.liquor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -6,17 +6,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zemat.wetender.domain.cocktail.Cocktail;
-import zemat.wetender.domain.cocktail.CocktailIngredient;
-import zemat.wetender.domain.cocktail.CocktailLiquor;
-import zemat.wetender.domain.cocktail.CocktailSequence;
 import zemat.wetender.domain.liquor.Liquor;
-import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.dto.liquorDto.LiquorHomeDto;
-import zemat.wetender.repository.LiquorRepository;
+import zemat.wetender.repository.liquor.LiquorRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service

@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
-import zemat.wetender.InitTestData;
-import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.ingredient.IngredientFile;
 import zemat.wetender.domain.ingredient.IngredientFileStore;
@@ -20,20 +18,15 @@ import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.repository.IngredientRepository;
-import zemat.wetender.repository.LiquorRepository;
+import zemat.wetender.repository.liquor.LiquorRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

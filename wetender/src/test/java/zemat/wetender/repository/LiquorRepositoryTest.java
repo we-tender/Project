@@ -7,16 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.liquor.Liquor;
+import zemat.wetender.repository.liquor.LiquorRepository;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
 class LiquorRepositoryTest {
 
-    @Autowired LiquorRepository liquorRepository;
+    @Autowired
+    LiquorRepository liquorRepository;
     
     @Test
     void 주류_상위_추천수20_조회() {

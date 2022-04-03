@@ -1,4 +1,4 @@
-package zemat.wetender.repository;
+package zemat.wetender.repository.liquor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

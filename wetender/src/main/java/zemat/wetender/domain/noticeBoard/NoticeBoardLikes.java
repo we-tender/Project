@@ -1,9 +1,6 @@
 package zemat.wetender.domain.noticeBoard;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import zemat.wetender.domain.member.Member;
 import zemat.wetender.domain.noticeBoard.NoticeBoard;
 
@@ -12,8 +9,7 @@ import javax.persistence.*;
 import static javax.persistence.FetchType.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class NoticeBoardLikes {
 

@@ -1,4 +1,4 @@
-package zemat.wetender.service;
+package zemat.wetender.service.liquor;
 
 
 import lombok.RequiredArgsConstructor;
@@ -10,8 +10,8 @@ import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.reply.LiquorReplyDeleteDto;
 import zemat.wetender.dto.liquorDto.reply.LiquorReplyEditDto;
 import zemat.wetender.dto.liquorDto.reply.LiquorReplyInsertDto;
-import zemat.wetender.repository.LiquorReplyRepository;
-import zemat.wetender.repository.LiquorRepository;
+import zemat.wetender.repository.liquor.LiquorReplyRepository;
+import zemat.wetender.repository.liquor.LiquorRepository;
 
 @Service
 @Transactional
@@ -28,6 +28,7 @@ public class LiquorReplyService {
         LiquorReply liquorReply = new LiquorReply(liquor, Dto);
         liquorReplyRepository.save(liquorReply);
         Liquor result = liquorRepository.getById(Dto.getLiquorId());
+        result.repliesAdd();
 
         return new LiquorDto(result);
     }
@@ -37,6 +38,7 @@ public class LiquorReplyService {
         LiquorReply liquorReply = liquorReplyRepository.getById(Dto.getLiquorReplyId());
         liquorReplyRepository.delete(liquorReply);
         Liquor liquor = liquorRepository.getById(Dto.getLiquorId());
+        liquor.repliesRemove();
 
         return new LiquorDto(liquor);
     }

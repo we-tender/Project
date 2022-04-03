@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zemat.wetender.domain.base.BaseTimeEntity;
+import zemat.wetender.domain.liquor.LiquorLikes;
 import zemat.wetender.domain.noticeBoard.NoticeBoardLikes;
 
 import javax.persistence.*;
@@ -46,6 +47,9 @@ public class Member extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<NoticeBoardLikes> noticeBoardLikesList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<LiquorLikes> liquorLikesList = new ArrayList<>();
 
 
     public Member(String idName, String password, String name, String email, String address, String phone) {

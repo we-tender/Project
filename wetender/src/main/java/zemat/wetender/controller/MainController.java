@@ -8,9 +8,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,7 @@ import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.LiquorHomeDto;
 import zemat.wetender.service.CocktailService;
-import zemat.wetender.service.LiquorService;
+import zemat.wetender.service.liquor.LiquorService;
 import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;

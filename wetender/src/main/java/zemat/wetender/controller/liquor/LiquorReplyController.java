@@ -1,4 +1,4 @@
-package zemat.wetender.controller;
+package zemat.wetender.controller.liquor;
 
 
 import lombok.RequiredArgsConstructor;
@@ -7,13 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import zemat.wetender.domain.liquor.Liquor;
-import zemat.wetender.domain.liquor.LiquorReply;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.reply.LiquorReplyDeleteDto;
 import zemat.wetender.dto.liquorDto.reply.LiquorReplyEditDto;
 import zemat.wetender.dto.liquorDto.reply.LiquorReplyInsertDto;
-import zemat.wetender.service.LiquorReplyService;
+import zemat.wetender.service.liquor.LiquorReplyService;
 import zemat.wetender.service.MemberService;
 
 @Slf4j

@@ -73,7 +73,7 @@ public class LiquorDto {
 
         this.liquorReplyList = liquor.getLiquorReplyList();
         this.views = liquor.getViews();
-        this.likes = liquor.getViews();
+        this.likes = liquor.getLikes();
         this.replies = liquor.getReplies();
 
     }

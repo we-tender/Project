@@ -1,10 +1,7 @@
 package zemat.wetender.domain.liquor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.base.BasePostEntity;
 import zemat.wetender.domain.cocktail.CocktailFile;
@@ -18,6 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 public class Liquor extends BasePostEntity {
 
     @Id
@@ -50,7 +48,9 @@ public class Liquor extends BasePostEntity {
     @OneToMany(mappedBy = "liquor", cascade = CascadeType.ALL)
     private List<LiquorReply> liquorReplyList = new ArrayList<>();
 
-
+    // 좋아요
+    @OneToMany(mappedBy = "liquor", cascade = CascadeType.ALL)
+    private List<LiquorLikes> liquorLikesList = new ArrayList<>();
 
     public void addCocktailLiquor(CocktailLiquor cocktailLiquor){
         cocktailLiquors.add(cocktailLiquor);

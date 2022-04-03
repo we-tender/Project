@@ -8,7 +8,7 @@ import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.repository.CocktailRepository;
 import zemat.wetender.repository.IngredientRepository;
-import zemat.wetender.repository.LiquorRepository;
+import zemat.wetender.repository.liquor.LiquorRepository;
 
 @Service
 @Transactional(readOnly = true)

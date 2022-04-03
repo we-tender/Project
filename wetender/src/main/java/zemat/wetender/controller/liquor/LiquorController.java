@@ -1,4 +1,4 @@
-package zemat.wetender.controller;
+package zemat.wetender.controller.liquor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,14 +7,17 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.CocktailFile;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
+import zemat.wetender.domain.member.Member;
 import zemat.wetender.dto.liquorDto.LiquorDto;
-import zemat.wetender.service.LiquorService;
+import zemat.wetender.service.liquor.LiquorLikesService;
+import zemat.wetender.service.liquor.LiquorService;
 import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;
@@ -28,6 +31,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LiquorController {
 
     private final LiquorService liquorService;
+    private final LiquorLikesService liquorLikesService;
     private final MemberService memberService;
 
 
@@ -102,9 +106,18 @@ public class LiquorController {
             cocktails.put(cocktailName,storeCocktailFileName);
         }
 
+        UserDetails sessionMember = memberService.getSessionMember();
+
+
         model.addAttribute("liquorDto", liquorDto);
         model.addAttribute("cocktails",cocktails);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
+        model.addAttribute("sessionMember", sessionMember);
+
+        if (sessionMember != null) {
+            Member member = memberService.findByMemberIdName(sessionMember.getUsername());
+            boolean likesCheck = liquorLikesService.likesCheck(member, liquor);
+            model.addAttribute("likesCheck", likesCheck);
+        }
 
         return "liquor/detail";
     }

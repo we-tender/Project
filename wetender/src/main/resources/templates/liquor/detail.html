@@ -31,6 +31,51 @@
       <script th:src="@{/js/liquor/detail.js}"></script>
 
 
+      <!-- 좋아요. 수정,삭제 버튼 시작 -->
+      <div class="container" >
+        <div class= "text-end">
+
+          <!-- 좋아요 시작 -->
+          <div id="likes">
+
+            <th:block th:if="${sessionMember}">
+              <input id="memberName" type="hidden" th:value="${sessionMember.getUsername()}"/>
+                <!-- 참인 경우-->
+                <th:blcok th:if="${likesCheck} == true">
+                  <img src="/images/icon/fullHeart.png" height="30" width="30"
+                       style="float:left;"
+                       onclick="liquorLikesInsertOrDelete()">
+                </th:blcok>
+
+                <th:block th:if="${likesCheck} == false">
+                  <img src="/images/icon/emptyHeart.png" height="30" width="30"
+                       style="float:left;"
+                       onclick="liquorLikesInsertOrDelete()">
+                </th:block>
+            </th:block>
+
+            <th:block th:unless="${sessionMember}">
+              <a type="button" class="btm_image"
+                 th:href="@{/loginForm}"
+                 style="float:left;" ><img src="/images/icon/emptyHeart.png" height="30" width="30"></a>
+            </th:block>
+            <p style="float:left;" >&nbsp;&nbsp;</p>
+            <p id="liquorLikes" name="liquorLikes" style="float:left;" th:text="${liquorDto.likes}">좋아요 수</p>
+          </div>
+          <!-- 좋아요 끝 -->
+
+          <th:block th:if="${sessionMember}">
+            <th:block th:if="${sessionMember.getUsername()} == *{createdBy}">
+              <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/update(noticeBoardId = *{id})}"> 수정 </a>
+              <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
+            </th:block>
+          </th:block>
+
+        </div>
+      </div>
+      <!-- 좋아요, 수정,삭제 버튼 끝 -->
+
+
       <br>
       <br>
       <br>

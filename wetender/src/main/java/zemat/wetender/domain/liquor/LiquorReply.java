@@ -8,9 +8,8 @@ import zemat.wetender.dto.liquorDto.reply.LiquorReplyInsertDto;
 import javax.persistence.*;
 
 @Entity
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
-@Setter
 public class LiquorReply extends BasePostEntity {
 
     @Id
