@@ -8,12 +8,15 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.member.Member;
 import zemat.wetender.dto.cocktailDto.CocktailDetailDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
+import zemat.wetender.service.cocktail.CocktailLikesService;
 import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.MemberService;
 
@@ -26,6 +29,7 @@ import java.net.MalformedURLException;
 public class CocktailController {
 
     private final CocktailService cocktailService;
+    private final CocktailLikesService cocktailLikesService;
     private final MemberService memberService;
 
 
@@ -73,8 +77,20 @@ public class CocktailController {
         String fileName = cocktail.getCocktailFiles().get(0).getFileName();
         log.info("fileName확인" + fileName);
         CocktailDetailDto cocktailDetailDto = new CocktailDetailDto(cocktail);
+
+        UserDetails sessionMember = memberService.getSessionMember();
+
         model.addAttribute("cocktailDto",cocktailDetailDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
+        model.addAttribute("sessionMember", sessionMember);
+
+        if (sessionMember != null) {
+            Member member = memberService.findByMemberIdName(sessionMember.getUsername());
+            boolean likesCheck = cocktailLikesService.likesCheck(member, cocktail);
+            model.addAttribute("likesCheck", likesCheck);
+        }
+
+        cocktailService.viewsUp(cocktailId);
+
 
         return "cocktail/detail";
     }

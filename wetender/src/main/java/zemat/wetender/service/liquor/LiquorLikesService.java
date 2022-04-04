@@ -23,7 +23,7 @@ public class LiquorLikesService {
     private final LiquorRepository liquorRepository;
     private final MemberRepository memberRepository;
 
-    // 주류 좋아요 저장하기
+    // 주류 좋아요 저장하기 삭제하기
     public LiquorDto insertOrDelete(LiquorLikesInsertOrDeleteDto dto) {
 
         String memberName = dto.getMemberName();
@@ -64,11 +64,5 @@ public class LiquorLikesService {
             return true;
         }
     }
-
-
-
-
-
-
 
 }

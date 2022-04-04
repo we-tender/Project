@@ -41,9 +41,52 @@
     </div>
   </div>
 
+  <!-- 좋아요. 수정,삭제 버튼 시작 -->
+  <div class="container" >
+    <div class= "text-end">
+
+      <!-- 좋아요 시작 -->
+      <div id="likes">
+
+        <th:block th:if="${sessionMember}">
+          <input id="memberName" type="hidden" th:value="${sessionMember.getUsername()}"/>
+          <!-- 참인 경우-->
+          <th:blcok th:if="${likesCheck} == true">
+            <img src="/images/icon/fullHeart.png" height="30" width="30"
+                 style="float:left;"
+                 onclick="cocktailLikesInsertOrDelete()">
+          </th:blcok>
+
+          <th:block th:if="${likesCheck} == false">
+            <img src="/images/icon/emptyHeart.png" height="30" width="30"
+                 style="float:left;"
+                 onclick="cocktailLikesInsertOrDelete()">
+          </th:block>
+        </th:block>
+
+        <th:block th:unless="${sessionMember}">
+          <a type="button" class="btm_image"
+             th:href="@{/loginForm}"
+             style="float:left;" ><img src="/images/icon/emptyHeart.png" height="30" width="30"></a>
+        </th:block>
+        <p style="float:left;" >&nbsp;&nbsp;</p>
+        <p id="cocktailLikes" name="cocktailLikes" style="float:left;" th:text="${cocktailDto.likes}">좋아요 수</p>
+      </div>
+    </div>
+  </div>
+      <!-- 좋아요 끝 -->
+
+
+
   <br>
   <br>
   <br>
+
+
+
+
+
+
 
   <!-- 댓글 시작 -->
   <h4> 댓글 </h4>

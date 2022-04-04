@@ -48,4 +48,11 @@ public class CocktailService {
     public void deleteById(Long cocktailId){
         cocktailRepository.deleteById(cocktailId);
     }
+
+    // 조회수 +1
+    @Transactional
+    public void viewsUp(Long cocktailId) {
+        cocktailRepository.getById(cocktailId).viewsAdd();
+    }
+
 }

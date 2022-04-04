@@ -21,10 +21,10 @@ public class LiquorService {
     private final LiquorRepository liquorRepository;
 
 
+    // 조회수 +1
     @Transactional
     public void viewsUp(Long liquorId) {
-        Liquor liquor = liquorRepository.getById(liquorId);
-        liquor.viewsAdd();
+        liquorRepository.getById(liquorId).viewsAdd();
     }
 
     @Transactional

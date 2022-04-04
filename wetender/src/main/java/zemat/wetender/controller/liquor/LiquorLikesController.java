@@ -22,6 +22,8 @@ public class LiquorLikesController {
     private final LiquorLikesService liquorLikesService;
     private final MemberService memberService;
 
+
+    // 좋아요 삽입, 삭제
     @RequestMapping(value = "/InsertOrDelete", method = RequestMethod.POST)
     public String insertOrDeleteAjax(Model model, LiquorLikesInsertOrDeleteDto dto) {
 
