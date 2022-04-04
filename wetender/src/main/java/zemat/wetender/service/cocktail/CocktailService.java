@@ -1,4 +1,4 @@
-package zemat.wetender.service;
+package zemat.wetender.service.cocktail;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,7 @@ import zemat.wetender.domain.cocktail.CocktailIngredient;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.cocktail.CocktailSequence;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
-import zemat.wetender.repository.CocktailRepository;
+import zemat.wetender.repository.cocktail.CocktailRepository;
 
 import java.util.List;
 

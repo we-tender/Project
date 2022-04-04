@@ -22,32 +22,31 @@ public class LiquorReplyService {
     private final LiquorRepository liquorRepository;
 
     // 댓글 등록
-    public LiquorDto insert(LiquorReplyInsertDto Dto) {
+    public LiquorDto insert(LiquorReplyInsertDto dto) {
 
-        Liquor liquor = liquorRepository.getById(Dto.getLiquorId());
-        LiquorReply liquorReply = new LiquorReply(liquor, Dto);
+        Liquor liquor = liquorRepository.getById(dto.getLiquorId());
+        LiquorReply liquorReply = new LiquorReply(liquor, dto);
         liquorReplyRepository.save(liquorReply);
-        Liquor result = liquorRepository.getById(Dto.getLiquorId());
-        result.repliesAdd();
+        liquor.repliesAdd();
 
-        return new LiquorDto(result);
+        return new LiquorDto(liquor);
     }
 
     // 댓글 삭제
-    public LiquorDto delete(LiquorReplyDeleteDto Dto) {
-        LiquorReply liquorReply = liquorReplyRepository.getById(Dto.getLiquorReplyId());
+    public LiquorDto delete(LiquorReplyDeleteDto dto) {
+        LiquorReply liquorReply = liquorReplyRepository.getById(dto.getLiquorReplyId());
         liquorReplyRepository.delete(liquorReply);
-        Liquor liquor = liquorRepository.getById(Dto.getLiquorId());
+        Liquor liquor = liquorRepository.getById(dto.getLiquorId());
         liquor.repliesRemove();
 
         return new LiquorDto(liquor);
     }
 
     // 댓글 수정
-    public LiquorDto edit(LiquorReplyEditDto Dto) {
-        LiquorReply liquorReply = liquorReplyRepository.getById(Dto.getLiquorReplyId());
-        liquorReply.setLiquorReplyContent(Dto.getLiquorReplyContent());
-        Liquor liquor = liquorRepository.getById(Dto.getLiquorId());
+    public LiquorDto edit(LiquorReplyEditDto dto) {
+        LiquorReply liquorReply = liquorReplyRepository.getById(dto.getLiquorReplyId());
+        liquorReply.setLiquorReplyContent(dto.getLiquorReplyContent());
+        Liquor liquor = liquorRepository.getById(dto.getLiquorId());
 
         return new LiquorDto(liquor);
     }

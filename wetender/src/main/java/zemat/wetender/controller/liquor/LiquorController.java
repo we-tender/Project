@@ -119,6 +119,8 @@ public class LiquorController {
             model.addAttribute("likesCheck", likesCheck);
         }
 
+        liquorService.viewsUp(liquorId);
+
         return "liquor/detail";
     }
 

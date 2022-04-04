@@ -33,6 +33,17 @@ public class CocktailDetailDto {
 
     private List<CocktailSequence> sequences = new ArrayList<>();
 
+    // 댓글
+    private List<CocktailReply> cocktailReplyList = new ArrayList<>();
+
+    // 좋아요
+    private List<CocktailLikes> cocktailLikesList = new ArrayList<>();
+
+    // basePostEntity
+    private long views;
+    private long likes;
+    private long replies;
+
     private void addCocktailFileDto(CocktailFile cocktailFile){ images.add(new AttachFileDto(cocktailFile));}
 
     public CocktailDetailDto(Cocktail cocktail) {
@@ -51,6 +62,13 @@ public class CocktailDetailDto {
         for (CocktailFile cocktailFile : cocktailFiles) {
             addCocktailFileDto(cocktailFile);
         }
+
+        this.cocktailReplyList = cocktail.getCocktailReplyList();
+        this.cocktailLikesList = cocktail.getCocktailLikesList();
+
+        this.views = cocktail.getViews();
+        this.likes = cocktail.getLikes();
+        this.replies = cocktail.getReplies();
 
     }
 }

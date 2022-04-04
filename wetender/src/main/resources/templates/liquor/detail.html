@@ -26,6 +26,7 @@
           <img th:src="|images/cocktail/${cocktail.value}|" width="300" height="300"><br/>
         </div>
       </div>
+
       <!--  js & css    -->
       <link rel="stylesheet" type="text/css" th:href="@{/css/liquor/detail.css}">
       <script th:src="@{/js/liquor/detail.js}"></script>
@@ -81,7 +82,7 @@
       <br>
 
 
-      <!-- 댓글 목록 -->
+      <!-- 댓글 시작 -->
       <h4> 댓글 </h4>
         <div id = "reply">
           <div th:object = "${liquorDto}">

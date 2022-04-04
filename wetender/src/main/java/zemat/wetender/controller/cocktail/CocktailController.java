@@ -1,4 +1,4 @@
-package zemat.wetender.controller;
+package zemat.wetender.controller.cocktail;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.dto.cocktailDto.CocktailDetailDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
-import zemat.wetender.service.CocktailService;
+import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.MemberService;
 
 import java.net.MalformedURLException;

@@ -17,7 +17,7 @@ import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.LiquorHomeDto;
-import zemat.wetender.service.CocktailService;
+import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.liquor.LiquorService;
 import zemat.wetender.service.MemberService;
 

@@ -20,6 +20,13 @@ public class LiquorService {
 
     private final LiquorRepository liquorRepository;
 
+
+    @Transactional
+    public void viewsUp(Long liquorId) {
+        Liquor liquor = liquorRepository.getById(liquorId);
+        liquor.viewsAdd();
+    }
+
     @Transactional
     public Long insertLiquor(Liquor liquor) {
         Liquor savedLiquor = liquorRepository.save(liquor);

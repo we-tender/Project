@@ -6,11 +6,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
-import zemat.wetender.repository.SuggestionRepository;
+import zemat.wetender.repository.suggestion.SuggestionRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;

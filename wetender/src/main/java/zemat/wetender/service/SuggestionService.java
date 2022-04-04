@@ -7,13 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.domain.suggestion.SuggestionReply;
-import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
-import zemat.wetender.repository.SuggestionReplyRepository;
-import zemat.wetender.repository.SuggestionRepository;
-
-import java.util.*;
+import zemat.wetender.repository.suggestion.SuggestionReplyRepository;
+import zemat.wetender.repository.suggestion.SuggestionRepository;
 
 import java.util.ArrayList;
 import java.util.List;

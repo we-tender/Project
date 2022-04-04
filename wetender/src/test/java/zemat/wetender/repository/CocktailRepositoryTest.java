@@ -7,20 +7,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.repository.cocktail.CocktailRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @Transactional
 @SpringBootTest
 class CocktailRepositoryTest {
 
     @PersistenceContext EntityManager em;
-    @Autowired CocktailRepository cocktailRepository;
+    @Autowired
+    CocktailRepository cocktailRepository;
 
     @Test
     void 칵테일_상위20추천수_조회() {

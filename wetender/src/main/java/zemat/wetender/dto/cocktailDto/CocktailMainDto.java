@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.domain.cocktail.CocktailFile;
+import zemat.wetender.domain.cocktail.CocktailLikes;
+import zemat.wetender.domain.cocktail.CocktailReply;
 import zemat.wetender.dto.AttachFileDto;
 
 import java.time.LocalDateTime;
@@ -31,6 +33,17 @@ public class CocktailMainDto {
     private String createdBy;
     private String lastModifiedBy;
 
+    // 댓글
+    private List<CocktailReply> cocktailReplyList = new ArrayList<>();
+
+    // 좋아요
+    private List<CocktailLikes> cocktailLikesList = new ArrayList<>();
+
+    // basePostEntity
+    private long views;
+    private long likes;
+    private long replies;
+
     public void addCocktailFileDto(CocktailFile cocktailFile){
         images.add(new AttachFileDto(cocktailFile));
     }
@@ -51,6 +64,16 @@ public class CocktailMainDto {
         this.lastModifiedDate = cocktail.getLastModifiedDate();
         this.createdBy = cocktail.getCreatedBy();
         this.lastModifiedBy = cocktail.getLastModifiedBy();
+
+
+        this.cocktailReplyList = cocktail.getCocktailReplyList();
+        this.cocktailLikesList = cocktail.getCocktailLikesList();
+
+        this.views = cocktail.getViews();
+        this.likes = cocktail.getLikes();
+        this.replies = cocktail.getReplies();
+
+
     }
 
 

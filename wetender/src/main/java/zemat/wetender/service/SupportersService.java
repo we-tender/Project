@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.liquor.Liquor;
-import zemat.wetender.repository.CocktailRepository;
+import zemat.wetender.repository.cocktail.CocktailRepository;
 import zemat.wetender.repository.IngredientRepository;
 import zemat.wetender.repository.liquor.LiquorRepository;
 

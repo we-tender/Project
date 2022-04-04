@@ -25,23 +25,19 @@ public class LiquorReplyController {
 
     // 댓글 등록 Ajax
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public String replyInsert(Model model, LiquorReplyInsertDto Dto) {
-
-        log.info("Dto.getLiquorId() = {}", Dto.getLiquorId());
-
-        LiquorDto liquorDto = liquorReplyService.insert(Dto);
+    public String replyInsert(Model model, LiquorReplyInsertDto dto) {
+        LiquorDto liquorDto = liquorReplyService.insert(dto);
 
         model.addAttribute("liquorDto", liquorDto);
         model.addAttribute("sessionMember", memberService.getSessionMember());
-
 
         return "/liquor/detail :: #reply";
     }
 
     // 댓글 삭제 Ajax
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public String replyDelete(Model model, LiquorReplyDeleteDto Dto) {
-        LiquorDto liquorDto = liquorReplyService.delete(Dto);
+    public String replyDelete(Model model, LiquorReplyDeleteDto dto) {
+        LiquorDto liquorDto = liquorReplyService.delete(dto);
         model.addAttribute("liquorDto", liquorDto);
         model.addAttribute("sessionMember", memberService.getSessionMember());
 
@@ -50,8 +46,8 @@ public class LiquorReplyController {
 
     // 댓글 수정 Ajax
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String replyEdit(Model model, LiquorReplyEditDto Dto) {
-        LiquorDto liquorDto = liquorReplyService.edit(Dto);
+    public String replyEdit(Model model, LiquorReplyEditDto dto) {
+        LiquorDto liquorDto = liquorReplyService.edit(dto);
         model.addAttribute("liquorDto", liquorDto);
         model.addAttribute("sessionMember", memberService.getSessionMember());
 

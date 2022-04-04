@@ -9,6 +9,9 @@
 <body>
 
 <section>
+
+  <script th:src="@{/js/cocktail/detail.js}"></script>
+
   <div>
     <div th:each="image : ${cocktailDto.images}">
       <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|" width="300" height="300"><br/>
@@ -37,6 +40,103 @@
       <span th:text="${ingredient.cocktailIngredientQty}">칵테일재료 양</span><br/>
     </div>
   </div>
+
+  <br>
+  <br>
+  <br>
+
+  <!-- 댓글 시작 -->
+  <h4> 댓글 </h4>
+  <div id = "reply">
+    <div th:object = "${cocktailDto}">
+
+      <input id="cocktailId" type="hidden" name="cocktailId" th:value="${cocktailDto.id}"/>
+
+      <div class="list-group" th:each="cocktailReply : *{cocktailReplyList}">
+
+        <!-- 댓글 낱개 -->
+        <div th:id="'reply' + ${cocktailReply.id}" style="display:block">
+
+          <div class="d-flex w-100 justify-content-between">
+            <b><h6 class="mb-1" th:text = "${cocktailReply.createdBy}"> 글쓴이 </h6></b>
+
+
+
+            <small> </small>
+          </div>
+
+          <p class="mb-1" th:text = "${cocktailReply.cocktailReplyContent}" > 댓글 내용 </p>
+          <small th:text = "${cocktailReply.createdDate}" > 댓글 작성 날짜 </small>
+
+          <!-- 댓글 수정, 삭제 -->
+          <div class="container">
+            <div class="text-end">
+              <th:block th:if="${sessionMember}">
+                <th:block th:if="${sessionMember.getUsername()} == ${cocktailReply.createdBy}">
+
+                  <input th:id="cocktailReply + ${cocktailReply.id}" type="hidden" name="cocktailReplyId" th:value="${cocktailReply.id}"/>
+
+                  <button type="button" class="btn btn-primary" th:onclick="replyEditFormOpen([[${cocktailReply.id}]])"> 수정 </button>
+                  <button type="button" class="btn btn-primary" th:onclick="replyDelete([[${cocktailReply.id}]])"> 삭제 </button>
+                </th:block>
+              </th:block>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- 댓글 수정 폼 -->
+        <div th:id="'replyEdit' + ${cocktailReply.id}" style="display:none">
+
+          <div class="d-flex w-100 justify-content-between">
+            <b><h6 class="mb-1" th:text = "${cocktailReply.createdBy}"> 글쓴이 </h6></b>
+            <small> </small>
+          </div>
+
+          <textarea class="form-control" th:id="'replyContentEdit' + ${cocktailReply.id}" rows="2"></textarea>
+
+          <div class="container">
+            <div class="text-end">
+              <input id="cocktailIdEdit"  name="cocktailIdEdit" type="hidden" th:value="${cocktailDto.id}"/>
+              <input th:id="cocktailReplyId + ${cocktailReply.id}"  name="cocktailReplyId" type="hidden" th:value="${cocktailReply.id}"/>
+              <a type="button" class="btn btn-primary" th:onclick="replyEdit([[${cocktailReply.id}]])"> 저장 </a>
+              <button type="button" class="btn btn-primary" th:onclick="replyEditFormClose([[${cocktailReply.id}]])"> 취소 </button>
+            </div>
+          </div>
+
+
+        </div>
+
+        <hr>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- 댓글 작성 -->
+  <div class="card">
+    <div class="card-body">
+      <textarea class="form-control" id="cocktailReplyContent" rows="2" th:name="cocktailReplyContent"></textarea>
+    </div>
+
+    <div class="card-footer">
+      <div class="text-end">
+
+        <th:block th:if="${sessionMember}">
+          <button type = "button" class="btn btn-primary" onclick="replyInsert()"> 등록 </button>
+        </th:block>
+
+        <th:block th:unless="${sessionMember}">
+          <a type = "submit" class="btn btn-primary" th:href="@{/loginForm}"> 등록 </a>
+        </th:block>
+
+      </div>
+    </div>
+  </div>
+  </form>
+  <!-- 댓글 끝 -->
+
+
   <!--  js & css    -->
 <!--  <link rel="stylesheet" type="text/css" th:href="@{/css/cocktail/detail.css}">-->
 <!--  <script th:src="@{/js/cocktail/detail.js}"></script>-->

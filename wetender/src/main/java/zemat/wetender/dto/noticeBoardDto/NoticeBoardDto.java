@@ -18,6 +18,7 @@ public class NoticeBoardDto {
     private String noticeBoardTitle;
     private String noticeBoardContent;
     private String status;
+
     private List<NoticeBoardReply> noticeBoardReplyList = new ArrayList<>();
     private List<NoticeBoardLikes> noticeBoardLikesList = new ArrayList<>();
 

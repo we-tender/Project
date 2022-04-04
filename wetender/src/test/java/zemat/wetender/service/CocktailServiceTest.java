@@ -19,6 +19,7 @@ import zemat.wetender.domain.liquor.LiquorFileStore;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.repository.IngredientRepository;
 import zemat.wetender.repository.liquor.LiquorRepository;
+import zemat.wetender.service.cocktail.CocktailService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,7 +34,8 @@ import java.util.List;
 class CocktailServiceTest {
 
     @PersistenceContext EntityManager em;
-    @Autowired CocktailService cocktailService;
+    @Autowired
+    CocktailService cocktailService;
     @Autowired CocktailFileStore cocktailFileStore;
     @Autowired IngredientFileStore ingredientFileStore;
     @Autowired IngredientRepository ingredientRepository;

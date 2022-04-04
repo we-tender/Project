@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.domain.base.BasePostEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Cocktail extends BaseEntity {
+public class Cocktail extends BasePostEntity {
 
     @Id
     @Column(name = "cocktail_id")
@@ -48,6 +49,14 @@ public class Cocktail extends BaseEntity {
 
     @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CocktailTaste> cocktailTastes = new ArrayList<>();
+
+    // 댓글
+    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
+    private List<CocktailReply> cocktailReplyList = new ArrayList<>();
+
+    // 좋아요
+    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL)
+    private List<CocktailLikes> cocktailLikesList = new ArrayList<>();
 
     public void addCocktailIngredients(List<CocktailIngredient> addCocktailIngredients){
         for (CocktailIngredient cocktailIngredient : addCocktailIngredients) {
