@@ -33,8 +33,10 @@
             <br>
             <!--    action에 주소를 넣는다     object에   GetMapping에 전달받은 객체를 넣는다.-->
             <!--            사진을 저장하기 위해 enctype 추가 -->
-            <form action="#" th:action="@{/suggestion/insert}" th:object="${suggestionInsertDto}" method="post">
+            <form action="#" th:action="@{/suggestion/update}" th:object="${suggestionDto}" method="post">
 
+
+                <input type="hidden" th:field="*{id}">
 
                 <!-- input 상자 -->
                 <div class="mb-3">

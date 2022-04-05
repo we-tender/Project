@@ -29,13 +29,14 @@ public class NoticeBoardService {
     private final NoticeBoardLikesRepository noticeBoardLikesRepository;
     private final MemberRepository memberRepository;
 
-    // 공지사항 등록, 수정
+    // 공지사항 등록
     public Long insert(NoticeBoardInsertDto Dto) {
         NoticeBoard noticeBoard = new NoticeBoard(Dto);
         NoticeBoard save = noticeBoardRepository.save(noticeBoard);
         return save.getId();
     }
 
+    // 공지사항 수정
     public Long update(NoticeBoardUpdateDto Dto) {
         NoticeBoard noticeBoard = noticeBoardRepository.getById(Dto.getId());
 

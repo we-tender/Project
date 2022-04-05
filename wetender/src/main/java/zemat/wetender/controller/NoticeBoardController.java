@@ -29,6 +29,8 @@ public class NoticeBoardController {
     private final NoticeBoardService noticeBoardService;
     private final MemberService memberService;
 
+
+
     /*@ModelAttribute("sideMenuItems")
     public Map<String, Boolean> sideMenu() {
         Map<String, Boolean> sideMenuItems = new LinkedHashMap<>();
@@ -52,7 +54,7 @@ public class NoticeBoardController {
 
         int page = pageable.getPageNumber();
 
-        PageRequest pageRequest = PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC, sortBy));
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, sortBy));
 
         Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageRequest);
 
@@ -173,8 +175,7 @@ public class NoticeBoardController {
     @GetMapping("/detail")
     public String detail(Model model,
                          @RequestParam(required = true) Long noticeBoardId,
-                         @PageableDefault(size=5) Pageable pageable) {
-
+                         @PageableDefault(size=2) Pageable pageable) {
 
         // 게시글
         NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
@@ -188,21 +189,13 @@ public class NoticeBoardController {
 
         int startPage = Math.max(1, noticeBoardDtoList.getPageable().getPageNumber() - 3);
         int endPage = Math.min(noticeBoardDtoList.getTotalPages(), noticeBoardDtoList.getPageable().getPageNumber() + 3);
-
         if (endPage == 0) {
             startPage = 0;
         }
 
-        System.out.println("====================");
-        System.out.println("noticeBoardDtoList = " + noticeBoardDtoList.getPageable().getPageSize());
-
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("noticeBoardDtoList", noticeBoardDtoList);
-
-
-
-
 
         // id 가저오기
         UserDetails sessionMember = memberService.getSessionMember();
@@ -270,6 +263,54 @@ public class NoticeBoardController {
         model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #likesResult";
+    }
+
+    // 페이지 Ajax GET ( 화면이 움직이는 문제가 있다... ) -> a태그에서 button 태크로 변경해 문제 해결
+    @RequestMapping(value = "/movePage", method = RequestMethod.GET)
+    public String movePage(Model model,
+                           @RequestParam(required = true) Long noticeBoardId,
+                           @PageableDefault(size = 2) Pageable pageable) {
+
+        NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
+        model.addAttribute("noticeBoardDto", noticeBoardDto);
+
+        Page<NoticeBoardDto> noticeBoardDtoList = noticeBoardService.detail_list(noticeBoardId, pageable);
+
+        int startPage = Math.max(1, noticeBoardDtoList.getPageable().getPageNumber() - 3);
+        int endPage = Math.min(noticeBoardDtoList.getTotalPages(), noticeBoardDtoList.getPageable().getPageNumber() + 3);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("noticeBoardDtoList", noticeBoardDtoList);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+        return "/noticeBoard/detail :: #noticeBoardDetailList";
+    }
+
+
+    // 페이지 Ajax POST
+    @RequestMapping(value = "/pageMove", method = RequestMethod.POST)
+    public String pageMove(Model model,
+                           NoticeBoardMovePageDto dto) {
+
+        PageRequest pageRequest = PageRequest.of(dto.getPageNumber(), 2);
+        Page<NoticeBoardDto> noticeBoardDtoList = noticeBoardService.detail_list(dto.getNoticeBoardId(), pageRequest);
+
+        int startPage = Math.max(1, noticeBoardDtoList.getPageable().getPageNumber() - 3);
+        int endPage = Math.min(noticeBoardDtoList.getTotalPages(), noticeBoardDtoList.getPageable().getPageNumber() + 3);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("noticeBoardDtoList", noticeBoardDtoList);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+        return "/noticeBoard/detail :: #noticeBoardDetailList";
     }
 
 

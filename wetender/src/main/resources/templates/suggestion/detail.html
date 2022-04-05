@@ -42,8 +42,8 @@
 
                 <!-- 수정,삭제 버튼 시작 -->
                 <div class="text-end">
-                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert(id = *{id})}"> 수정 </a>
-                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/delete(id = *{id})}"> 삭제 </a>
+                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/update(suggestionId = *{id})}"> 수정 </a>
+                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/delete(suggestionId = *{id})}"> 삭제 </a>
                 </div>
                 <!-- 수정,삭제 버튼 끝 -->
 

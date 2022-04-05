@@ -30,6 +30,8 @@
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
 
+    <input type="hidden" id="noticeBoardId" th:name="noticeBoardId" th:value="${noticeBoardDto.id}">
+
 
     <div class="col-lg-8 mx-auto p-3 py-md-5">
         <main>
@@ -186,7 +188,7 @@
                         <div class="card-body">
                             <textarea class="form-control" id="noticeBoardReplyContent" rows="2" th:name="noticeBoardReplyContent"></textarea>
 
-                            <input type="hidden" id="noticeBoardId" th:name="noticeBoardId" th:value="${noticeBoardDto.id}">
+<!--                            <input type="hidden" id="noticeBoardId" th:name="noticeBoardId" th:value="${noticeBoardDto.id}">-->
                         </div>
 
                         <div class="card-footer">
@@ -209,6 +211,8 @@
                 <br>
                 <br>
 
+
+                <!-- 리스트 시작 -->
                 <h4>공지사항 게시판 글</h4>
                 <div id="noticeBoardDetailList">
                     <table class="table">
@@ -251,20 +255,24 @@
                         <ul class="pagination justify-content-center">
 
                             <li class="page-item"  th:classappend="${1 == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' " >
-                                <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber - 1}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+<!--                                <button class="page-link" href="#" th:onclick="pageMove([[${noticeBoardDtoList.pageable.pageNumber - 1}]])" tabindex="-1" aria-disabled="true">Previous</button>-->
+                                <button class="page-link" href="#" th:onclick="movePage([[${noticeBoardDtoList.pageable.pageNumber - 1}]])" tabindex="-1" aria-disabled="true">Previous</button>
+<!--                                <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber - 1}  )}" tabindex="-1" aria-disabled="true">Previous</a>-->
                             </li>
 
                             <li class="page-item " th:classappend="${i == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
-                                <a class="page-link" href="#"  th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${i-1} )}"  th:text="${i}">1</a></li>
+                                <button class="page-link" href="#"  th:onclick="movePage([[${i-1}]])"  th:text="${i}">1</button></li>
+<!--                                <a class="page-link" href="#"  th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${i-1} )}"  th:text="${i}">1</a></li>-->
 
                             <li class="page-item" th:classappend="${noticeBoardDtoList.totalPages == noticeBoardDtoList.pageable.pageNumber + 1} ? 'disabled' " >
-                                <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber + 1} )}">Next</a>
+                                <button class="page-link" href="#" th:onclick="movePage([[${noticeBoardDtoList.pageable.pageNumber + 1}]])" >Next</button>
+<!--                                <a class="page-link" href="#" th:href="@{/noticeBoard/detail(noticeBoardId=${noticeBoardDto.id}, page=${noticeBoardDtoList.pageable.pageNumber + 1} )}">Next</a>-->
 
                             </li>
                         </ul>
                     </nav>
                 </div>
-
+                <!-- 리스트 끄 -->
 
                 <div class="text-end">
                     <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/main}"> 전체 글 보기 </a>

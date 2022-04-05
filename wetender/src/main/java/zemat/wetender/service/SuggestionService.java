@@ -5,10 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.domain.suggestion.SuggestionReply;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardUpdateDto;
+import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
+import zemat.wetender.dto.suggestionDto.SuggestionUpdateDto;
 import zemat.wetender.repository.suggestion.SuggestionReplyRepository;
 import zemat.wetender.repository.suggestion.SuggestionRepository;
 
@@ -40,11 +44,20 @@ public class SuggestionService {
     }
 
     // 건의사항 하나 조회
-    public Optional<Suggestion> findById(Long suggestionId)
+    public SuggestionDto findById(Long suggestionId)
     {
-        Optional<Suggestion> result = suggestionRepository.findById(suggestionId);
+        Suggestion suggestion = suggestionRepository.getById(suggestionId);
+        return new SuggestionDto(suggestion);
+    }
 
-        return result;
+    // 건의사항 수정
+    public Long update(SuggestionUpdateDto dto) {
+        Suggestion suggestion = suggestionRepository.getById(dto.getId());
+
+        suggestion.setSuggestionTitle(dto.getSuggestionTitle());
+        suggestion.setSuggestionContent(dto.getSuggestionContent());
+
+        return suggestion.getId();
     }
 
     // 건의사항 삭제

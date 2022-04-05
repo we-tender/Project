@@ -94,7 +94,12 @@
         <!-- 쓰기 버튼 시작 -->
         <div class="text-end">
           <!-- 클래스에 버튼을 썼기 때문에 a(앵커)로 바꿔도 자연스럽게 버튼모양으로 표현-->
-          <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert}" >쓰기</a>
+          <th:block th:if="${sessionMember}">
+            <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert}" >쓰기</a>
+          </th:block>
+          <th:block th:unless="${sessionMember}">
+            <a type="button" class="btn btn-primary" th:href="@{/loginForm}" >쓰기</a>
+          </th:block>
         </div>
         <!-- 쓰기 버튼 끝 -->
 

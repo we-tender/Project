@@ -232,10 +232,56 @@ function replyEditSave(noticeBoardReplyId) {
     });
 }
 
-// 게시글 페이지 움직이기
-function movePage() {
+// 게시글 페이지 움직이기 GET 방식
+function movePage(pageNumber) {
 
+    var noticeBoardId = $("#noticeBoardId").val();
+    var pageNumber = pageNumber;
+    var path = "/noticeBoard/movePage?noticeBoardId=".concat(noticeBoardId)
+                + "&page=".concat(pageNumber);
 
+    $.ajax({
+        url: path,
+        type: "GET",
 
+       beforeSend: function (jqXHR, settings) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           if(token && header) {
+               jqXHR.setRequestHeader(header, token);
+           }
+        }
+
+    }).done(function (fragment) {
+        $("#noticeBoardDetailList").replaceWith(fragment);
+    });
+}
+
+// 게시글 페이지 움직이기 POST 방식
+function pageMove(pageNumber) {
+
+    var noticeBoardId = $("#noticeBoardId").val();
+    var pageNumber = pageNumber;
+    var noticeBoardMovePageDto = {
+        noticeBoardId:noticeBoardId,
+        pageNumber:pageNumber
+    }
+
+    $.ajax({
+        url: "/noticeBoard/pageMove",
+        data: noticeBoardMovePageDto,
+        type: "POST",
+
+        beforeSend: function (jqXHR, settings) {
+           var header = $("meta[name='_csrf_header']").attr("content");
+           var token = $("meta[name='_csrf']").attr("content");
+           if(token && header) {
+               jqXHR.setRequestHeader(header, token);
+           }
+        }
+
+    }).done( function(fragment) {
+        $("#noticeBoardDetailList").replaceWith(fragment);
+    });
 
 }

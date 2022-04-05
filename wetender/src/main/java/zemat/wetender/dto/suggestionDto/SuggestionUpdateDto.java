@@ -1,14 +1,15 @@
 package zemat.wetender.dto.suggestionDto;
 
+
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
-public class SuggestionInsertDto {
+public class SuggestionUpdateDto {
 
+    @NotNull
     private Long id;
 
     @NotBlank
@@ -17,12 +18,12 @@ public class SuggestionInsertDto {
     @NotBlank
     private String suggestionContent;
 
-    public SuggestionInsertDto() {
+    public SuggestionUpdateDto() {
     }
 
-    public SuggestionInsertDto(String suggestionTitle, String suggestionContent) {
+    public SuggestionUpdateDto(Long id, String suggestionTitle, String suggestionContent) {
+        this.id = id;
         this.suggestionTitle = suggestionTitle;
         this.suggestionContent = suggestionContent;
     }
-
 }

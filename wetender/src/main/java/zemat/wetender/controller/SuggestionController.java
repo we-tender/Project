@@ -6,12 +6,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.domain.suggestion.SuggestionReply;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardUpdateDto;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
+import zemat.wetender.dto.suggestionDto.SuggestionUpdateDto;
 import zemat.wetender.service.MemberService;
 import zemat.wetender.service.SuggestionService;
 
@@ -66,35 +72,65 @@ public class SuggestionController {
     // 건의사항 메인페이지 끝
 
 
-    // 건의사항 등록, 수정
+    // 건의사항 등록
     @GetMapping("/insert")
-    public String insertForm(Model model, @RequestParam(required = false) Long id) {
-
-        if (id == null) {
-            Suggestion suggestion = new Suggestion("", "");
-            model.addAttribute("suggestionDto", new SuggestionDto(suggestion));
-        } else {
-            Suggestion suggestion = suggestionService.findById(id).orElse(null);
-            SuggestionDto suggestionDto = new SuggestionDto(suggestion);
-            model.addAttribute("suggestionDto", suggestionDto);
-        }
-
+    public String insertForm(Model model) {
+        model.addAttribute("suggestionInsertDto", new SuggestionInsertDto());
         model.addAttribute("sessionMember", memberService.getSessionMember());
         return "suggestion/insert";
     }
 
     @PostMapping("/insert")
-    public String insert(@ModelAttribute SuggestionInsertDto suggestionInsertDto) {
+    public String insert(@Validated  @ModelAttribute SuggestionInsertDto suggestionInsertDto,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("sessionMember", memberService.getSessionMember());
+            return "suggestion/insert";
+        }
+
         suggestionService.insert(suggestionInsertDto);
+
         return "redirect:/suggestion/main";
     }
-    // 건의사항 등록, 수정 끝
+    // 건의사항 등록
+
+
+    // 건의사항 수정
+    @GetMapping("/update")
+    public String updateForm(Model model,  @RequestParam(required = false) Long suggestionId) {
+
+
+        SuggestionDto suggestionDto = suggestionService.findById(suggestionId);
+
+        model.addAttribute("suggestionDto", suggestionDto);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+        return "suggestion/update";
+    }
+
+    // 공지사항 수정
+    @PostMapping("/update")
+    public String update(@Validated @ModelAttribute("suggestionDto") SuggestionUpdateDto suggestionUpdateDto,
+                         BindingResult bindingResult,
+                         Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("sessionMember", memberService.getSessionMember());
+            return "suggestion/update";
+        }
+
+        suggestionService.update(suggestionUpdateDto);
+
+        return "redirect:/suggestion/main";
+    }
 
 
     // 건의사항 삭제
     @GetMapping("/delete")
-    public String delete(@RequestParam(required = true) Long id) {
-        suggestionService.delete(id);
+    public String delete(@RequestParam(required = true) Long suggestionId) {
+        suggestionService.delete(suggestionId);
         return "redirect:/suggestion/main";
     }
     // 건의사항 삭제
@@ -106,9 +142,7 @@ public class SuggestionController {
                          @RequestParam(required = true) Long suggestionId
     ) {
         // 게시글 기능
-        Optional<Suggestion> suggestionFind = suggestionService.findById(suggestionId);
-        Suggestion suggestion = suggestionFind.get();
-        SuggestionDto suggestionDto = new SuggestionDto(suggestion);
+        SuggestionDto suggestionDto = suggestionService.findById(suggestionId);
 
         model.addAttribute("suggestionDto", suggestionDto);
         // 게시글 기능
