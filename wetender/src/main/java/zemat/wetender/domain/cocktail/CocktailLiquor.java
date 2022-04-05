@@ -35,9 +35,9 @@ public class CocktailLiquor {
     @Builder
     public CocktailLiquor(String cocktailIngredientQty, Liquor liquor) {
         this.cocktailIngredientQty = cocktailIngredientQty;
-        this.liquor = liquor;
         if(liquor != null){
             liquor.addCocktailLiquor(this);
+            this.liquor = liquor;
         }
     }
 }

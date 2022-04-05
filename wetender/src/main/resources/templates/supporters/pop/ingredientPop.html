@@ -11,8 +11,8 @@
     <script>
         $(document).ready(function(){
 
-            let id = "#" + "[[${id}]]";
-            var name = "#" + "[[${name}]]";
+            let id = "ingredients[" + "[[${id}]]" + "].id";
+            var name = "ingredients[" + "[[${id}]]" + "].name";
 
             /* 재료 선택 및 팝업창 닫기 */
             $('.move').on('click', function(e){
@@ -22,8 +22,8 @@
                 let ingredientId= $(this).attr("href");
                 let ingredientName= $(this).data("name");
 
-                $(opener.document).find(id).val(ingredientId);
-                $(opener.document).find(name).val(ingredientName);
+                opener.document.getElementById(id).value = ingredientId;
+                opener.document.getElementById(name).value = ingredientName;
 
                 window.close();
             });

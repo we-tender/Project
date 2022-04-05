@@ -86,14 +86,14 @@ $(document).ready(function(){
 
         $(uploadResultArr).each(function(i, obj){
             //image type
-            const fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+            const fileCellPath = obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName;
             str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
             str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
             str += "<span>" + obj.fileName + "</span>";
             str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
             str += " class='btn btn-warning btn-circle'>";
             str += "<i class=fa fa-time'></i></button><br>";
-            str += "<img src='/supporters/display/ingredient?fileName=" + fileCellPath + "'></div></li>";
+            str += "<img src='/supporters/display/ingredient/" + fileCellPath + "'></div></li>";
         });
         uploadUl.append(str);
     }

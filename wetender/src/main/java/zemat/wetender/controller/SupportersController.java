@@ -2,33 +2,31 @@ package zemat.wetender.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.coobird.thumbnailator.Thumbnailator;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItem;
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.ingredient.IngredientFile;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorFile;
 import zemat.wetender.dto.AttachFileDto;
+import zemat.wetender.dto.cocktailDto.CocktailIngredientDto;
+import zemat.wetender.dto.cocktailDto.CocktailLiquorDto;
+import zemat.wetender.dto.cocktailDto.CocktailSequenceDto;
 import zemat.wetender.dto.ingredientDto.IngredientDto;
 import zemat.wetender.dto.liquorDto.LiquorPopDto;
 import zemat.wetender.service.*;
@@ -38,6 +36,7 @@ import zemat.wetender.service.liquor.LiquorService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,7 +89,9 @@ public class SupportersController {
         return "supporters/main";
     }
 
-    // insert 관련 get,post
+    //******************************************************************************************************************
+    // insert 등록 관련
+
     @GetMapping("/insert/cocktail")
     public String cocktailInsertForm(Model model){
 
@@ -101,395 +102,61 @@ public class SupportersController {
     }
 
     @PostMapping("/insert/cocktail")
-    public String testPost(@Validated @ModelAttribute("form") CocktailInsertForm form, BindingResult bindingResult,
-                                 HttpServletRequest request){
-        log.info("post 들어옴");
-        log.info("register : " + form.toString());
-        if(form.getAttachList() != null){
-            form.getAttachList().forEach(attach -> log.info("attach: " + String.valueOf(attach)));
+    public String testPost(@Validated @ModelAttribute("form") CocktailInsertForm form, BindingResult bindingResult, Model model){
+
+        int ingredientsCnt = -1;
+        int liquorsCnt = -1;
+        int sequencesCnt = -1;
+
+        List<CocktailSequenceDto> cocktailSequenceDtos = new ArrayList<>();
+
+        if(form.getSequences() != null){
+            for (CocktailSequenceDto sequence : form.getSequences()) {
+                if(sequence.getContent() != null && !sequence.getContent().equals("")){
+                    cocktailSequenceDtos.add(sequence);
+                    sequencesCnt++;
+                }
+            }
         }
 
-//         검증 실패 로직
+        List<CocktailLiquorDto> cocktailLiquorDtos = new ArrayList<>();
+
+        if(form.getLiquors() != null){
+            for (CocktailLiquorDto liquor : form.getLiquors()) {
+                if(liquor.getId() != null && !liquor.getId().equals("")){
+                    cocktailLiquorDtos.add(liquor);
+                    liquorsCnt++;
+                }
+            }
+        }
+
+        List<CocktailIngredientDto> cocktailIngredientDtos = new ArrayList<>();
+
+        if(form.getIngredients() != null){
+            for (CocktailIngredientDto ingredient : form.getIngredients()) {
+                if(ingredient.getId() != null && !ingredient.getId().equals("")){
+                    cocktailIngredientDtos.add(ingredient);
+                    ingredientsCnt++;
+                }
+            }
+        }
+
+        form.setSequences(cocktailSequenceDtos);
+        form.setLiquors(cocktailLiquorDtos);
+        form.setIngredients(cocktailIngredientDtos);
+        model.addAttribute("ingredientsCnt",ingredientsCnt);
+        model.addAttribute("liquorsCnt",liquorsCnt);
+        model.addAttribute("sequencesCnt",sequencesCnt);
+
+        // 검증 실패 로직
         if(bindingResult.hasErrors()){
             log.info("error={}",bindingResult);
             return "/supporters/insert/cocktail";
         }
 
-        // 칵테일 맛
-        List<String> tastes = form.getTastes();
-        List<CocktailTaste> cocktailTastes = new ArrayList<>();
-
-        for (String taste : tastes) {
-            CocktailTaste cocktailTaste = new CocktailTaste(taste);
-            cocktailTastes.add(cocktailTaste);
-        }
-
-        // 칵테일 순서
-        List<CocktailSequence> cocktailSequences = new ArrayList<>();
-
-        String[] sequenceContents = request.getParameterValues("sequenceContent");
-        for (String sequence : sequenceContents) {
-            CocktailSequence cocktailSequence = new CocktailSequence(sequence);
-            cocktailSequences.add(cocktailSequence);
-        }
-
-        // 칵테일 주류 재료
-        List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
-
-
-        String[] liquorIngredientIds = request.getParameterValues("liquorIngredientId");
-        String[] liquorIngredientQties = request.getParameterValues("liquorIngredientQty");
-
-        if(liquorIngredientIds != null) {
-            for (int i = 0; i < liquorIngredientIds.length; i++) {
-                if (liquorIngredientIds[0].equals("")) continue;
-                long liquorId = Long.parseLong(liquorIngredientIds[i]);
-                String qty = liquorIngredientQties[i];
-                Liquor liquor = liquorService.findById(liquorId);
-
-                CocktailLiquor cocktailLiquor = CocktailLiquor.builder()
-                        .cocktailIngredientQty(qty)
-                        .liquor(liquor)
-                        .build();
-
-                cocktailLiquors.add(cocktailLiquor);
-            }
-        }
-
-
-        // 칵테일 재료
-        List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
-
-        String[] cocktailIngredientIds = request.getParameterValues("cocktailIngredientId");
-        String[] cocktailIngredientQties = request.getParameterValues("cocktailIngredientQty");
-
-        if(cocktailIngredientIds != null){
-            for(int i = 0; i < cocktailIngredientIds.length; i++){
-                if(cocktailIngredientIds[0].equals("")) continue;
-                long ingredientId = Long.parseLong(cocktailIngredientIds[i]);
-                String qty = cocktailIngredientQties[i];
-                System.out.println("id값: " + ingredientId);
-                Ingredient ingredient = ingredientService.findById(ingredientId);
-
-                CocktailIngredient cocktailIngredient = CocktailIngredient.builder()
-                        .ingredient(ingredient)
-                        .cocktailIngredientQty(qty)
-                        .build();
-
-                cocktailIngredients.add(cocktailIngredient);
-            }
-        }
-
-        //칵테일 파일
-        List<CocktailFile> cocktailFiles = new ArrayList<>();
-        form.getAttachList().forEach(cocktailFileDto -> cocktailFiles.add(cocktailFileDto.toCocktailFileEntity()));
-
-        // 칵테일 엔티티 생성
-        Cocktail cocktail = Cocktail.builder()
-                .cocktailName(form.getName())
-                .cocktailEName(form.getEName())
-                .cocktailAbv(form.getAbv())
-                .cocktailBase(form.getBase())
-                .cocktailContent(form.getContent())
-                .cocktailOneLine(form.getOneLine())
-                .cocktailTastes(cocktailTastes)
-                .cocktailFiles(cocktailFiles)
-                .cocktailSequences(cocktailSequences)
-                .cocktailLiquors(cocktailLiquors)
-                .cocktailIngredients(cocktailIngredients)
-                .cocktailRecommendation(0)
-                .build();
-
-        supportersService.cocktailSave(cocktail);
+        supportersService.cocktailSave(form);
 
         return "redirect:/supporters/main";
-    }
-
-    @PostMapping(value = "/upload/image/cocktail", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<AttachFileDto>> uploadCocktailImage(MultipartFile[] uploadFile) throws IOException {
-        List<AttachFileDto> list = new ArrayList<>();
-
-        String uploadFolderPath = getFolder();
-        File uploadPath = new File(cocktailFileDir, uploadFolderPath);
-        log.info("upload path : " +uploadPath);
-
-        if(uploadPath.exists() == false){
-            uploadPath.mkdirs();
-        }
-
-        for (MultipartFile multipartFile : uploadFile) {
-            log.info("----------------------");
-            log.info("upload file name : " + multipartFile.getOriginalFilename());
-            log.info("upload file size : " +     multipartFile.getSize());
-
-            String uploadFileName = multipartFile.getOriginalFilename();
-            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") +1);
-
-            log.info("only file name : " + uploadFileName);
-
-            UUID uuid = UUID.randomUUID();
-            String storeFileName = uuid.toString() + "_" + uploadFileName;
-
-            try {
-                File savefile = new File(uploadPath,storeFileName);
-                multipartFile.transferTo(savefile);
-
-                if(checkImageType(savefile)){
-                    AttachFileDto attachFileDto = new AttachFileDto(uploadFileName, uploadFolderPath, uuid.toString(), true);
-                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
-
-                    FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(savefile.toPath()), false, savefile.getName(), (int) savefile.length(), savefile.getParentFile());
-                    try {
-                        InputStream input = new FileInputStream(savefile);
-                        OutputStream os = fileItem.getOutputStream();
-                        IOUtils.copy(input, os);
-                        input.close();
-                        os.close();
-                    } catch (IOException ex) {
-                        // do something.
-                    }
-
-                    MultipartFile saveMultipartFile = new CommonsMultipartFile(fileItem);
-                    InputStream inputStream = saveMultipartFile.getInputStream();
-                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
-
-                    thumbnail.close();
-                    inputStream.close();
-
-                    list.add(attachFileDto);
-                }
-            } catch (Exception e){
-                log.error(e.getMessage());
-            }
-        }
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/upload/image/liquor", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<AttachFileDto>> uploadLiquorImage(MultipartFile[] uploadFile) throws IOException {
-        List<AttachFileDto> list = new ArrayList<>();
-
-        String uploadFolderPath = getFolder();
-        File uploadPath = new File(liquorFileDir, uploadFolderPath);
-        log.info("upload path : " +uploadPath);
-
-        if(uploadPath.exists() == false){
-            uploadPath.mkdirs();
-        }
-
-        for (MultipartFile multipartFile : uploadFile) {
-            log.info("----------------------");
-            log.info("upload file name : " + multipartFile.getOriginalFilename());
-            log.info("upload file size : " +     multipartFile.getSize());
-
-            String uploadFileName = multipartFile.getOriginalFilename();
-            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") +1);
-
-            log.info("only file name : " + uploadFileName);
-
-            UUID uuid = UUID.randomUUID();
-            String storeFileName = uuid.toString() + "_" + uploadFileName;
-
-            try {
-                File savefile = new File(uploadPath,storeFileName);
-                multipartFile.transferTo(savefile);
-
-                if(checkImageType(savefile)){
-                    AttachFileDto attachFileDto = new AttachFileDto(uploadFileName, uploadFolderPath, uuid.toString(), true);
-                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
-
-                    FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(savefile.toPath()), false, savefile.getName(), (int) savefile.length(), savefile.getParentFile());
-                    try {
-                        InputStream input = new FileInputStream(savefile);
-                        OutputStream os = fileItem.getOutputStream();
-                        IOUtils.copy(input, os);
-                        input.close();
-                        os.close();
-                    } catch (IOException ex) {
-                        // do something.
-                    }
-
-                    MultipartFile saveMultipartFile = new CommonsMultipartFile(fileItem);
-                    InputStream inputStream = saveMultipartFile.getInputStream();
-                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
-
-                    thumbnail.close();
-                    inputStream.close();
-
-                    list.add(attachFileDto);
-                }
-            } catch (Exception e){
-                log.error(e.getMessage());
-            }
-        }
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @PostMapping(value = "/upload/image/ingredient", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<AttachFileDto>> uploadIngredientImage(MultipartFile[] uploadFile) throws IOException {
-        List<AttachFileDto> list = new ArrayList<>();
-
-        String uploadFolderPath = getFolder();
-        File uploadPath = new File(ingredientFileDir, uploadFolderPath);
-        log.info("upload path : " +uploadPath);
-
-        if(uploadPath.exists() == false){
-            uploadPath.mkdirs();
-        }
-
-        for (MultipartFile multipartFile : uploadFile) {
-            log.info("----------------------");
-            log.info("upload file name : " + multipartFile.getOriginalFilename());
-            log.info("upload file size : " +     multipartFile.getSize());
-
-            String uploadFileName = multipartFile.getOriginalFilename();
-            uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") +1);
-
-            log.info("only file name : " + uploadFileName);
-
-            UUID uuid = UUID.randomUUID();
-            String storeFileName = uuid.toString() + "_" + uploadFileName;
-
-            try {
-                File savefile = new File(uploadPath,storeFileName);
-                multipartFile.transferTo(savefile);
-
-                if(checkImageType(savefile)){
-                    AttachFileDto attachFileDto = new AttachFileDto(uploadFileName, uploadFolderPath, uuid.toString(), true);
-                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
-
-                    FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(savefile.toPath()), false, savefile.getName(), (int) savefile.length(), savefile.getParentFile());
-                    try {
-                        InputStream input = new FileInputStream(savefile);
-                        OutputStream os = fileItem.getOutputStream();
-                        IOUtils.copy(input, os);
-                        input.close();
-                        os.close();
-                    } catch (IOException ex) {
-                        // do something.
-                    }
-
-                    MultipartFile saveMultipartFile = new CommonsMultipartFile(fileItem);
-                    InputStream inputStream = saveMultipartFile.getInputStream();
-                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
-
-                    thumbnail.close();
-                    inputStream.close();
-
-                    list.add(attachFileDto);
-                }
-            } catch (Exception e){
-                log.error(e.getMessage());
-            }
-        }
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @PostMapping("/deleteFile")
-    @ResponseBody
-    public ResponseEntity<String> deleteFile(String fileName, String type){
-        File file;
-        try{
-            file = new File(cocktailFileDir + URLDecoder.decode(fileName,"UTF-8"));
-            file.delete();
-            if(type.equals("image")){
-                String largeFileName = file.getAbsolutePath().replace("s_","");
-                file = new File(largeFileName);
-                boolean exists = file.exists();
-                log.info("파일존재여부: " + exists);
-                boolean delete = file.delete();
-                log.info("삭제여부: "+ delete);
-            }
-            log.info("원본도 삭제완료");
-        } catch(UnsupportedEncodingException e){
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>("deleted", HttpStatus.OK);
-    }
-
-    private boolean checkImageType(File file){
-        try{
-            String contentType = Files.probeContentType(file.toPath());
-            return contentType.startsWith("image");
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private String getFolder(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String str = sdf.format(date);
-        return str.replace("-",File.separator);
-    }
-
-    @GetMapping("/display/cocktail")
-    @ResponseBody
-    public ResponseEntity<byte[]> cocktailGetFile(String fileName){
-        log.info("fileName : " + fileName);
-        File file = new File(cocktailFileDir + fileName);
-        log.info("file : " + file);
-        ResponseEntity<byte[]> result = null;
-
-        try{
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Type", Files.probeContentType(file.toPath()));
-            FileCopyUtils.copyToByteArray(file);
-            result = new ResponseEntity<byte[]>(
-                    FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-    @GetMapping("/display/liquor")
-    @ResponseBody
-    public ResponseEntity<byte[]> liquorGetFile(String fileName){
-        log.info("fileName : " + fileName);
-        File file = new File(liquorFileDir + fileName);
-        log.info("file : " + file);
-        ResponseEntity<byte[]> result = null;
-
-        try{
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Type", Files.probeContentType(file.toPath()));
-            FileCopyUtils.copyToByteArray(file);
-            result = new ResponseEntity<byte[]>(
-                    FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-    @GetMapping("/display/ingredient")
-    @ResponseBody
-    public ResponseEntity<byte[]> ingredientGetFile(String fileName){
-        log.info("fileName : " + fileName);
-        File file = new File(ingredientFileDir + fileName);
-        log.info("file : " + file);
-        ResponseEntity<byte[]> result = null;
-
-        try{
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Type", Files.probeContentType(file.toPath()));
-            FileCopyUtils.copyToByteArray(file);
-            result = new ResponseEntity<byte[]>(
-                    FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
     }
 
     @GetMapping("/insert/liquor")
@@ -502,7 +169,13 @@ public class SupportersController {
     }
 
     @PostMapping("/insert/liquor")
-    public String liquorInsert(LiquorInsertForm form) throws IOException {
+    public String liquorInsert(@Validated @ModelAttribute("form") LiquorInsertForm form, BindingResult bindingResult) throws IOException {
+
+        // 검증 실패 로직
+        if(bindingResult.hasErrors()){
+            log.info("error={}",bindingResult);
+            return "/supporters/insert/liquor";
+        }
 
         List<AttachFileDto> attachList = form.getAttachList();
 
@@ -512,7 +185,6 @@ public class SupportersController {
             LiquorFile liquorFile = liquorFileDto.toLiquorFileEntity();
             liquorFiles.add(liquorFile);
         }
-
 
         Liquor liquor = Liquor.builder()
                 .liquorName(form.getName())
@@ -538,7 +210,13 @@ public class SupportersController {
     }
 
     @PostMapping("/insert/ingredient")
-    public String ingredientInsert(IngredientInsertForm form) throws IOException {
+    public String ingredientInsert(@Validated @ModelAttribute("form") IngredientInsertForm form, BindingResult bindingResult) throws IOException {
+
+        // 검증 실패 로직
+        if(bindingResult.hasErrors()){
+            log.info("error={}",bindingResult);
+            return "/supporters/insert/ingredient";
+        }
 
         List<AttachFileDto> attachList = form.getAttachList();
 
@@ -550,25 +228,141 @@ public class SupportersController {
 
         Ingredient ingredient =
                 Ingredient.builder()
-                .ingredientName(form.getName())
-                .ingredientEname(form.getEName())
-                .ingredientContent(form.getContent())
-                .ingredientFiles(ingredientFiles)
-                .build();
+                        .ingredientName(form.getName())
+                        .ingredientEname(form.getEName())
+                        .ingredientContent(form.getContent())
+                        .ingredientFiles(ingredientFiles)
+                        .build();
 
         supportersService.ingredientSave(ingredient);
 
         return "redirect:/supporters/main";
     }
 
-    //insert 과정에서의 pop 화면
+
+    //******************************************************************************************************************
+
+
+    //******************************************************************************************************************
+    // 이미지 업로드 관련
+
+    @PostMapping(value = "/upload/image/cocktail", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<AttachFileDto>> uploadCocktailImage(MultipartFile[] uploadFile) throws IOException {
+
+        String uploadFolderPath = getFolder();
+        File uploadPath = new File(cocktailFileDir, uploadFolderPath);
+        List<AttachFileDto> list = supportersService.uploadImage(uploadFolderPath, uploadPath, uploadFile);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/upload/image/liquor", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<AttachFileDto>> uploadLiquorImage(MultipartFile[] uploadFile) throws IOException {
+
+        String uploadFolderPath = getFolder();
+        File uploadPath = new File(liquorFileDir, uploadFolderPath);
+
+        List<AttachFileDto> list = supportersService.uploadImage(uploadFolderPath, uploadPath, uploadFile);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/upload/image/ingredient", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<List<AttachFileDto>> uploadIngredientImage(MultipartFile[] uploadFile) throws IOException {
+
+        String uploadFolderPath = getFolder();
+        File uploadPath = new File(ingredientFileDir, uploadFolderPath);
+
+        List<AttachFileDto> list = supportersService.uploadImage(uploadFolderPath, uploadPath, uploadFile);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    private String getFolder(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String str = sdf.format(date);
+        return str.replace("-",File.separator);
+    }
+
+    //******************************************************************************************************************
+
+
+    //******************************************************************************************************************
+    // 이미지 파일 삭제
+
+    @PostMapping("/deleteFile")
+    @ResponseBody
+    public ResponseEntity<String> deleteFile(String fileName, String type){
+        File file;
+        try{
+            file = new File(cocktailFileDir + URLDecoder.decode(fileName,"UTF-8"));
+            file.delete();
+            if(type.equals("image")){
+                String largeFileName = file.getAbsolutePath().replace("s_","");
+                file = new File(largeFileName);
+                boolean exists = file.exists();
+                log.info("파일존재여부: " + exists);
+                boolean delete = file.delete();
+                log.info("삭제여부: "+ delete);
+            }
+            log.info("원본도 삭제완료");
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
+    }
+
+    //******************************************************************************************************************
+
+
+    //******************************************************************************************************************
+    // 칵테일 이미지 보이게 설정
+    @ResponseBody
+    @GetMapping("/display/cocktail/{year}/{month}/{day}/{filename}")
+    public Resource cocktailDownloadImage(@PathVariable String year,
+                                          @PathVariable String month,
+                                          @PathVariable String day,
+                                          @PathVariable String filename) throws MalformedURLException {
+        log.info("file:" + cocktailFileDir + filename);
+        return new UrlResource("file:" + cocktailFileDir + year + "/"+ month + "/" + day + "/" + filename);
+    }
+
+    @ResponseBody
+    @GetMapping("/display/liquor/{year}/{month}/{day}/{filename}")
+    public Resource liquorDownloadImage(@PathVariable String year,
+                                          @PathVariable String month,
+                                          @PathVariable String day,
+                                          @PathVariable String filename) throws MalformedURLException {
+        log.info("file:" + liquorFileDir + filename);
+        return new UrlResource("file:" + liquorFileDir + year + "/"+ month + "/" + day + "/" + filename);
+    }
+
+    @ResponseBody
+    @GetMapping("/display/ingredient/{year}/{month}/{day}/{filename}")
+    public Resource ingredientDownloadImage(@PathVariable String year,
+                                        @PathVariable String month,
+                                        @PathVariable String day,
+                                        @PathVariable String filename) throws MalformedURLException {
+        log.info("file:" + ingredientFileDir + filename);
+        return new UrlResource("file:" + ingredientFileDir + year + "/"+ month + "/" + day + "/" + filename);
+    }
+
+    //******************************************************************************************************************
+
+    //******************************************************************************************************************
+    //주류검색,재료검색 pop 화면
     @GetMapping("/pop/liquorPop")
     public String liquorPopForm(Model model,
                                 @RequestParam(value = "id",required = false) String id,
-                                @RequestParam(value = "name",required = false) String name,
                                 @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword,
                                 Pageable pageable){
 
+        log.info("pop 들어옴");
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
         PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "liquorName"));
         Page<Liquor> liquors = liquorService.pageFindKeyword(pageRequest,keyword);
@@ -579,7 +373,6 @@ public class SupportersController {
         int number = liquorPopDtos.getNumber();
 
         model.addAttribute("id",id);
-        model.addAttribute("name",name);
         model.addAttribute("liquors",liquorPopDtos);
 
         return "supporters/pop/liquorPop";
@@ -588,7 +381,6 @@ public class SupportersController {
     @GetMapping("/pop/ingredientPop")
     public String ingredientPopForm(Model model,
                                 @RequestParam(value = "id",required = false) String id,
-                                @RequestParam(value = "name",required = false) String name,
                                 @RequestParam(value = "keyword",required = false, defaultValue = "") String keyword,
                                 Pageable pageable){
 
@@ -599,11 +391,11 @@ public class SupportersController {
         Page<IngredientDto> ingredientDtos = ingredients.map(ingredient -> new IngredientDto(ingredient));
 
         model.addAttribute("id",id);
-        model.addAttribute("name",name);
         model.addAttribute("ingredients",ingredientDtos);
 
         return "supporters/pop/ingredientPop";
     }
+    //******************************************************************************************************************
 
     //update 관련 get, post
     @GetMapping("cocktail/update/{cocktailId}")

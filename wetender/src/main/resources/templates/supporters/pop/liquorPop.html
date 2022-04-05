@@ -11,8 +11,8 @@
     <script>
         $(document).ready(function(){
 
-            let id = "#" + "[[${id}]]";
-            var name = "#" + "[[${name}]]";
+            let id = "liquors[" + "[[${id}]]" + "].id";
+            var name = "liquors[" + "[[${id}]]" + "].name";
 
             /* 주류 선택 및 팝업창 닫기 */
             $('.move').on('click', function(e){
@@ -22,8 +22,8 @@
                 let liquorId= $(this).attr("href");
                 let liquorName= $(this).data("name");
 
-                $(opener.document).find(id).val(liquorId);
-                $(opener.document).find(name).val(liquorName);
+                opener.document.getElementById(id).value = liquorId;
+                opener.document.getElementById(name).value = liquorName;
 
                 window.close();
             });

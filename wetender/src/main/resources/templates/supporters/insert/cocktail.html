@@ -71,10 +71,22 @@
 
                         <div class="uploadResult">
                             <ul>
-
+                                <li th:each="obj : *{attachList}" th:data-path="${obj.uploadPath}" th:data-uuid="${obj.uuid}" th:data-filename="${obj.fileName}"
+                                    th:data-type="${obj.fileType}">
+                                    <div>
+                                        <span th:text="${obj.fileName}"></span>
+                                        <button type='button' th:data-file="|${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|" data-type='image' class='btn btn-warning btn-circle'>
+                                            <i class='fa fa-time'></i>
+                                        </button><br>
+                                        <img th:src="|/supporters/display/cocktail/${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|">
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
+                </div>
+                <div class="field-error" th:errors="*{attachList}">
+                    상품명 오류
                 </div>
             </div>
             <!-- 이미지 끝 -->
@@ -86,36 +98,42 @@
                     <label th:for="${#ids.prev('tastes')}" th:text="${taste.value}" class="form-check-label">맛</label>
                 </div>
             </div>
-            <div id="sequence" class="col-lg-6 col-md-6 form-group mt-3">
+            <div id="sequenceDiv" class="col-lg-6 col-md-6 form-group mt-3">
                 <label th:for="sequence" >칵테일 순서</label><br>
                 <input type="button" class="sequenceBtnAdd" value="순서 추가"><br>
-                <div>
-                    <input type="text" class="sequenceContent" name="sequenceContent" placeholder="순서">
-                    <input type="button" class="sequenceBtnRemove" name="sequenceDel" value="삭제"><br>
+                <input type="hidden" th:id="sequencesCnt" th:name="sequencesCnt" th:value="${sequencesCnt}">
+                <div th:each="sequence : ${form.sequences}">
+                    <input type="text" th:id="|sequences[${sequenceStat.index}].content|" th:name="|sequences[${sequenceStat.index}].content|" th:value="${sequence.content}" placeholder="순서">
+                    <input type="button" class="sequenceBtnRemove" value="삭제"><br>
+                </div>
+                <div class="field-error" th:errors="*{sequences}">
+                    상품명 오류
                 </div>
             </div>
             <hr class="my-4"/>
-            <div id="liquorIngredient" class="col-lg-6 col-md-6 form-group mt-3">
-                <label th:for="liquorIngredient" >주류 등록</label><br>
-                <input type="button" class="liquorIngredientBtnAdd" value="주류 추가"><br>
-                <div>
-                    <input type="hidden" class="liquorIngredientId" id="liquorIngredientId1" name="liquorIngredientId">
-                    <input type="text" class="liquorIngredientContent" id="liquorIngredientContent1" name="liquorIngredientContent1" readonly="readonly">
-                    <input type="button" class="liquorIngredientSearch" data-id="liquorIngredientId1" data-name="liquorIngredientContent1" name="liquorIngredientSearch" value="주류 선택">
-                    <input type="text" class="liquorIngredientQty" name="liquorIngredientQty" placeholder="재료 양">
-                    <input type="button" class="liquorIngredientBtnRemove" name="liquorIngredientDel" value="삭제"><br>
+            <div id="cocktailLiquor" class="col-lg-6 col-md-6 form-group mt-3">
+                <label th:for="cocktailLiquor" >주류 등록</label><br>
+                <input type="button" class="cocktailLiquorBtnAdd" value="주류 추가"><br>
+                <input type="hidden" th:id="liquorsCnt" th:name="liquorsCnt" th:value="${liquorsCnt}">
+                <div th:each="liquor : ${form.liquors}">
+                    <input type="hidden" th:id="|liquors[${liquorStat.index}].id|" th:name="|liquors[${liquorStat.index}].id|" th:value="${liquor.id}">
+                    <input type="text"  th:id="|liquors[${liquorStat.index}].name|" th:name="|liquors[${liquorStat.index}].name|" th:value="${liquor.name}" readonly="readonly">
+                    <input type="button" class="cocktailLiquorSearch" th:data-id="|liquors[${liquorStat.index}].id|" th:data-name="|liquors[${liquorStat.index}].name|" value="주류 선택">
+                    <input type="text" th:id="|liquors[${liquorStat.index}].quantity|" th:name="|liquors[${liquorStat.index}].quantity|" th:value="${liquor.quantity}" placeholder="재료 양">
+                    <input type="button" class="cocktailLiquorBtnRemove" value="삭제"><br>
                 </div>
             </div>
             <hr class="my-4"/>
             <div id="cocktailIngredient" class="col-lg-6 col-md-6 form-group mt-3">
                 <label th:for="cocktailIngredient" >재료 등록</label><br>
                 <input type="button" class="cocktailIngredientBtnAdd" value="재료 추가"><br>
-                <div>
-                    <input type="hidden" class="cocktailIngredientId" id="cocktailIngredientId1" name="cocktailIngredientId">
-                    <input type="text" class="cocktailIngredientContent" id="cocktailIngredientContent1" name="cocktailIngredientContent1" readonly="readonly">
-                    <input type="button" class="cocktailIngredientSearch" data-id="cocktailIngredientId1" data-name="cocktailIngredientContent1" name="cocktailIngredientSearch" value="재료 선택">
-                    <input type="text" class="cocktailIngredientQty" name="cocktailIngredientQty" placeholder="재료 양">
-                    <input type="button" class="cocktailIngredientBtnRemove" name="cocktailIngredientDel" value="삭제"><br>
+                <input type="hidden" th:id="ingredientsCnt" th:name="ingredientsCnt" th:value="${ingredientsCnt}">
+                <div th:each="ingredient : ${form.ingredients}">
+                    <input type="hidden" th:id="|ingredients[${ingredientStat.index}].id|" th:name="|ingredients[${ingredientStat.index}].id|" th:value="${ingredient.id}">
+                    <input type="text"  th:id="|ingredients[${ingredientStat.index}].name|" th:name="|ingredients[${ingredientStat.index}].name|" th:value="${ingredient.name}" readonly="readonly">
+                    <input type="button" class="cocktailIngredientSearch" th:data-id="|ingredients[${ingredientStat.index}].id|" th:data-name="|ingredients[${ingredientStat.index}].name|" value="주류 선택">
+                    <input type="text" th:id="|ingredients[${ingredientStat.index}].quantity|" th:name="|ingredients[${ingredientStat.index}].quantity|" th:value="${ingredient.quantity}" placeholder="재료 양">
+                    <input type="button" class="cocktailIngredientBtnRemove" value="삭제"><br>
                 </div>
             </div>
             <hr class="my-4"/>

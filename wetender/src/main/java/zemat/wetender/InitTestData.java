@@ -151,7 +151,7 @@ public class InitTestData {
                 .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(100)
                 .build();
-        supportersService.cocktailSave(cocktail);
+        supportersService.initSave(cocktail);
 
         ////////////////////////////////////////////////모히또////////////////////////////////////////////////
         cocktailTastes.clear();
@@ -225,7 +225,7 @@ public class InitTestData {
                 .cocktailRecommendation(88)
                 .build();
 
-        supportersService.cocktailSave(cocktail);
+        supportersService.initSave(cocktail);
 
         ////////////////////////////////////////////////마가리타////////////////////////////////////////////////
         cocktailTastes.clear();
@@ -300,7 +300,7 @@ public class InitTestData {
                 .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(110)
                 .build();
-        supportersService.cocktailSave(cocktail);
+        supportersService.initSave(cocktail);
 
         ////////////////////////////////////////////////올드패션드////////////////////////////////////////////////
         cocktailTastes.clear();
@@ -373,7 +373,7 @@ public class InitTestData {
                 .cocktailLiquors(cocktailLiquors)
                 .cocktailRecommendation(157)
                 .build();
-        supportersService.cocktailSave(cocktail);
+        supportersService.initSave(cocktail);
     }
 
 

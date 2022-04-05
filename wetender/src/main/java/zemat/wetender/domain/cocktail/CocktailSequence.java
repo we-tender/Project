@@ -2,6 +2,7 @@ package zemat.wetender.domain.cocktail;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
@@ -28,7 +29,10 @@ public class CocktailSequence extends BaseEntity {
         this.cocktail = cocktail;
     }
 
+    @Builder
     public CocktailSequence(String cocktailSequenceContent) {
         this.cocktailSequenceContent = cocktailSequenceContent;
     }
+
+
 }

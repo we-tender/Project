@@ -82,14 +82,14 @@ $(document).ready(function(){
 
         $(uploadResultArr).each(function(i, obj){
             //image type
-            const fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+            const fileCellPath = obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName;
             str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
             str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
             str += "<span>" + obj.fileName + "</span>";
             str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
             str += " class='btn btn-warning btn-circle'>";
             str += "<i class=fa fa-time'></i></button><br>";
-            str += "<img src='/supporters/display/cocktail?fileName=" + fileCellPath + "'></div></li>";
+            str += "<img src='/supporters/display/cocktail/" + fileCellPath + "'></div></li>";
         });
         uploadUl.append(str);
     }
@@ -120,17 +120,17 @@ $(document).ready(function(){
         }
     });
 
-    let liquorIngredientCnt = 1;
-    let cocktailIngredientCnt = 1;
+    let cocktailLiquorCnt = Number($('input[name="sequencesCnt"]').val());
+    let cocktailIngredientCnt = Number($('input[name="sequencesCnt"]').val());
+    let sequencesCnt = Number($('input[name="sequencesCnt"]').val());
 
     /* 주류 선택 버튼 */
-    $('.liquorIngredientSearch').click(function(e){
+    $('.cocktailLiquorSearch').click(function(e){
 
         e.preventDefault();
 
         let liquorBtnId = $(this).data('id');
-        let liquorBtnName = $(this).data('name');
-        let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
+        let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId;
         let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
 
         window.open(popUrl,"주류 찾기",popOption);
@@ -143,106 +143,117 @@ $(document).ready(function(){
         e.preventDefault();
 
         let ingredientBtnId = $(this).data('id');
-        let ingredientBtnName = $(this).data('name');
-        let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId + "&name=" + ingredientBtnName;
+        let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId;
         let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
 
         window.open(popUrl,"식재료 찾기",popOption);
 
     });
+
+    // HTML 요소 삭제
+    $('.sequenceBtnRemove').click(function(){
+        $(this).parent("div").remove();
+    });
+
+    $('.cocktailLiquorBtnRemove').click(function(){
+        $(this).parent("div").remove();
+    });
+
+    $('.cocktailIngredientBtnRemove').click(function(){
+        $(this).parent("div").remove();
+    });
+
+
     //*****************************************************************************************
 
     // 칵테일 순서 추가
     $('.sequenceBtnAdd').click(function(){
 
-        let sequenceCname = 'sequenceContent';
-        let sequenceCdel = 'sequenceDel';
+        sequencesCnt = sequencesCnt + 1;
 
+        const div = document.createElement("div");
+        const br = document.createElement("br");
 
-        $('#sequence').append(
-            `   <div>
-                    <input type="text" class="sequenceContent" name="sequenceContent" placeholder="순서">
-                    <input type="button" class="sequenceBtnRemove" name="sequenceDel" value="삭제"><br>
-                </div>
-            `
-        );
+        const sequenceContent = document.createElement("input");
+        sequenceContent.type = "text";
+        sequenceContent.name = "sequences[" + sequencesCnt + "].content";
+
+        const sequenceDelete = document.createElement("input");
+        sequenceDelete.type = "button";
+        sequenceDelete.className = "sequenceBtnRemove";
+        sequenceDelete.value = "삭제";
+
+        div.appendChild(sequenceContent);
+        div.appendChild(sequenceDelete);
+        div.appendChild(br);
+
+        $('#sequenceDiv').append(div);
 
         $('.sequenceBtnRemove').click(function(){
             $(this).parent("div").remove();
         });
     });
 
-    // 주류재료 추가
-    $('.liquorIngredientBtnAdd').click(function(){
+    // 주류 추가
+    $('.cocktailLiquorBtnAdd').click(function(){
 
-        liquorIngredientCnt = liquorIngredientCnt +1;
+        cocktailLiquorCnt = cocktailLiquorCnt +1;
 
-        let liquorIngredientCname = 'liquorIngredientContent'+ liquorIngredientCnt;
-        let liquorIngredientCid = 'liquorIngredientId'+ liquorIngredientCnt;
-        let liquorIngredientQty = 'liquorIngredientQty'+ liquorIngredientCnt;
-        let liquorIngredientSearch = 'liquorIngredientSearch' + liquorIngredientCnt;
-        let liquorIngredientCdel = 'liquorIngredientDel'+ liquorIngredientCnt;
+        let cocktailLiquorId = "liquors[" + cocktailLiquorCnt + "].id";
+        let cocktailLiquorName = "liquors[" + cocktailLiquorCnt + "].name";
+        let cocktailLiquorQty = "liquors[" + cocktailLiquorCnt + "].quantity";
         
         const div = document.createElement("div");
         const br = document.createElement("br");
 
         const inputId = document.createElement("input");
-        inputId.id = liquorIngredientCid;
+        inputId.id = cocktailLiquorId;
         inputId.type = "hidden";
-        inputId.name = "liquorIngredientId";
-        inputId.className = "liquorIngredientId";
+        inputId.name = cocktailLiquorId;
 
-        const inputContent = document.createElement("input");
-        inputContent.id = liquorIngredientCname;
-        inputContent.name = liquorIngredientCname;
-        inputContent.className = "liquorIngredientContent";
-        inputContent.type = "text";
-        inputContent.readOnly = true;
+        const inputName = document.createElement("input");
+        inputName.id = cocktailLiquorName;
+        inputName.name = cocktailLiquorName;
+        inputName.type = "text";
+        inputName.readOnly = true;
 
         const inputSearch = document.createElement("input");
-        inputSearch.name = "liquorIngredientSearch";
-        inputSearch.className = "liquorIngredientSearch";
-        inputSearch.dataset.id = liquorIngredientCid;
-        inputSearch.dataset.name = liquorIngredientCname;
+        inputSearch.className = "cocktailLiquorSearch";
+        inputSearch.dataset.id = cocktailLiquorCnt;
         inputSearch.value = "주류 선택";
         inputSearch.type = "button";
 
         const inputQty = document.createElement("input");
         inputQty.type = "text";
-        inputQty.name = "liquorIngredientQty";
-        inputQty.id = liquorIngredientQty;
+        inputQty.name = cocktailLiquorQty;
         inputQty.placeholder = "재료 양";
-        inputQty.className = "liquorIngredientQty";
 
         const inputDelete = document.createElement("input");
         inputDelete.type = "button";
-        inputDelete.className = "liquorIngredientBtnRemove";
-        inputDelete.name = liquorIngredientCdel;
-        inputDelete.id = liquorIngredientCdel;
+        inputDelete.className = "cocktailLiquorBtnRemove";
         inputDelete.value = "삭제";
 
         div.appendChild(inputId);
-        div.appendChild(inputContent);
+        div.appendChild(inputName);
         div.appendChild(inputSearch);
         div.appendChild(inputQty);
         div.appendChild(inputDelete);
         div.appendChild(br);
 
-        $('#liquorIngredient').append(div);
+        $('#cocktailLiquor').append(div);
 
         // HTML 요소 삭제
-        $('.liquorIngredientBtnRemove').click(function(){
+        $('.cocktailLiquorBtnRemove').click(function(){
             $(this).parent("div").remove();
         });
 
         /* 주류 선택 버튼 */
-        $('.liquorIngredientSearch').click(function(e){
+        $('.cocktailLiquorSearch').click(function(e){
 
             e.preventDefault();
 
             let liquorBtnId = $(this).data('id');
-            let liquorBtnName = $(this).data('name');
-            let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
+            let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId;
             let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
 
             window.open(popUrl,"주류 찾기",popOption);
@@ -255,51 +266,42 @@ $(document).ready(function(){
 
         cocktailIngredientCnt = cocktailIngredientCnt + 1;
 
-        let cocktailIngredientCname = 'cocktailIngredientContent'+ cocktailIngredientCnt;
-        let cocktailIngredientCid = 'cocktailIngredientId'+ cocktailIngredientCnt;
-        let cocktailIngredientQty = 'cocktailIngredientQty'+ cocktailIngredientCnt;
-        let cocktailIngredientCdel = 'cocktailIngredientDel'+ cocktailIngredientCnt;
+        let cocktailIngredientId = "ingredients[" + cocktailIngredientCnt + "].id";
+        let cocktailIngredientName = "ingredients[" + cocktailIngredientCnt + "].name";
+        let cocktailIngredientQty = "ingredients[" + cocktailIngredientCnt + "].quantity";
 
         const div = document.createElement("div");
         const br = document.createElement("br");
 
         const inputId = document.createElement("input");
-        inputId.id = cocktailIngredientCid;
+        inputId.id = cocktailIngredientId;
         inputId.type = "hidden";
-        inputId.name = "cocktailIngredientId";
-        inputId.className = "cocktailIngredientId";
+        inputId.name = cocktailIngredientId;
 
-        const inputContent = document.createElement("input");
-        inputContent.id = cocktailIngredientCname;
-        inputContent.name = cocktailIngredientCname;
-        inputContent.className = "cocktailIngredientContent";
-        inputContent.type = "text";
-        inputContent.readOnly = true;
+        const inputName = document.createElement("input");
+        inputName.id = cocktailIngredientName;
+        inputName.name = cocktailIngredientName;
+        inputName.type = "text";
+        inputName.readOnly = true;
 
         const inputSearch = document.createElement("input");
-        inputSearch.name = "cocktailIngredientSearch";
         inputSearch.className = "cocktailIngredientSearch";
-        inputSearch.dataset.id = cocktailIngredientCid;
-        inputSearch.dataset.name = cocktailIngredientCname;
+        inputSearch.dataset.id = cocktailIngredientCnt;
         inputSearch.value = "재료 선택";
         inputSearch.type = "button";
 
         const inputQty = document.createElement("input");
         inputQty.type = "text";
-        inputQty.name = "cocktailIngredientQty";
-        inputQty.id = cocktailIngredientQty;
+        inputQty.name = cocktailIngredientQty;
         inputQty.placeholder = "재료 양";
-        inputQty.className = "cocktailIngredientQty";
 
         const inputDelete = document.createElement("input");
         inputDelete.type = "button";
         inputDelete.className = "cocktailIngredientBtnRemove";
-        inputDelete.name = cocktailIngredientCdel;
-        inputDelete.id = cocktailIngredientCdel;
         inputDelete.value = "삭제";
 
         div.appendChild(inputId);
-        div.appendChild(inputContent);
+        div.appendChild(inputName);
         div.appendChild(inputSearch);
         div.appendChild(inputQty);
         div.appendChild(inputDelete);
@@ -318,8 +320,7 @@ $(document).ready(function(){
             e.preventDefault();
 
             let ingredientBtnId = $(this).data('id');
-            let ingredientBtnName = $(this).data('name');
-            let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId + "&name=" + ingredientBtnName;
+            let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId;
             let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
 
             window.open(popUrl,"식재료 찾기",popOption);
@@ -327,4 +328,3 @@ $(document).ready(function(){
         });
     });
 });
-

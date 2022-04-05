@@ -53,10 +53,18 @@
                                     <input type="hidden" id="uploadNum" value="0">
                                     <input class="upload-state" placeholder="파일을 등록해주세요">
                                 </div>
-
                                 <div class="uploadResult">
                                     <ul class="uploadImg">
-
+                                        <li th:each="obj : *{attachList}" th:data-path="${obj.uploadPath}" th:data-uuid="${obj.uuid}" th:data-filename="${obj.fileName}"
+                                            th:data-type="${obj.fileType}">
+                                            <div>
+                                                <span th:text="${obj.fileName}"></span>
+                                                <button type='button' th:data-file="|${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|" data-type='image' class='btn btn-warning btn-circle'>
+                                                    <i class='fa fa-time'></i>
+                                                </button><br>
+                                                <img th:src="|/supporters/display/liquor/${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|">
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
