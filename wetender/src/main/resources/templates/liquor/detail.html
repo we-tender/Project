@@ -1,186 +1,193 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
-  <head>
-    <meta charset="UTF-8">
-    <title>회원가입</title>
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <title>회원가입</title>
+</head>
 
-  <body>
+<body>
 
     <section>
-      <div>
-        <div th:each="image : ${liquorDto.images}">
-          <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|" width="300" height="300"><br/>
-        </div>
-        <button type="button" th:onclick="|location.href='@{/supporters/liquor/update/{id} (id=${liquorDto.id})}'|">수정하기</button><br/>
-        <button type="button" id="delete" th:onclick="|location.href='@{/supporters/liquor/delete/{id} (id=${liquorDto.id})}'|">삭제하기</button><br/>
-        <span th:text="${liquorDto.name}">이름</span><br/>
-        <span th:text="${liquorDto.eName}">영문이름</span>
-        <span th:text="${liquorDto.oneLine}">한줄평</span>
-        <span th:text="${liquorDto.abv}">도수</span>
-        <span th:text="${liquorDto.content}">소개글</span>
-        <div th:each="cocktail : ${cocktails}">
-          <span th:text="${cocktail.key}">연관칵테일이름</span>
-          <!-- 연관칵테일 이미지 -->
-          <img th:src="|images/cocktail/${cocktail.value}|" width="300" height="300"><br/>
-        </div>
-      </div>
 
-      <!--  js & css    -->
-      <link rel="stylesheet" type="text/css" th:href="@{/css/liquor/detail.css}">
-      <script th:src="@{/js/liquor/detail.js}"></script>
-
-
-      <!-- 좋아요. 수정,삭제 버튼 시작 -->
-      <div class="container" >
-        <div class= "text-end">
-
-          <!-- 좋아요 시작 -->
-          <div id="likes">
-
-            <th:block th:if="${sessionMember}">
-              <input id="memberName" type="hidden" th:value="${sessionMember.getUsername()}"/>
-                <!-- 참인 경우-->
-                <th:blcok th:if="${likesCheck} == true">
-                  <img src="/images/icon/fullHeart.png" height="30" width="30"
-                       style="float:left;"
-                       onclick="liquorLikesInsertOrDelete()">
-                </th:blcok>
-
-                <th:block th:if="${likesCheck} == false">
-                  <img src="/images/icon/emptyHeart.png" height="30" width="30"
-                       style="float:left;"
-                       onclick="liquorLikesInsertOrDelete()">
-                </th:block>
-            </th:block>
-
-            <th:block th:unless="${sessionMember}">
-              <a type="button" class="btm_image"
-                 th:href="@{/loginForm}"
-                 style="float:left;" ><img src="/images/icon/emptyHeart.png" height="30" width="30"></a>
-            </th:block>
-            <p style="float:left;" >&nbsp;&nbsp;</p>
-            <p id="liquorLikes" name="liquorLikes" style="float:left;" th:text="${liquorDto.likes}">좋아요 수</p>
-          </div>
-          <!-- 좋아요 끝 -->
-
-          <th:block th:if="${sessionMember}">
-            <th:block th:if="${sessionMember.getUsername()} == *{createdBy}">
-              <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/update(noticeBoardId = *{id})}"> 수정 </a>
-              <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
-            </th:block>
-          </th:block>
-
-        </div>
-      </div>
-      <!-- 좋아요, 수정,삭제 버튼 끝 -->
-
-
-      <br>
-      <br>
-      <br>
-
-
-      <!-- 댓글 시작 -->
-      <h4> 댓글 </h4>
-        <div id = "reply">
-          <div th:object = "${liquorDto}">
-
-            <input id="liquorId" type="hidden" name="liquorId" th:value="${liquorDto.id}"/>
-
-            <div class="list-group" th:each="liquorReply : *{liquorReplyList}">
-
-              <!-- 댓글 낱개 -->
-              <div th:id="'reply' + ${liquorReply.id}" style="display:block">
-
-                <div class="d-flex w-100 justify-content-between">
-                  <b><h6 class="mb-1" th:text = "${liquorReply.createdBy}"> 글쓴이 </h6></b>
-
-
-
-                  <small> </small>
+        <div class="container-grid">
+            <div class="contents-flex flex-row-center">
+                <div class="detail-img-area">
+                    <ul>
+                        <li th:each="image : ${liquorDto.images}">
+                            <figure>
+                                <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|" width="300" height="300">
+                            </figure>
+                        </li>
+                    </ul>
                 </div>
-
-                <p class="mb-1" th:text = "${liquorReply.liquorReplyContent}" > 댓글 내용 </p>
-                <small th:text = "${liquorReply.createdDate}" > 댓글 작성 날짜 </small>
-
-                <!-- 댓글 수정, 삭제 -->
-                <div class="container">
-                  <div class="text-end">
-                    <th:block th:if="${sessionMember}">
-                      <th:block th:if="${sessionMember.getUsername()} == ${liquorReply.createdBy}">
-
-                        <input th:id="liquorReplyId + ${liquorReply.id}" type="hidden" name="liquorReplyId" th:value="${liquorReply.id}"/>
-
-                        <button type="button" class="btn btn-primary" th:onclick="replyEditFormOpen([[${liquorReply.id}]])"> 수정 </button>
-                        <button type="button" class="btn btn-primary" th:onclick="replyDelete([[${liquorReply.id}]])"> 삭제 </button>
-                      </th:block>
-                    </th:block>
-                  </div>
+                <div class="detail-img-info-area">
+                    <div class="detail-img-info">
+                        <ul>
+                            <li>
+                                <h4>
+                                    <strong><span th:text="|${liquorDto.name} / ${liquorDto.eName}|"></span></strong>
+                                </h4>
+                            </li>
+                            <li>
+                                <p class="detail-img-info-head">도수</p>
+                                <p class="detail-img-info-content"><span th:text="${liquorDto.abv}"></span></p>
+                            </li>
+                            <li>
+                                <p class="detail-img-info-head">한줄평</p>
+                                <p class="detail-img-info-content"><span th:text="${liquorDto.oneLine}">한줄평</span></p>
+                            </li>
+                            <li>
+                                <p class="detail-img-info-head">소개글</p>
+                                <p class="detail-img-info-content"><span th:text="${liquorDto.content}">소개글</span></p>
+                            </li>
+                            <li th:if="${sessionMember} and ${sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_SUPPORTER'
+                             or sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_ADMIN'}">
+                                <button type="button" th:onclick="|location.href='@{/supporters/liquor/update/{id} (id=${liquorDto.id})}'|">수정하기</button>
+                                <button type="button" id="delete" th:onclick="|location.href='@{/supporters/liquor/delete/{id} (id=${liquorDto.id})}'|">삭제하기</button>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
-
-
-              <!-- 댓글 수정 폼 -->
-              <div th:id="'replyEdit' + ${liquorReply.id}" style="display:none">
-
-                <div class="d-flex w-100 justify-content-between">
-                  <b><h6 class="mb-1" th:text = "${liquorReply.createdBy}"> 글쓴이 </h6></b>
-                  <small> </small>
-                </div>
-
-                <textarea class="form-control" th:id="'replyContentEdit' + ${liquorReply.id}" rows="2"></textarea>
-
-                <div class="container">
-                  <div class="text-end">
-                    <input id="liquorIdEdit"  name="liquorIdEdit" type="hidden" th:value="${liquorDto.id}"/>
-                    <input th:id="liquorReplyId + ${liquorReply.id}"  name="liquorReplyId" type="hidden" th:value="${liquorReply.id}"/>
-                    <a type="button" class="btn btn-primary" th:onclick="replyEdit([[${liquorReply.id}]])"> 저장 </a>
-                    <button type="button" class="btn btn-primary" th:onclick="replyEditFormClose([[${liquorReply.id}]])"> 취소 </button>
-                  </div>
-                </div>
-
-
-              </div>
-
-              <hr>
-
             </div>
-          </div>
+
+            <div th:each="cocktail : ${cocktails}">
+                <span th:text="${cocktail.key}">연관칵테일이름</span>
+                <!-- 연관칵테일 이미지 -->
+                <img th:src="|images/cocktail/${cocktail.value}|" width="300" height="300"><br/>
+            </div>
+
+            <!-- 좋아요. 수정,삭제 버튼 시작 -->
+            <div class="container" >
+                <div class= "text-end">
+                    <!-- 좋아요 시작 -->
+                    <div id="likes">
+                        <th:block th:if="${sessionMember}">
+                            <input id="memberName" type="hidden" th:value="${sessionMember.getUsername()}"/>
+                            <!-- 참인 경우-->
+                            <th:blcok th:if="${likesCheck} == true">
+                                <img src="/images/icon/fullHeart.png" height="30" width="30"
+                                     style="float:left;"
+                                     onclick="liquorLikesInsertOrDelete()">
+                            </th:blcok>
+
+                            <th:block th:if="${likesCheck} == false">
+                                <img src="/images/icon/emptyHeart.png" height="30" width="30"
+                                     style="float:left;"
+                                     onclick="liquorLikesInsertOrDelete()">
+                            </th:block>
+                        </th:block>
+
+                        <th:block th:unless="${sessionMember}">
+                            <a type="button" class="btm_image"
+                               th:href="@{/loginForm}"
+                               style="float:left;" ><img src="/images/icon/emptyHeart.png" height="30" width="30"></a>
+                        </th:block>
+                        <p style="float:left;" >&nbsp;&nbsp;</p>
+                        <p id="liquorLikes" name="liquorLikes" style="float:left;" th:text="${liquorDto.likes}">좋아요 수</p>
+                    </div>
+                    <!-- 좋아요 끝 -->
+
+                    <th:block th:if="${sessionMember}">
+                        <th:block th:if="${sessionMember.getUsername()} == *{createdBy}">
+                            <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/update(noticeBoardId = *{id})}"> 수정 </a>
+                            <a type="button" class="btn btn-primary" th:href="@{/noticeBoard/delete(noticeBoardId = *{id})}"> 삭제 </a>
+                        </th:block>
+                    </th:block>
+                </div>
+            </div>
+            <!-- 좋아요, 수정,삭제 버튼 끝 -->
+
+            <br>
+            <br>
+            <br>
+
+            <!-- 댓글 시작 -->
+            <h4> 댓글 </h4>
+            <div id = "reply">
+                <div th:object = "${liquorDto}">
+
+                    <input id="liquorId" type="hidden" name="liquorId" th:value="${liquorDto.id}"/>
+
+                    <div class="list-group" th:each="liquorReply : *{liquorReplyList}">
+
+                        <!-- 댓글 낱개 -->
+                        <div th:id="'reply' + ${liquorReply.id}" style="display:block">
+
+                            <div class="d-flex w-100 justify-content-between">
+                                <b><h6 class="mb-1" th:text = "${liquorReply.createdBy}"> 글쓴이 </h6></b>
+                                <small> </small>
+                            </div>
+
+                            <p class="mb-1" th:text = "${liquorReply.liquorReplyContent}" > 댓글 내용 </p>
+                            <small th:text = "${liquorReply.createdDate}" > 댓글 작성 날짜 </small>
+
+                            <!-- 댓글 수정, 삭제 -->
+                            <div class="container">
+                                <div class="text-end">
+                                    <th:block th:if="${sessionMember}">
+                                        <th:block th:if="${sessionMember.getUsername()} == ${liquorReply.createdBy}">
+                                            <input th:id="liquorReplyId + ${liquorReply.id}" type="hidden" name="liquorReplyId" th:value="${liquorReply.id}"/>
+                                            <button type="button" class="btn btn-primary" th:onclick="replyEditFormOpen([[${liquorReply.id}]])"> 수정 </button>
+                                            <button type="button" class="btn btn-primary" th:onclick="replyDelete([[${liquorReply.id}]])"> 삭제 </button>
+                                        </th:block>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 댓글 수정 폼 -->
+                        <div th:id="'replyEdit' + ${liquorReply.id}" style="display:none">
+                            <div class="d-flex w-100 justify-content-between">
+                                <b><h6 class="mb-1" th:text = "${liquorReply.createdBy}"> 글쓴이 </h6></b>
+                                <small> </small>
+                            </div>
+
+                            <textarea class="form-control" th:id="'replyContentEdit' + ${liquorReply.id}" rows="2"></textarea>
+
+                            <div class="container">
+                                <div class="text-end">
+                                    <input id="liquorIdEdit"  name="liquorIdEdit" type="hidden" th:value="${liquorDto.id}"/>
+                                    <input th:id="liquorReplyId + ${liquorReply.id}"  name="liquorReplyId" type="hidden" th:value="${liquorReply.id}"/>
+                                    <a type="button" class="btn btn-primary" th:onclick="replyEdit([[${liquorReply.id}]])"> 저장 </a>
+                                    <button type="button" class="btn btn-primary" th:onclick="replyEditFormClose([[${liquorReply.id}]])"> 취소 </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="liquorIdData" th:name="liquorId" th:value="${liquorDto.id}">
+            <!-- 댓글 작성 -->
+            <div class="card">
+                <div class="card-body">
+                    <textarea class="form-control" id="liquorReplyContent" rows="2" th:name="liquorReplyContent"></textarea>
+                </div>
+
+                <div class="card-footer">
+                    <div class="text-end">
+                        <th:block th:if="${sessionMember}">
+                            <button type = "button" class="btn btn-primary" onclick="replyInsert()"> 등록 </button>
+                        </th:block>
+                        <th:block th:unless="${sessionMember}">
+                            <a type = "submit" class="btn btn-primary" th:href="@{/loginForm}"> 등록 </a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+            <!-- 댓글 끝 -->
         </div>
 
-      <input type="hidden" id="liquorIdData" th:name="liquorId" th:value="${liquorDto.id}">
-      <!-- 댓글 작성 -->
-      <div class="card">
-        <div class="card-body">
-
-
-          <textarea class="form-control" id="liquorReplyContent" rows="2" th:name="liquorReplyContent"></textarea>
-        </div>
-
-        <div class="card-footer">
-          <div class="text-end">
-
-            <th:block th:if="${sessionMember}">
-              <button type = "button" class="btn btn-primary" onclick="replyInsert()"> 등록 </button>
-            </th:block>
-
-            <th:block th:unless="${sessionMember}">
-              <a type = "submit" class="btn btn-primary" th:href="@{/loginForm}"> 등록 </a>
-            </th:block>
-
-          </div>
-        </div>
-      </div>
-      </form>
-      <!-- 댓글 끝 -->
-
-
-
-
-
+        <!--  js & css    -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/liquor/detail.css}">
+        <script th:src="@{/js/liquor/detail.js}"></script>
 
     </section>
-  </body>
+
+</body>
+
 </html>
