@@ -26,7 +26,12 @@ public class SuggestionDto {
     private String createdBy;
     private String lastModifiedBy;
 
+    private long views;
+    private long likes;
+    private long replies;
 
+    public SuggestionDto() {
+    }
 
     public SuggestionDto(Suggestion suggestion) {
         this.id = suggestion.getId();
@@ -38,6 +43,10 @@ public class SuggestionDto {
         this.lastModifiedDate = suggestion.getLastModifiedDate();
         this.createdBy = suggestion.getCreatedBy();
         this.lastModifiedBy = suggestion.getLastModifiedBy();
+
+        this.views = suggestion.getViews();
+        this.likes = suggestion.getLikes();
+        this.replies = suggestion.getReplies();
     }
 
 }

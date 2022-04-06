@@ -85,26 +85,52 @@
                 <table class="table">
                     <thead>
                     <tr>
+                        <th scope="col">번호</th>
                         <th scope="col">제목</th>
                         <th scope="col">글쓴이</th>
                         <th scope="col">작성일</th>
+                        <th scope="col">댓글수</th>
+                        <th scope="col">조회수</th>
                     </tr>
                     </thead>
 
                     <tbody>
-                    <tr th:each = "suggestion : ${suggestionDtos}">
+                    <tr th:each = "suggestion : ${suggestionDtoList}">
 
+                        <td th:if = "${suggestion.id} == (*{id})" class = "fw-bold" th:text = "${suggestion.id}"></td>
                         <td th:if = "${suggestion.id} == (*{id})" class= "fw-bold"> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
                         <td th:if = "${suggestion.id} == (*{id})" class = "fw-bold" th:text = "${suggestion.createdBy}"></td>
                         <td th:if = "${suggestion.id} == (*{id})" class = "fw-bold" th:text = "${suggestion.createdDate}"></td>
+                        <td th:if = "${suggestion.id} == (*{id})" class = "fw-bold" th:text = "${suggestion.replies}"></td>
+                        <td th:if = "${suggestion.id} == (*{id})" class = "fw-bold" th:text = "${suggestion.views}"></td>
 
 
+                        <td th:if = "${suggestion.id} != (*{id})" th:text = "${suggestion.id}"></td>
                         <td th:if = "${suggestion.id} != (*{id})"> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id})}"> 제목 </a></td>
                         <td th:if = "${suggestion.id} != (*{id})" th:text = "${suggestion.createdBy}"></td>
                         <td th:if = "${suggestion.id} != (*{id})" th:text = "${suggestion.createdDate}"></td>
+                        <td th:if = "${suggestion.id} != (*{id})" th:text = "${suggestion.replies}"></td>
+                        <td th:if = "${suggestion.id} != (*{id})" th:text = "${suggestion.views}"></td>
                     </tr>
                     </tbody>
                 </table>
+
+                <!-- 페이징 오버뷰 -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+
+                        <li class="page-item"  th:classappend="${1 == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' " >
+                            <a class="page-link" href="#" th:href="@{/suggestion/detail(suggestionId=${suggestionDto.id}, page=${suggestionDtoList.pageable.pageNumber - 1}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+
+                        <li class="page-item " th:classappend="${i == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
+                            <a class="page-link" href="#"  th:href="@{/suggestion/detail(suggestionId=${suggestionDto.id}, page=${i-1} )}"  th:text="${i}">1</a></li>
+
+                        <li class="page-item" th:classappend="${suggestionDtoList.totalPages == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' " >
+                            <a class="page-link" href="#" th:href="@{/suggestion/detail(suggestionId=${suggestionDto.id}, page=${suggestionDtoList.pageable.pageNumber + 1} )}">Next</a>
+                        </li>
+                    </ul>
+                </nav>
 
 
                 <div class="text-end">

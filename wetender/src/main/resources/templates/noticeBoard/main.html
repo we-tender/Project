@@ -144,8 +144,7 @@
 
                         <tbody>
                         <tr th:each = "noticeBoard : ${noticeBoardDtos}">
-                            <td
-                                    th:text = "${noticeBoard.id}"></td>
+                            <td th:text = "${noticeBoard.id}"></td>
                             <td> <a th:text = "${noticeBoard.noticeBoardTitle}"
                                     th:href = "@{/noticeBoard/detail( noticeBoardId=${noticeBoard.id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardDtos.pageable.pageSize, 0)} )}"> 제목 </a></td>
                             <td th:text = "${noticeBoard.createdBy}"></td>

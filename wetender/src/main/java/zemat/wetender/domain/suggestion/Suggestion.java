@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.domain.base.BasePostEntity;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter @Setter
-public class Suggestion extends BaseEntity {
+public class Suggestion extends BasePostEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -86,9 +86,6 @@ public class NoticeBoardService {
         Page<NoticeBoard> noticeBoards = noticeBoardRepository.findAll(pageable);
         Page<NoticeBoardDto> noticeBoardDtoPage = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
 
-
-
-
         return noticeBoardDtoPage;
     }
 

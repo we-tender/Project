@@ -77,53 +77,30 @@ public class SuggestionService {
 
 
     // 건의사항 ID를 기준 5개 조회하기
-    public List<Suggestion> detail_list(Long suggestionId)
+    public Page<SuggestionDto> detail_list(Long suggestionId, Pageable pageable)
     {
-        List<Suggestion> suggestions = new ArrayList<>();
-        Long start = 0L;
+        Page<Suggestion> suggestionList = suggestionRepository.findAll(pageable);
+        Page<SuggestionDto> suggestionDtoPage = suggestionList.map(suggestion -> new SuggestionDto(suggestion));
 
-        int size = suggestionRepository.findAll().size();
+        return suggestionDtoPage;
 
-        if(size <= 5)
-            start = 1L;
-        else
-        {
-            if(suggestionId == 1L || suggestionId == 2L)
-                start = 1L;
-            else if(suggestionId == size || suggestionId == size -1L)
-                start = size - 4L;
-            else
-                start = suggestionId - 2L;
-        }
-
-        for(int i = 0; i < 5; i++)
-        {
-            if(start > size)
-                break;
-
-            if(suggestionRepository.existsById(start))
-                suggestions.add(suggestionRepository.findById(start).get());
-
-            start += 1;
-        }
-
-        return suggestions;
     }
-
 
     // 건의사항 댓글 저장하기
     public Long replyInsert(SuggestionReplyInsertDto suggestionReplyInsertDto) {
-
         Long id = suggestionReplyInsertDto.getSuggestionId();
         Suggestion suggestion = suggestionRepository.findById(id).get();
         String suggestionReplyContent = suggestionReplyInsertDto.getSuggestionReplyContent();
-
         SuggestionReply suggestionReply = new SuggestionReply(suggestionReplyContent, suggestion);
-
         suggestionReplyRepository.save(suggestionReply);
-
+        suggestion.repliesAdd();
         return id;
+    }
 
+    // 조회수 올리기
+    public void viewUp(Long suggestionId) {
+        Suggestion suggestion = suggestionRepository.getById(suggestionId);
+        suggestion.viewsAdd();
     }
 
 

@@ -3,6 +3,7 @@ package zemat.wetender.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.query.JpaEntityGraph;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,12 +46,12 @@ public class SuggestionController {
     // 건의사항 메인페이지 시작
     @GetMapping("/main")
     public String main(Model model,
-                       @PageableDefault(size = 10) Pageable pageable,
+                       @PageableDefault(size = 2) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
 
         // 검색 기능
         Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageable);
-        Page<SuggestionDto> suggestionDtos = suggestions.map(suggestion -> new SuggestionDto(suggestion));
+        Page<SuggestionDto> suggestionDtoList = suggestions.map(suggestion -> new SuggestionDto(suggestion));
 
         // 페이지
         int maxpage = 4;
@@ -63,7 +64,7 @@ public class SuggestionController {
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("suggestionDtos", suggestionDtos);
+        model.addAttribute("suggestionDtoList", suggestionDtoList);
         model.addAttribute("sessionMember", memberService.getSessionMember());
         model.addAttribute("sideMenu", "nav-side-menu-suggestion");
         return "suggestion/main";
@@ -139,24 +140,30 @@ public class SuggestionController {
     // 상세 페이지 시작
     @GetMapping("/detail")
     public String detail(Model model,
-                         @RequestParam(required = true) Long suggestionId
+                         @RequestParam(required = true) Long suggestionId,
+                         @PageableDefault(size=2) Pageable pageable
     ) {
         // 게시글 기능
         SuggestionDto suggestionDto = suggestionService.findById(suggestionId);
-
         model.addAttribute("suggestionDto", suggestionDto);
         // 게시글 기능
 
-        // 게시판 기능
-        List<Suggestion> suggestions = suggestionService.detail_list(suggestionId);
-        List<SuggestionDto> suggestionDtos = new ArrayList<>();
-        for (Suggestion suggestion1 : suggestions) {
-            suggestionDtos.add(new SuggestionDto(suggestion1));
+        suggestionService.viewUp(suggestionId);
+
+        Page<SuggestionDto> suggestionDtoList = suggestionService.detail_list(suggestionId, pageable);
+
+        int startPage = Math.max(1, suggestionDtoList.getPageable().getPageNumber() - 3);
+        int endPage = Math.min(suggestionDtoList.getTotalPages(), suggestionDtoList.getPageable().getPageNumber() + 3);
+        if (endPage == 0) {
+            startPage = 0;
         }
-        model.addAttribute("suggestionDtos", suggestionDtos);
-        // 게시판 기능
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("suggestionDtoList", suggestionDtoList);
 
         model.addAttribute("sessionMember", memberService.getSessionMember());
+
         return "suggestion/detail";
     }
 
