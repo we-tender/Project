@@ -16,7 +16,7 @@
                     <ul>
                         <li th:each="image : ${liquorDto.images}">
                             <figure>
-                                <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|" width="300" height="300">
+                                <img th:src="|images/${image.uploadPath}/${image.uuid}_${image.fileName}|">
                             </figure>
                         </li>
                     </ul>
@@ -41,6 +41,19 @@
                                 <p class="detail-img-info-head">소개글</p>
                                 <p class="detail-img-info-content"><span th:text="${liquorDto.content}">소개글</span></p>
                             </li>
+                            <li>
+                                <p class="detail-img-info-head">추천 칵테일</p>
+                                <div class="detail-img-info-content">
+                                    <ul class="contents-flex margin-0 flex-wrap">
+                                        <li th:each="cocktail : ${cocktails}">
+                                            <figure><!--th:onclick="|location.href='@{/cocktail/{id}(id=${cocktail.getId()})}'|"-->
+                                                <img th:src="|images/cocktail/${cocktail.value}|">
+                                                <figcaption><strong><span th:text="${cocktail.key}">연관 칵테일 이름</span></strong></figcaption>
+                                            </figure>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
                             <li th:if="${sessionMember} and ${sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_SUPPORTER'
                              or sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_ADMIN'}">
                                 <button type="button" th:onclick="|location.href='@{/supporters/liquor/update/{id} (id=${liquorDto.id})}'|">수정하기</button>
@@ -49,12 +62,6 @@
                         </ul>
                     </div>
                 </div>
-            </div>
-
-            <div th:each="cocktail : ${cocktails}">
-                <span th:text="${cocktail.key}">연관칵테일이름</span>
-                <!-- 연관칵테일 이미지 -->
-                <img th:src="|images/cocktail/${cocktail.value}|" width="300" height="300"><br/>
             </div>
 
             <!-- 좋아요. 수정,삭제 버튼 시작 -->
