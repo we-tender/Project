@@ -33,4 +33,5 @@ public class CocktailTaste extends BaseEntity {
     public CocktailTaste(String cocktailTasteName) {
         this.cocktailTasteName = cocktailTasteName;
     }
+
 }

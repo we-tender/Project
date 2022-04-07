@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.liquor.Liquor;
+import zemat.wetender.dto.cocktailDto.CocktailLiquorDto;
+import zemat.wetender.dto.cocktailDto.CocktailSequenceDto;
 
 import javax.persistence.*;
 
@@ -39,5 +41,9 @@ public class CocktailLiquor {
             liquor.addCocktailLiquor(this);
             this.liquor = liquor;
         }
+    }
+
+    public CocktailLiquorDto toDto(){
+        return new CocktailLiquorDto(this);
     }
 }

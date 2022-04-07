@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import zemat.wetender.dto.AttachFileDto;
 
 import javax.persistence.*;
 
@@ -40,5 +41,7 @@ public class IngredientFile {
         this.fileType = fileType;
     }
 
-
+    public AttachFileDto toDto(){
+        return new AttachFileDto(this);
+    }
 }

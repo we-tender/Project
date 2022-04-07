@@ -21,26 +21,41 @@
                             <div class="width-15rem padding-05rem input-1">
                                 <label th:for="name">주류이름</label>
                                 <input type="text" th:field="*{name}" class="width-100" placeholder="이름을 입력하세요">
+                                <div class="field-error" th:errors="*{name}">
+                                    상품명 오류
+                                </div>
                             </div>
                             <div class="width-15rem padding-05rem input-1">
                                 <label th:for="eName">주류영문이름</label>
                                 <input type="text" th:field="*{eName}" class="width-100" placeholder="영문명을 입력하세요">
+                                <div class="field-error" th:errors="*{eName}">
+                                    상품명 오류
+                                </div>
                             </div>
                             <div class="width-10rem padding-05rem input-1">
                                 <label th:for="abv">주류 도수</label>
                                 <input type="number" th:field="*{abv}" class="width-100" placeholder="도수를 입력하세요">
+                                <div class="field-error" th:errors="*{abv}">
+                                    상품명 오류
+                                </div>
                             </div>
                         </div>
                         <div class="contents-flex">
                             <div class="width-40rem padding-05rem input-1">
                                 <label th:for="oneLine">주류 한줄설명</label>
                                 <input type="text" th:field="*{oneLine}" class="width-100" placeholder="한줄설명을 입력하세요">
+                                <div class="field-error" th:errors="*{oneLine}">
+                                    상품명 오류
+                                </div>
                             </div>
                         </div>
                         <div class="contents-flex">
                             <div class="width-40rem padding-05rem input-1">
                                 <label th:for="content">주류 설명</label>
                                 <textarea col="50" row="3" th:field="*{content}" class="width-100" placeholder="설명을 입력하세요"></textarea>
+                                <div class="field-error" th:errors="*{content}">
+                                    상품명 오류
+                                </div>
                             </div>
                         </div>
 
@@ -67,6 +82,9 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </div>
+                            <div class="field-error" th:errors="*{attachList}">
+                                상품명 오류
                             </div>
                         </div>
                         <!-- 이미지 끝 -->

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.dto.AttachFileDto;
+import zemat.wetender.dto.cocktailDto.CocktailSequenceDto;
 
 import javax.persistence.*;
 
@@ -40,5 +42,9 @@ public class CocktailFile extends BaseEntity {
 
     public void setCocktail(Cocktail cocktail) {
         this.cocktail = cocktail;
+    }
+
+    public AttachFileDto toDto(){
+        return new AttachFileDto(this);
     }
 }

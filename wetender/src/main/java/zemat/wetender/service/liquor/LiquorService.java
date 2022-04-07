@@ -60,12 +60,6 @@ public class LiquorService {
     }
 
     @Transactional
-    public void update(Long liquorId, Liquor updateLiquor) {
-        Liquor liquor = liquorRepository.findById(liquorId).get();
-        liquor.update(updateLiquor);
-    }
-
-    @Transactional
     public void deleteById(Long liquorId){
         liquorRepository.deleteById(liquorId);
     }

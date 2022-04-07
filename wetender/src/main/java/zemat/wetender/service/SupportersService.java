@@ -13,6 +13,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.liquor.Liquor;
+import zemat.wetender.dto.supportersDto.CocktailUpdateForm;
+import zemat.wetender.dto.supportersDto.IngredientUpdateForm;
+import zemat.wetender.dto.supportersDto.LiquorUpdateForm;
 import zemat.wetender.repository.cocktail.CocktailRepository;
 import zemat.wetender.dto.AttachFileDto;
 import zemat.wetender.dto.supportersDto.CocktailInsertForm;
@@ -113,8 +116,6 @@ public class SupportersService {
         cocktailRepository.save(cocktail);
     }
 
-
-
     @Transactional
     public long liquorSave(Liquor liquor){
         Liquor liquor1 = liquorRepository.save(liquor);
@@ -194,5 +195,93 @@ public class SupportersService {
             e.printStackTrace();
         }
         return false;
+    }
+
+
+    @Transactional
+    public void cocktailUpdate(Long cocktailId, CocktailUpdateForm form) {
+        Cocktail cocktail = cocktailRepository.findById(cocktailId).get();
+
+        // 칵테일 맛
+        List<String> tastes = form.getTastes();
+        List<CocktailTaste> cocktailTastes = new ArrayList<>();
+
+        for (String taste : tastes) {
+            CocktailTaste cocktailTaste = new CocktailTaste(taste);
+            cocktailTastes.add(cocktailTaste);
+        }
+
+        // 칵테일 순서
+        List<CocktailSequence> cocktailSequences = new ArrayList<>();
+        form.getSequences().forEach(cocktailSequenceDto -> {
+            if(cocktailSequenceDto.getContent() != null){
+                cocktailSequences.add(cocktailSequenceDto.toEntity());
+            }
+        });
+
+        // 칵테일 주류
+        List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
+
+        form.getLiquors().forEach(cocktailLiquorDto -> {
+            if(cocktailLiquorDto.getId() != null){
+                Liquor liquor = liquorRepository.findById(cocktailLiquorDto.getId()).get();
+                CocktailLiquor cocktailLiquor = CocktailLiquor.builder()
+                        .liquor(liquor)
+                        .cocktailIngredientQty(cocktailLiquorDto.getQuantity())
+                        .build();
+                cocktailLiquors.add(cocktailLiquor);
+            }
+        });
+
+        // 칵테일 재료
+        List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
+
+        form.getIngredients().forEach(cocktailIngredientDto -> {
+            if(cocktailIngredientDto.getId() != null){
+                Ingredient ingredient = ingredientRepository.findById(cocktailIngredientDto.getId()).get();
+                CocktailIngredient cocktailIngredient = CocktailIngredient.builder()
+                        .ingredient(ingredient)
+                        .cocktailIngredientQty(cocktailIngredientDto.getQuantity())
+                        .build();
+                cocktailIngredients.add(cocktailIngredient);
+            }
+        });
+
+        //칵테일 파일
+        List<CocktailFile> cocktailFiles = new ArrayList<>();
+        form.getAttachList().forEach(cocktailFileDto -> cocktailFiles.add(cocktailFileDto.toCocktailFileEntity()));
+
+        // 칵테일 엔티티 생성
+        Cocktail updateCocktail = Cocktail.builder()
+                .cocktailName(form.getName())
+                .cocktailEName(form.getEName())
+                .cocktailAbv(form.getAbv())
+                .cocktailBase(form.getBase())
+                .cocktailContent(form.getContent())
+                .cocktailOneLine(form.getOneLine())
+                .cocktailTastes(cocktailTastes)
+                .cocktailFiles(cocktailFiles)
+                .cocktailSequences(cocktailSequences)
+                .cocktailLiquors(cocktailLiquors)
+                .cocktailIngredients(cocktailIngredients)
+                .cocktailRecommendation(0)
+                .build();
+
+
+        cocktail.update(updateCocktail);
+    }
+
+    @Transactional
+    public void liquorUpdate(Long liquorId, LiquorUpdateForm form) {
+        Liquor liquor = liquorRepository.findById(liquorId).get();
+        Liquor updateLiquor = form.toEntity();
+        liquor.update(updateLiquor);
+    }
+
+    @Transactional
+    public void ingredientUpdate(Long ingredientId, IngredientUpdateForm form) {
+        Ingredient ingredient = ingredientRepository.findById(ingredientId).get();
+        Ingredient updateIngredient = form.toEntity();
+        ingredient.update(updateIngredient);
     }
 }

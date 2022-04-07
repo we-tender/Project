@@ -18,6 +18,7 @@ public class CocktailSequenceDto {
         this.content = cocktailSequence.getCocktailSequenceContent();
     }
 
+
     public CocktailSequence toEntity(){
 
         CocktailSequence cocktailSequence = CocktailSequence.builder()

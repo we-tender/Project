@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.dto.cocktailDto.CocktailSequenceDto;
 
 import javax.persistence.*;
 
@@ -34,5 +35,7 @@ public class CocktailSequence extends BaseEntity {
         this.cocktailSequenceContent = cocktailSequenceContent;
     }
 
-
+    public CocktailSequenceDto toDto(){
+        return new CocktailSequenceDto(this);
+    }
 }

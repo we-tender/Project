@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.dto.AttachFileDto;
 
 import javax.persistence.*;
 
@@ -40,6 +41,10 @@ public class LiquorFile {
         this.uploadPath = uploadPath;
         this.fileName = fileName;
         this.fileType = fileType;
+    }
+
+    public AttachFileDto toDto(){
+        return new AttachFileDto(this);
     }
 }
 

@@ -6,13 +6,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zemat.wetender.domain.cocktail.Cocktail;
-import zemat.wetender.domain.cocktail.CocktailIngredient;
-import zemat.wetender.domain.cocktail.CocktailLiquor;
-import zemat.wetender.domain.cocktail.CocktailSequence;
+import zemat.wetender.domain.cocktail.*;
+import zemat.wetender.domain.ingredient.Ingredient;
+import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
+import zemat.wetender.dto.supportersDto.CocktailUpdateForm;
 import zemat.wetender.repository.cocktail.CocktailRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,11 +30,6 @@ public class CocktailService {
         return cocktailHomeDtos;
     }
 
-    @Transactional
-    public void update(Long cocktailId, Cocktail updateCocktail, List<CocktailSequence> cocktailSequences, List<CocktailLiquor> cocktailLiquors, List<CocktailIngredient> cocktailIngredients) {
-        Cocktail cocktail = cocktailRepository.findById(cocktailId).get();
-        cocktail.update(updateCocktail, cocktailSequences, cocktailLiquors, cocktailIngredients);
-    }
 
     public Cocktail findById(Long cocktailId){
         return cocktailRepository.findById(cocktailId).get();

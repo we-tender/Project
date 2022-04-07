@@ -21,16 +21,26 @@
                             <div class="width-20rem padding-05rem input-1">
                                 <label th:for="name">식재료 이름</label>
                                 <input type="text" th:field="*{name}" class="width-100" placeholder="이름을 입력하세요">
+                                <div class="field-error" th:errors="*{name}">
+                                    상품명 오류
+                                </div>
                             </div>
+
                             <div class="width-20rem padding-05rem input-1">
                                 <label th:for="eName">식재료 영문이름</label>
                                 <input type="text" th:field="*{eName}" class="width-100" placeholder="영문명을 입력하세요">
+                                <div class="field-error" th:errors="*{eName}">
+                                    상품명 오류
+                                </div>
                             </div>
                         </div>
                         <div class="contents-flex">
                             <div class="width-40rem padding-05rem input-1">
                                 <label th:for="content">식재료 설명</label>
                                 <textarea col="50" row="3" th:field="*{content}" class="width-100" placeholder="설명을 입력하세요"></textarea>
+                                <div class="field-error" th:errors="*{content}">
+                                    상품명 오류
+                                </div>
                             </div>
                         </div>
 
@@ -59,7 +69,11 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="field-error" th:errors="*{attachList}">
+                                상품명 오류
+                            </div>
                         </div>
+
                         <!-- 이미지 끝 -->
 
                         <div class="contents-flex flex-row-center">

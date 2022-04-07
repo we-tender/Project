@@ -5,16 +5,20 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import zemat.wetender.domain.cocktail.*;
 import zemat.wetender.dto.AttachFileDto;
+import zemat.wetender.dto.cocktailDto.CocktailIngredientDto;
+import zemat.wetender.dto.cocktailDto.CocktailLiquorDto;
+import zemat.wetender.dto.cocktailDto.CocktailSequenceDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter @Setter
 public class CocktailUpdateForm {
 
+    @NotNull
     private Long id;
 
     @NotBlank(message = "공백 x")
@@ -29,53 +33,22 @@ public class CocktailUpdateForm {
     @Range(min = 0, max = 100)
     private int abv;
 
-    @NotBlank
     private String oneLine;
 
     @NotBlank
     private String content;
 
-    private List<AttachFileDto> attachList = new ArrayList<>();
+    @NotNull(message = "이미지는 한장 이상 이어야합니다.")
+    private List<AttachFileDto> attachList;
 
-    private List<String> tastes = new ArrayList<>();
+    private List<String> tastes;
 
-    private List<String> sequences = new ArrayList<>();
+    @NotNull(message = "순서는 한개 이상이어야합니다.")
+    private List<CocktailSequenceDto> sequences;
 
-    private List<List<String>> liquors = new ArrayList<>();
+    private List<CocktailLiquorDto> liquors;
 
-    private List<List<String>> ingredients = new ArrayList<>();
-
-    public void addLiquors(List<CocktailLiquor> liquors){
-        for (CocktailLiquor liquor : liquors) {
-            List<String> liquorContent = new ArrayList<>();
-            liquorContent.add(liquor.getLiquor().getId() + "");
-            liquorContent.add(liquor.getLiquor().getLiquorName());
-            liquorContent.add(liquor.getCocktailIngredientQty());
-            this.liquors.add(liquorContent);
-        }
-    }
-
-    public void addIngredients(List<CocktailIngredient> ingredients){
-        for (CocktailIngredient ingredient : ingredients) {
-            List<String> ingredientContent = new ArrayList<>();
-            ingredientContent.add(ingredient.getIngredient().getId() + "");
-            ingredientContent.add(ingredient.getIngredient().getIngredientName());
-            ingredientContent.add(ingredient.getCocktailIngredientQty());
-            this.ingredients.add(ingredientContent);
-        }
-    }
-
-    public void addTastes(List<CocktailTaste> tastes){
-        for (CocktailTaste taste : tastes) {
-            this.tastes.add(taste.getCocktailTasteName());
-        }
-    }
-
-    public void addSequences(List<CocktailSequence> sequences){
-        for (CocktailSequence sequence : sequences) {
-            this.sequences.add(sequence.getCocktailSequenceContent());
-        }
-    }
+    private List<CocktailIngredientDto> ingredients;
 
     public CocktailUpdateForm() {
     }
@@ -88,34 +61,11 @@ public class CocktailUpdateForm {
         this.abv = cocktail.getCocktailAbv();
         this.oneLine = cocktail.getCocktailOneLine();
         this.content = cocktail.getCocktailContent();
-        addTastes(cocktail.getCocktailTastes());
-        addSequences(cocktail.getCocktailSequences());
-        addLiquors(cocktail.getCocktailLiquors());
-        addIngredients(cocktail.getCocktailIngredients());
-    }
 
-
-    public Cocktail toEntity(){
-
-        List<CocktailTaste> cocktailTastes = new ArrayList<>();
-        for (String taste : tastes) {
-            cocktailTastes.add(new CocktailTaste(taste));
-        }
-        List<CocktailFile> cocktailFiles = new ArrayList<>();
-        for (AttachFileDto cocktailFileDto : attachList) {
-            cocktailFiles.add(cocktailFileDto.toCocktailFileEntity());
-        }
-
-        return Cocktail.builder()
-                .cocktailName(name)
-                .cocktailContent(content)
-                .cocktailAbv(abv)
-                .cocktailBase(base)
-                .cocktailEName(eName)
-                .cocktailOneLine(oneLine)
-                .cocktailFiles(cocktailFiles)
-                .cocktailTastes(cocktailTastes)
-                .build();
-
+        this.tastes = cocktail.getCocktailTastes().stream().map(CocktailTaste::getCocktailTasteName).collect(Collectors.toList());
+        this.sequences = cocktail.getCocktailSequences().stream().map( CocktailSequence::toDto ).collect( Collectors.toList() );
+        this.liquors = cocktail.getCocktailLiquors().stream().map( CocktailLiquor::toDto ).collect( Collectors.toList() );
+        this.ingredients = cocktail.getCocktailIngredients().stream().map( CocktailIngredient::toDto ).collect( Collectors.toList());
+        this.attachList = cocktail.getCocktailFiles().stream().map( CocktailFile::toDto ).collect( Collectors.toList());
     }
 }

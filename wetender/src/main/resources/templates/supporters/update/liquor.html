@@ -19,44 +19,70 @@
             <div>
                 <label th:for="name">주류이름</label>
                 <input type="text" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
+                <div class="field-error" th:errors="*{name}">
+                    상품명 오류
+                </div>
             </div>
             <div>
                 <label th:for="eName">주류영문이름</label>
                 <input type="text" th:field="*{eName}" class="form-control" placeholder="영문명을 입력하세요">
+                <div class="field-error" th:errors="*{eName}">
+                    상품명 오류
+                </div>
             </div>
             <div>
                 <label th:for="abv">주류 도수</label>
                 <input type="number" th:field="*{abv}" class="form-control" placeholder="도수를 입력하세요">
+                <div class="field-error" th:errors="*{abv}">
+                    상품명 오류
+                </div>
             </div>
             <div>
                 <label th:for="oneLine">주류 한줄설명</label>
                 <input type="text" th:field="*{oneLine}" class="form-control" placeholder="한줄설명을 입력하세요">
+                <div class="field-error" th:errors="*{oneLine}">
+                    상품명 오류
+                </div>
             </div>
             <div>
                 <label th:for="content">주류 설명</label>
                 <input type="text" th:field="*{content}" class="form-control" placeholder="설명을 입력하세요">
+                <div class="field-error" th:errors="*{content}">
+                    상품명 오류
+                </div>
             </div>
 
-            <label th:for="images">재료 이미지</label>
-            <div class="form-group uploadDiv">
-                <input type="file" name="uploadFile" multiple="multiple">
-            </div>
-            <!--   파일 보여지는 부분     -->
+            <!-- 이미지 -->
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">files</div>
-                        <div class="panel-body">
-                            <div class="uploadResult">
-                                <ul>
+                    <div class="panel-heading">이미지 등록</div>
 
-                                </ul>
-                            </div>
+                    <div class="panel-body">
+                        <div class="form-group uploadDiv">
+                            <input type="file" name="uploadFile" multiple>
+                        </div>
+
+                        <div class="uploadResult">
+                            <ul>
+                                <li th:each="obj : *{attachList}" th:data-path="${obj.uploadPath}" th:data-uuid="${obj.uuid}" th:data-filename="${obj.fileName}"
+                                    th:data-type="${obj.fileType}">
+                                    <div>
+                                        <span th:text="${obj.fileName}"></span>
+                                        <button type='button' th:data-file="|${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|" data-type='image' class='btn btn-warning btn-circle'>
+                                            <i class='fa fa-time'></i>
+                                        </button><br>
+                                        <img th:src="|/supporters/display/liquor/${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|">
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
+                <div class="field-error" th:errors="*{attachList}">
+                    상품명 오류
+                </div>
             </div>
-            <!--    파일 끝    -->
+            <!-- 이미지 끝 -->
 
             <div class="col">
               <button class="w-100 btn btn-primary btn-lg" type="submit">주류 등록</button>

@@ -24,7 +24,7 @@ $(document).ready(function(){
     });
 
     // 파일 검증
-    const regex = new RegExp("(.*?)\.(jpg|png)$");
+    const regex = new RegExp("(.*?)\.(jpg|png|jpeg)$");
     var maxSize = 524880; // 5MB
     function checkExtension(fileName, fileSize){
         if(fileSize >= maxSize){
@@ -33,7 +33,7 @@ $(document).ready(function(){
         }
         // 이미지 파일이 아니면
         if(regex.test(fileName) === false){
-            alert("jpg 와 png 만 올릴 수 있습니다.");
+            alert("jpg, jpeg, png 만 올릴 수 있습니다.");
             return false;
         }
         return true;
@@ -120,8 +120,8 @@ $(document).ready(function(){
         }
     });
 
-    let cocktailLiquorCnt = Number($('input[name="sequencesCnt"]').val());
-    let cocktailIngredientCnt = Number($('input[name="sequencesCnt"]').val());
+    let cocktailLiquorCnt = Number($('input[name="liquorsCnt"]').val());
+    let cocktailIngredientCnt = Number($('input[name="ingredientsCnt"]').val());
     let sequencesCnt = Number($('input[name="sequencesCnt"]').val());
 
     /* 주류 선택 버튼 */

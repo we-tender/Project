@@ -127,7 +127,7 @@ public class Cocktail extends BasePostEntity {
         }
     }
 
-    public void update(Cocktail updateCocktail, List<CocktailSequence> cocktailSequences, List<CocktailLiquor> cocktailLiquors, List<CocktailIngredient> cocktailIngredients) {
+    public void update(Cocktail updateCocktail) {
         this.cocktailName = updateCocktail.getCocktailName();
         this.cocktailEname = updateCocktail.getCocktailEname();
         this.cocktailBase = updateCocktail.getCocktailBase();
@@ -141,12 +141,12 @@ public class Cocktail extends BasePostEntity {
         addCocktailFiles(updateCocktail.getCocktailFiles());
 
         this.cocktailSequences.clear();
-        addCocktailSequences(cocktailSequences);
+        addCocktailSequences(updateCocktail.getCocktailSequences());
 
         this.cocktailLiquors.clear();
-        addCocktailLiquors(cocktailLiquors);
+        addCocktailLiquors(updateCocktail.getCocktailLiquors());
 
         this.cocktailIngredients.clear();
-        addCocktailIngredients(cocktailIngredients);
+        addCocktailIngredients(updateCocktail.getCocktailIngredients());
     }
 }

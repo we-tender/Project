@@ -4,6 +4,8 @@ import lombok.*;
 import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.ingredient.Ingredient;
 import zemat.wetender.domain.liquor.Liquor;
+import zemat.wetender.dto.cocktailDto.CocktailIngredientDto;
+import zemat.wetender.dto.cocktailDto.CocktailSequenceDto;
 
 import javax.persistence.*;
 
@@ -34,10 +36,14 @@ public class CocktailIngredient extends BaseEntity {
     @Builder
     public CocktailIngredient(String cocktailIngredientQty, Ingredient ingredient) {
         this.cocktailIngredientQty = cocktailIngredientQty;
-        this.ingredient = ingredient;
         if(ingredient != null){
             ingredient.addCocktailIngredient(this);
+            this.ingredient = ingredient;
         }
+    }
+
+    public CocktailIngredientDto toDto(){
+        return new CocktailIngredientDto(this);
     }
 
 }

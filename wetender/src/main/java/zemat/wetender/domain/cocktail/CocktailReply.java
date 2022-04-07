@@ -29,9 +29,4 @@ public class CocktailReply extends BasePostEntity {
         this.cocktail = cocktail;
     }
 
-
-
-
-
-
 }

@@ -397,22 +397,24 @@ public class SupportersController {
     }
     //******************************************************************************************************************
 
-    //update 관련 get, post
+    //******************************************************************************************************************
+    //update 관련
     @GetMapping("cocktail/update/{cocktailId}")
     public String cocktailUpdateForm(@PathVariable("cocktailId") Long cocktailId, Model model){
         Cocktail cocktail = cocktailService.findById(cocktailId);
         CocktailUpdateForm cocktailUpdateForm = new CocktailUpdateForm(cocktail);
 
-        int cocktailIngredientCnt = cocktail.getCocktailIngredients().size();
-        int liquorIngredientCnt = cocktail.getCocktailLiquors().size();
+        int sequencesCnt = cocktail.getCocktailSequences().size();
+        int ingredientsCnt = cocktail.getCocktailIngredients().size();
+        int liquorsCnt = cocktail.getCocktailLiquors().size();
 
-        model.addAttribute("cocktailIngredientCnt",cocktailIngredientCnt);
-        model.addAttribute("liquorIngredientCnt",liquorIngredientCnt);
-        model.addAttribute("form",cocktailUpdateForm);
+        model.addAttribute("ingredientsCnt",ingredientsCnt);
+        model.addAttribute("liquorsCnt",liquorsCnt);
+        model.addAttribute("sequencesCnt",sequencesCnt);
+        model.addAttribute( "form",cocktailUpdateForm);
         return "supporters/update/cocktail";
     }
 
-    //update 관련 get, post
     @GetMapping("liquor/update/{liquorId}")
     public String liquorUpdateForm(@PathVariable("liquorId") Long liquorId, Model model){
         Liquor liquor = liquorService.findById(liquorId);
@@ -422,7 +424,6 @@ public class SupportersController {
         return "supporters/update/liquor";
     }
 
-    //update 관련 get, post
     @GetMapping("ingredient/update/{ingredientId}")
     public String ingredientUpdateForm(@PathVariable("ingredientId") Long ingredientId, Model model){
         Ingredient ingredient = ingredientService.findById(ingredientId);
@@ -432,49 +433,57 @@ public class SupportersController {
         return "supporters/update/ingredient";
     }
 
-    @GetMapping(value = "update/cocktailFileList", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<AttachFileDto>> getCocktailAttachList(Long cocktailId){
-        List<CocktailFile> cocktailFiles = cocktailService.findById(cocktailId).getCocktailFiles();
-        List<AttachFileDto> cocktailFileDtos = new ArrayList<>();
-        for (CocktailFile cocktailFile : cocktailFiles) {
-            AttachFileDto cocktailFileDto = new AttachFileDto(cocktailFile);
-            cocktailFileDtos.add(cocktailFileDto);
-        }
-        return new ResponseEntity<>(cocktailFileDtos,HttpStatus.OK);
-    }
-
-    @GetMapping(value = "update/liquorFileList", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<AttachFileDto>> getLiquorAttachList(Long liquorId){
-        List<LiquorFile> liquorFiles = liquorService.findById(liquorId).getLiquorFiles();
-        List<AttachFileDto> liquorFileDtos = new ArrayList<>();
-        for (LiquorFile liquorFile : liquorFiles) {
-            AttachFileDto liquorFileDto = new AttachFileDto(liquorFile);
-            liquorFileDtos.add(liquorFileDto);
-        }
-        return new ResponseEntity<>(liquorFileDtos,HttpStatus.OK);
-    }
-
-    @GetMapping(value = "update/ingredientFileList", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public ResponseEntity<List<AttachFileDto>> getIngredientAttachList(Long ingredientId){
-        List<IngredientFile> ingredientFiles = ingredientService.findById(ingredientId).getIngredientFiles();
-        List<AttachFileDto> ingredientFileDtos = new ArrayList<>();
-        for (IngredientFile ingredientFile : ingredientFiles) {
-            AttachFileDto ingredientFileDto = new AttachFileDto(ingredientFile);
-            ingredientFileDtos.add(ingredientFileDto);
-        }
-        return new ResponseEntity<>(ingredientFileDtos,HttpStatus.OK);
-    }
-
     @PostMapping("cocktail/update/{cocktailId}")
     public String cocktailUpdate(@PathVariable("cocktailId") Long cocktailId,
                                  @Validated @ModelAttribute("form") CocktailUpdateForm form,
                                  BindingResult bindingResult,
-                                 HttpServletRequest request) throws IOException {
+                                 Model model){
 
         log.info("update하러 들어옴");
+
+        int ingredientsCnt = -1;
+        int liquorsCnt = -1;
+        int sequencesCnt = -1;
+
+        List<CocktailSequenceDto> cocktailSequenceDtos = new ArrayList<>();
+
+        if(form.getSequences() != null){
+            for (CocktailSequenceDto sequence : form.getSequences()) {
+                if(sequence.getContent() != null && !sequence.getContent().equals("")){
+                    cocktailSequenceDtos.add(sequence);
+                    sequencesCnt++;
+                }
+            }
+        }
+
+        List<CocktailLiquorDto> cocktailLiquorDtos = new ArrayList<>();
+
+        if(form.getLiquors() != null){
+            for (CocktailLiquorDto liquor : form.getLiquors()) {
+                if(liquor.getId() != null && !liquor.getId().equals("")){
+                    cocktailLiquorDtos.add(liquor);
+                    liquorsCnt++;
+                }
+            }
+        }
+
+        List<CocktailIngredientDto> cocktailIngredientDtos = new ArrayList<>();
+
+        if(form.getIngredients() != null){
+            for (CocktailIngredientDto ingredient : form.getIngredients()) {
+                if(ingredient.getId() != null && !ingredient.getId().equals("")){
+                    cocktailIngredientDtos.add(ingredient);
+                    ingredientsCnt++;
+                }
+            }
+        }
+
+        form.setSequences(cocktailSequenceDtos);
+        form.setLiquors(cocktailLiquorDtos);
+        form.setIngredients(cocktailIngredientDtos);
+        model.addAttribute("ingredientsCnt",ingredientsCnt);
+        model.addAttribute("liquorsCnt",liquorsCnt);
+        model.addAttribute("sequencesCnt",sequencesCnt);
 
         // 검증 실패 로직
         if(bindingResult.hasErrors()){
@@ -482,64 +491,7 @@ public class SupportersController {
             return "/supporters/update/cocktail";
         }
 
-        // 칵테일 순서
-        List<CocktailSequence> cocktailSequences = new ArrayList<>();
-
-        String[] sequenceContents = request.getParameterValues("sequenceContent");
-        for (String sequence : sequenceContents) {
-            CocktailSequence cocktailSequence = new CocktailSequence(sequence);
-            cocktailSequences.add(cocktailSequence);
-        }
-
-        // 칵테일 주류 재료
-        List<CocktailLiquor> cocktailLiquors = new ArrayList<>();
-
-
-        String[] liquorIngredientIds = request.getParameterValues("liquorIngredientId");
-        String[] liquorIngredientQties = request.getParameterValues("liquorIngredientQty");
-
-        if(liquorIngredientIds != null) {
-            for (int i = 0; i < liquorIngredientIds.length; i++) {
-                if (liquorIngredientIds[0].equals("")) continue;
-                long liquorId = Long.parseLong(liquorIngredientIds[i]);
-                String qty = liquorIngredientQties[i];
-                Liquor liquor = liquorService.findById(liquorId);
-
-                CocktailLiquor cocktailLiquor = CocktailLiquor.builder()
-                        .cocktailIngredientQty(qty)
-                        .liquor(liquor)
-                        .build();
-
-                cocktailLiquors.add(cocktailLiquor);
-            }
-        }
-
-        // 칵테일 재료
-        List<CocktailIngredient> cocktailIngredients = new ArrayList<>();
-
-        String[] cocktailIngredientIds = request.getParameterValues("cocktailIngredientId");
-        String[] cocktailIngredientQties = request.getParameterValues("cocktailIngredientQty");
-
-        if(cocktailIngredientIds != null){
-            for(int i = 0; i < cocktailIngredientIds.length; i++){
-                if(cocktailIngredientIds[0].equals("")) continue;
-                long ingredientId = Long.parseLong(cocktailIngredientIds[i]);
-                String qty = cocktailIngredientQties[i];
-                System.out.println("id값: " + ingredientId);
-                Ingredient ingredient = ingredientService.findById(ingredientId);
-
-                CocktailIngredient cocktailIngredient = CocktailIngredient.builder()
-                        .ingredient(ingredient)
-                        .cocktailIngredientQty(qty)
-                        .build();
-
-                cocktailIngredients.add(cocktailIngredient);
-            }
-        }
-
-        Cocktail cocktail = form.toEntity();
-
-        cocktailService.update(cocktailId, cocktail, cocktailSequences, cocktailLiquors, cocktailIngredients);
+        supportersService.cocktailUpdate(cocktailId,form);
 
         return "redirect:/cocktail/{cocktailId}";
     }
@@ -555,9 +507,7 @@ public class SupportersController {
             return "/supporters/update/liquor";
         }
 
-        Liquor liquor = form.toEntity();
-
-        liquorService.update(liquorId, liquor);
+        supportersService.liquorUpdate(liquorId, form);
 
         return "redirect:/liquor/{liquorId}";
     }
@@ -573,14 +523,15 @@ public class SupportersController {
             return "/supporters/update/ingredient";
         }
 
-        Ingredient ingredient = form.toEntity();
-
-        ingredientService.update(ingredientId, ingredient);
+        supportersService.ingredientUpdate(ingredientId, form);
 
         return "redirect:/ingredient/{ingredientId}";
     }
 
-    //delete 관련 get, post
+    //******************************************************************************************************************
+
+    //******************************************************************************************************************
+    //delete 관련
     @GetMapping("cocktail/delete/{cocktailId}")
     public String cocktailDelete(@PathVariable("cocktailId") Long cocktailId){
         Cocktail cocktail = cocktailService.findById(cocktailId);
@@ -661,4 +612,6 @@ public class SupportersController {
             }
         });
     }
+
+    //******************************************************************************************************************
 }

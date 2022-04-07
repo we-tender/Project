@@ -22,7 +22,7 @@ $(document).ready(function(){
     });
 
     // 파일 검증
-    const regex = new RegExp("(.*?)\.(jpg|png)$");
+    const regex = new RegExp("(.*?)\.(jpg|png|jpeg)$");
     var maxSize = 524880; // 5MB
     function checkExtension(fileName, fileSize){
         if(fileSize >= maxSize){
@@ -31,32 +31,11 @@ $(document).ready(function(){
         }
         // 이미지 파일이 아니면
         if(regex.test(fileName) === false){
-            alert("jpg 와 png 만 올릴 수 있습니다.");
+            alert("jpg, jpeg, png 만 올릴 수 있습니다.");
             return false;
         }
         return true;
     }
-
-    const cocktailId = $("#id").val();
-    console.log(cocktailId);
-    
-    $.getJSON("/supporters/update/cocktailFileList", {cocktailId : cocktailId}, function(arr){
-        console.log(arr);
-        let str = "";
-
-        $(arr).each(function(i, obj){
-            //image type
-            const fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
-            str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
-            str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
-            str += "<span>" + obj.fileName + "</span>";
-            str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
-            str += " class='btn btn-warning btn-circle'>";
-            str += "<i class=fa fa-time'></i></button><br>";
-            str += "<img src='/supporters/display/cocktail?fileName=" + fileCellPath + "'></div></li>";
-        });
-        $(".uploadResult ul").html(str);
-    });
 
     // 이미지 삭제
     $(".uploadResult").on("click","button", function(e){
@@ -110,20 +89,21 @@ $(document).ready(function(){
 
         $(uploadResultArr).each(function(i, obj){
             //image type
-            const fileCellPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+            const fileCellPath = obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName;
             str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
             str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
             str += "<span>" + obj.fileName + "</span>";
             str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
             str += " class='btn btn-warning btn-circle'>";
             str += "<i class=fa fa-time'></i></button><br>";
-            str += "<img src='/supporters/display/cocktail?fileName=" + fileCellPath + "'></div></li>";
+            str += "<img src='/supporters/display/cocktail/" + fileCellPath + "'></div></li>";
         });
         uploadUl.append(str);
     }
 
-    let liquorIngredientCnt = Number($('input[name="liquorIngredientCnt"]').val());
-    let cocktailIngredientCnt = Number($('input[name="cocktailIngredientCnt"]').val());
+    let cocktailLiquorCnt = Number($('input[name="liquorsCnt"]').val());
+    let cocktailIngredientCnt = Number($('input[name="ingredientsCnt"]').val());
+    let sequencesCnt = Number($('input[name="sequencesCnt"]').val());
 
 
     //초기 데이터 함수 걸기*****************************************************************************************
@@ -168,179 +148,166 @@ $(document).ready(function(){
     });
     //*****************************************************************************************
 
-    // 칵테일 순서 추가
-    $('.sequenceBtnAdd').click(function(){
+   // 칵테일 순서 추가
+       $('.sequenceBtnAdd').click(function(){
 
-        let sequenceCname = 'sequenceContent';
-        let sequenceCdel = 'sequenceDel';
+           sequencesCnt = sequencesCnt + 1;
 
+           const div = document.createElement("div");
+           const br = document.createElement("br");
 
-        $('#sequence').append(
-            `   <div>
-                    <input type="text" class="sequenceContent" name="sequenceContent" placeholder="순서">
-                    <input type="button" class="sequenceBtnRemove" name="sequenceDel" value="삭제"><br>
-                </div>
-            `
-        );
+           const sequenceContent = document.createElement("input");
+           sequenceContent.type = "text";
+           sequenceContent.name = "sequences[" + sequencesCnt + "].content";
 
-        $('.sequenceBtnRemove').click(function(){
-            $(this).parent("div").remove();
-        });
-    });
+           const sequenceDelete = document.createElement("input");
+           sequenceDelete.type = "button";
+           sequenceDelete.className = "sequenceBtnRemove";
+           sequenceDelete.value = "삭제";
 
-    // 주류재료 추가
-    $('.liquorIngredientBtnAdd').click(function(){
+           div.appendChild(sequenceContent);
+           div.appendChild(sequenceDelete);
+           div.appendChild(br);
 
-        liquorIngredientCnt = liquorIngredientCnt +1;
+           $('#sequenceDiv').append(div);
 
-        let liquorIngredientCname = 'liquorIngredientContent'+ liquorIngredientCnt;
-        let liquorIngredientCid = 'liquorIngredientId'+ liquorIngredientCnt;
-        let liquorIngredientQty = 'liquorIngredientQty'+ liquorIngredientCnt;
-        let liquorIngredientCdel = 'liquorIngredientDel'+ liquorIngredientCnt;
+           $('.sequenceBtnRemove').click(function(){
+               $(this).parent("div").remove();
+           });
+       });
 
-        const div = document.createElement("div");
-        const br = document.createElement("br");
+       // 주류 추가
+       $('.cocktailLiquorBtnAdd').click(function(){
 
-        const inputId = document.createElement("input");
-        inputId.id = liquorIngredientCid;
-        inputId.type = "hidden";
-        inputId.name = "liquorIngredientId";
-        inputId.className = "liquorIngredientId";
+           cocktailLiquorCnt = cocktailLiquorCnt +1;
 
-        const inputContent = document.createElement("input");
-        inputContent.id = liquorIngredientCname;
-        inputContent.name = liquorIngredientCname;
-        inputContent.className = "liquorIngredientContent";
-        inputContent.type = "text";
-        inputContent.readOnly = true;
+           let cocktailLiquorId = "liquors[" + cocktailLiquorCnt + "].id";
+           let cocktailLiquorName = "liquors[" + cocktailLiquorCnt + "].name";
+           let cocktailLiquorQty = "liquors[" + cocktailLiquorCnt + "].quantity";
 
-        const inputSearch = document.createElement("input");
-        inputSearch.name = "liquorIngredientSearch";
-        inputSearch.className = "liquorIngredientSearch";
-        inputSearch.dataset.id = liquorIngredientCid;
-        inputSearch.dataset.name = liquorIngredientCname;
-        inputSearch.value = "주류 선택";
-        inputSearch.type = "button";
+           const div = document.createElement("div");
+           const br = document.createElement("br");
 
-        const inputQty = document.createElement("input");
-        inputQty.type = "text";
-        inputQty.name = "liquorIngredientQty";
-        inputQty.id = liquorIngredientQty;
-        inputQty.placeholder = "재료 양";
-        inputQty.className = "liquorIngredientQty";
+           const inputId = document.createElement("input");
+           inputId.id = cocktailLiquorId;
+           inputId.type = "hidden";
+           inputId.name = cocktailLiquorId;
 
-        const inputDelete = document.createElement("input");
-        inputDelete.type = "button";
-        inputDelete.className = "liquorIngredientBtnRemove";
-        inputDelete.name = liquorIngredientCdel;
-        inputDelete.id = liquorIngredientCdel;
-        inputDelete.value = "삭제";
+           const inputName = document.createElement("input");
+           inputName.id = cocktailLiquorName;
+           inputName.name = cocktailLiquorName;
+           inputName.type = "text";
+           inputName.readOnly = true;
 
-        div.appendChild(inputId);
-        div.appendChild(inputContent);
-        div.appendChild(inputSearch);
-        div.appendChild(inputQty);
-        div.appendChild(inputDelete);
-        div.appendChild(br);
+           const inputSearch = document.createElement("input");
+           inputSearch.className = "cocktailLiquorSearch";
+           inputSearch.dataset.id = cocktailLiquorCnt;
+           inputSearch.value = "주류 선택";
+           inputSearch.type = "button";
 
-        $('#liquorIngredient').append(div);
+           const inputQty = document.createElement("input");
+           inputQty.type = "text";
+           inputQty.name = cocktailLiquorQty;
+           inputQty.placeholder = "재료 양";
 
-        // HTML 요소 삭제
-        $('.liquorIngredientBtnRemove').click(function(){
-            $(this).parent("div").remove();
-        });
+           const inputDelete = document.createElement("input");
+           inputDelete.type = "button";
+           inputDelete.className = "cocktailLiquorBtnRemove";
+           inputDelete.value = "삭제";
 
-        /* 주류 선택 버튼 */
-        $('.liquorIngredientSearch').click(function(e){
+           div.appendChild(inputId);
+           div.appendChild(inputName);
+           div.appendChild(inputSearch);
+           div.appendChild(inputQty);
+           div.appendChild(inputDelete);
+           div.appendChild(br);
 
-            e.preventDefault();
+           $('#cocktailLiquor').append(div);
 
-            let liquorBtnId = $(this).data('id');
-            let liquorBtnName = $(this).data('name');
-            let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
-            let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+           // HTML 요소 삭제
+           $('.cocktailLiquorBtnRemove').click(function(){
+               $(this).parent("div").remove();
+           });
 
-            window.open(popUrl,"주류 찾기",popOption);
+           /* 주류 선택 버튼 */
+           $('.cocktailLiquorSearch').click(function(e){
 
-        });
-    });
+               e.preventDefault();
 
-    // 재료 추가
-    $('.cocktailIngredientBtnAdd').click(function(){
+               let liquorBtnId = $(this).data('id');
+               let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId;
+               let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
 
-        cocktailIngredientCnt = cocktailIngredientCnt + 1;
+               window.open(popUrl,"주류 찾기",popOption);
 
-        let cocktailIngredientCname = 'cocktailIngredientContent'+ cocktailIngredientCnt;
-        let cocktailIngredientCid = 'cocktailIngredientId'+ cocktailIngredientCnt;
-        let cocktailIngredientQty = 'cocktailIngredientQty'+ cocktailIngredientCnt;
-        let cocktailIngredientCdel = 'cocktailIngredientDel'+ cocktailIngredientCnt;
+           });
+       });
 
-        const div = document.createElement("div");
-        const br = document.createElement("br");
+       // 재료 추가
+       $('.cocktailIngredientBtnAdd').click(function(){
 
-        const inputId = document.createElement("input");
-        inputId.id = cocktailIngredientCid;
-        inputId.type = "hidden";
-        inputId.name = "cocktailIngredientId";
-        inputId.className = "cocktailIngredientId";
+           cocktailIngredientCnt = cocktailIngredientCnt + 1;
 
-        const inputContent = document.createElement("input");
-        inputContent.id = cocktailIngredientCname;
-        inputContent.name = cocktailIngredientCname;
-        inputContent.className = "cocktailIngredientContent";
-        inputContent.type = "text";
-        inputContent.readOnly = true;
+           let cocktailIngredientId = "ingredients[" + cocktailIngredientCnt + "].id";
+           let cocktailIngredientName = "ingredients[" + cocktailIngredientCnt + "].name";
+           let cocktailIngredientQty = "ingredients[" + cocktailIngredientCnt + "].quantity";
 
-        const inputSearch = document.createElement("input");
-        inputSearch.name = "cocktailIngredientSearch";
-        inputSearch.className = "cocktailIngredientSearch";
-        inputSearch.dataset.id = cocktailIngredientCid;
-        inputSearch.dataset.name = cocktailIngredientCname;
-        inputSearch.value = "재료 선택";
-        inputSearch.type = "button";
+           const div = document.createElement("div");
+           const br = document.createElement("br");
 
-        const inputQty = document.createElement("input");
-        inputQty.type = "text";
-        inputQty.name = "cocktailIngredientQty";
-        inputQty.id = cocktailIngredientQty;
-        inputQty.placeholder = "재료 양";
-        inputQty.className = "cocktailIngredientQty";
+           const inputId = document.createElement("input");
+           inputId.id = cocktailIngredientId;
+           inputId.type = "hidden";
+           inputId.name = cocktailIngredientId;
 
-        const inputDelete = document.createElement("input");
-        inputDelete.type = "button";
-        inputDelete.className = "cocktailIngredientBtnRemove";
-        inputDelete.name = cocktailIngredientCdel;
-        inputDelete.id = cocktailIngredientCdel;
-        inputDelete.value = "삭제";
+           const inputName = document.createElement("input");
+           inputName.id = cocktailIngredientName;
+           inputName.name = cocktailIngredientName;
+           inputName.type = "text";
+           inputName.readOnly = true;
 
-        div.appendChild(inputId);
-        div.appendChild(inputContent);
-        div.appendChild(inputSearch);
-        div.appendChild(inputQty);
-        div.appendChild(inputDelete);
-        div.appendChild(br);
+           const inputSearch = document.createElement("input");
+           inputSearch.className = "cocktailIngredientSearch";
+           inputSearch.dataset.id = cocktailIngredientCnt;
+           inputSearch.value = "재료 선택";
+           inputSearch.type = "button";
 
-        $('#cocktailIngredient').append(div);
+           const inputQty = document.createElement("input");
+           inputQty.type = "text";
+           inputQty.name = cocktailIngredientQty;
+           inputQty.placeholder = "재료 양";
 
-        // HTML 요소 삭제
-        $('.cocktailIngredientBtnRemove').click(function(){
-            $(this).parent("div").remove();
-        });
+           const inputDelete = document.createElement("input");
+           inputDelete.type = "button";
+           inputDelete.className = "cocktailIngredientBtnRemove";
+           inputDelete.value = "삭제";
 
-        /* 재료 선택 버튼 */
-        $('.cocktailIngredientSearch').click(function(e){
+           div.appendChild(inputId);
+           div.appendChild(inputName);
+           div.appendChild(inputSearch);
+           div.appendChild(inputQty);
+           div.appendChild(inputDelete);
+           div.appendChild(br);
 
-            e.preventDefault();
+           $('#cocktailIngredient').append(div);
 
-            let ingredientBtnId = $(this).data('id');
-            let ingredientBtnName = $(this).data('name');
-            let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId + "&name=" + ingredientBtnName;
-            let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+           // HTML 요소 삭제
+           $('.cocktailIngredientBtnRemove').click(function(){
+               $(this).parent("div").remove();
+           });
 
-            window.open(popUrl,"식재료 찾기",popOption);
+           /* 재료 선택 버튼 */
+           $('.cocktailIngredientSearch').click(function(e){
 
-        });
-    });
+               e.preventDefault();
 
+               let ingredientBtnId = $(this).data('id');
+               let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId;
+               let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+
+               window.open(popUrl,"식재료 찾기",popOption);
+
+           });
+       });
 });
 
