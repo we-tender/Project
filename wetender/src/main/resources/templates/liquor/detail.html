@@ -46,9 +46,9 @@
                                 <div class="detail-img-info-content">
                                     <ul class="cocktail-recommended-list">
                                         <li th:each="cocktail : ${cocktails}">
-                                            <figure><!--th:onclick="|location.href='@{/cocktail/{id}(id=${cocktail.getId()})}'|"-->
-                                                <img th:src="|images/cocktail/${cocktail.value}|">
-                                                <figcaption><strong><span th:text="${cocktail.key}">연관 칵테일 이름</span></strong></figcaption>
+                                            <figure th:onclick="|location.href='@{/cocktail/{id}(id=${cocktail.key})}'|">
+                                                <img th:src="|images/cocktail/${cocktail.value['storedCocktailFileName']}|" alt="연관 칵테일 이미지">
+                                                <figcaption><strong><span th:text="${cocktail.value['cocktailName']}">연관 칵테일 이름</span></strong></figcaption>
                                             </figure>
                                         </li>
                                     </ul>

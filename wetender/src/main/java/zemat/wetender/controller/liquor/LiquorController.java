@@ -98,12 +98,17 @@ public class LiquorController {
         Liquor liquor = liquorService.findById(liquorId);
         LiquorDto liquorDto = new LiquorDto(liquor);
 
-        Map<String,String> cocktails = new ConcurrentHashMap<>();
+        Map<Long, Map<String,String>> cocktails = new ConcurrentHashMap<>();
         for (CocktailLiquor cocktail : liquorDto.getCocktails()) {
+            Long cocktailId = cocktail.getCocktail().getId();
+            cocktails.put(cocktailId, new ConcurrentHashMap<>());
+
             String cocktailName = cocktail.getCocktail().getCocktailName();
             CocktailFile cocktailFile = cocktail.getCocktail().getCocktailFiles().get(0);
-            String storeCocktailFileName = cocktailFile.getUploadPath() +"/" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName();
-            cocktails.put(cocktailName,storeCocktailFileName);
+            String storedCocktailFileName = cocktailFile.getUploadPath() +"/" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName();
+
+            cocktails.get(cocktailId).put("cocktailName", cocktailName);
+            cocktails.get(cocktailId).put("storedCocktailFileName", storedCocktailFileName);
         }
 
         UserDetails sessionMember = memberService.getSessionMember();
