@@ -252,6 +252,7 @@
 .detail-img-area, .detail-img-info-area {
     width : 40rem;
     padding : 0.5rem;
+    margin : 1rem;
 }
 .detail-img-area ul {
     display : flex;
@@ -297,10 +298,11 @@
 .detail-img-info > ul > li .detail-img-info-content {
     display : inline-block;
     width : 75%;
+    vertical-align : middle;
 }
 .cocktail-taste-list li {
     display : inline-block;
-    border-right : 1px solid #dfdfdf;
+    border-right : 1px dashed rgba(0, 185, 142, .3);
     padding-right : .5rem;
 }
 .cocktail-taste-list li:last-child {
@@ -309,8 +311,11 @@
 }
 .cocktail-sequence-list li, .cocktail-ingredient-list li {
     margin-bottom : .5rem;
-    border : 0;
+    border-bottom : 1px dashed rgba(0, 185, 142, .3);
     padding : 0;
+}
+.cocktail-sequence-list li:last-child, .cocktail-ingredient-list li:last-child {
+    border-bottom : 0;
 }
 .cocktail-recommended-list {
     display : flex;
@@ -641,6 +646,9 @@
 .width-40rem {
     width : 40rem;
 }
+.width-100p-11rem {
+    width : calc(100% - 11rem);
+}
 .width-100 {
     width : 100%;
 }
@@ -654,7 +662,7 @@
     padding : 30%;
 }
 .padding-top-05rem {
-    padding-top : 0.5rem;
+    padding-top : .5rem;
 }
 .border-pink {
     border : 1px solid #fb8bb5;

@@ -30,19 +30,19 @@
                                 </h4>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">도수</p>
-                                <p class="detail-img-info-content"><span th:text="${liquorDto.abv}"></span></p>
+                                <div class="detail-img-info-head">도수</div>
+                                <div class="detail-img-info-content"><span th:text="${liquorDto.abv}"></span></div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">한줄평</p>
-                                <p class="detail-img-info-content"><span th:text="${liquorDto.oneLine}">한줄평</span></p>
+                                <div class="detail-img-info-head">한줄평</div>
+                                <div class="detail-img-info-content"><p class="margin-0" th:text="${liquorDto.oneLine}">한줄평</p></div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">소개글</p>
-                                <p class="detail-img-info-content"><span th:text="${liquorDto.content}">소개글</span></p>
+                                <div class="detail-img-info-head">소개글</div>
+                                <div class="detail-img-info-content"><p class="margin-0"  th:text="${liquorDto.content}">소개글</p></div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">추천 칵테일</p>
+                                <div class="detail-img-info-head">추천 칵테일</div>
                                 <div class="detail-img-info-content">
                                     <ul class="cocktail-recommended-list">
                                         <li th:each="cocktail : ${cocktails}">

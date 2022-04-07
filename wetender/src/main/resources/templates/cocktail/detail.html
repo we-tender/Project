@@ -30,11 +30,11 @@
                                 </h4>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">도수</p>
-                                <p class="detail-img-info-content"><span th:text="${cocktailDto.abv}"></span></p>
+                                <div class="detail-img-info-head">도수</div>
+                                <div class="detail-img-info-content"><span th:text="${cocktailDto.abv}"></span></div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">맛</p>
+                                <div class="detail-img-info-head">맛</div>
                                 <div class="detail-img-info-content">
                                     <ul class="cocktail-taste-list">
                                         <li th:each="taste : ${cocktailDto.tastes}">
@@ -44,15 +44,15 @@
                                 </div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">한줄평</p>
-                                <p class="detail-img-info-content"><span th:text="${cocktailDto.oneLine}">한줄평</span></p>
+                                <div class="detail-img-info-head">한줄평</div>
+                                <div class="detail-img-info-content"><p class="margin-0" th:text="${cocktailDto.oneLine}">한줄평</p></div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">소개글</p>
-                                <p class="detail-img-info-content"><span th:text="${cocktailDto.content}">소개글</span></p>
+                                <div class="detail-img-info-head">소개글</div>
+                                <div class="detail-img-info-content"><p class="margin-0" th:text="${cocktailDto.content}">소개글</p></div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">주조 순서</p>
+                                <div class="detail-img-info-head">주조 순서</div>
                                 <div class="detail-img-info-content">
                                     <ul class="cocktail-sequence-list">
                                         <li th:each="sequence : ${cocktailDto.sequences}">
@@ -62,18 +62,20 @@
                                 </div>
                             </li>
                             <li>
-                                <p class="detail-img-info-head">재료</p>
+                                <div class="detail-img-info-head">재료</div>
                                 <div class="detail-img-info-content">
                                     <ul class="cocktail-ingredient-list">
                                         <li th:each="liquor : ${cocktailDto.cocktailLiquors}">
-                                            <span th:text="|${liquor.cocktailIngredientQty} ${liquor.liquor.liquorName} (${liquor.liquor.liquorEname})|">
-                                                재료-양 재료-이름 (재료-영문이름)
+                                            <span class="inline-block width-100p-11rem vertical-align-middle" th:text="|${liquor.liquor.liquorName} (${liquor.liquor.liquorEname})|">
+                                                주류-이름 (주류-영문이름)
                                             </span>
+                                            <span class="inline-block width-10rem" th:text="${liquor.cocktailIngredientQty}">재료-양 </span>
                                         </li>
                                         <li th:each="ingredient : ${cocktailDto.cocktailIngredients}">
-                                            <span th:text="|${ingredient.cocktailIngredientQty} ${ingredient.ingredient.ingredientName} (${ingredient.ingredient.ingredientEname})|">
-                                                재료-양 재료-이름 (재료-영문이름)
+                                            <span class="inline-block width-100p-11rem vertical-align-middle" th:text="|${ingredient.ingredient.ingredientName} (${ingredient.ingredient.ingredientEname})|">
+                                                재료-이름 (재료-영문이름)
                                             </span>
+                                            <span class="inline-block width-10rem" th:text="${ingredient.cocktailIngredientQty}">재료-양 </span>
                                         </li>
                                     </ul>
                                 </div>
