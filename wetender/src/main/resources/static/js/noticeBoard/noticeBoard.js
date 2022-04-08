@@ -98,6 +98,7 @@ function noticeBoardSortBy(sortBy) {
                jqXHR.setRequestHeader(header, token);
            }
         }
+
     }).done(function (fragment)  {
         $("#noticeBoardResult").replaceWith(fragment);
     })

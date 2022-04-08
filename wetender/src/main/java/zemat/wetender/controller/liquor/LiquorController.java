@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,7 @@ import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.member.Member;
 import zemat.wetender.dto.liquorDto.LiquorDto;
+import zemat.wetender.dto.liquorDto.LiquorSortDto;
 import zemat.wetender.service.liquor.LiquorLikesService;
 import zemat.wetender.service.liquor.LiquorService;
 import zemat.wetender.service.MemberService;
@@ -127,6 +130,34 @@ public class LiquorController {
         liquorService.viewsUp(liquorId);
 
         return "liquor/detail";
+    }
+
+
+    // 메인 화면 주류 정렬 Ajax
+    @RequestMapping(value = "/sortBy", method = RequestMethod.POST)
+    public String sortBy(Model model, LiquorSortDto dto, Pageable pageable) {
+
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        PageRequest pageRequest = PageRequest.of(page, 24, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
+
+        Page<Liquor> liquors = liquorService.pageFindKeyword(pageRequest, dto.getKeyword());
+        Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
+
+        int startPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(liquorDtos.getTotalPages(), liquorDtos.getPageable().getPageNumber() + 4);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("sortBy", dto.getSortBy());
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("liquorDtos", liquorDtos);
+        model.addAttribute("sideMenu", "nav-side-menu-liquor");
+
+
+        return "/liquor/main :: #main";
     }
 
 

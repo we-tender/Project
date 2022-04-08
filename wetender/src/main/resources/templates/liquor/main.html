@@ -12,7 +12,9 @@
 
     <section>
 
-        <div class="container-grid">
+        <script type="text/javascript" th:src="@{/js/liquor/main.js}"></script>
+
+        <div class="container-grid" id="main">
             <!-- 헤더 -->
             <div class="contents-header">
                 <div>
@@ -38,14 +40,19 @@
             <div class="contents-flex flex-row-end">
                 <div data-wow-delay="0.1s">
                     <ul class="contents-flex flex-row-evenly margin-0">
+
                         <li class="margin-05rem">
-                            <a class="btn-2 padding-05rem active" data-bs-toggle="pill" href="#tab-1">추천수</a>
+                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='sortBy("createdBy")'>최신수</button>
+                        </li>
+
+                        <li class="margin-05rem">
+                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='sortBy("views")'>조회수</button>
                         </li>
                         <li class="margin-05rem">
-                            <a class="btn-2 padding-05rem" data-bs-toggle="pill" href="#tab-2">조회수</a>
+                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='sortBy("likes")'>추천수</button>
                         </li>
                         <li class="margin-05rem">
-                            <a class="btn-2 padding-05rem" data-bs-toggle="pill" href="#tab-3">댓글수</a>
+                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='sortBy("replies")'>댓글수</button>
                         </li>
                     </ul>
                 </div>
@@ -64,9 +71,9 @@
                                     <p th:text="${liquor.oneLine}">한줄평</p>
                                 </div>
                                 <div class="contents-flex margin-0 border-top-dashed1">
-                                    <small class="flex-110 text-align-center border-right-dashed1"><i class=""></i>1000 Sqft</small>
-                                    <small class="flex-110 text-align-center border-right-dashed1"><i class=""></i>3 Bed</small>
-                                    <small class="flex-110 text-align-center" ><i class=""></i>2 Bath</small>
+                                    <small class="flex-110 text-align-center border-right-dashed1" th:text="|추천수 : ${liquor.likes}|"><i class=""></i> 추천수 </small>
+                                    <small class="flex-110 text-align-center border-right-dashed1" th:text="|조회수 : ${liquor.views}|"><i class=""></i> 조회수 </small>
+                                    <small class="flex-110 text-align-center" th:text="|댓글수 : ${liquor.replies}|" ><i class=""></i> 댓글수 </small>
                                 </div>
                             </div>
                         </figure>

@@ -98,7 +98,6 @@ public class NoticeBoardController {
 
         int startPage = Math.max(1, noticeBoardDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(noticeBoardDtos.getTotalPages(), noticeBoardDtos.getPageable().getPageNumber() + 4);
-
         if (endPage == 0) {
             startPage = 0;
         }
