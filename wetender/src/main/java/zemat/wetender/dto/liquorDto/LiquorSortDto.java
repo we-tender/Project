@@ -7,4 +7,5 @@ public class LiquorSortDto {
 
     private String keyword;
     private String sortBy;
+
 }

@@ -14,6 +14,8 @@
 
         <script type="text/javascript" th:src="@{/js/liquor/main.js}"></script>
 
+        <input id="sortBy" type="hidden" th:value="${sortBy}"/>
+
         <div class="container-grid" id="main">
             <!-- 헤더 -->
             <div class="contents-header">
@@ -26,12 +28,12 @@
 
             <!-- 검색 폼 -->
             <div class="contents-flex flex-row-end">
-                <form method="GET" th:action="@{/liquor/main}">
+<!--                <form method="GET" th:action="@{/liquor/main}">-->
+                <form>
                     <div class="width-20rem padding-05rem input-1">
-                        <input type="text" class="width-15rem" th:filed="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요">
-                        <!--파람을 쓰면 URL에 값을 담을 수 있다.-->
+                        <input id="keyword" type="text" class="width-15rem" th:filed="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요">
                         <div class="inline-block">
-                            <button class="btn-1" type="submit">검색</button>
+                            <button class="btn-1" type="button" th:onclick="searchSortBy([[${sortBy}]])">검색</button>
                         </div>
                     </div>
                 </form>
@@ -42,17 +44,17 @@
                     <ul class="contents-flex flex-row-evenly margin-0">
 
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='sortBy("createdBy")'>최신수</button>
+                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("createdBy")'>최신수</button>
                         </li>
 
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='sortBy("views")'>조회수</button>
+                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("views")'>조회수</button>
                         </li>
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='sortBy("likes")'>추천수</button>
+                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("likes")'>추천수</button>
                         </li>
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='sortBy("replies")'>댓글수</button>
+                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("replies")'>댓글수</button>
                         </li>
                     </ul>
                 </div>

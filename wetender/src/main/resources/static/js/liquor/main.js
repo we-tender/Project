@@ -2,9 +2,9 @@
 
 // 정렬 기능
 // 최신순 조회순 댓글순 좋아요순
-function sortBy(sortBy) {
+function searchSortBy(sortBy) {
 
-    var keyword = "";
+    var keyword = $("#keyword").val();
 
     var liquorSortDto = {
         keyword:keyword,
@@ -27,4 +27,11 @@ function sortBy(sortBy) {
     }).done(function (fragment) {
         $("#main").replaceWith(fragment);
     })
+}
+
+function search() {
+
+    var keyword = $("#keyword").val();
+    var sortBy = $("#sortBy").val();
+
 }

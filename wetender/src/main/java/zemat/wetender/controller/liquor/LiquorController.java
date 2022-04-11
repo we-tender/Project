@@ -60,6 +60,7 @@ public class LiquorController {
 
         if(endPage == 0) startPage = 0;
 
+        model.addAttribute("sortBy", "createdBy");
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("liquorDtos", liquorDtos);
