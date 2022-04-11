@@ -1,19 +1,17 @@
 
-
 // 정렬 검색 기능
-// 최신순 조회순 댓글순 좋아요순
 function searchSortBy(sortBy) {
 
     var keyword = $("#keyword").val();
 
-    var liquorSortDto = {
+    var cocktailSearchSortByDto = {
         keyword:keyword,
         sortBy:sortBy
     }
 
     $.ajax({
-        url: "/liquor/sortBy",
-        data: liquorSortDto,
+        url: "/cocktail/searchSortBy",
+        data: cocktailSearchSortByDto,
         type: "POST",
 
         beforeSend: function (jqXHR, settings) {
@@ -28,4 +26,3 @@ function searchSortBy(sortBy) {
         $("#main").replaceWith(fragment);
     })
 }
-

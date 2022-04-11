@@ -6,16 +6,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.member.Member;
 import zemat.wetender.dto.cocktailDto.CocktailDetailDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
+import zemat.wetender.dto.cocktailDto.CocktailSearchSortByDto;
+import zemat.wetender.dto.liquorDto.LiquorDto;
+import zemat.wetender.dto.liquorDto.LiquorSortDto;
 import zemat.wetender.service.cocktail.CocktailLikesService;
 import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.MemberService;
@@ -50,6 +56,7 @@ public class CocktailController {
         int endPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
         if(endPage == 0) startPage = 0;
 
+        model.addAttribute("sortBy", "createdBy");
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("cocktailDtos", cocktailDtos);
@@ -94,4 +101,32 @@ public class CocktailController {
 
         return "cocktail/detail";
     }
+
+    // 메인 화면 칵테일 검색 정렬 Ajax
+    @RequestMapping(value = "/searchSortBy", method = RequestMethod.POST)
+    public String searchSortBy(Model model, CocktailSearchSortByDto dto, Pageable pageable) {
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
+        PageRequest pageRequest = PageRequest.of(page, 24, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
+
+        Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageRequest, dto.getKeyword());
+        Page<CocktailMainDto> cocktailDtos = cocktails.map(cocktail -> new CocktailMainDto(cocktail));
+
+        int startPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("sortBy", dto.getSortBy());
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("cocktailDtos", cocktailDtos);
+        model.addAttribute("sideMenu", "nav-side-menu-cocktail");
+
+
+        return "/cocktail/main :: #main";
+    }
+
+
 }

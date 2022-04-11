@@ -134,7 +134,7 @@ public class LiquorController {
     }
 
 
-    // 메인 화면 주류 정렬 Ajax
+    // 메인 화면 주류 검색 정렬 Ajax
     @RequestMapping(value = "/sortBy", method = RequestMethod.POST)
     public String sortBy(Model model, LiquorSortDto dto, Pageable pageable) {
 

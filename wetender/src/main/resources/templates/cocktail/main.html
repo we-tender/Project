@@ -12,7 +12,10 @@
 
     <section>
 
-        <div class="container-grid">
+        <script type="text/javascript" th:src="@{/js/cocktail/main.js}"></script>
+        <input id="sortBy" type="hidden" th:value="${sortBy}"/>
+
+        <div id="main" class="container-grid">
             <!-- 헤더 -->
             <div class="contents-header">
                 <div>
@@ -26,14 +29,37 @@
             <div class="contents-flex flex-row-end">
                 <form method="GET" th:action="@{/liquor/main}">
                     <div class="width-20rem padding-05rem input-1">
-                        <input type="text" class="width-15rem" th:filed="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요">
+                        <input id="keyword" type="text" class="width-15rem" th:filed="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요">
                         <!--파람을 쓰면 URL에 값을 담을 수 있다.-->
                         <div class="inline-block">
-                            <button class="btn-1" type="submit">검색</button>
+                            <button class="btn-1" type="button" th:onclick="searchSortBy([[${sortBy}]])" >검색</button>
                         </div>
                     </div>
                 </form>
             </div>
+
+            <!-- 정렬 모음 시작 -->
+            <div class="contents-flex flex-row-end">
+                <div data-wow-delay="0.1s">
+                    <ul class="contents-flex flex-row-evenly margin-0">
+
+                        <li class="margin-05rem">
+                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("createdBy")'>최신수</button>
+                        </li>
+
+                        <li class="margin-05rem">
+                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("views")'>조회수</button>
+                        </li>
+                        <li class="margin-05rem">
+                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("likes")'>추천수</button>
+                        </li>
+                        <li class="margin-05rem">
+                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("replies")'>댓글수</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 정렬 모음 끝 -->
 
             <!-- Image Start -->
             <div class="contents-flex flex-row-center">
@@ -48,9 +74,9 @@
                                     <p th:text="${cocktail.oneLine}">한줄평</p>
                                 </div>
                                 <div class="contents-flex margin-0 border-top-dashed1">
-                                    <small class="flex-110 text-align-center border-right-dashed1"><i class=""></i>1000 Sqft</small>
-                                    <small class="flex-110 text-align-center border-right-dashed1"><i class=""></i>3 Bed</small>
-                                    <small class="flex-110 text-align-center" ><i class=""></i>2 Bath</small>
+                                    <small class="flex-110 text-align-center border-right-dashed1" th:text="|추천수 : ${cocktail.likes}|"><i class=""></i> 추천수 </small>
+                                    <small class="flex-110 text-align-center border-right-dashed1" th:text="|조회수 : ${cocktail.views}|"><i class=""></i> 조회수 </small>
+                                    <small class="flex-110 text-align-center" th:text="|댓글수 : ${cocktail.replies}|" ><i class=""></i> 댓글수 </small>
                                 </div>
                             </div>
                         </figure>
