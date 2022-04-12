@@ -298,8 +298,8 @@ public class NoticeBoardController {
         PageRequest pageRequest = PageRequest.of(dto.getPageNumber(), 2);
         Page<NoticeBoardDto> noticeBoardDtoList = noticeBoardService.detail_list(dto.getNoticeBoardId(), pageRequest);
 
-        int startPage = Math.max(1, noticeBoardDtoList.getPageable().getPageNumber() - 3);
-        int endPage = Math.min(noticeBoardDtoList.getTotalPages(), noticeBoardDtoList.getPageable().getPageNumber() + 3);
+        int startPage = Math.max(1, noticeBoardDtoList.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(noticeBoardDtoList.getTotalPages(), noticeBoardDtoList.getPageable().getPageNumber() + 4);
         if (endPage == 0) {
             startPage = 0;
         }

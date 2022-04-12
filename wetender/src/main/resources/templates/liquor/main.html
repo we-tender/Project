@@ -29,14 +29,12 @@
             <!-- 검색 폼 -->
             <div class="contents-flex flex-row-end">
 <!--                <form method="GET" th:action="@{/liquor/main}">-->
-                <form>
-                    <div class="width-20rem padding-05rem input-1">
-                        <input id="keyword" type="text" class="width-15rem" th:filed="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요">
-                        <div class="inline-block">
-                            <button class="btn-1" type="button" th:onclick="searchSortBy([[${sortBy}]])">검색</button>
-                        </div>
+                <div class="width-20rem padding-05rem input-1">
+                    <input id="keyword" type="text" class="width-15rem" th:filed="keyword" th:value="${param.keyword}" placeholder="검색어를 입력하세요">
+                    <div class="inline-block">
+                        <button class="btn-1" type="button" th:onclick="searchSortBy([[${sortBy}]])">검색</button>
                     </div>
-                </form>
+                </div>
             </div>
 
 
@@ -90,21 +88,15 @@
             <!-- 페이지 -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
-                    <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
                     <li class="page-item"  th:classappend="${1 == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
-                        <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+                        <button class="page-link" href="#" th:onclick="movePage([[${liquorDtos.pageable.pageNumber - 1}]])" tabindex="-1" aria-disabled="true">Previous</button>
                     </li>
-                    <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
-                    <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
-                    <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
                     <li class="page-item " th:classappend="${i == liquorDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
-                        <a class="page-link" href="#"  th:href="@{/liquor/main(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
+                        <button class="page-link" href="#"  th:onclick="movePage([[${i-1}]])"  th:text="${i}">1</button>
+                    </li>
 
-                    <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
-                    <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
                     <li class="page-item" th:classappend="${liquorDtos.totalPages == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
-                        <a class="page-link" href="#" th:href="@{/liquor/main(page=${liquorDtos.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                        <button class="page-link" href="#" th:onclick="movePage([[${liquorDtos.pageable.pageNumber + 1}]])" >Next</button>
                     </li>
                 </ul>
             </nav>

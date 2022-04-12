@@ -22,6 +22,7 @@ import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.cocktailDto.CocktailSearchSortByDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.LiquorSortDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.service.cocktail.CocktailLikesService;
 import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.MemberService;
@@ -45,8 +46,9 @@ public class CocktailController {
     // 주류 메인(게시판)
     @GetMapping("/main")
     public String main(Model model,
-                       @PageableDefault(size = 24) Pageable pageable,
-                       @RequestParam(required = false, defaultValue = "") String keyword) {
+                       @PageableDefault(size = 5) Pageable pageable) {
+
+        String keyword = "";
 
         // 검색기능
         Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageable, keyword);
@@ -107,7 +109,7 @@ public class CocktailController {
     public String searchSortBy(Model model, CocktailSearchSortByDto dto, Pageable pageable) {
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-        PageRequest pageRequest = PageRequest.of(page, 24, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
+        PageRequest pageRequest = PageRequest.of(page, 1, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
 
         Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageRequest, dto.getKeyword());
         Page<CocktailMainDto> cocktailDtos = cocktails.map(cocktail -> new CocktailMainDto(cocktail));
@@ -124,6 +126,36 @@ public class CocktailController {
         model.addAttribute("cocktailDtos", cocktailDtos);
         model.addAttribute("sideMenu", "nav-side-menu-cocktail");
 
+
+        return "/cocktail/main :: #main";
+    }
+
+    // 페이지 이동 Ajax
+    @RequestMapping(value = "/movePage", method = RequestMethod.GET)
+    public String movePage(Model model,
+                           @PageableDefault(size = 5) Pageable pageable,
+                           @RequestParam String keyword,
+                           @RequestParam String sortBy) {
+
+
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), 5, Sort.by(Sort.Direction.DESC, sortBy));
+
+        Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageRequest, keyword);
+        Page<CocktailMainDto> cocktailDtos = cocktails.map(cocktail -> new CocktailMainDto(cocktail));
+
+
+        int startPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("cocktailDtos", cocktailDtos);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/cocktail/main :: #main";
     }

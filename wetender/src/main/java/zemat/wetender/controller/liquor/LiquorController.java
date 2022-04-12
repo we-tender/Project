@@ -13,10 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.domain.cocktail.CocktailFile;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.member.Member;
+import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.LiquorSortDto;
 import zemat.wetender.service.liquor.LiquorLikesService;
@@ -47,7 +49,7 @@ public class LiquorController {
     // 주류 메인(게시판)
     @GetMapping("/main")
     public String main(Model model,
-                       @PageableDefault(size = 24)Pageable pageable,
+                       @PageableDefault(size = 5)Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String keyword
                        ) {
 
@@ -57,7 +59,6 @@ public class LiquorController {
         // 페이지
         int startPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(liquorDtos.getTotalPages(), liquorDtos.getPageable().getPageNumber() + 4);
-
         if(endPage == 0) startPage = 0;
 
         model.addAttribute("sortBy", "createdBy");
@@ -157,9 +158,39 @@ public class LiquorController {
         model.addAttribute("liquorDtos", liquorDtos);
         model.addAttribute("sideMenu", "nav-side-menu-liquor");
 
+        return "/liquor/main :: #main";
+    }
+
+    // 페이지 이동 Ajax
+    @RequestMapping(value = "/movePage", method = RequestMethod.GET)
+    public String movePage(Model model,
+                           @PageableDefault(size = 5) Pageable pageable,
+                           @RequestParam String keyword,
+                           @RequestParam String sortBy) {
+
+
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), 5, Sort.by(Sort.Direction.DESC, sortBy));
+
+        Page<Liquor> liquors = liquorService.pageFindKeyword(pageRequest, keyword);
+        Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
+
+
+        int startPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
+        int endPage = Math.min(liquorDtos.getTotalPages(), liquorDtos.getPageable().getPageNumber() + 4);
+        if (endPage == 0) {
+            startPage = 0;
+        }
+
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("liquorDtos", liquorDtos);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/liquor/main :: #main";
     }
+
 
 
 }

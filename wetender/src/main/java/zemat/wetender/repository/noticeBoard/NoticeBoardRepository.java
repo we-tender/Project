@@ -23,6 +23,4 @@ public interface NoticeBoardRepository extends JpaRepository<NoticeBoard, Long> 
     Page<NoticeBoard> findAll(Pageable pageable);
 
 
-
-
 }
