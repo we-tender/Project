@@ -7,6 +7,86 @@
 </head>
 <body>
 <section>
+
+    <div class="container-grid">
+        <form role="form" th:action th:object="${form}" method="post" enctype="multipart/form-data" class="contents-flex flex-row-center">
+            <meta name="_csrf" th:content="${_csrf.token}">
+            <meta name="_csrf_header" th:content="${_csrf.headerName}">
+            <input type="hidden" th:field="*{id}"/>
+
+            <div class="detail-img-area">
+                <ul>
+                    <div class="form-group uploadDiv">
+                        <input type="file" name="uploadFile" multiple="multiple">
+                    </div>
+                    <!--   파일 보여지는 부분     -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">files</div>
+                                <div class="panel-body">
+                                    <div class="uploadResult">
+                                        <ul>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <div class="detail-img-info-area">
+                <div class="detail-img-info">
+                    <ul>
+                        <li>
+                            <div  class="detail-img-info-head">주류이름</div>
+                            <div class="detail-img-info-content input-1">
+                                <input type="text" th:field="*{name}" placeholder="이름을 입력하세요">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="detail-img-info-head">주류영문이름</div>
+                            <div class="detail-img-info-content input-1">
+                                <input type="text" th:field="*{eName}" placeholder="영문명을 입력하세요">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="detail-img-info-head">도수</div>
+                            <div class="detail-img-info-content input-1">
+                                <input type="number" th:field="*{abv}" placeholder="도수를 입력하세요">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="detail-img-info-head">한줄평</div>
+                            <div class="detail-img-info-content input-1">
+                                <textarea th:field="*{oneLine}" class="width-100" placeholder="한줄설명을 입력하세요"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="detail-img-info-head">소개글</div>
+                            <div class="detail-img-info-content input-1">
+                                <textarea type="text" th:field="*{content}" class="width-100 height-min-10rem" placeholder="설명을 입력하세요"></textarea>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="contents-flex flex-row-center">
+                                <div class="width-10rem padding-05rem">
+                                    <button class="btn-1 width-100" type="submit">주류 등록</button>
+                                </div>
+                                <div class="width-10rem padding-05rem">
+                                    <button class="btn-cancel-1 width-100"
+                                            th:onclick="|location.href='@{/liquor/{id}(id=*{id})}'|"
+                                            type="button">취소</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="container">
         <div class="py-5 text-center">
             <h2>주류 등록 폼</h2>

@@ -421,6 +421,7 @@ public class SupportersController {
         LiquorUpdateForm liquorUpdateForm = new LiquorUpdateForm(liquor);
 
         model.addAttribute("form",liquorUpdateForm);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "supporters/update/liquor";
     }
 

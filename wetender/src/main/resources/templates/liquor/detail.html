@@ -56,8 +56,20 @@
                             </li>
                             <li th:if="${sessionMember} and ${sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_SUPPORTER'
                              or sessionMember.getAuthorities().get(0).getAuthority() == 'ROLE_ADMIN'}">
-                                <button type="button" th:onclick="|location.href='@{/supporters/liquor/update/{id} (id=${liquorDto.id})}'|">수정하기</button>
-                                <button type="button" id="delete" th:onclick="|location.href='@{/supporters/liquor/delete/{id} (id=${liquorDto.id})}'|">삭제하기</button>
+                                <div class="contents-flex flex-row-center">
+                                    <div class="width-10rem padding-05rem">
+                                        <button type="button"
+                                                class="btn-1 width-100"
+                                                th:onclick="|location.href='@{/supporters/liquor/update/{id}(id=${liquorDto.id})}'|">
+                                            수정하기</button>
+                                    </div>
+                                    <div class="width-10rem padding-05rem">
+                                        <button type="button" id="delete"
+                                                class="btn-cancel-1 width-100"
+                                                th:onclick="|location.href='@{/supporters/liquor/delete/{id}(id=${liquorDto.id})}'|">
+                                            삭제하기</button>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>

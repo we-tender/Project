@@ -652,6 +652,9 @@
 .width-100 {
     width : 100%;
 }
+.height-min-10rem {
+    min-height : 10rem;
+}
 .height-min-50rem {
     min-height : 50rem;
 }
