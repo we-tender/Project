@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.repository.suggestion.SuggestionRepository;
+import zemat.wetender.service.suggestion.SuggestionService;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -23,7 +24,8 @@ import static org.assertj.core.api.Assertions.linesOf;
 @Transactional
 public class SuggestionServiceTest {
 
-    @Autowired SuggestionService suggestionService;
+    @Autowired
+    SuggestionService suggestionService;
     @Autowired SuggestionRepository suggestionRepository;
     @Autowired EntityManager em;
 

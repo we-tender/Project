@@ -163,7 +163,7 @@
                                 <small> </small>
                             </div>
 
-                            <textarea class="form-control" th:id="'replyContentEdit' + ${liquorReply.id}" rows="2"></textarea>
+                            <textarea class="form-control" th:id="'replyContentEdit' + ${liquorReply.id}" rows="2" th:text="${liquorReply.liquorReplyContent}"></textarea>
 
                             <div class="container">
                                 <div class="text-end">
@@ -179,7 +179,6 @@
 
                     </div>
                 </div>
-            </div>
 
             <input type="hidden" id="liquorIdData" th:name="liquorId" th:value="${liquorDto.id}">
             <!-- 댓글 작성 -->
@@ -199,8 +198,8 @@
                     </div>
                 </div>
             </div>
-            <!-- 댓글 끝 -->
         </div>
+            <!-- 댓글 끝 -->
 
         <!--  js & css    -->
         <link rel="stylesheet" type="text/css" th:href="@{/css/liquor/detail.css}">

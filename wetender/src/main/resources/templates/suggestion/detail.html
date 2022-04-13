@@ -21,6 +21,10 @@
 
 
 <section>
+
+    <script th:src="@{/js/suggestion/detail.js}"></script>
+
+
     <div class="col-lg-8 mx-auto p-3 py-md-5">
         <main>
             <div class="container" th:object = "${suggestionDto}" >
@@ -38,8 +42,6 @@
                 <div th:text = "*{suggestionContent}"> 내용 </div>
                 <hr>
 
-
-
                 <!-- 수정,삭제 버튼 시작 -->
                 <div class="text-end">
                     <a type="button" class="btn btn-primary" th:href="@{/suggestion/update(suggestionId = *{id})}"> 수정 </a>
@@ -51,31 +53,80 @@
 
                 <!-- 댓글 시작 -->
                 <h4> 댓글 </h4>
-                <div class="list-group" th:each="suggestionReply : *{suggestionReplyList}">
-                        <div class="d-flex w-100 justify-content-between">
-                            <b><h6 class="mb-1" th:text = "${suggestionReply.createdBy}"> 글쓴이 </h6></b>
-                            <small> </small>
-                        </div>
-                        <p class="mb-1" th:text = "${suggestionReply.suggestionReplyContent}" > 댓글 내용 </p>
-                        <small th:text = "${suggestionReply.createdDate}" > 댓글 작성 날짜 </small>
-                    <hr>
-                </div>
+                <div id = "reply">
+                    <div th:object = "${suggestionDto}">
 
-                <form action = "#" th:action="@{/suggestion/replyInsert}" th:object="${suggestionReplyDto}" method="post">
+                        <input id="suggestionId" type="hidden" name="suggestionId" th:value="${suggestionDto.id}"/>
+
+                        <div class="list-group" th:each="suggestionReply : *{suggestionReplyList}">
+
+                            <!-- 댓글 낱개 -->
+                            <div th:id="'reply' + ${suggestionReply.id}" style="display:block">
+
+                                <div class="d-flex w-100 justify-content-between">
+                                    <b><h6 class="mb-1" th:text = "${suggestionReply.createdBy}"> 글쓴이 </h6></b>
+                                    <small> </small>
+                                </div>
+
+                                <p class="mb-1" th:text = "${suggestionReply.suggestionReplyContent}" > 댓글 내용 </p>
+                                <small th:text = "${suggestionReply.createdDate}" > 댓글 작성 날짜 </small>
+
+                                <!-- 댓글 수정, 삭제 -->
+                                <div class="container">
+                                    <div class="text-end">
+                                        <th:block th:if="${sessionMember}">
+                                            <th:block th:if="${sessionMember.getUsername()} == ${suggestionReply.createdBy}">
+                                                <input th:id="suggestionReply + ${suggestionReply.id}" type="hidden" name="suggestionReplyId" th:value="${suggestionReply.id}"/>
+                                                <button type="button" class="btn btn-primary" th:onclick="replyEditFormOpen([[${suggestionReply.id}]])"> 수정 </button>
+                                                <button type="button" class="btn btn-primary" th:onclick="replyDelete([[${suggestionReply.id}]])"> 삭제 </button>
+                                            </th:block>
+                                        </th:block>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 댓글 수정 폼 -->
+                            <div th:id="'replyEdit' + ${suggestionReply.id}" style="display:none">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <b><h6 class="mb-1" th:text = "${suggestionReply.createdBy}"> 글쓴이 </h6></b>
+                                    <small> </small>
+                                </div>
+
+                                <textarea class="form-control" th:id="'replyContentEdit' + ${suggestionReply.id}" rows="2"
+                                          th:text="${suggestionReply.suggestionReplyContent}"></textarea>
+
+                                <div class="container">
+                                    <div class="text-end">
+                                        <input id="suggestionIdEdit"  name="suggestionIdEdit" type="hidden" th:value="${suggestionDto.id}"/>
+                                        <input th:id="suggestionReplyId + ${suggestionReply.id}"  name="suggestionReplyId" type="hidden" th:value="${suggestionReply.id}"/>
+                                        <a type="button" class="btn btn-primary" th:onclick="replyEdit([[${suggestionReply.id}]])"> 저장 </a>
+                                        <button type="button" class="btn btn-primary" th:onclick="replyEditFormClose([[${suggestionReply.id}]])"> 취소 </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                        </div>
+                    </div>
+
+                    <!-- 댓글 작성 -->
                     <div class="card">
                         <div class="card-body">
                             <textarea class="form-control" id="suggestionReplyContent" rows="2" th:name="suggestionReplyContent"></textarea>
-
-                            <input type="hidden" id="suggestionId" th:value="${suggestionDto.id}" th:name="suggestionId">
                         </div>
-
                         <div class="card-footer">
                             <div class="text-end">
-                                <button type = "submit" class="btn btn-primary"> 등록 </button>
+                                <th:block th:if="${sessionMember}">
+                                    <button type = "button" class="btn btn-primary" onclick="replyInsert()"> 등록 </button>
+                                </th:block>
+                                <th:block th:unless="${sessionMember}">
+                                    <a type = "submit" class="btn btn-primary" th:href="@{/loginForm}"> 등록 </a>
+                                </th:block>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
                 <!-- 댓글 끝 -->
 
                 <br>
@@ -93,6 +144,7 @@
                         <th scope="col">조회수</th>
                     </tr>
                     </thead>
+
 
                     <tbody>
                     <tr th:each = "suggestion : ${suggestionDtoList}">

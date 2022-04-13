@@ -1,22 +1,19 @@
-package zemat.wetender.service;
+package zemat.wetender.service.suggestion;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.domain.suggestion.SuggestionReply;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardUpdateDto;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
-import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
+import zemat.wetender.dto.suggestionDto.reply.SuggestionReplyInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionUpdateDto;
 import zemat.wetender.repository.suggestion.SuggestionReplyRepository;
 import zemat.wetender.repository.suggestion.SuggestionRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,16 +83,6 @@ public class SuggestionService {
 
     }
 
-    // 건의사항 댓글 저장하기
-    public Long replyInsert(SuggestionReplyInsertDto suggestionReplyInsertDto) {
-        Long id = suggestionReplyInsertDto.getSuggestionId();
-        Suggestion suggestion = suggestionRepository.findById(id).get();
-        String suggestionReplyContent = suggestionReplyInsertDto.getSuggestionReplyContent();
-        SuggestionReply suggestionReply = new SuggestionReply(suggestionReplyContent, suggestion);
-        suggestionReplyRepository.save(suggestionReply);
-        suggestion.repliesAdd();
-        return id;
-    }
 
     // 조회수 올리기
     public void viewUp(Long suggestionId) {

@@ -180,7 +180,8 @@
                                 <small> </small>
                             </div>
 
-                            <textarea class="form-control" th:id="'replyContentEdit' + ${cocktailReply.id}" rows="2"></textarea>
+                            <textarea class="form-control" th:id="'replyContentEdit' + ${cocktailReply.id}" rows="2"
+                                            th:text="${cocktailReply.cocktailReplyContent}"></textarea>
 
                             <div class="container">
                                 <div class="text-end">
@@ -196,7 +197,6 @@
 
                     </div>
                 </div>
-            </div>
 
             <!-- 댓글 작성 -->
             <div class="card">
@@ -214,8 +214,10 @@
                     </div>
                 </div>
             </div>
-            <!-- 댓글 끝 -->
         </div>
+            <!-- 댓글 끝 -->
+
+
 
         <!--  js & css    -->
         <script th:src="@{/js/cocktail/detail.js}"></script>

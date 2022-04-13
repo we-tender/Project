@@ -1,9 +1,8 @@
-package zemat.wetender.controller;
+package zemat.wetender.controller.suggestion;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.query.JpaEntityGraph;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,18 +10,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.suggestion.Suggestion;
-import zemat.wetender.domain.suggestion.SuggestionReply;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardInsertDto;
-import zemat.wetender.dto.noticeBoardDto.NoticeBoardUpdateDto;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
-import zemat.wetender.dto.suggestionDto.SuggestionReplyInsertDto;
+import zemat.wetender.dto.suggestionDto.reply.SuggestionReplyInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionUpdateDto;
 import zemat.wetender.service.MemberService;
-import zemat.wetender.service.SuggestionService;
-
-import java.util.*;
+import zemat.wetender.service.suggestion.SuggestionService;
 
 @Controller
 @RequestMapping("/suggestion")
@@ -166,14 +159,5 @@ public class SuggestionController {
 
         return "suggestion/detail";
     }
-
-    // 건의사항 댓글 등록
-    @PostMapping("/replyInsert")
-    public String replyInsert(@ModelAttribute SuggestionReplyInsertDto suggestionReplyInsertDto) {
-        Long id = suggestionService.replyInsert(suggestionReplyInsertDto);
-        return "redirect:/suggestion/detail?suggestionId=" + id;
-    }
-
-
 
 }

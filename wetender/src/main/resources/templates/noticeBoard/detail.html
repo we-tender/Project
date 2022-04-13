@@ -117,7 +117,6 @@
                 <!-- 댓글 시작 -->
                 <!-- 댓글 목록 -->
               `  <h4> 댓글 </h4>
-                <form>   <!-- 폼 안에 결과가 반영되는 Div가 있어야 하나? -->
                 <div id = "replyResult">
                     <div th:object = "${noticeBoardDto}">
                         <div class="list-group" th:each="noticeBoardReply : *{noticeBoardReplyList}">
@@ -152,7 +151,6 @@
                                 </div>
                             </div>
 
-
                             <!-- 댓글 수정 폼 -->
                             <div th:id="'replyEdit' + ${noticeBoardReply.id}" style="display:none">
 
@@ -161,7 +159,8 @@
                                     <small> </small>
                                 </div>
 
-                                <textarea class="form-control" th:id="'replyContentEdit' + ${noticeBoardReply.id}" rows="2"></textarea>
+                                <textarea class="form-control" th:id="'replyContentEdit' + ${noticeBoardReply.id}" rows="2"
+                                            th:text="${noticeBoardReply.noticeBoardReplyContent}"></textarea>
 
                                 <div class="container">
                                     <div class="text-end">
@@ -179,7 +178,7 @@
 
                         </div>
                     </div>
-                </div>
+
 
 
                 <!-- 댓글 작성 -->
@@ -205,7 +204,7 @@
                             </div>
                         </div>
                     </div>
-                </form>
+            </div>
                 <!-- 댓글 끝 -->
 
                 <br>

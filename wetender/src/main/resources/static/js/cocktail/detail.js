@@ -1,7 +1,4 @@
 
-
-
-
 // 댓글 저장
 function replyInsert() {1
 

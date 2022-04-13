@@ -1,18 +1,20 @@
-package zemat.wetender.dto.suggestionDto;
+package zemat.wetender.dto.suggestionDto.reply;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import zemat.wetender.domain.suggestion.Suggestion;
 
-@Getter @Setter
+@Data
 public class SuggestionReplyInsertDto {
 
-    private String suggestionReplyContent;
     private Long suggestionId;
+    private String suggestionReplyContent;
+
 
     public SuggestionReplyInsertDto(String suggestionReplyContent, Long suggestionId) {
-        this.suggestionReplyContent = suggestionReplyContent;
         this.suggestionId = suggestionId;
+        this.suggestionReplyContent = suggestionReplyContent;
     }
 }

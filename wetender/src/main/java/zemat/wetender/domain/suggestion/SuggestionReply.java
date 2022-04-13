@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.util.Lazy;
 import zemat.wetender.domain.base.BaseEntity;
+import zemat.wetender.dto.suggestionDto.reply.SuggestionReplyInsertDto;
 
 import javax.persistence.*;
 
@@ -26,10 +27,12 @@ public class SuggestionReply extends BaseEntity {
     @JoinColumn(name = "suggestion_id")
     private Suggestion suggestion;
 
-    public SuggestionReply(String suggestionReplyContent, Suggestion suggestion) {
-        this.suggestionReplyContent = suggestionReplyContent;
+    public SuggestionReply(Suggestion suggestion, SuggestionReplyInsertDto dto) {
+        this.suggestionReplyContent = dto.getSuggestionReplyContent();
         this.suggestion = suggestion;
     }
+
+
 
 
 }
