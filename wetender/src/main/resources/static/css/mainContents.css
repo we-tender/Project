@@ -280,6 +280,11 @@
     height : 100%;
     object-fit : contain;
 }
+.detail-img-area ul li figure figcaption {
+    position : absolute;
+    top : 0;
+    right : 0;
+}
 .detail-img-info {
     border-top : 3px solid #fb8bb5;
 }
@@ -516,9 +521,10 @@
     outline : 0;
     box-shadow : 0 0 0 .25rem #fbcfd0;
 }
+.input-file {
+    position : relative;
+}
 .input-file input[type="file"] {
-    flex : 0;
-    position : absolute;
     width : 0;
     height : 0;
     padding : 0;
@@ -526,15 +532,29 @@
     border : 0;
 }
 .input-file label {
-    flex : 1 1 10rem;
-    height : 2rem;
-    padding : .2rem .2rem;
-    text-align : center;
+    background-color : #fb8bb5;
+    border : 1px solid #fb8bb5;
+    border-radius : 1rem;
+    padding : 0;
+    width : 3rem;
+    height : 3rem;
+    position : absolute;
+    top : 3.5rem;
+    left : 3.5rem;
     cursor : pointer;
     transition : 0.5s;
-    border-radius : .5rem;
-    border : 1px solid #fb8bb5;
-    background-color : #fb8bb5;
+}
+.input-file label:before, .input-file label:after {
+    position : absolute;
+    top : .75rem;
+    left : 1.25rem;
+    width : .5rem;
+    height : 1.5rem;
+    content : ' ';
+    background-color : #FFAEC9;
+}
+.input-file label:after {
+    transform : rotate(90deg);
 }
 .input-file label:hover {
     background-color : #DF6694
@@ -613,6 +633,28 @@
 }
 .btn-cancel-1:hover {
     background-color : #c0b5b7
+}
+.btn-del {
+    border : 0;
+    padding : 0;
+    width : 1rem;
+    height : 1rem;
+    background-color : transparent;
+}
+.btn-del:before, .btn-del:after {
+    position : absolute;
+    top : .1rem;
+    right : .5rem;
+    width : .1rem;
+    height : 1.5rem;
+    content : ' ';
+    background-color : #000;
+}
+.btn-del:before {
+    transform : rotate(45deg);
+}
+.btn-del:after {
+    transform : rotate(-45deg);
 }
 
 /* 공통 text background wdith height padding border */

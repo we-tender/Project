@@ -81,20 +81,19 @@ function showUploadResult(uploadResultArr){
 
     $(uploadResultArr).each(function(i, obj){
         //image type
-        const fileCellPath = obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName;
+        const fileCellPath = obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName;
         str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
-        str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
-        str += "<span>" + obj.fileName + "</span>";
+        str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><figure>";
+        str += "<figcaption><span>" + obj.fileName + "</span>";
         str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
-        str += " class='btn btn-warning btn-circle'>";
-        str += "<i class=fa fa-time'></i></button><br>";
-        str += "<img src='/supporters/display/liquor/" + fileCellPath + "'></div></li>";
+        str += " class='btn-del'></figcaption>";
+        str += "<img src='/supporters/display/liquor/" + fileCellPath + "'></figure></li>";
     });
-
     // 파일등록 버튼 uploadResult li 마지막에 만들어두기
-    $(".uploadDiv").parent().remove();
-    str += "<li><div class='form-group uploadDiv'>"
-    str += "<input type='file' name='uploadFile' onchange='inputChange(this)' multiple></div></li>"
+    $(".input-file").parent().remove();
+    str += "<li><div class='input-file'>"
+    str += "<label for='uploadFile'></label>"
+    str += "<input type='file' id='uploadFile' name='uploadFile' onchange='inputChange(this)' multiple></div></li>"
     uploadUl.append(str);
 }
 
