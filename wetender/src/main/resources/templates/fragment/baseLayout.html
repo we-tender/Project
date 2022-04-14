@@ -41,9 +41,13 @@
     <!-- container : sidebar + content -->
     <div class="contents-wrapper">
         <div th:replace="~{fragment/nav_side :: nav_side}"></div>
+
         <div class="contents-section">
             <section th:replace="${mainContents}"></section>
         </div>
+
+
+
     </div>
 
     <!-- footer -->

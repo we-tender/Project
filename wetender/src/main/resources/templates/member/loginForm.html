@@ -19,11 +19,22 @@
                     <form th:field="idnamePwdForm" th:action="@{/member/login}" th:object="${memberLoginForm}" method="post">
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="idname">ID</label></h5>
-                            <input th:field="*{idname}" type="text" class="width-100" placeholder="아이디를 입력해주세요.">
+                            <input id="idname" name="idname"  th:field="*{idname}" type="text" class="width-100" placeholder="아이디를 입력해주세요.">
+                            <div class="field-error" th:errors="*{idname}">
+                                아이디를 입력해주세요.
+                            </div>
+
                         </div>
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="pwd">PASSWORD</label></h5>
-                            <input th:field="*{pwd}" type="password" class="width-100" placeholder="비밀번호를 입력해주세요.">
+                            <input id="pwd" name="pwd" th:field="*{pwd}" type="password" class="width-100" placeholder="비밀번호를 입력해주세요.">
+
+                            <div class="field-error" th:errors="*{pwd}">
+                                비밀번호를 입력해주세요.
+                            </div>
+
+
+
                         </div>
                         <div class="padding-05rem">
                             <button class="btn-1 width-100" type="submit">login</button>

@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.member.Member;
+import zemat.wetender.domain.noticeBoard.NoticeStatus;
 import zemat.wetender.dto.cocktailDto.CocktailDetailDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.cocktailDto.CocktailSearchSortByDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.LiquorSortDto;
 import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
+import zemat.wetender.service.NoticeBoardService;
 import zemat.wetender.service.cocktail.CocktailLikesService;
 import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.MemberService;
@@ -37,6 +39,7 @@ public class CocktailController {
 
     private final CocktailService cocktailService;
     private final CocktailLikesService cocktailLikesService;
+    private final NoticeBoardService noticeBoardService;
     private final MemberService memberService;
 
 
@@ -57,6 +60,10 @@ public class CocktailController {
         int startPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
         if(endPage == 0) startPage = 0;
+
+        // 전체공지사항
+        Page<NoticeBoardDto> noticeBoardAllDtos = noticeBoardService.statusFindPage(NoticeStatus.ALL, pageable);
+        model.addAttribute("noticeBoardAllDtos", noticeBoardAllDtos);
 
         model.addAttribute("sortBy", "createdBy");
         model.addAttribute("startPage", startPage);

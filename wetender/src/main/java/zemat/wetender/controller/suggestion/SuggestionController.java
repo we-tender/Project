@@ -9,12 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import zemat.wetender.domain.noticeBoard.NoticeStatus;
 import zemat.wetender.domain.suggestion.Suggestion;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
 import zemat.wetender.dto.suggestionDto.SuggestionDto;
 import zemat.wetender.dto.suggestionDto.SuggestionInsertDto;
 import zemat.wetender.dto.suggestionDto.reply.SuggestionReplyInsertDto;
 import zemat.wetender.dto.suggestionDto.SuggestionUpdateDto;
 import zemat.wetender.service.MemberService;
+import zemat.wetender.service.NoticeBoardService;
 import zemat.wetender.service.suggestion.SuggestionService;
 
 @Controller
@@ -23,6 +26,7 @@ import zemat.wetender.service.suggestion.SuggestionService;
 public class SuggestionController {
 
     private final SuggestionService suggestionService;
+    private final NoticeBoardService noticeBoardService;
     private final MemberService memberService;
 
     /*@ModelAttribute("sideMenuItems")
@@ -54,6 +58,10 @@ public class SuggestionController {
         if ( endPage == 0 ) {
             startPage = 0;
         }
+
+        // 전체 공지 사항
+        Page<NoticeBoardDto> noticeBoardAllDtos = noticeBoardService.statusFindPage(NoticeStatus.ALL, pageable);
+        model.addAttribute("noticeBoardAllDtos", noticeBoardAllDtos);
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
@@ -150,6 +158,7 @@ public class SuggestionController {
         if (endPage == 0) {
             startPage = 0;
         }
+
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);

@@ -18,9 +18,12 @@ import zemat.wetender.domain.cocktail.CocktailFile;
 import zemat.wetender.domain.cocktail.CocktailLiquor;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.member.Member;
+import zemat.wetender.domain.noticeBoard.NoticeStatus;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.LiquorSortDto;
+import zemat.wetender.dto.noticeBoardDto.NoticeBoardDto;
+import zemat.wetender.service.NoticeBoardService;
 import zemat.wetender.service.liquor.LiquorLikesService;
 import zemat.wetender.service.liquor.LiquorService;
 import zemat.wetender.service.MemberService;
@@ -38,6 +41,7 @@ public class LiquorController {
     private final LiquorService liquorService;
     private final LiquorLikesService liquorLikesService;
     private final MemberService memberService;
+    private final NoticeBoardService noticeBoardService;
 
 
     @Value("${cocktailFile.dir}")
@@ -60,6 +64,10 @@ public class LiquorController {
         int startPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(liquorDtos.getTotalPages(), liquorDtos.getPageable().getPageNumber() + 4);
         if(endPage == 0) startPage = 0;
+
+        // 전체 공지 사항
+        Page<NoticeBoardDto> noticeBoardAllDtos = noticeBoardService.statusFindPage(NoticeStatus.ALL, pageable);
+        model.addAttribute("noticeBoardAllDtos", noticeBoardAllDtos);
 
         model.addAttribute("sortBy", "createdBy");
         model.addAttribute("startPage", startPage);

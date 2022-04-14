@@ -52,7 +52,15 @@ public class MemberController {
     }
 
     @PostMapping("/loginError")
-    public String loginError(@ModelAttribute MemberLoginForm memberLoginForm, Model model) {
+    public String loginError(@Validated @ModelAttribute MemberLoginForm memberLoginForm,
+                             BindingResult bindingResult,
+                             Model model) {
+
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("sessionMember", memberService.getSessionMember());
+            return "member/loginForm";
+        }
+
         model.addAttribute("errorMessage", "아이디/패스워드가 올바르지 않습니다.");
         return "member/loginForm";
     }
