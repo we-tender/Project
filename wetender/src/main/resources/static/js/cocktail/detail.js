@@ -1,6 +1,17 @@
 
+//삭제 확인
+function deleteConfirm(id){
+
+	if(!confirm("삭제 하시겠습니까?")){
+		return false;
+	}else{
+		location.href="/supporters/cocktail/delete/"+id;
+	}
+}
+
+
 // 댓글 저장
-function replyInsert() {1
+function replyInsert() {
 
     var cocktailId = $("#cocktailId").val();
     var cocktailReplyContent = $("#cocktailReplyContent").val();

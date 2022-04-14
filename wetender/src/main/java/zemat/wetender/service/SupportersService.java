@@ -157,7 +157,7 @@ public class SupportersService {
 
                 if(checkImageType(savefile)){
                     AttachFileDto attachFileDto = new AttachFileDto(uploadFileName, uploadFolderPath, uuid.toString(), true);
-                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
+//                    FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + storeFileName));
 
                     FileItem fileItem = new DiskFileItem("mainFile", Files.probeContentType(savefile.toPath()), false, savefile.getName(), (int) savefile.length(), savefile.getParentFile());
                     try {
@@ -172,9 +172,9 @@ public class SupportersService {
 
                     MultipartFile saveMultipartFile = new CommonsMultipartFile(fileItem);
                     InputStream inputStream = saveMultipartFile.getInputStream();
-                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
+//                    Thumbnailator.createThumbnail(inputStream,thumbnail,100,100);
 
-                    thumbnail.close();
+//                    thumbnail.close();
                     inputStream.close();
 
                     list.add(attachFileDto);

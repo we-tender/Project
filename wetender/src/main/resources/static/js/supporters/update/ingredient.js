@@ -39,13 +39,33 @@ $(document).ready(function(){
 
     // 이미지 삭제
     $(".uploadResult").on("click","button", function(e){
-        console.log("delete file");
-
-        if(confirm("Remove this file ?")){
+            console.log("delete file");
+            const targetFile = $(this).data("file");
+            const type = $(this).data("type");
             const targetLi = $(this).closest("li");
-            targetLi.remove();
-        }
-    });
+            if(confirm("Remove this file ?")){
+                $.ajax({
+                    url : "/supporters/deleteIngredientFile",
+                    data : {fileName : targetFile, type : type},
+                    dataType : "text",
+                    type : 'POST',
+                    beforeSend: function (jqXHR, settings) {
+                        var header = $("meta[name='_csrf_header']").attr("content");
+                        var token = $("meta[name='_csrf']").attr("content");
+                        jqXHR.setRequestHeader(header, token);
+                    },
+                    success : function(result){
+                        alert(result);
+                        targetLi.remove();
+    //                    var uploadNum = $('#uploadNum').val();
+    //                    uploadNum *= 1; // String -> int 변환
+    //                    uploadNum -= 1;
+    //                    $('#uploadNum').val(uploadNum);
+    //                    $('.upload-state').val("파일 " + uploadNum + "개 선택");
+                    }
+                });
+            }
+        });
 
     // 파일 변경 감지
     $("input[type='file']").change(function(e){

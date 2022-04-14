@@ -86,7 +86,7 @@ $(document).ready(function(){
 
         $(uploadResultArr).each(function(i, obj){
             //image type
-            const fileCellPath = obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName;
+            const fileCellPath = obj.uploadPath + obj.uuid + "_" + obj.fileName;
             str += "<li data-path='" + obj.uploadPath + "' data-uuid='" +obj.uuid + "'";
             str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'><div>";
             str += "<span>" + obj.fileName + "</span>";
@@ -107,7 +107,7 @@ $(document).ready(function(){
         const targetLi = $(this).closest("li");
         if(confirm("Remove this file ?")){
             $.ajax({
-                url : "/supporters/deleteFile",
+                url : "/supporters/deleteLiquorFile",
                 data : {fileName : targetFile, type : type},
                 dataType : "text",
                 type : 'POST',
@@ -119,11 +119,11 @@ $(document).ready(function(){
                 success : function(result){
                     alert(result);
                     targetLi.remove();
-                    var uploadNum = $('#uploadNum').val();
-                    uploadNum *= 1; // String -> int 변환
-                    uploadNum -= 1;
-                    $('#uploadNum').val(uploadNum);
-                    $('.upload-state').val("파일 " + uploadNum + "개 선택");
+//                    var uploadNum = $('#uploadNum').val();
+//                    uploadNum *= 1; // String -> int 변환
+//                    uploadNum -= 1;
+//                    $('#uploadNum').val(uploadNum);
+//                    $('.upload-state').val("파일 " + uploadNum + "개 선택");
                 }
             });
         }

@@ -34,7 +34,6 @@ import zemat.wetender.dto.supportersDto.*;
 import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.liquor.LiquorService;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
@@ -293,12 +292,60 @@ public class SupportersController {
     //******************************************************************************************************************
     // 이미지 파일 삭제
 
-    @PostMapping("/deleteFile")
+    @PostMapping("/deleteCocktailFile")
     @ResponseBody
-    public ResponseEntity<String> deleteFile(String fileName, String type){
+    public ResponseEntity<String> deleteCocktailFile(String fileName, String type){
         File file;
         try{
             file = new File(cocktailFileDir + URLDecoder.decode(fileName,"UTF-8"));
+            file.delete();
+            if(type.equals("image")){
+                String largeFileName = file.getAbsolutePath().replace("s_","");
+                file = new File(largeFileName);
+                boolean exists = file.exists();
+                log.info("파일존재여부: " + exists);
+                boolean delete = file.delete();
+                log.info("삭제여부: "+ delete);
+            }
+            log.info("원본도 삭제완료");
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteLiquorFile")
+    @ResponseBody
+    public ResponseEntity<String> deleteLiquorFile(String fileName, String type){
+        File file;
+        try{
+            file = new File(liquorFileDir + URLDecoder.decode(fileName,"UTF-8"));
+            file.delete();
+            if(type.equals("image")){
+                String largeFileName = file.getAbsolutePath().replace("s_","");
+                file = new File(largeFileName);
+                boolean exists = file.exists();
+                log.info("파일존재여부: " + exists);
+                boolean delete = file.delete();
+                log.info("삭제여부: "+ delete);
+            }
+            log.info("원본도 삭제완료");
+        } catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>("deleted", HttpStatus.OK);
+    }
+
+    @PostMapping("/deleteIngredientFile")
+    @ResponseBody
+    public ResponseEntity<String> deleteIngredientFile(String fileName, String type){
+        File file;
+        try{
+            file = new File(ingredientFileDir + URLDecoder.decode(fileName,"UTF-8"));
             file.delete();
             if(type.equals("image")){
                 String largeFileName = file.getAbsolutePath().replace("s_","");
@@ -565,11 +612,12 @@ public class SupportersController {
                 Path file = Paths.get(cocktailFileDir + cocktailFile.getUploadPath() +
                         "\\" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName());
                 Files.deleteIfExists(file);
-                if(Files.probeContentType(file).startsWith("image")){
-                    Path thumbNail = Paths.get(cocktailFileDir + cocktailFile.getUploadPath() +
-                            "\\s_" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName());
-                    Files.delete(thumbNail);
-                }
+                //썸네일 관련 삭제
+//                if(Files.probeContentType(file).startsWith("image")){
+//                    Path thumbNail = Paths.get(cocktailFileDir + cocktailFile.getUploadPath() +
+//                            "\\s_" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName());
+//                    Files.delete(thumbNail);
+//                }
             } catch (Exception e){
                 log.error("delete file error : " + e.getMessage());
             }
@@ -584,11 +632,12 @@ public class SupportersController {
                 Path file = Paths.get(liquorFileDir + liquorFile.getUploadPath() +
                         "\\" + liquorFile.getUuid() + "_" + liquorFile.getFileName());
                 Files.deleteIfExists(file);
-                if(Files.probeContentType(file).startsWith("image")){
-                    Path thumbNail = Paths.get(liquorFileDir + liquorFile.getUploadPath() +
-                            "\\s_" + liquorFile.getUuid() + "_" + liquorFile.getFileName());
-                    Files.delete(thumbNail);
-                }
+                //썸네일 관련 삭제
+//                if(Files.probeContentType(file).startsWith("image")){
+//                    Path thumbNail = Paths.get(liquorFileDir + liquorFile.getUploadPath() +
+//                            "\\s_" + liquorFile.getUuid() + "_" + liquorFile.getFileName());
+//                    Files.delete(thumbNail);
+//                }
             } catch (Exception e){
                 log.error("delete file error : " + e.getMessage());
             }
@@ -603,11 +652,12 @@ public class SupportersController {
                 Path file = Paths.get(ingredientFileDir + ingredientFile.getUploadPath() +
                         "\\" + ingredientFile.getUuid() + "_" + ingredientFile.getFileName());
                 Files.deleteIfExists(file);
-                if(Files.probeContentType(file).startsWith("image")){
-                    Path thumbNail = Paths.get(ingredientFileDir + ingredientFile.getUploadPath() +
-                            "\\s_" + ingredientFile.getUuid() + "_" + ingredientFile.getFileName());
-                    Files.delete(thumbNail);
-                }
+                //썸네일 관련 삭제
+//                if(Files.probeContentType(file).startsWith("image")){
+//                    Path thumbNail = Paths.get(ingredientFileDir + ingredientFile.getUploadPath() +
+//                            "\\s_" + ingredientFile.getUuid() + "_" + ingredientFile.getFileName());
+//                    Files.delete(thumbNail);
+//                }
             } catch (Exception e){
                 log.error("delete file error : " + e.getMessage());
             }

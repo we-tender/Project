@@ -42,8 +42,25 @@ $(document).ready(function(){
         console.log("delete file");
 
         if(confirm("Remove this file ?")){
+            const targetFile = $(this).data("file");
+            const type = $(this).data("type");
             const targetLi = $(this).closest("li");
-            targetLi.remove();
+
+            $.ajax({
+                url : "/supporters/deleteCocktailFile",
+                data : {fileName : targetFile, type : type},
+                dataType : "text",
+                type : 'POST',
+                beforeSend: function (jqXHR, settings) {
+                    var header = $("meta[name='_csrf_header']").attr("content");
+                    var token = $("meta[name='_csrf']").attr("content");
+                    jqXHR.setRequestHeader(header, token);
+                },
+                success : function(result){
+                    alert(result);
+                    targetLi.remove();
+                }
+            });
         }
     });
 

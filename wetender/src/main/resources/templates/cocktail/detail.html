@@ -92,7 +92,7 @@
                                     <div class="width-10rem padding-05rem">
                                         <button type="button" id="delete"
                                                 class="btn-cancel-1 width-100"
-                                                th:onclick="|location.href='@{/supporters/cocktail/update/{id}(id=${cocktailDto.id})}'|">
+                                                th:onclick="deleteConfirm([[${cocktailDto.id}]])">
                                             삭제하기</button>
                                     </div>
                                 </div>

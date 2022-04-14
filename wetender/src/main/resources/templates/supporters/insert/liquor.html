@@ -74,10 +74,10 @@
                                             th:data-type="${obj.fileType}">
                                             <div>
                                                 <span th:text="${obj.fileName}"></span>
-                                                <button type='button' th:data-file="|${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|" data-type='image' class='btn btn-warning btn-circle'>
+                                                <button type='button' th:data-file="|${obj.uploadPath}/${obj.uuid}_${obj.fileName}|" data-type='image' class='btn btn-warning btn-circle'>
                                                     <i class='fa fa-time'></i>
                                                 </button><br>
-                                                <img th:src="|/supporters/display/liquor/${obj.uploadPath}/s_${obj.uuid}_${obj.fileName}|">
+                                                <img th:src="|/supporters/display/liquor/${obj.uploadPath}/${obj.uuid}_${obj.fileName}|">
                                             </div>
                                         </li>
                                     </ul>

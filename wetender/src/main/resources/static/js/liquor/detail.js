@@ -1,5 +1,13 @@
-// HTML 요소의 동적 제어 기능
 
+//삭제 확인
+function deleteConfirm(id){
+
+	if(!confirm("삭제 하시겠습니까?")){
+		return false;
+	}else{
+		location.href="/supporters/liquor/delete/"+id;
+	}
+}
 
 // 댓글 저장
 function replyInsert() {
