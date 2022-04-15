@@ -55,9 +55,7 @@ public class NoticeBoardController {
         int page = pageable.getPageNumber();
 
         PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, sortBy));
-
         Page<NoticeBoard> noticeBoards = noticeBoardService.keywordFindPage(keyword, pageRequest);
-
         Page<NoticeBoardDto> noticeBoardDtos = noticeBoards.map(noticeBoard -> new NoticeBoardDto(noticeBoard));
         model.addAttribute("noticeBoardDtos", noticeBoardDtos);
 

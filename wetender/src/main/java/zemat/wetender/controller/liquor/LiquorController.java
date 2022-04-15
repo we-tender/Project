@@ -58,7 +58,8 @@ public class LiquorController {
                        ) {
 
         // 검색기능
-        Page<Liquor> liquors = liquorService.pageFindKeyword(pageable, keyword);
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), 5, Sort.by(Sort.Direction.DESC, "createdBy"));
+        Page<Liquor> liquors = liquorService.pageFindKeyword(pageRequest, keyword);
         Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
         // 페이지
         int startPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
@@ -75,6 +76,8 @@ public class LiquorController {
         model.addAttribute("liquorDtos", liquorDtos);
         model.addAttribute("sessionMember", memberService.getSessionMember());
         model.addAttribute("sideMenu", "nav-side-menu-liquor");
+
+
         return "liquor/main";
     }
 
@@ -149,7 +152,7 @@ public class LiquorController {
 
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-        PageRequest pageRequest = PageRequest.of(page, 24, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
 
         Page<Liquor> liquors = liquorService.pageFindKeyword(pageRequest, dto.getKeyword());
         Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));

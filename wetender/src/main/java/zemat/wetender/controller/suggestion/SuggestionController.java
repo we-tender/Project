@@ -2,7 +2,9 @@ package zemat.wetender.controller.suggestion;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,11 +45,12 @@ public class SuggestionController {
     // 건의사항 메인페이지 시작
     @GetMapping("/main")
     public String main(Model model,
-                       @PageableDefault(size = 2) Pageable pageable,
+                       @PageableDefault(size = 5) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText) {
 
         // 검색 기능
-        Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageable);
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), 5, Sort.by(Sort.Direction.DESC, "createdBy"));
+        Page<Suggestion> suggestions = suggestionService.searchPage(searchText, pageRequest);
         Page<SuggestionDto> suggestionDtoList = suggestions.map(suggestion -> new SuggestionDto(suggestion));
 
         // 페이지

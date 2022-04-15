@@ -14,7 +14,10 @@
                 <div class="contents-header">
                     <h2><a th:href="@{/}">WETENDER</a></h2>
                 </div>
-                <!--<span th:if="${errorMessage != null}" th:text="${errorMessage}"></span>-->
+
+
+                <span class="field-error" th:if="${errorMessage != null}" th:text="${errorMessage}"></span>
+
                 <div class="contents-flex">
                     <form th:field="idnamePwdForm" th:action="@{/member/login}" th:object="${memberLoginForm}" method="post">
                         <div class="width-20rem padding-05rem input-1">

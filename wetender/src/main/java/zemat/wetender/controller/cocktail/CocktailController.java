@@ -54,8 +54,10 @@ public class CocktailController {
         String keyword = "";
 
         // 검색기능
-        Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageable, keyword);
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), 5, Sort.by(Sort.Direction.DESC, "createdBy"));
+        Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageRequest, keyword);
         Page<CocktailMainDto> cocktailDtos = cocktails.map(cocktail -> new CocktailMainDto(cocktail));
+
         // 페이지
         int startPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
         int endPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
@@ -116,7 +118,7 @@ public class CocktailController {
     public String searchSortBy(Model model, CocktailSearchSortByDto dto, Pageable pageable) {
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1); // page는 index 처럼 0부터 시작
-        PageRequest pageRequest = PageRequest.of(page, 1, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, dto.getSortBy()));
 
         Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageRequest, dto.getKeyword());
         Page<CocktailMainDto> cocktailDtos = cocktails.map(cocktail -> new CocktailMainDto(cocktail));
