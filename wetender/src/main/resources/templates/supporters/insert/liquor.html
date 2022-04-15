@@ -1,113 +1,114 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
 <head>
     <meta charset="utf-8">
+    <title>리큐어 등록</title>
 </head>
 
 <body>
 
     <section>
+
         <div class="container-grid">
-            <div class="contents-flex flex-column-center">
-                <div class="contents-header">
-                    <h2>주류 상품 등록</h2>
-                </div>
-                <div class="contents-flex">
-                    <form role="form" th:action th:object="${form}" method="post" enctype="multipart/form-data">
-                        <meta name="_csrf" th:content="${_csrf.token}">
-                        <meta name="_csrf_header" th:content="${_csrf.headerName}">
-                        <div class="contents-flex">
-                            <div class="width-15rem padding-05rem input-1">
-                                <label th:for="name">주류이름</label>
-                                <input type="text" th:field="*{name}" class="width-100" placeholder="이름을 입력하세요">
-                                <div class="field-error" th:errors="*{name}">
-                                    상품명 오류
-                                </div>
-                            </div>
-                            <div class="width-15rem padding-05rem input-1">
-                                <label th:for="eName">주류영문이름</label>
-                                <input type="text" th:field="*{eName}" class="width-100" placeholder="영문명을 입력하세요">
-                                <div class="field-error" th:errors="*{eName}">
-                                    상품명 오류
-                                </div>
-                            </div>
-                            <div class="width-10rem padding-05rem input-1">
-                                <label th:for="abv">주류 도수</label>
-                                <input type="number" th:field="*{abv}" class="width-100" placeholder="도수를 입력하세요">
-                                <div class="field-error" th:errors="*{abv}">
-                                    상품명 오류
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contents-flex">
-                            <div class="width-40rem padding-05rem input-1">
-                                <label th:for="oneLine">주류 한줄설명</label>
-                                <input type="text" th:field="*{oneLine}" class="width-100" placeholder="한줄설명을 입력하세요">
-                                <div class="field-error" th:errors="*{oneLine}">
-                                    상품명 오류
-                                </div>
-                            </div>
-                        </div>
-                        <div class="contents-flex">
-                            <div class="width-40rem padding-05rem input-1">
-                                <label th:for="content">주류 설명</label>
-                                <textarea col="50" row="3" th:field="*{content}" class="width-100" placeholder="설명을 입력하세요"></textarea>
-                                <div class="field-error" th:errors="*{content}">
-                                    상품명 오류
-                                </div>
-                            </div>
-                        </div>
+            <form role="form" th:action th:object="${form}" method="post" enctype="multipart/form-data" class="contents-flex flex-row-center">
+                <meta name="_csrf" th:content="${_csrf.token}">
+                <meta name="_csrf_header" th:content="${_csrf.headerName}">
 
-                        <!-- 이미지 -->
-                        <div class="contents-flex">
-                            <div class="width-40rem padding-05rem input-file">
-                                <div class="uploadDiv display-flex">
-                                    <label th:for="uploadFile">file Attach</label>
-                                    <input type="file" id="uploadFile" name="uploadFile" multiple>
-                                    <input type="hidden" id="uploadNum" value="0">
-                                    <input class="upload-state" placeholder="파일을 등록해주세요">
-                                </div>
-                                <div class="uploadResult">
-                                    <ul class="uploadImg">
-                                        <li th:each="obj : *{attachList}" th:data-path="${obj.uploadPath}" th:data-uuid="${obj.uuid}" th:data-filename="${obj.fileName}"
-                                            th:data-type="${obj.fileType}">
-                                            <div>
-                                                <span th:text="${obj.fileName}"></span>
-                                                <button type='button' th:data-file="|${obj.uploadPath}/${obj.uuid}_${obj.fileName}|" data-type='image' class='btn btn-warning btn-circle'>
-                                                    <i class='fa fa-time'></i>
-                                                </button><br>
-                                                <img th:src="|/supporters/display/liquor/${obj.uploadPath}/${obj.uuid}_${obj.fileName}|">
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+                <div class="detail-img-area">
+                    <!--   파일 보여지는 부분     -->
+                    <ul class="uploadResult">
+                        <li th:each="obj : *{attachList}" th:data-path="${obj.uploadPath}" th:data-uuid="${obj.uuid}" th:data-filename="${obj.fileName}"
+                            th:data-type="${obj.fileType}">
+                            <figure>
+                                <figcaption>
+                                    <button type='button' th:data-file="|${obj.uploadPath}/${obj.uuid}_${obj.fileName}|" data-type='image' class="btn-del"></button>
+                                </figcaption>
+                                <img th:src="|/supporters/display/liquor/${obj.uploadPath}/${obj.uuid}_${obj.fileName}|">
+                            </figure>
+                        </li>
+                        <li class="contents-flex flex-row-center">
+                            <div class="input-file display-flex flex-row-center-center">
+                                <label for="uploadFile"><div></div></label>
+                                <input type="file" id="uploadFile" name="uploadFile" onchange="inputChange(this)" multiple="multiple">
                             </div>
-                            <div class="field-error" th:errors="*{attachList}">
-                                상품명 오류
-                            </div>
-                        </div>
-                        <!-- 이미지 끝 -->
-
-                        <div class="contents-flex flex-row-center">
-                            <div class="width-10rem padding-05rem">
-                                <button class="btn-1 width-100" type="submit">주류 등록</button>
-                            </div>
-                            <div class="width-10rem padding-05rem">
-                                <button class="btn-cancel-1 width-100"
-                                        th:onclick="|location.href='@{/supporters/main}'|"
-                                        type="button">취소</button>
-                            </div>
-                        </div>
-                    </form>
+                        </li>
+                    </ul>
+                    <div class="field-error" th:errors="*{attachList}">
+                        상품명 오류
+                    </div>
                 </div>
-            </div>
+                <div class="detail-img-info-area">
+                    <div class="detail-img-info">
+                        <ul>
+                            <li>
+                                <div  class="detail-img-info-head">주류이름</div>
+                                <div class="detail-img-info-content input-1">
+                                    <input type="text" th:field="*{name}" placeholder="이름을 입력하세요">
+                                    <div class="field-error" th:errors="*{name}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">주류영문이름</div>
+                                <div class="detail-img-info-content input-1">
+                                    <input type="text" th:field="*{eName}" placeholder="영문명을 입력하세요">
+                                    <div class="field-error" th:errors="*{eName}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">도수</div>
+                                <div class="detail-img-info-content input-1">
+                                    <input type="number" th:field="*{abv}" placeholder="도수를 입력하세요">
+                                    <div class="field-error" th:errors="*{abv}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">한줄평</div>
+                                <div class="detail-img-info-content input-1">
+                                    <textarea th:field="*{oneLine}" class="width-100" placeholder="한줄설명을 입력하세요"></textarea>
+                                    <div class="field-error" th:errors="*{oneLine}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">소개글</div>
+                                <div class="detail-img-info-content input-1">
+                                    <textarea type="text" th:field="*{content}" class="width-100 height-min-10rem" placeholder="설명을 입력하세요"></textarea>
+                                    <div class="field-error" th:errors="*{content}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contents-flex flex-row-center">
+                                    <div class="width-10rem padding-05rem">
+                                        <button class="btn-1 width-100" type="submit">주류 등록</button>
+                                    </div>
+                                    <div class="width-10rem padding-05rem">
+                                        <button class="btn-cancel-1 width-100"
+                                                th:onclick="|location.href='@{/supporters/main}'|"
+                                                type="button">취소</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
         </div>
 
         <!-- js & CSS적용  -->
         <script type="text/javascript" th:src="@{/js/supporters/insert/liquor.js}"></script>
         <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     </section>
 
 </body>
