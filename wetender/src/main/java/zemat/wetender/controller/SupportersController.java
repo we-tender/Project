@@ -211,6 +211,7 @@ public class SupportersController {
     @PostMapping("/insert/ingredient")
     public String ingredientInsert(@Validated @ModelAttribute("form") IngredientInsertForm form, BindingResult bindingResult) throws IOException {
 
+        System.out.println(form.getAttachList());
         // 검증 실패 로직
         if(bindingResult.hasErrors()){
             log.info("error={}",bindingResult);

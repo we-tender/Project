@@ -22,4 +22,8 @@ public class IngredientInsertForm {
 
     @NotNull(message = "이미지는 한장 이상 이어야합니다.")
     private List<AttachFileDto> attachList;
+
+    public IngredientInsertForm() {
+
+    }
 }
