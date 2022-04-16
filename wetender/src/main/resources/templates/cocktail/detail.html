@@ -44,6 +44,37 @@
                                 </div>
                             </li>
                             <li>
+                                <div class="detail-img-info-head">좋아요</div>
+                                <div class="detail-img-info-content">
+                                    <!-- 좋아요 시작 -->
+                                    <div id="likes">
+                                        <th:block th:if="${sessionMember}">
+                                            <input id="memberName" type="hidden" th:value="${sessionMember.getUsername()}"/>
+                                            <!-- 참인 경우-->
+                                            <th:blcok th:if="${likesCheck} == true">
+                                                <img src="/images/icon/fullHeart.png" height="30" width="30"
+                                                     style="float:left;"
+                                                     onclick="cocktailLikesInsertOrDelete()">
+                                            </th:blcok>
+                                            <th:block th:if="${likesCheck} == false">
+                                                <img src="/images/icon/emptyHeart.png" height="30" width="30"
+                                                     style="float:left;"
+                                                     onclick="cocktailLikesInsertOrDelete()">
+                                            </th:block>
+                                        </th:block>
+
+                                        <th:block th:unless="${sessionMember}">
+                                            <a type="button" class="btm_image"
+                                               th:href="@{/loginForm}"
+                                               style="float:left;" ><img src="/images/icon/emptyHeart.png" height="30" width="30"></a>
+                                        </th:block>
+                                        <p style="float:left;" >&nbsp;&nbsp;</p>
+                                        <p id="cocktailLikes" name="cocktailLikes" style="float:left;" th:text="${cocktailDto.likes}">좋아요 수</p>
+                                    </div>
+                                    <!-- 좋아요 끝 -->
+                                </div>
+                            </li>
+                            <li>
                                 <div class="detail-img-info-head">한줄평</div>
                                 <div class="detail-img-info-content"><p class="margin-0" th:text="${cocktailDto.oneLine}">한줄평</p></div>
                             </li>
@@ -106,32 +137,7 @@
             <div class="container" >
                 <div class= "text-end">
 
-                    <!-- 좋아요 시작 -->
-                    <div id="likes">
-                        <th:block th:if="${sessionMember}">
-                            <input id="memberName" type="hidden" th:value="${sessionMember.getUsername()}"/>
-                            <!-- 참인 경우-->
-                            <th:blcok th:if="${likesCheck} == true">
-                                <img src="/images/icon/fullHeart.png" height="30" width="30"
-                                     style="float:left;"
-                                     onclick="cocktailLikesInsertOrDelete()">
-                            </th:blcok>
-                            <th:block th:if="${likesCheck} == false">
-                                <img src="/images/icon/emptyHeart.png" height="30" width="30"
-                                     style="float:left;"
-                                     onclick="cocktailLikesInsertOrDelete()">
-                            </th:block>
-                        </th:block>
 
-                        <th:block th:unless="${sessionMember}">
-                            <a type="button" class="btm_image"
-                               th:href="@{/loginForm}"
-                               style="float:left;" ><img src="/images/icon/emptyHeart.png" height="30" width="30"></a>
-                        </th:block>
-                        <p style="float:left;" >&nbsp;&nbsp;</p>
-                        <p id="cocktailLikes" name="cocktailLikes" style="float:left;" th:text="${cocktailDto.likes}">좋아요 수</p>
-                    </div>
-                    <!-- 좋아요 끝 -->
                 </div>
             </div>
 
