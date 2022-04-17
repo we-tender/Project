@@ -86,7 +86,7 @@ function showUploadResult(uploadResultArr){
         str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'>";
         str += "<figure><figcaption>";
         str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
-        str += " class='btn-del'></button></figcaption>";
+        str += " class='btn-img-del'></button></figcaption>";
         str += "<img src='/supporters/display/liquor/" + fileCellPath + "'></figure>";
         str += "</li>";
     });

@@ -580,7 +580,6 @@
     box-shadow : 0 0 0 .25rem #fbcfd0;
 }
 .btn-1 {
-    color : #000;
     text-decoration : none;
     text-align : center;
     text-transform : uppercase;
@@ -595,11 +594,9 @@
     box-shadow : 0 0 0 .25rem #fbcfd0;
 }
 .btn-1:hover {
-    color : #000;
     background-color : #DF6694
 }
 .btn-2 {
-    color : #000;
     text-decoration : none;
     text-align : center;
     text-transform : uppercase;
@@ -614,11 +611,9 @@
     box-shadow : 0 0 0 .25rem #fbcfd0;
 }
 .btn-2:hover {
-    color : #000;
     background-color : #fb8bb5
 }
-.btn-cancel-1 {
-    color : #000;
+.btn-cancel-1, .btn-del-1 {
     text-decoration : none;
     text-align : center;
     text-transform : uppercase;
@@ -628,21 +623,21 @@
     border : 1px solid #cac6c7;
     background-color : #cac6c7
 }
-.btn-cancel-1:focus {
+.btn-cancel-1:focus, .btn-del-1:focus {
     outline : 0;
     box-shadow : 0 0 0 .25rem #b4a4a7;
 }
-.btn-cancel-1:hover {
+.btn-cancel-1:hover, .btn-del-1:hover {
     background-color : #c0b5b7
 }
-.btn-del {
+.btn-img-del {
     border : 0;
     padding : 0;
     width : 1rem;
     height : 1rem;
     background-color : transparent;
 }
-.btn-del:before, .btn-del:after {
+.btn-img-del:before, .btn-img-del:after {
     position : absolute;
     top : .1rem;
     right : .5rem;
@@ -651,10 +646,10 @@
     content : ' ';
     background-color : #000;
 }
-.btn-del:before {
+.btn-img-del:before {
     transform : rotate(45deg);
 }
-.btn-del:after {
+.btn-img-del:after {
     transform : rotate(-45deg);
 }
 
@@ -688,6 +683,9 @@
 }
 .width-40rem {
     width : 40rem;
+}
+.width-100p-4rem {
+    width : calc(100% - 4rem);
 }
 .width-100p-11rem {
     width : calc(100% - 11rem);

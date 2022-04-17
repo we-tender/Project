@@ -86,7 +86,7 @@ function showUploadResult(uploadResultArr){
         str += " data-filename='" +obj.fileName + "' data-type='" +obj.fileType +"'>";
         str += "<figure><figcaption>";
         str += "<button type='button' data-file= '" + fileCellPath + "' data-type='image'";
-        str += " class='btn-del'></button></figcaption>";
+        str += " class='btn-img-del'></button></figcaption>";
         str += "<img src='/supporters/display/liquor/" + fileCellPath + "'></figure>";
         str += "</li>";
     });
@@ -95,14 +95,13 @@ function showUploadResult(uploadResultArr){
     str += "<li class='contents-flex flex-row-center'>";
     str += "<div class='input-file display-flex flex-row-center-center'>";
     str += "<label for='uploadFile'><div></div></label>";
-    str += "<input type='file' id='uploadFile' name='uploadFile' onchange='inputChange(this)' multiple></div>";
+    str += "<input type='file' id='uploadFile' name='uploadFile' onchange='inputChange(this)' multiple='multiple'></div>";
     str += "</li>";
     uploadUl.append(str);
 }
 
 // 파일 변경 감지
 function inputChange(obj) {
-    console.log(obj);
     const formData = new FormData();
     const files = obj.files;
     for(let i = 0; i < files.length; i++){

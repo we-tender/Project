@@ -1,157 +1,187 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
-<!--head 에 입력변수를 받아 title 바꾼다.-->
 <head>
+    <meta charset="UTF-8">
+    <title>칵테일 상세 수정</title>
 </head>
+
 <body>
-<section>
-  <div class="container">
-    <div class="py-5 text-center">
-      <h2>칵테일 수정 폼</h2>
-    </div>
-    <form action="item.html" role="form" th:action th:object="${form}" method="post" enctype="multipart/form-data">
-      <meta name="_csrf" th:content="${_csrf.token}">
-      <meta name="_csrf_header" th:content="${_csrf.headerName}">
-      <input type="hidden" th:field="*{id}"/>
-      <div>
-        <label th:for="name">칵테일이름</label>
-        <input type="text" th:field="*{name}"
-               th:errorclass="field-error"
-               class="form-control" placeholder="이름을 입력하세요">
-        <div class="field-error" th:errors="*{name}">
-          상품명 오류
-        </div>
-      </div>
-      <div>
-        <label th:for="eName">칵테일영문이름</label>
-        <input type="text" th:field="*{eName}" class="form-control" placeholder="영문명을 입력하세요">
-        <div class="field-error" th:errors="*{eName}">
-          상품명 오류
-        </div>
-      </div>
-      <div>
-        <label th:for="base">칵테일 기주</label>
-        <input type="text" th:field="*{base}" th:errorclass="field-error" class="form-control" placeholder="기주를 입력하세요">
-        <div class="field-error" th:errors="*{base}">
-          상품명 오류
-        </div>
-      </div>
-      <div>
-        <label th:for="abv">칵테일 도수</label>
-        <input type="number" th:field="*{abv}" th:errorclass="field-error" class="form-control" placeholder="도수를 입력하세요">
-        <div class="field-error" th:errors="*{abv}">
-          상품명 오류
-        </div>
-      </div>
-      <div>
-        <label th:for="oneLine">칵테일 한줄설명</label>
-        <input type="text" th:field="*{oneLine}" th:errorclass="field-error" class="form-control" placeholder="한줄설명을 입력하세요">
-        <div class="field-error" th:errors="*{oneLine}">
-          상품명 오류
-        </div>
-      </div>
-      <div>
-        <label th:for="content">칵테일 설명</label>
-        <input type="text" th:field="*{content}" th:errorclass="field-error" class="form-control" placeholder="설명을 입력하세요">
-        <div class="field-error" th:errors="*{content}">
-          상품명 오류
-        </div>
-      </div>
 
-      <!-- 이미지 -->
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="panel-heading">이미지 등록</div>
+    <section>
 
-          <div class="panel-body">
-            <div class="form-group uploadDiv">
-              <input type="file" name="uploadFile" multiple>
-            </div>
+        <div class="container-grid">
+            <form role="form" th:action th:object="${form}" method="post" enctype="multipart/form-data" class="contents-flex flex-row-center">
+                <meta name="_csrf" th:content="${_csrf.token}">
+                <meta name="_csrf_header" th:content="${_csrf.headerName}">
+                <input type="hidden" th:field="*{id}"/>
 
-            <div class="uploadResult">
-              <ul>
-                <li th:each="obj : *{attachList}" th:data-path="${obj.uploadPath}" th:data-uuid="${obj.uuid}" th:data-filename="${obj.fileName}"
-                    th:data-type="${obj.fileType}">
-                  <div>
-                    <span th:text="${obj.fileName}"></span>
-                    <button type='button' th:data-file="|${obj.uploadPath}/${obj.uuid}_${obj.fileName}|" data-type='image' class='btn btn-warning btn-circle'>
-                      <i class='fa fa-time'></i>
-                    </button><br>
-                    <img th:src="|/supporters/display/cocktail/${obj.uploadPath}/${obj.uuid}_${obj.fileName}|">
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
+                <div class="detail-img-area">
+                    <ul class="uploadResult">
+                        <li th:each="obj : *{attachList}" th:data-path="${obj.uploadPath}" th:data-uuid="${obj.uuid}" th:data-filename="${obj.fileName}"
+                            th:data-type="${obj.fileType}">
+                            <figure>
+                                <figcaption>
+                                    <button type='button' th:data-file="|${obj.uploadPath}/${obj.uuid}_${obj.fileName}|" data-type='image' class="btn-img-del"></button>
+                                </figcaption>
+                                <img th:src="|/supporters/display/cocktail/${obj.uploadPath}/${obj.uuid}_${obj.fileName}|">
+                            </figure>
+                        </li>
+                        <li class="contents-flex flex-row-center">
+                            <div class="input-file display-flex flex-row-center-center">
+                                <label for="uploadFile"><div></div></label>
+                                <input type="file" id="uploadFile" name="uploadFile" onchange="inputChange(this)" multiple="multiple">
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="field-error" th:errors="*{attachList}">
+                        상품명 오류
+                    </div>
+                </div>
+                <div class="detail-img-info-area">
+                    <div class="detail-img-info">
+                        <ul>
+                            <li>
+                                <div class="detail-img-info-head">칵테일 이름</div>
+                                <div class="detail-img-info-content input-1">
+                                    <input type="text" th:field="*{name}" th:errorclass="field-error" placeholder="이름을 입력하세요">
+                                    <div class="field-error" th:errors="*{name}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">칵테일 영문이름</div>
+                                <div class="detail-img-info-content input-1">
+                                    <input type="text" th:field="*{eName}" placeholder="영문명을 입력하세요">
+                                    <div class="field-error" th:errors="*{eName}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">칵테일 기주</div>
+                                <div class="detail-img-info-content input-1">
+                                    <input type="text" th:field="*{base}" th:errorclass="field-error" placeholder="기주를 입력하세요">
+                                    <div class="field-error" th:errors="*{base}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">도수</div>
+                                <div class="detail-img-info-content input-1">
+                                    <input type="number" th:field="*{abv}" th:errorclass="field-error" placeholder="도수를 입력하세요">
+                                    <div class="field-error" th:errors="*{abv}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">맛</div>
+                                <div class="detail-img-info-content">
+                                    <ul class="cocktail-taste-list">
+                                        <li th:each="taste : ${tastes}">
+                                            <input type="checkbox" th:field="*{tastes}" th:value="${taste.key}" class="form-check-input">
+                                            <label th:for="${#ids.prev('tastes')}" th:text="${taste.value}">맛</label>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">한줄평</div>
+                                <div class="detail-img-info-content input-1">
+                                    <textarea type="text" th:field="*{oneLine}" th:errorclass="field-error" class="width-100 height-min-10rem" placeholder="한줄설명을 입력하세요"></textarea>
+                                    <div class="field-error" th:errors="*{oneLine}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">소개글</div>
+                                <div class="detail-img-info-content input-1">
+                                    <textarea type="text" th:field="*{content}" th:errorclass="field-error" class="width-100 height-min-10rem" placeholder="설명을 입력하세요"></textarea>
+                                    <div class="field-error" th:errors="*{content}">
+                                        상품명 오류
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">주조 순서
+                                    <button type="button" class="btn-1" onclick="sequenceAdd()">순서 추가</button>
+                                </div>
+                                <div class="detail-img-info-content">
+                                    <input type="hidden" th:id="sequencesCnt" th:name="sequencesCnt" th:value="${sequencesCnt}">
+                                    <ul id="sequenceUl" class="cocktail-sequence-list input-1">
+                                        <li th:each="sequence : ${form.sequences}">
+                                            <input type="text" class="width-100p-4rem" th:id="|sequences[${sequenceStat.index}].content|" th:name="|sequences[${sequenceStat.index}].content|" th:value="${sequence.content}" placeholder="순서">
+                                            <button type="button" class="btn-del-1" onclick="sequenceRemove(this)">삭제</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="field-error" th:errors="*{sequences}">
+                                    상품명 오류
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">주류
+                                    <button type="button" class="btn-1" onclick="cocktailLiquorAdd()">주류 추가</button>
+                                </div>
+                                <div class="detail-img-info-content">
+                                    <input type="hidden" th:id="liquorsCnt" th:name="liquorsCnt" th:value="${liquorsCnt}">
+                                    <ul id="cocktailLiquorUl" class="cocktail-ingredient-list input-1">
+                                        <li th:each="liquor : ${form.liquors}">
+                                            <input type="hidden" th:id="|liquors[${liquorStat.index}].id|" th:name="|liquors[${liquorStat.index}].id|" th:value="${liquor.id}">
+                                            <input type="text"  th:id="|liquors[${liquorStat.index}].name|" th:name="|liquors[${liquorStat.index}].name|" th:value="${liquor.name}" readonly="readonly">
+                                            <button type="button" class="cocktailLiquorSearch btn-1" th:data-id="|liquors[${liquorStat.index}].id|" th:data-name="|liquors[${liquorStat.index}].name|" onclick="cocktailLiquorSearch(this)">주류 선택</button>
+                                            <input type="text" th:id="|liquors[${liquorStat.index}].quantity|" th:name="|liquors[${liquorStat.index}].quantity|" th:value="${liquor.quantity}" placeholder="재료 양">
+                                            <button type="button" class="cocktailLiquorBtnRemove btn-del-1" onclick="cocktailLiquorRemove(this)">삭제</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="detail-img-info-head">재료
+                                    <button type="button" class="btn-1" onclick="cocktailIngredientAdd()">재료 추가</button>
+                                </div>
+                                <div class="detail-img-info-content">
+                                    <input type="hidden" th:id="ingredientsCnt" th:name="ingredientsCnt" th:value="${ingredientsCnt}">
+                                    <ul id="cocktailIngredientUl" class="cocktail-ingredient-list input-1">
+                                        <li th:each="ingredient : ${form.ingredients}">
+                                            <input type="hidden" th:id="|ingredients[${ingredientStat.index}].id|" th:name="|ingredients[${ingredientStat.index}].id|" th:value="${ingredient.id}">
+                                            <input type="text"  th:id="|ingredients[${ingredientStat.index}].name|" th:name="|ingredients[${ingredientStat.index}].name|" th:value="${ingredient.name}" readonly="readonly">
+                                            <button type="button" class="cocktailIngredientSearch btn-1" th:data-id="|ingredients[${ingredientStat.index}].id|" th:data-name="|ingredients[${ingredientStat.index}].name|" onclick="cocktailIngredientSearch(this)">재료 선택</button>
+                                            <input type="text" th:id="|ingredients[${ingredientStat.index}].quantity|" th:name="|ingredients[${ingredientStat.index}].quantity|" th:value="${ingredient.quantity}" placeholder="재료 양">
+                                            <button type="button" class="cocktailIngredientBtnRemove btn-del-1" onclick="cocktailIngredientRemove(this)">삭제</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="contents-flex flex-row-center">
+                                    <div class="width-10rem padding-05rem">
+                                        <button class="btn-1 width-100" type="submit">칵테일 등록</button>
+                                    </div>
+                                    <div class="width-10rem padding-05rem">
+                                        <button class="btn-cancel-1 width-100"
+                                                th:onclick="|location.href='@{/cocktail/{id}(id=*{id})}'|"
+                                                type="button">취소</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="field-error" th:errors="*{attachList}">
-          상품명 오류
-        </div>
-      </div>
-      <!-- 이미지 끝 -->
 
-      <div>
-        <label th:for="taste">칵테일 맛</label>
-        <div th:each="taste : ${tastes}" class="form-check form-check-inline">
-          <input type="checkbox" th:field="*{tastes}" th:value="${taste.key}" class="form-check-input">
-          <label th:for="${#ids.prev('tastes')}" th:text="${taste.value}" class="form-check-label">맛</label>
-        </div>
-      </div>
-      <div id="sequenceDiv" class="col-lg-6 col-md-6 form-group mt-3">
-        <label th:for="sequence" >칵테일 순서</label><br>
-        <input type="button" class="sequenceBtnAdd" value="순서 추가"><br>
-        <input type="hidden" th:id="sequencesCnt" th:name="sequencesCnt" th:value="${sequencesCnt}">
-        <div th:each="sequence : ${form.sequences}">
-          <input type="text" th:id="|sequences[${sequenceStat.index}].content|" th:name="|sequences[${sequenceStat.index}].content|" th:value="${sequence.content}" placeholder="순서">
-          <input type="button" class="sequenceBtnRemove" value="삭제"><br>
-        </div>
-        <div class="field-error" th:errors="*{sequences}">
-          상품명 오류
-        </div>
-      </div>
-      <hr class="my-4"/>
-      <div id="cocktailLiquor" class="col-lg-6 col-md-6 form-group mt-3">
-        <label th:for="cocktailLiquor" >주류 등록</label><br>
-        <input type="button" class="cocktailLiquorBtnAdd" value="주류 추가"><br>
-        <input type="hidden" th:id="liquorsCnt" th:name="liquorsCnt" th:value="${liquorsCnt}">
-        <div th:each="liquor : ${form.liquors}">
-          <input type="hidden" th:id="|liquors[${liquorStat.index}].id|" th:name="|liquors[${liquorStat.index}].id|" th:value="${liquor.id}">
-          <input type="text"  th:id="|liquors[${liquorStat.index}].name|" th:name="|liquors[${liquorStat.index}].name|" th:value="${liquor.name}" readonly="readonly">
-          <input type="button" class="cocktailLiquorSearch" th:data-id="|liquors[${liquorStat.index}].id|" th:data-name="|liquors[${liquorStat.index}].name|" value="주류 선택">
-          <input type="text" th:id="|liquors[${liquorStat.index}].quantity|" th:name="|liquors[${liquorStat.index}].quantity|" th:value="${liquor.quantity}" placeholder="재료 양">
-          <input type="button" class="cocktailLiquorBtnRemove" value="삭제"><br>
-        </div>
-      </div>
-      <hr class="my-4"/>
-      <div id="cocktailIngredient" class="col-lg-6 col-md-6 form-group mt-3">
-        <label th:for="cocktailIngredient" >재료 등록</label><br>
-        <input type="button" class="cocktailIngredientBtnAdd" value="재료 추가"><br>
-        <input type="hidden" th:id="ingredientsCnt" th:name="ingredientsCnt" th:value="${ingredientsCnt}">
-        <div th:each="ingredient : ${form.ingredients}">
-          <input type="hidden" th:id="|ingredients[${ingredientStat.index}].id|" th:name="|ingredients[${ingredientStat.index}].id|" th:value="${ingredient.id}">
-          <input type="text"  th:id="|ingredients[${ingredientStat.index}].name|" th:name="|ingredients[${ingredientStat.index}].name|" th:value="${ingredient.name}" readonly="readonly">
-          <input type="button" class="cocktailIngredientSearch" th:data-id="|ingredients[${ingredientStat.index}].id|" th:data-name="|ingredients[${ingredientStat.index}].name|" value="주류 선택">
-          <input type="text" th:id="|ingredients[${ingredientStat.index}].quantity|" th:name="|ingredients[${ingredientStat.index}].quantity|" th:value="${ingredient.quantity}" placeholder="재료 양">
-          <input type="button" class="cocktailIngredientBtnRemove" value="삭제"><br>
-        </div>
-      </div>
-      <hr class="my-4"/>
-      <div class="col">
-        <button class="w-100 btn btn-primary btn-lg" type="submit">칵테일 등록</button>
-      </div>
-      <div class="col">
-        <button class="w-100 btn btn-secondary btn-lg"
-                th:onclick="|location.href='@{/cocktail/{id} (id=*{id})}'|"
-                type="button">취소</button>
-      </div>
-    </form>
-  </div>
-  <!-- js적용  -->
-  <script type="text/javascript" th:src="@{/js/supporters/update/cocktail.js}"></script>
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-</section>
+        <!-- js적용  -->
+        <script type="text/javascript" th:src="@{/js/supporters/update/cocktail.js}"></script>
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    </section>
+
 </body>
+
 </html>
