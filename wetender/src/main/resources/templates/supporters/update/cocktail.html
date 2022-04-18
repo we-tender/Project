@@ -116,8 +116,7 @@
                                     <ul id="sequenceUl" class="cocktail-sequence-list input-1">
                                         <li th:each="sequence : ${form.sequences}">
                                             <input type="text" class="width-100p-2rem" th:id="|sequences[${sequenceStat.index}].content|" th:name="|sequences[${sequenceStat.index}].content|" th:value="${sequence.content}" placeholder="순서">
-                                            <label for="sequenceRemove" onclick="sequenceRemove(this)"><div class="btn-del-x"></div></label>
-                                            <button type="button" class="hidden-item" id="sequenceRemove"></button>
+                                            <button type="button" class="hidden-item" onclick="sequenceRemove(this)"><div class="btn-del-x"></div></button>
                                         </li>
                                     </ul>
                                 </div>
@@ -135,11 +134,10 @@
                                     <ul id="cocktailLiquorUl" class="cocktail-ingredient-list input-1">
                                         <li th:each="liquor : ${form.liquors}">
                                             <input type="hidden" th:id="|liquors[${liquorStat.index}].id|" th:name="|liquors[${liquorStat.index}].id|" th:value="${liquor.id}">
-                                            <button type="button" class="cocktailLiquorSearch btn-1" th:data-id="|liquors[${liquorStat.index}].id|" th:data-name="|liquors[${liquorStat.index}].name|" onclick="cocktailLiquorSearch(this)">선택</button>
+                                            <button type="button" class="btn-1" th:data-id="|liquors[${liquorStat.index}].id|" th:data-name="|liquors[${liquorStat.index}].name|" onclick="cocktailLiquorSearch(this)">선택</button>
                                             <input type="text"  th:id="|liquors[${liquorStat.index}].name|" th:name="|liquors[${liquorStat.index}].name|" th:value="${liquor.name}" readonly="readonly">
                                             <input type="text" th:id="|liquors[${liquorStat.index}].quantity|" th:name="|liquors[${liquorStat.index}].quantity|" th:value="${liquor.quantity}" class="width-10rem" placeholder="재료 양">
-                                            <label for="cocktailLiquorRemove" onclick="cocktailLiquorRemove(this)"><div class="btn-del-x"></div></label>
-                                            <button type="button" class="hidden-item" id="cocktailLiquorRemove"></button>
+                                            <button type="button" class="hidden-item" onclick="cocktailLiquorRemove(this)"><div class="btn-del-x"></div></button>
                                         </li>
                                     </ul>
                                 </div>
@@ -154,11 +152,10 @@
                                     <ul id="cocktailIngredientUl" class="cocktail-ingredient-list input-1">
                                         <li th:each="ingredient : ${form.ingredients}">
                                             <input type="hidden" th:id="|ingredients[${ingredientStat.index}].id|" th:name="|ingredients[${ingredientStat.index}].id|" th:value="${ingredient.id}">
-                                            <button type="button" class="cocktailIngredientSearch btn-1" th:data-id="|ingredients[${ingredientStat.index}].id|" th:data-name="|ingredients[${ingredientStat.index}].name|" onclick="cocktailIngredientSearch(this)">선택</button>
+                                            <button type="button" class="btn-1" th:data-id="|ingredients[${ingredientStat.index}].id|" th:data-name="|ingredients[${ingredientStat.index}].name|" onclick="cocktailIngredientSearch(this)">선택</button>
                                             <input type="text"  th:id="|ingredients[${ingredientStat.index}].name|" th:name="|ingredients[${ingredientStat.index}].name|" th:value="${ingredient.name}" readonly="readonly">
                                             <input type="text" th:id="|ingredients[${ingredientStat.index}].quantity|" th:name="|ingredients[${ingredientStat.index}].quantity|" th:value="${ingredient.quantity}" class="width-10rem" placeholder="재료 양">
-                                            <label for="cocktailLiquorRemove" onclick="cocktailIngredientRemove(this)"><div class="btn-del-x"></div></label>
-                                            <button type="button" class="hidden-item" id="cocktailIngredientRemove"></button>
+                                            <button type="button" class="hidden-item" onclick="cocktailIngredientRemove(this)"><div class="btn-del-x"></div></button>
                                         </li>
                                     </ul>
                                 </div>

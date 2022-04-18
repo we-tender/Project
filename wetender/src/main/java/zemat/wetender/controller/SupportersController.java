@@ -94,6 +94,13 @@ public class SupportersController {
     @GetMapping("/insert/cocktail")
     public String cocktailInsertForm(Model model){
 
+        int ingredientsCnt = 1;
+        int liquorsCnt = 1;
+        int sequencesCnt = 1;
+
+        model.addAttribute("ingredientsCnt",ingredientsCnt);
+        model.addAttribute("liquorsCnt",liquorsCnt);
+        model.addAttribute("sequencesCnt",sequencesCnt);
         model.addAttribute("form", new CocktailInsertForm());
         model.addAttribute("sessionMember", memberService.getSessionMember());
 

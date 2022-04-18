@@ -2,6 +2,7 @@
 $(document).ready(function(){
     $("button[type='submit']").on("click", function(e){
         e.preventDefault();
+        console.log("submit clicked");
 
         let formObj = $("form[role='form']");
         let str = "";
@@ -56,41 +57,7 @@ $(document).ready(function(){
 
     //초기 데이터 함수 걸기*****************************************************************************************
 
-    $('.liquorIngredientBtnRemove').click(function(){
-        $(this).parent().remove();
-    });
 
-    $('.cocktailIngredientBtnRemove').click(function(){
-        $(this).parent().remove();
-    });
-
-    /* 주류 선택 버튼 */
-    $('.liquorIngredientSearch').click(function(e){
-
-        e.preventDefault();
-
-        let liquorBtnId = $(this).data('id');
-        let liquorBtnName = $(this).data('name');
-        let popUrl = "/supporters/pop/liquorPop" +"?id=" + liquorBtnId + "&name=" + liquorBtnName;
-        let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
-
-        window.open(popUrl,"주류 찾기",popOption);
-
-    });
-
-    /* 재료 선택 버튼 */
-    $('.cocktailIngredientSearch').click(function(e){
-
-        e.preventDefault();
-
-        let ingredientBtnId = $(this).data('id');
-        let ingredientBtnName = $(this).data('name');
-        let popUrl = "/supporters/pop/ingredientPop" +"?id=" + ingredientBtnId + "&name=" + ingredientBtnName;
-        let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
-
-        window.open(popUrl,"식재료 찾기",popOption);
-
-    });
     //*****************************************************************************************
 
 });
@@ -135,7 +102,7 @@ function showUploadResult(uploadResultArr){
     $(".input-file").parent().remove();
     str += "<li class='contents-flex flex-row-center'>";
     str += "<div class='input-file display-flex flex-row-center-center'>";
-    str += "<label for='uploadFile'><div></div></label>";
+    str += "<label for='uploadFile' class='btn-add'><div></div></label>";
     str += "<input type='file' id='uploadFile' name='uploadFile' onchange='inputChange(this)' multiple='multiple'></div>";
     str += "</li>";
     uploadUl.append(str);
@@ -178,23 +145,26 @@ function sequenceAdd() {
     cnt.value = cnt.value * 1 + 1;
 
     let str = "";
-    str += "<li class='position-rel''><input type='text' class='width-100p-2rem' id='sequences[" + sequencesCnt + "].content' ";
+    str += "<li><input type='text' class='width-100p-2rem' id='sequences[" + sequencesCnt + "].content' ";
     str += "name='sequences[" + sequencesCnt + "].content' placeholder='다음 순서를 입력하세요.'> ";
-    str += "<label for='sequenceRemove' onclick='sequenceRemove(this)'><div class='btn-del-x'></div></label>";
-    str += "<button type='button' class='hidden-item' id='sequenceRemove'></button></li>";
+    str += "<button type='button' class='hidden-item' onclick='sequenceRemove(this)'>";
+    str += "<div class='btn-del-x'></div></button></li>";
 
     $('#sequenceUl').append(str);
 };
 
 // 칵테일 순서 삭제
 function sequenceRemove(obj) {
+    const cnt = document.getElementById("sequencesCnt");
+    if (cnt.value === '1') {
+        return;
+    }
+
     const parent = obj.parentNode;
     const curId = parent.children[0].id;
     const sIdx = curId.indexOf('[') + 1;
     const eIdx = curId.indexOf(']');
-
     const cur = curId.substring(sIdx, eIdx) * 1;
-    const cnt = document.getElementById("sequencesCnt");
 
     for (let i = cur + 1, j = cur; i < cnt.value; i++, j++) {
         const node = document.getElementById("sequences[" + i + "].content");
@@ -248,8 +218,8 @@ function cocktailLiquorAdd() {
 //    inputQty.name = cocktailLiquorQty;
 //    inputQty.placeholder = "재료 양";
 
-    str += "<label for='cocktailLiquorRemove' onclick='cocktailLiquorRemove(this)'><div class='btn-del-x'></div></label>";
-    str += "<button type='button' class='hidden-item' id='cocktailLiquorRemove'></button></li>";
+    str += "<button type='button' class='hidden-item' onclick='cocktailLiquorRemove(this)'>";
+    str += "<div class='btn-del-x'></div></button></li>";
 //    const inputDelete = document.createElement("input");
 //    inputDelete.type = "button";
 //    inputDelete.className = "cocktailLiquorBtnRemove";
@@ -283,13 +253,16 @@ function cocktailLiquorSearch(obj) {
 
 // 주류 삭제
 function cocktailLiquorRemove(obj) {
+    const cnt = document.getElementById("liquorsCnt");
+    if (cnt.value === '1') {
+        return;
+    }
+
     const parent = obj.parentNode;
     const curId = parent.children[0].id;
     const sIdx = curId.indexOf('[') + 1;
     const eIdx = curId.indexOf(']');
-
     const cur = curId.substring(sIdx, eIdx) * 1;
-    const cnt = document.getElementById("liquorsCnt");
 
     for (let i = cur + 1, j = cur; i < cnt.value; i++, j++) {
         let node = document.getElementById("liquors[" + i + "].id");
@@ -331,7 +304,7 @@ function cocktailIngredientAdd() {
 //    inputId.type = "hidden";
 //    inputId.name = cocktailIngredientId;
 
-    str += "<button type='button' class='cocktailIngredientSearch btn-1' ";
+    str += "<button type='button' class='btn-1' ";
     str += "data-id='" + cocktailIngredientId + "' data-name='" + cocktailIngredientName;
     str += "' onclick='cocktailIngredientSearch(this)'>선택</button> ";
 //    const inputSearch = document.createElement("input");
@@ -355,8 +328,8 @@ function cocktailIngredientAdd() {
 //    inputQty.name = cocktailIngredientQty;
 //    inputQty.placeholder = "재료 양";
 
-    str += "<label for='cocktailLiquorRemove' onclick='cocktailIngredientRemove(this)'><div class='btn-del-x'></div></label>";
-    str += "<button type='button' class='hidden-item' id='cocktailIngredientRemove'></button></li>";
+    str += "<button type='button' class='hidden-item' onclick='cocktailIngredientRemove(this)'>";
+    str += "<div class='btn-del-x'></div></button></li>";
 //    const inputDelete = document.createElement("input");
 //    inputDelete.type = "button";
 //    inputDelete.className = "cocktailIngredientBtnRemove";
@@ -390,13 +363,16 @@ function cocktailIngredientSearch(obj) {
 
 // 재료 삭제
 function cocktailIngredientRemove(obj) {
+    const cnt = document.getElementById("ingredientsCnt");
+    if (cnt.value === '1') {
+        return;
+    }
+
     const parent = obj.parentNode;
     const curId = parent.children[0].id;
     const sIdx = curId.indexOf('[') + 1;
     const eIdx = curId.indexOf(']');
-
     const cur = curId.substring(sIdx, eIdx) * 1;
-    const cnt = document.getElementById("ingredientsCnt");
 
     for (let i = cur + 1, j = cur; i < cnt.value; i++, j++) {
         let node = document.getElementById("ingredients[" + i + "].id");
