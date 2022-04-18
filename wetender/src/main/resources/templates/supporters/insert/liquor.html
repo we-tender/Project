@@ -11,6 +11,15 @@
     <section>
 
         <div class="container-grid">
+            <!-- 헤더 -->
+            <div class="contents-header">
+                <div>
+                    <img src="/images/pink-bullet.png" width="10rem" height="40rem">
+                    <h4 class="contents-header-subtitle"><a th:href="@{/supporters/main}"><strong th:text="| 리큐어|"></strong></a></h4>
+                </div>
+            </div>
+            <hr class="border-pink">
+
             <form role="form" th:action th:object="${form}" method="post" enctype="multipart/form-data" class="contents-flex flex-row-center">
                 <meta name="_csrf" th:content="${_csrf.token}">
                 <meta name="_csrf_header" th:content="${_csrf.headerName}">

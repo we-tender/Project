@@ -9,12 +9,14 @@
 <body>
 <section>
     <div class="container-grid">
+        <!-- 헤더 -->
         <div class="contents-header">
-            <p>
+            <div>
                 <img src="/images/pink-bullet.png" width="10rem" height="40rem">
-                <span th:text="| ${sessionMember.getUsername()} 서포터즈 페이지|"></span>
-            </p>
+                <h4 class="contents-header-subtitle"><strong th:text="| ${sessionMember.getUsername()} 서포터님의 페이지|"></strong></h4>
+            </div>
         </div>
+        <hr class="border-pink">
         <div class="contents-flex flex-column border-pink">
             <label for="activityList" class="border-pink"><span>활동 내역</span></label>
             <div id="activityList" class="contents-flex flex-row border-pink">
