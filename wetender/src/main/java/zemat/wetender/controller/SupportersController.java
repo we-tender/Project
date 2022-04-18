@@ -460,6 +460,7 @@ public class SupportersController {
         model.addAttribute("liquorsCnt",liquorsCnt);
         model.addAttribute("sequencesCnt",sequencesCnt);
         model.addAttribute( "form",cocktailUpdateForm);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "supporters/update/cocktail";
     }
 

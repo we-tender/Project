@@ -180,7 +180,7 @@ function sequenceAdd() {
     let str = "";
     str += "<li class='position-rel''><input type='text' class='width-100p-2rem' id='sequences[" + sequencesCnt + "].content' ";
     str += "name='sequences[" + sequencesCnt + "].content' placeholder='다음 순서를 입력하세요.'> ";
-    str += "<label for='sequenceRemove' onclick='sequenceRemove(this)'><div class='btn-img-del'></div></label>";
+    str += "<label for='sequenceRemove' onclick='sequenceRemove(this)'><div class='btn-del-x'></div></label>";
     str += "<button type='button' class='hidden-item' id='sequenceRemove'></button></li>";
 
     $('#sequenceUl').append(str);
@@ -248,7 +248,7 @@ function cocktailLiquorAdd() {
 //    inputQty.name = cocktailLiquorQty;
 //    inputQty.placeholder = "재료 양";
 
-    str += "<label for='cocktailLiquorRemove' onclick='cocktailLiquorRemove(this)'><div class='btn-img-del'></div></label>";
+    str += "<label for='cocktailLiquorRemove' onclick='cocktailLiquorRemove(this)'><div class='btn-del-x'></div></label>";
     str += "<button type='button' class='hidden-item' id='cocktailLiquorRemove'></button></li>";
 //    const inputDelete = document.createElement("input");
 //    inputDelete.type = "button";
@@ -355,7 +355,7 @@ function cocktailIngredientAdd() {
 //    inputQty.name = cocktailIngredientQty;
 //    inputQty.placeholder = "재료 양";
 
-    str += "<label for='cocktailLiquorRemove' onclick='cocktailIngredientRemove(this)'><div class='btn-img-del'></div></label>";
+    str += "<label for='cocktailLiquorRemove' onclick='cocktailIngredientRemove(this)'><div class='btn-del-x'></div></label>";
     str += "<button type='button' class='hidden-item' id='cocktailIngredientRemove'></button></li>";
 //    const inputDelete = document.createElement("input");
 //    inputDelete.type = "button";

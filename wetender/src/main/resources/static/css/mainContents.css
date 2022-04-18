@@ -629,6 +629,29 @@
 .btn-cancel-1:hover, .btn-del-1:hover {
     background-color : #c0b5b7
 }
+.btn-del-x {
+    border : 0;
+    padding : 0;
+    width : 1rem;
+    height : 1rem;
+    cursor : pointer;
+    background-color : transparent;
+}
+.btn-del-x:before, .btn-del-x:after {
+    position : absolute;
+    top : .5rem;
+    right : .5rem;
+    width : .1rem;
+    height : 1rem;
+    content : ' ';
+    background-color : #000;
+}
+.btn-del-x:before {
+    transform : rotate(45deg);
+}
+.btn-del-x:after {
+    transform : rotate(-45deg);
+}
 .btn-img-del {
     border : 0;
     padding : 0;

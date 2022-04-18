@@ -95,7 +95,7 @@ function showUploadResult(uploadResultArr){
     $(".input-file").parent().remove();
     str += "<li class='contents-flex flex-row-center'>";
     str += "<div class='input-file display-flex flex-row-center-center'>";
-    str += "<label for='uploadFile'><div></div></label>";
+    str += "<label for='uploadFile' class='btn-add'><div></div></label>";
     str += "<input type='file' id='uploadFile' name='uploadFile' onchange='inputChange(this)' multiple></div>";
     str += "</li>";
     uploadUl.append(str);
