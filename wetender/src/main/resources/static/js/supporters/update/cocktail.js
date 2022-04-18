@@ -178,9 +178,10 @@ function sequenceAdd() {
     cnt.value = cnt.value * 1 + 1;
 
     let str = "";
-    str += "<li><input type='text' class='width-100p-4rem' id='sequences[" + sequencesCnt + "].content' ";
+    str += "<li class='position-rel''><input type='text' class='width-100p-2rem' id='sequences[" + sequencesCnt + "].content' ";
     str += "name='sequences[" + sequencesCnt + "].content' placeholder='다음 순서를 입력하세요.'> ";
-    str += "<button type='button' class='btn-del-1' onclick='sequenceRemove(this)'>" + "삭제" + "</button></li>";
+    str += "<label for='sequenceRemove' onclick='sequenceRemove(this)'><div class='btn-img-del'></div></label>";
+    str += "<button type='button' class='hidden-item' id='sequenceRemove'></button></li>";
 
     $('#sequenceUl').append(str);
 };
@@ -215,7 +216,7 @@ function cocktailLiquorAdd() {
     let cocktailLiquorName = "liquors[" + cocktailLiquorCnt + "].name";
     let cocktailLiquorQty = "liquors[" + cocktailLiquorCnt + "].quantity";
 
-    let str = "<li>";
+    let str = "<li class='position-rel'>";
     str += "<input type='hidden' id='" + cocktailLiquorId + "' ";
     str += "name='" + cocktailLiquorId + "'>";
 //    const inputId = document.createElement("input");
@@ -223,31 +224,32 @@ function cocktailLiquorAdd() {
 //    inputId.type = "hidden";
 //    inputId.name = cocktailLiquorId;
 
-    str += "<input type='text' id='" + cocktailLiquorName + "' ";
-    str += "name='" + cocktailLiquorName + "' readonly='readonly'> ";
-//    const inputName = document.createElement("input");
-//    inputName.id = cocktailLiquorName;
-//    inputName.name = cocktailLiquorName;
-//    inputName.type = "text";
-//    inputName.readOnly = true;
-
     str += "<button type='button' class='btn-1' ";
     str += "data-id='" + cocktailLiquorId + "' data-name='" + cocktailLiquorName;
-    str += "' onclick='cocktailLiquorSearch(this)'>주류 선택</button> ";
+    str += "' onclick='cocktailLiquorSearch(this)'>선택</button> ";
 //    const inputSearch = document.createElement("input");
 //    inputSearch.className = "cocktailLiquorSearch";
 //    inputSearch.dataset.id = cocktailLiquorCnt;
 //    inputSearch.value = "주류 선택";
 //    inputSearch.type = "button";
 
+    str += "<input type='text' id='" + cocktailLiquorName + "' ";
+    str += "name='" + cocktailLiquorName + "' placeholder='주류를 선택하세요.' readonly='readonly'> ";
+//    const inputName = document.createElement("input");
+//    inputName.id = cocktailLiquorName;
+//    inputName.name = cocktailLiquorName;
+//    inputName.type = "text";
+//    inputName.readOnly = true;
+
     str += "<input type='text' id='" + cocktailLiquorQty;
-    str += "' name='" + cocktailLiquorQty + "' placeholder='재료 양'> ";
+    str += "' name='" + cocktailLiquorQty + "' class='width-10rem' placeholder='주류 양'> ";
 //    const inputQty = document.createElement("input");
 //    inputQty.type = "text";
 //    inputQty.name = cocktailLiquorQty;
 //    inputQty.placeholder = "재료 양";
 
-    str += "<button type='button' class='cocktailLiquorBtnRemove btn-del-1' onclick='cocktailLiquorRemove(this)'>삭제</button></li>";
+    str += "<label for='cocktailLiquorRemove' onclick='cocktailLiquorRemove(this)'><div class='btn-img-del'></div></label>";
+    str += "<button type='button' class='hidden-item' id='cocktailLiquorRemove'></button></li>";
 //    const inputDelete = document.createElement("input");
 //    inputDelete.type = "button";
 //    inputDelete.className = "cocktailLiquorBtnRemove";
@@ -295,12 +297,12 @@ function cocktailLiquorRemove(obj) {
         node.name = "liquors[" + j + "].id";
 
         node = node.nextElementSibling;
-        node.id = "liquors[" + j + "].name";
-        node.name = "liquors[" + j + "].name";
-
-        node = node.nextElementSibling;
         node.dataset.id = "liquors[" + j + "].id";
         node.dataset.name = "liquors[" + j + "].name";
+
+        node = node.nextElementSibling;
+        node.id = "liquors[" + j + "].name";
+        node.name = "liquors[" + j + "].name";
 
         node = node.nextElementSibling;
         node.id = "liquors[" + j + "].quantity";
@@ -329,31 +331,32 @@ function cocktailIngredientAdd() {
 //    inputId.type = "hidden";
 //    inputId.name = cocktailIngredientId;
 
-    str += "<input type='text' id='" + cocktailIngredientName + "' ";
-    str += "name='" + cocktailIngredientName + "' readonly='readonly'> ";
-//    const inputName = document.createElement("input");
-//    inputName.id = cocktailIngredientName;
-//    inputName.name = cocktailIngredientName;
-//    inputName.type = "text";
-//    inputName.readOnly = true;
-
     str += "<button type='button' class='cocktailIngredientSearch btn-1' ";
     str += "data-id='" + cocktailIngredientId + "' data-name='" + cocktailIngredientName;
-    str += "' onclick='cocktailIngredientSearch(this)'>재료 선택</button> ";
+    str += "' onclick='cocktailIngredientSearch(this)'>선택</button> ";
 //    const inputSearch = document.createElement("input");
 //    inputSearch.className = "cocktailIngredientSearch";
 //    inputSearch.dataset.id = cocktailIngredientCnt;
 //    inputSearch.value = "재료 선택";
 //    inputSearch.type = "button";
 
+    str += "<input type='text' id='" + cocktailIngredientName + "' ";
+    str += "name='" + cocktailIngredientName + "' placeholder='재료를 선택하세요.' readonly='readonly'> ";
+//    const inputName = document.createElement("input");
+//    inputName.id = cocktailIngredientName;
+//    inputName.name = cocktailIngredientName;
+//    inputName.type = "text";
+//    inputName.readOnly = true;
+
     str += "<input type='text' id='" + cocktailIngredientQty;
-    str += "' name='" + cocktailIngredientQty + "' placeholder='재료 양'> ";
+    str += "' name='" + cocktailIngredientQty + "' class='width-10rem' placeholder='재료 양'> ";
 //    const inputQty = document.createElement("input");
 //    inputQty.type = "text";
 //    inputQty.name = cocktailIngredientQty;
 //    inputQty.placeholder = "재료 양";
 
-    str += "<button type='button' class='cocktailIngredientBtnRemove btn-del-1' onclick='cocktailIngredientRemove(this)'>삭제</button></li>";
+    str += "<label for='cocktailLiquorRemove' onclick='cocktailIngredientRemove(this)'><div class='btn-img-del'></div></label>";
+    str += "<button type='button' class='hidden-item' id='cocktailIngredientRemove'></button></li>";
 //    const inputDelete = document.createElement("input");
 //    inputDelete.type = "button";
 //    inputDelete.className = "cocktailIngredientBtnRemove";
@@ -401,12 +404,12 @@ function cocktailIngredientRemove(obj) {
         node.name = "ingredients[" + j + "].id";
 
         node = node.nextElementSibling;
-        node.id = "ingredients[" + j + "].name";
-        node.name = "ingredients[" + j + "].name";
-
-        node = node.nextElementSibling;
         node.dataset.id = "ingredients[" + j + "].id";
         node.dataset.name = "ingredients[" + j + "].name";
+
+        node = node.nextElementSibling;
+        node.id = "ingredients[" + j + "].name";
+        node.name = "ingredients[" + j + "].name";
 
         node = node.nextElementSibling;
         node.id = "ingredients[" + j + "].quantity";
