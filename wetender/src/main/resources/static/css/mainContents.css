@@ -23,7 +23,7 @@
     height : 100%;
     overflow-y : auto;
     border-radius : .5rem;
-    background : #f1f1f1;
+    background-color : #f1f1f1;
     transition : 0.5s;
 }
 .contents-section {
@@ -60,7 +60,7 @@
     transition : .2s;
 }
 .nav-side ul li:hover {
-    background : #fb8bb5;
+    background-color : #fb8bb5;
     color : #fff;
     font-weight : bold;
 }
@@ -72,9 +72,6 @@
 }
 .nav-side ul li a:hover {
     color : #000;
-}
-.selected-item {
-    background : #fb8bb5;
 }
 
 /*** Navbar ***/
@@ -251,7 +248,7 @@
     height : 110%;
     box-sizing : border-box;
     padding : .2rem;
-    background : #7F7F7F;
+    background-color : #7F7F7F;
     color : #FFFFFF;
     font-size: 1rem;
     transition : .2s;
@@ -364,7 +361,7 @@
     top : 0;
     left : 0;
     opacity : 0;
-    background : #7F7F7F;
+    background-color : #7F7F7F;
     color : #FFFFFF;
     font-size: 1rem;
     text-align : center;
@@ -699,7 +696,7 @@
     text-align : center;
 }
 .background-gray {
-    background : #f1f1f1;
+    background-color : #f1f1f1;
 }
 .width-8rem {
     width : 8rem;
@@ -770,5 +767,7 @@
 .margin-05rem {
     margin : 0.5rem;
 }
-
+.selected-item {
+    background-color : #fb8bb5;
+}
 

@@ -95,17 +95,17 @@
                     <ul class="contents-flex flex-row-evenly margin-0">
 
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("createdBy")'>최신수</button>
+                            <button id="createdBy" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("createdBy")'>최신수</button>
                         </li>
 
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("views")'>조회수</button>
+                            <button id="views" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("views")'>조회수</button>
                         </li>
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("likes")'>추천수</button>
+                            <button id="likes" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("likes")'>추천수</button>
                         </li>
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("replies")'>댓글수</button>
+                            <button id="replies" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("replies")'>댓글수</button>
                         </li>
                     </ul>
                 </div>

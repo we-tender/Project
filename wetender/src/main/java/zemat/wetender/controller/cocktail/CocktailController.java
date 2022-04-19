@@ -135,7 +135,6 @@ public class CocktailController {
         model.addAttribute("cocktailDtos", cocktailDtos);
         model.addAttribute("sideMenu", "nav-side-menu-cocktail");
 
-
         return "/cocktail/main :: #main";
     }
 

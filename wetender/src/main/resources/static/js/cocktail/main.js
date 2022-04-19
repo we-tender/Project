@@ -24,6 +24,7 @@ function searchSortBy(sortBy) {
 
     }).done(function (fragment) {
         $("#main").replaceWith(fragment);
+        $("#" + sortBy).addClass("selected-item");
     })
 }
 

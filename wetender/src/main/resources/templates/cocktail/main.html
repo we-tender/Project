@@ -1,8 +1,6 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
-<!-- html태그를 fragment/baseLayout.html로 바꾼다.
-    baseLayout.html에서는 liquor/main.html의 section 태그만 사용 -->
 <head>
     <meta charset="UTF-8">
     <title>칵테일 메인 화면</title>
@@ -11,8 +9,6 @@
 <body>
 
     <section>
-
-        <script type="text/javascript" th:src="@{/js/cocktail/main.js}"></script>
 
         <input id="sortBy" type="hidden" th:value="${sortBy}"/>
 
@@ -91,19 +87,17 @@
             <div class="contents-flex flex-row-end">
                 <div data-wow-delay="0.1s">
                     <ul class="contents-flex flex-row-evenly margin-0">
-
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("createdBy")'>최신수</button>
-                        </li>
-
-                        <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem active" data-bs-toggle="pill" th:onclick='searchSortBy("views")'>조회수</button>
+                            <button id="createdBy" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("createdBy")'>최신수</button>
                         </li>
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("likes")'>추천수</button>
+                            <button id="views" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("views")'>조회수</button>
                         </li>
                         <li class="margin-05rem">
-                            <button class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("replies")'>댓글수</button>
+                            <button id="likes" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("likes")'>추천수</button>
+                        </li>
+                        <li class="margin-05rem">
+                            <button id="replies" class="btn-2 padding-05rem" data-bs-toggle="pill" th:onclick='searchSortBy("replies")'>댓글수</button>
                         </li>
                     </ul>
                 </div>
@@ -149,6 +143,8 @@
                 </ul>
             </nav>
         </div>
+
+        <script type="text/javascript" th:src="@{/js/cocktail/main.js}"></script>
 
     </section>
 
