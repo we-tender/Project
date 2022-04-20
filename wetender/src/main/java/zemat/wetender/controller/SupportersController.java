@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -82,9 +83,13 @@ public class SupportersController {
         return tastes;
     }
 
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
+
     @GetMapping("/main")
     public String main(Model model) {
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "supporters/main";
     }
 
@@ -102,7 +107,6 @@ public class SupportersController {
         model.addAttribute("liquorsCnt",liquorsCnt);
         model.addAttribute("sequencesCnt",sequencesCnt);
         model.addAttribute("form", new CocktailInsertForm());
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return  "supporters/insert/cocktail";
     }
@@ -169,7 +173,6 @@ public class SupportersController {
     public String liquorInsertForm(Model model){
 
         model.addAttribute("form", new LiquorInsertForm());
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "supporters/insert/liquor";
     }
@@ -210,7 +213,6 @@ public class SupportersController {
     public String ingredientInsertForm(Model model){
 
         model.addAttribute("form", new IngredientInsertForm());
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "supporters/insert/ingredient";
     }
@@ -467,7 +469,6 @@ public class SupportersController {
         model.addAttribute("liquorsCnt",liquorsCnt);
         model.addAttribute("sequencesCnt",sequencesCnt);
         model.addAttribute( "form",cocktailUpdateForm);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "supporters/update/cocktail";
     }
 
@@ -477,7 +478,6 @@ public class SupportersController {
         LiquorUpdateForm liquorUpdateForm = new LiquorUpdateForm(liquor);
 
         model.addAttribute("form",liquorUpdateForm);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "supporters/update/liquor";
     }
 

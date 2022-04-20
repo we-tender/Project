@@ -43,12 +43,16 @@ public class LiquorController {
     private final MemberService memberService;
     private final NoticeBoardService noticeBoardService;
 
-
     @Value("${cocktailFile.dir}")
     private String cocktailFileDir;
 
     @Value("${liquorFile.dir}")
     private String liquorFileDir;
+
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
 
     // 주류 메인(게시판)
     @GetMapping("/main")
@@ -74,7 +78,6 @@ public class LiquorController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("liquorDtos", liquorDtos);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         model.addAttribute("sideMenu", "nav-side-menu-liquor");
 
 
@@ -132,7 +135,6 @@ public class LiquorController {
 
         model.addAttribute("liquorDto", liquorDto);
         model.addAttribute("cocktails",cocktails);
-        model.addAttribute("sessionMember", sessionMember);
 
         if (sessionMember != null) {
             Member member = memberService.findByMemberIdName(sessionMember.getUsername());
@@ -197,7 +199,6 @@ public class LiquorController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("liquorDtos", liquorDtos);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/liquor/main :: #main";
     }

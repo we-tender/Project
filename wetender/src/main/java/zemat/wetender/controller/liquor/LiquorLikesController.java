@@ -1,8 +1,10 @@
 package zemat.wetender.controller.liquor;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import zemat.wetender.domain.liquor.Liquor;
@@ -22,6 +24,10 @@ public class LiquorLikesController {
     private final LiquorLikesService liquorLikesService;
     private final MemberService memberService;
 
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
 
     // 좋아요 삽입, 삭제
     @RequestMapping(value = "/InsertOrDelete", method = RequestMethod.POST)
@@ -36,7 +42,6 @@ public class LiquorLikesController {
 
         model.addAttribute("likesCheck", likesCheck);
         model.addAttribute("liquorDto", liquorDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/liquor/detail :: #likes";
     }

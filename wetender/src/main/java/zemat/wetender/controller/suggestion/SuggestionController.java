@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,6 +43,11 @@ public class SuggestionController {
         return sideMenuItems;
     }*/
 
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
+
     // 건의사항 메인페이지 시작
     @GetMapping("/main")
     public String main(Model model,
@@ -69,7 +75,6 @@ public class SuggestionController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("suggestionDtoList", suggestionDtoList);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         model.addAttribute("sideMenu", "nav-side-menu-suggestion");
         return "suggestion/main";
 
@@ -81,7 +86,6 @@ public class SuggestionController {
     @GetMapping("/insert")
     public String insertForm(Model model) {
         model.addAttribute("suggestionInsertDto", new SuggestionInsertDto());
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "suggestion/insert";
     }
 
@@ -91,7 +95,6 @@ public class SuggestionController {
                          Model model) {
 
         if(bindingResult.hasErrors()) {
-            model.addAttribute("sessionMember", memberService.getSessionMember());
             return "suggestion/insert";
         }
 
@@ -110,7 +113,6 @@ public class SuggestionController {
         SuggestionDto suggestionDto = suggestionService.findById(suggestionId);
 
         model.addAttribute("suggestionDto", suggestionDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "suggestion/update";
     }
@@ -122,7 +124,6 @@ public class SuggestionController {
                          Model model) {
 
         if(bindingResult.hasErrors()) {
-            model.addAttribute("sessionMember", memberService.getSessionMember());
             return "suggestion/update";
         }
 
@@ -166,8 +167,6 @@ public class SuggestionController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("suggestionDtoList", suggestionDtoList);
-
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "suggestion/detail";
     }

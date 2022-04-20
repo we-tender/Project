@@ -42,6 +42,11 @@ public class NoticeBoardController {
         return sideMenuItems;
     }*/
 
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
+
     // 공지사항 메인 페이지
     @GetMapping("/main")
     public String main(Model model,
@@ -72,10 +77,6 @@ public class NoticeBoardController {
         // 전체 공지 사항
         Page<NoticeBoardDto> noticeBoardAllDtos = noticeBoardService.statusFindPage(NoticeStatus.ALL, pageable);
         model.addAttribute("noticeBoardAllDtos", noticeBoardAllDtos);
-
-        // id 가져오기
-        UserDetails sessionMember = memberService.getSessionMember();
-        model.addAttribute("sessionMember", sessionMember);
 
         model.addAttribute("sideMenu", "nav-side-menu-noticeBoard");
 
@@ -113,7 +114,6 @@ public class NoticeBoardController {
     @GetMapping("/insert")
     public String insertForm(Model model) {
         model.addAttribute("noticeBoardInsertDto", new NoticeBoardInsertDto());
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "noticeBoard/insert";
     }
 
@@ -124,7 +124,6 @@ public class NoticeBoardController {
                          Model model) {
 
         if(bindingResult.hasErrors()) {
-            model.addAttribute("sessionMember", memberService.getSessionMember());
             return "noticeBoard/insert";
         }
 
@@ -140,7 +139,6 @@ public class NoticeBoardController {
         NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
 
         model.addAttribute("noticeBoardDto", noticeBoardDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "noticeBoard/update";
     }
@@ -152,7 +150,6 @@ public class NoticeBoardController {
                          Model model) {
 
         if(bindingResult.hasErrors()) {
-            model.addAttribute("sessionMember", memberService.getSessionMember());
             return "noticeBoard/update";
         }
 
@@ -196,7 +193,6 @@ public class NoticeBoardController {
 
         // id 가저오기
         UserDetails sessionMember = memberService.getSessionMember();
-        model.addAttribute("sessionMember",sessionMember);
 
         if(sessionMember != null) {
             boolean checkResult = noticeBoardService.likesCheck(noticeBoardId, sessionMember.getUsername());
@@ -213,7 +209,6 @@ public class NoticeBoardController {
         NoticeBoardDto noticeBoardDto = noticeBoardService.findById(id);
 
         model.addAttribute("noticeBoardDto", noticeBoardDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #replyResult";
     }
@@ -225,7 +220,6 @@ public class NoticeBoardController {
         NoticeBoardDto noticeBoardDto = noticeBoardService.findById(Dto.getNoticeBoardId());
 
         model.addAttribute("noticeBoardDto", noticeBoardDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #replyResult";
     }
@@ -240,7 +234,6 @@ public class NoticeBoardController {
         NoticeBoardDto noticeBoardDto = noticeBoardService.findById(noticeBoardId);
 
         model.addAttribute("noticeBoardDto", noticeBoardDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #replyResult";
     }
@@ -257,7 +250,6 @@ public class NoticeBoardController {
 
 
         model.addAttribute("noticeBoardDto", noticeBoardDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #likesResult";
     }
@@ -282,7 +274,6 @@ public class NoticeBoardController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("noticeBoardDtoList", noticeBoardDtoList);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #noticeBoardDetailList";
     }
@@ -305,7 +296,6 @@ public class NoticeBoardController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("noticeBoardDtoList", noticeBoardDtoList);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/noticeBoard/detail :: #noticeBoardDetailList";
     }

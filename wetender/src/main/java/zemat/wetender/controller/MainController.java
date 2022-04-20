@@ -8,6 +8,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +36,11 @@ public class MainController {
 
     @Value("${cocktailFile.dir}") private String cocktailFileDir;
     @Value("${liquorFile.dir}") private String liquorFileDir;
+
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
 
     @GetMapping("/")
     public String home(Model model) {
@@ -120,7 +126,6 @@ public class MainController {
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         model.addAttribute("sideMenu", "nav-side-menu-liquor");
 
         return "fragment/mainSearch";

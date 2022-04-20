@@ -46,6 +46,11 @@ public class CocktailController {
     @Value("${cocktailFile.dir}")
     private String cocktailFileDir;
 
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
+
     // 주류 메인(게시판)
     @GetMapping("/main")
     public String main(Model model,
@@ -71,7 +76,6 @@ public class CocktailController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("cocktailDtos", cocktailDtos);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         model.addAttribute("sideMenu", "nav-side-menu-cocktail");
 
 
@@ -99,7 +103,6 @@ public class CocktailController {
         UserDetails sessionMember = memberService.getSessionMember();
 
         model.addAttribute("cocktailDto",cocktailDetailDto);
-        model.addAttribute("sessionMember", sessionMember);
 
         if (sessionMember != null) {
             Member member = memberService.findByMemberIdName(sessionMember.getUsername());
@@ -163,7 +166,6 @@ public class CocktailController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("cocktailDtos", cocktailDtos);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/cocktail/main :: #main";
     }

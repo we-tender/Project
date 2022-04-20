@@ -1,8 +1,10 @@
 package zemat.wetender.controller.cocktail;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
@@ -26,6 +28,11 @@ public class CocktailReplyController {
     private final CocktailReplyService cocktailReplyService;
     private final MemberService memberService;
 
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
+
     // 댓글 등록 Ajax
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String replyInsert(Model model, CocktailReplyInsertDto dto) {
@@ -33,7 +40,6 @@ public class CocktailReplyController {
         CocktailMainDto cocktailMainDto = cocktailReplyService.insert(dto);
 
         model.addAttribute("cocktailDto", cocktailMainDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/cocktail/detail :: #reply";
     }
@@ -43,7 +49,6 @@ public class CocktailReplyController {
     public String replyDelete(Model model, CocktailReplyDeleteDto dto) {
         CocktailMainDto cocktailMainDto = cocktailReplyService.delete(dto);
         model.addAttribute("cocktailDto", cocktailMainDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/cocktail/detail :: #reply";
     }
@@ -53,7 +58,6 @@ public class CocktailReplyController {
     public String replyEdit(Model model, CocktailReplyEditDto dto) {
         CocktailMainDto cocktailMainDto = cocktailReplyService.edit(dto);
         model.addAttribute("cocktailDto", cocktailMainDto);
-        model.addAttribute("sessionMember", memberService.getSessionMember());
 
         return "/cocktail/detail :: #reply";
     }

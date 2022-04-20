@@ -25,6 +25,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @ModelAttribute("sessionMember")
+    public UserDetails getSessionMember() {
+        return memberService.getSessionMember();
+    }
+
     @GetMapping("/joinForm")
     public String joinForm(@ModelAttribute MemberJoinForm memberJoinForm) {
         return "member/joinForm";
@@ -57,7 +62,6 @@ public class MemberController {
                              Model model) {
 
         if(bindingResult.hasErrors()) {
-            model.addAttribute("sessionMember", memberService.getSessionMember());
             return "member/loginForm";
         }
 
@@ -67,9 +71,7 @@ public class MemberController {
 
     @GetMapping("/member/mypage")
     public String myPage(Model model) {
-        UserDetails principalDetails = memberService.getSessionMember();
-        model.addAttribute("sessionMember", principalDetails);
-        Member findMember = memberService.findByMemberIdName(principalDetails.getUsername());
+        Member findMember = memberService.findByMemberIdName(getSessionMember().getUsername());
         model.addAttribute("member", findMember);
 
         return "member/myPage";
@@ -77,7 +79,6 @@ public class MemberController {
 
     @GetMapping("/member/list")
     public String memberList(Model model) {
-        model.addAttribute("sessionMember", memberService.getSessionMember());
         return "member/memberlist";
     }
 }
