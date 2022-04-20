@@ -504,26 +504,28 @@
 }
 
 /* 표 */
-.noticeboard {
+.noticeboard, .suggestion {
     margin : 1rem;
     width : 100%;
 }
-.noticeboard thead {
+.noticeboard thead, .suggestion thead {
     border-bottom : 1px solid #fb8bb5;
 }
-.noticeboard tbody tr {
+.noticeboard tbody tr, .suggestion tbody tr {
     border-bottom : 1px solid #fbcfd0;
 }
-.noticeboard th, .noticeboard td {
+.noticeboard th, .noticeboard td, .suggestion th, .suggestion td {
     padding : .5rem;
 }
-.noticeboard td a {
+.noticeboard td a, .suggestion td a {
     color : black;
     text-decoration : none;
 }
-.noticeboard td a:hover {
+.noticeboard td a:hover, .suggestion td a:hover {
     color : black;
+    text-decoration : underline;
 }
+
 
 /* 입력 폼, 버튼 */
 .input-1 input {
@@ -762,6 +764,9 @@
 .width-40rem {
     width : 40rem;
 }
+.width-80rem {
+    width : 80rem;
+}
 .width-100p-2rem {
     width : calc(100% - 2rem);
 }
@@ -821,6 +826,9 @@
 }
 .margin-05rem {
     margin : 0.5rem;
+}
+.background-color-light-gray {
+    background-color : #f1f1f1;
 }
 .selected-item {
     background-color : #fb8bb5;

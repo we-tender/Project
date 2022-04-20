@@ -2,156 +2,147 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>건의사항</title>
 </head>
 
 <body>
 
     <section>
-      <!-- 리스트 시작 -->
-      <div class="col-lg-8 mx-auto p-3 py-md-5">
-        <main>
-
-          <div class="container">
-            <h2><a th:href = "@{/suggestion/main}"> 건의사항 </a></h2>
-
-
-            <!-- 공지사항 collapse 버튼 -->
-            <div class="text-end">
-              <a type="button"
-                 class="btn btn-primary"
-                 data-toggle="collapse"
-                 data-target="#noticeAll"
-              >전체공지</a>
+        <div id="main" class="container-grid">
+            <!-- 헤더 -->
+            <div class="contents-header">
+                <div>
+                    <img src="/images/pink-bullet.png" width="10rem" height="40rem">
+                    <h4 class="contents-header-subtitle"><a th:href="@{/suggestion/main}"><strong th:text="| 건의사항|"></strong></a></h4>
+                </div>
             </div>
-            <br>
-            <!-- 공지사항 collapse 버튼 -->
+            <hr class="border-pink">
 
-            <!-- 공지사항 전체 공개 글 -->
-            <div class="collapse" id="noticeAll">
-              <table class="table">
-                <thead>
-                <tr>
-                  <th scope="col">번호</th>
-                  <th scope="col">제목</th>
-                  <th scope="col">글쓴이</th>
-                  <th scope="col">작성일</th>
-                  <th scope="col">좋아요</th>
-                  <th scope="col">댓글수</th>
-                  <th scope="col">조회수</th>
-                </tr>
-                </thead>
+            <div class="contents-flex flex-column-center">
+                <div id="noticeBoardResult" class="width-80rem">
+                    <!--검색 폼-->
+                    <form class="contents-flex flex-row-end" method="GET" th:action="@{/suggestion/main}">
+                        <div class="input-1 width-20rem text-align-right">
+                            <input type="text" id="searchText" name="searchText" th:value="${param.searchText}" class="width-15rem" placeholder="검색어를 입력하세요">
+                            <button type="submit" class="btn-1">검색</button>
+                        </div>
+                    </form>
 
-                <tbody>
-                <tr class="table-light"
-                    th:each = "noticeBoard : ${noticeBoardAllDtos}">
-                  <td><span class="badge badge-pill badge-danger"
-                            style="background-color:#ffe3e4; color:red"
-                  >공지</span></td>
-                  <td> <a style="color:red"
-                          th:text = "${noticeBoard.noticeBoardTitle}"
-                          th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardAllDtos.pageable.pageSize, 0) }     )}"> 제목 </a></td>
-                  <td th:text = "${noticeBoard.createdBy}"></td>
-                  <td th:text = "${noticeBoard.createdDate}"></td>
-                  <td th:text = "${noticeBoard.likes}"></td>
-                  <td th:text = "${noticeBoard.replies}"></td>
-                  <td th:text = "${noticeBoard.views}"></td>
-                </tr>
-                </tbody>
-              </table>
-              <br>
-              <br>
+                    <!-- 공지사항 collapse 버튼 -->
+                    <div class="contents-flex flex-row-end">
+                        <button type="button" class="btn-1 padding-05rem"><a data-toggle="collapse" data-target="#noticeAll">전체공지</a></button>
+                    </div>
+                    <!-- 공지사항 collapse 버튼 -->
+
+                    <!-- 공지사항 전체 공개 글 -->
+                    <div class="collapse" id="noticeAll">
+                        <table class="noticeboard">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="width-5rem text-align-center"></th>
+                                    <th scope="col" class="text-align-center">제목</th>
+                                    <th scope="col" class="width-8rem">작성자</th>
+                                    <th scope="col" class="width-5rem text-align-center">작성일</th>
+                                    <th scope="col" class="width-5rem text-align-center">좋아요</th>
+                                    <th scope="col" class="width-5rem text-align-center">조회</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr class="background-color-light-gray" th:each = "noticeBoard : ${noticeBoardAllDtos}">
+                                    <td class="width-5rem text-align-center">
+                                        <span class="badge badge-pill badge-danger" style="background-color:#ffe3e4; color:red">공지</span></td>
+                                    <td>
+                                        <a th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardAllDtos.pageable.pageSize, 0) }     )}"
+                                           th:text = "|${noticeBoard.noticeBoardTitle} |" style="color:red">제목</a>
+                                        <a th:href = "@{/noticeBoard/detail(noticeBoardId=${noticeBoard.Id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardAllDtos.pageable.pageSize, 0) }     )}"
+                                           th:text = "|[${noticeBoard.replies}]|" style="color:red">댓글수</a>
+                                    </td>
+                                    <td class="width-8rem" th:text = "${noticeBoard.createdBy}">작성자</td>
+                                    <td class="width-5rem text-align-center" th:text = "${noticeBoard.createdDate}">작성일</td>
+                                    <td class="width-5rem text-align-center" th:text = "${noticeBoard.likes}">좋아요</td>
+                                    <td class="width-5rem text-align-center" th:text = "${noticeBoard.views}">조회수</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 공지사항 전체 공개 글 -->
+
+                    <!-- 리스트 시작 -->
+                    <div class="contents-flex flex-row-end">
+                        <!-- 클래스에 버튼을 썼기 때문에 a(앵커)로 바꿔도 자연스럽게 버튼모양으로 표현-->
+                        <th:block th:if="${sessionMember}">
+                            <button type="button" class="btn-1 padding-05rem"><a th:href="@{/suggestion/insert}" >쓰기</a></button>
+                        </th:block>
+                        <th:block th:unless="${sessionMember}">
+                            <button type="button" class="btn-1 padding-05rem"><a th:href="@{/loginForm}" >쓰기</a></button>
+                        </th:block>
+                    </div>
+
+                    <table class="suggestion">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="width-5rem text-align-center"></th>
+                                <th scope="col" class="text-align-center">제목</th>
+                                <th scope="col" class="width-8rem">작성자</th>
+                                <th scope="col" class="width-5rem text-align-center">작성일</th>
+                                <th scope="col" class="width-5rem text-align-center">조회</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each = "suggestion : ${suggestionDtoList}">
+                                <td class="width-5rem" th:text = "${suggestion.id}"></td>
+                                <td>
+                                    <a th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id}, page=${ #numbers.formatInteger( (suggestion.id-1) / suggestionDtoList.pageable.pageSize, 0)})}"
+                                       th:text = "|${suggestion.suggestionTitle} |">제목</a>
+                                    <a th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id}, page=${ #numbers.formatInteger( (suggestion.id-1) / suggestionDtoList.pageable.pageSize, 0)})}"
+                                       th:text = "|[${suggestion.replies}]|">댓글수</a>
+                                </td>
+                                <td class="width-8rem" th:text = "${suggestion.createdBy}">작성자</td>
+                                <td class="width-5rem text-align-center" th:text = "${suggestion.createdDate}">작성일</td>
+                                <td class="width-5rem text-align-center" th:text = "${suggestion.views}">조회</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- 페이징 오버뷰 -->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
+                            <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
+                            <li class="page-item"  th:classappend="${1 == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' " >
+                                <a class="page-link" href="#" th:href="@{/suggestion/main(page=${suggestionDtoList.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
+                            <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
+                            <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                            <li class="page-item " th:classappend="${i == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
+                                <a class="page-link" href="#"  th:href="@{/suggestion/main(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
+
+                            <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
+                            <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
+                            <li class="page-item" th:classappend="${suggestionDtoList.totalPages == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' " >
+                                <a class="page-link" href="#" th:href="@{/suggestion/main(page=${suggestionDtoList.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- 리스트 끝 -->
+
+                    <!-- 쓰기 버튼 시작 -->
+                    <div class="contents-flex flex-row-end">
+                        <th:block th:if="${sessionMember}">
+                            <button type="button" class="btn-1 padding-05rem"><a th:href="@{/suggestion/insert}" >쓰기</a></button>
+                        </th:block>
+                        <th:block th:unless="${sessionMember}">
+                            <button type="button" class="btn-1 padding-05rem"><a th:href="@{/loginForm}" >쓰기</a></button>
+                        </th:block>
+                    </div>
+                    <!-- 쓰기 버튼 끝 -->
+                </div>
             </div>
-            <!-- 공지사항 전체 공개 글 -->
+        </div>
 
-            <!--검색 폼-->
-            <form class="row g-3 d-flex justify-content-end" method="GET" th:action="@{/suggestion/main}">
-              <div class="col-auto">
-                <label for="searchText" class="visually-hidden">검색</label>
-                <!--                    파람을 쓰면 URL에 값을 담을 수 있다. -->
-                <input type="text" class="form-control" id="searchText" name="searchText" th:value="${param.searchText}" >
-              </div>
-              <div class="col-auto">
-                <button type="submit" class="btn btn-light mb-3">검색</button>
-              </div>
-            </form>
-
-            <!-- 쓰기 버튼 시작 -->
-            <div class="text-end">
-              <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert}" >쓰기</a>
-            </div>
-            <!-- 쓰기 버튼 끝 -->
-
-            <table class="table">
-              <thead>
-              <tr>
-                <th scope="col">번호</th>
-                <th scope="col">제목</th>
-                <th scope="col">글쓴이</th>
-                <th scope="col">작성일</th>
-                <th scope="col">댓글수</th>
-                <th scope="col">조회수</th>
-              </tr>
-              </thead>
-
-              <tbody>
-              <tr th:each = "suggestion : ${suggestionDtoList}">
-                <td th:text = "${suggestion.id}"></td>
-                <td> <a th:text = "${suggestion.suggestionTitle}" th:href = "@{/suggestion/detail(suggestionId=${suggestion.Id}, page=${ #numbers.formatInteger( (suggestion.id-1) / suggestionDtoList.pageable.pageSize, 0)})}"> 제목 </a></td>
-                <td th:text = "${suggestion.createdBy}"></td>
-                <td th:text = "${suggestion.createdDate}"></td>
-                <td th:text = "${suggestion.replies}"></td>
-                <td th:text = "${suggestion.views}"></td>
-              </tr>
-              </tbody>
-            </table>
-
-            <!-- 페이징 오버뷰 -->
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-center">
-                <!--                    가장 작은 값, 1이라면 이전으로 갈 페이지가 없으므로 비활성화 시킨다.-->
-                <!--                    검색을 해도 결과가 남도록 searchText 값을 링크에 달아준다. -->
-                <li class="page-item"  th:classappend="${1 == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' " >
-                  <a class="page-link" href="#" th:href="@{/suggestion/main(page=${suggestionDtoList.pageable.pageNumber - 1}, searchText=${param.searchText}  )}" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <!--                    classappend 는 특정 조건일 때 발동된다, 현재 페이지를 가저오는 것을 i와 비교한다..-->
-                <!--                    pageNumber는 0 부터 시작하기 때문에 +1을 해줘서 맞춰준다. -->
-                <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-                <li class="page-item " th:classappend="${i == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(startPage,endPage)}">
-                  <a class="page-link" href="#"  th:href="@{/suggestion/main(page=${i-1}, searchText=${param.searchText}   )}"  th:text="${i}">1</a></li>
-
-                <!-- 현재 페이지가 가장 큰 값의 페이지면 더 이상 next를 할 수 없기에 비활성화 시킨다.  -->
-                <!--                    검색 기능을 위해 serarchText 파라미터를 같이 넘겨준다 -->
-                <li class="page-item" th:classappend="${suggestionDtoList.totalPages == suggestionDtoList.pageable.pageNumber + 1} ? 'disabled' " >
-                  <a class="page-link" href="#" th:href="@{/suggestion/main(page=${suggestionDtoList.pageable.pageNumber + 1}, searchText=${param.searchText})}">Next</a>
-                </li>
-              </ul>
-            </nav>
-
-
-
-
-            <!-- 쓰기 버튼 시작 -->
-            <div class="text-end">
-              <!-- 클래스에 버튼을 썼기 때문에 a(앵커)로 바꿔도 자연스럽게 버튼모양으로 표현-->
-              <th:block th:if="${sessionMember}">
-                <a type="button" class="btn btn-primary" th:href="@{/suggestion/insert}" >쓰기</a>
-              </th:block>
-              <th:block th:unless="${sessionMember}">
-                <a type="button" class="btn btn-primary" th:href="@{/loginForm}" >쓰기</a>
-              </th:block>
-            </div>
-            <!-- 쓰기 버튼 끝 -->
-
-
-          </div>
-
-
-
-      <!-- 리스트 끝 -->
-        </main>
-      </div>
     </section>
 
 </body>

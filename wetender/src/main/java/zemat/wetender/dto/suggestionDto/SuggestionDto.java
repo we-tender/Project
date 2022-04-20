@@ -7,6 +7,7 @@ import zemat.wetender.domain.base.BaseEntity;
 import zemat.wetender.domain.suggestion.Suggestion;
 import zemat.wetender.domain.suggestion.SuggestionReply;
 
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ public class SuggestionDto {
     private String suggestionContent;
     private List<SuggestionReply> suggestionReplyList = new ArrayList<>();
 
-    private LocalDateTime createdDate;
+    private String createdDate;
     private LocalDateTime lastModifiedDate;
     private String createdBy;
     private String lastModifiedBy;
@@ -39,7 +40,14 @@ public class SuggestionDto {
         this.suggestionContent = suggestion.getSuggestionContent();
         this.suggestionReplyList = suggestion.getSuggestionReplyList();
 
-        this.createdDate = suggestion.getCreatedDate();
+        String cur = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-d"));
+        LocalDateTime createdDate = suggestion.getCreatedDate();
+        if (cur.equals(createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-d")))) {
+            this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("H:mm"));
+        } else {
+            this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("yy-MM-d"));
+        }
+
         this.lastModifiedDate = suggestion.getLastModifiedDate();
         this.createdBy = suggestion.getCreatedBy();
         this.lastModifiedBy = suggestion.getLastModifiedBy();

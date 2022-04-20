@@ -20,7 +20,7 @@
             <hr class="border-pink">
 
             <div class="contents-flex flex-column-center">
-                <div id="noticeBoardResult" class="width-80p">
+                <div id="noticeBoardResult" class="width-80rem">
                     <!--검색 폼-->
                     <form class="contents-flex flex-row-end" method="GET" th:action="@{/noticeBoard/main}">
                         <div class="input-1 width-20rem text-align-right">
@@ -54,12 +54,12 @@
                     <table class="noticeboard">
                         <thead>
                             <tr>
-                                <th scope="col" class="text-align-center"></th>
+                                <th scope="col" class="width-5rem text-align-center"></th>
                                 <th scope="col" class="text-align-center">제목</th>
-                                <th scope="col">작성자</th>
-                                <th scope="col" class="text-align-center">작성일</th>
-                                <th scope="col" class="text-align-center">좋아요</th>
-                                <th scope="col" class="text-align-center">조회</th>
+                                <th scope="col" class="width-8rem">작성자</th>
+                                <th scope="col" class="width-5rem text-align-center">작성일</th>
+                                <th scope="col" class="width-5rem text-align-center">좋아요</th>
+                                <th scope="col" class="width-5rem text-align-center">조회</th>
                             </tr>
                         </thead>
 
@@ -67,11 +67,10 @@
                             <tr th:each = "noticeBoard : ${noticeBoardDtos}">
                                 <td class="width-5rem text-align-center" th:text = "${noticeBoard.id}"></td>
                                 <td>
-                                    <a th:text = "${noticeBoard.noticeBoardTitle}"
-                                        th:href = "@{/noticeBoard/detail( noticeBoardId=${noticeBoard.id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardDtos.pageable.pageSize, 0)} )}"> 제목 </a>
-                                    <a th:href="@{/noticeBoard/detail( noticeBoardId=${noticeBoard.id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardDtos.pageable.pageSize, 0)} )}">
-                                        <span th:text = "|[${noticeBoard.replies}]|"></span>
-                                    </a>
+                                    <a th:href = "@{/noticeBoard/detail( noticeBoardId=${noticeBoard.id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardDtos.pageable.pageSize, 0)} )}"
+                                       th:text = "|${noticeBoard.noticeBoardTitle} |">제목</a>
+                                    <a th:href="@{/noticeBoard/detail( noticeBoardId=${noticeBoard.id}, page=${ #numbers.formatInteger( (noticeBoard.id-1) / noticeBoardDtos.pageable.pageSize, 0)} )}"
+                                       th:text = "|[${noticeBoard.replies}]|">댓글수</a>
                                 </td>
                                 <td class="width-8rem" th:text = "${noticeBoard.createdBy}"></td>
                                 <td class="width-5rem text-align-center" th:text = "${noticeBoard.createdDate}"></td>

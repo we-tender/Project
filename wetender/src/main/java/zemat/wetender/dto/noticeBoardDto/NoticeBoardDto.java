@@ -46,7 +46,7 @@ public class NoticeBoardDto {
         String cur = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-d"));
         LocalDateTime createdDate = noticeBoard.getCreatedDate();
         if (cur.equals(createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-d")))) {
-            this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("H:m"));
+            this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("H:mm"));
         } else {
             this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("yy-MM-d"));
         }
