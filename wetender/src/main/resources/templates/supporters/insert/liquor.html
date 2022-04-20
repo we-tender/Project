@@ -80,7 +80,7 @@
                             <li>
                                 <div class="detail-img-info-head">한줄평</div>
                                 <div class="detail-img-info-content input-1">
-                                    <textarea th:field="*{oneLine}" class="width-100" placeholder="한줄설명을 입력하세요"></textarea>
+                                    <textarea th:field="*{oneLine}" class="width-100p" placeholder="한줄설명을 입력하세요"></textarea>
                                     <div class="field-error" th:errors="*{oneLine}">
                                         상품명 오류
                                     </div>
@@ -89,7 +89,7 @@
                             <li>
                                 <div class="detail-img-info-head">소개글</div>
                                 <div class="detail-img-info-content input-1">
-                                    <textarea type="text" th:field="*{content}" class="width-100 height-min-10rem" placeholder="설명을 입력하세요"></textarea>
+                                    <textarea type="text" th:field="*{content}" class="width-100p height-min-10rem" placeholder="설명을 입력하세요"></textarea>
                                     <div class="field-error" th:errors="*{content}">
                                         상품명 오류
                                     </div>
@@ -98,10 +98,10 @@
                             <li>
                                 <div class="contents-flex flex-row-center">
                                     <div class="width-10rem padding-05rem">
-                                        <button class="btn-1 width-100" type="submit">주류 등록</button>
+                                        <button class="btn-1 width-100p" type="submit">주류 등록</button>
                                     </div>
                                     <div class="width-10rem padding-05rem">
-                                        <button class="btn-cancel-1 width-100"
+                                        <button class="btn-cancel-1 width-100p"
                                                 th:onclick="|location.href='@{/supporters/main}'|"
                                                 type="button">취소</button>
                                     </div>

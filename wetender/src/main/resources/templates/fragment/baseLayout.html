@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:fragment="baseLayout (mainContents)">
 <head>
+    <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>WE-TENDER</title>
@@ -31,7 +32,6 @@
 <!-- csrf ajax 통신 -->
     <meta name="_csrf" th:content="${_csrf.token}">
     <meta name="_csrf_header" th:content="${_csrf.headerName}">
-
 </head>
 
 <body>
@@ -41,13 +41,9 @@
     <!-- container : sidebar + content -->
     <div class="contents-wrapper">
         <div th:replace="~{fragment/nav_side :: nav_side}"></div>
-
         <div class="contents-section">
             <section th:replace="${mainContents}"></section>
         </div>
-
-
-
     </div>
 
     <!-- footer -->

@@ -18,7 +18,7 @@
                     <form th:action="@{/member/join}" th:object="${memberJoinForm}" method="post">
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="idname">ID</label></h5>
-                            <input th:field="*{idname}" class="width-100" type="text" placeholder="아이디를 입력해주세요.">
+                            <input th:field="*{idname}" class="width-100p" type="text" placeholder="아이디를 입력해주세요.">
 
                             <div class="field-error" th:errors="*{idname}">
                                 아이디 오류
@@ -28,7 +28,7 @@
                         </div>
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="pwd1">PASSWORD</label></h5>
-                            <input th:field="*{pwd1}" class="width-100" type="password" placeholder="비밀번호를 입력해주세요.">
+                            <input th:field="*{pwd1}" class="width-100p" type="password" placeholder="비밀번호를 입력해주세요.">
 
                             <div class="field-error" th:errors="*{pwd1}">
                                 비밀번호1 오류
@@ -37,7 +37,7 @@
                         </div>
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="pwd2">CONFIRM</label></h5>
-                            <input th:field="*{pwd2}" class="width-100" type="password" placeholder="비밀번호를 한번 더 입력해주세요.">
+                            <input th:field="*{pwd2}" class="width-100p" type="password" placeholder="비밀번호를 한번 더 입력해주세요.">
 
                             <div class="field-error" th:errors="*{pwd2}">
                                 비밀번호2 오류
@@ -46,7 +46,7 @@
                         </div>
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="name">NAME</label></h5>
-                            <input th:field="*{name}" class="width-100" type="text" placeholder="이름을 입력해주세요.">
+                            <input th:field="*{name}" class="width-100p" type="text" placeholder="이름을 입력해주세요.">
 
                             <div class="field-error" th:errors="*{name}">
                                 이름 오류
@@ -55,7 +55,7 @@
                         </div>
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="email">EMAIL</label></h5>
-                            <input th:field="*{email}" class="width-100" type="email" placeholder="이메일을 입력해주세요.">
+                            <input th:field="*{email}" class="width-100p" type="email" placeholder="이메일을 입력해주세요.">
 
                             <div class="field-error" th:errors="*{email}">
                                 이메일 오류
@@ -64,7 +64,7 @@
                         </div>
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="address">ADDRESS</label></h5>
-                            <input th:field="*{address}" class="width-100" type="text" placeholder="주소를 입력해주세요.">
+                            <input th:field="*{address}" class="width-100p" type="text" placeholder="주소를 입력해주세요.">
 
                             <div class="field-error" th:errors="*{address}">
                                 주소 오류
@@ -73,7 +73,7 @@
                         </div>
                         <div class="width-20rem padding-05rem input-1">
                             <h5><label th:for="phone">CONTACT</label></h5>
-                            <input th:field="*{phone}" class="width-100" type="tel" placeholder="연락처를 입력해주세요.">
+                            <input th:field="*{phone}" class="width-100p" type="tel" placeholder="연락처를 입력해주세요.">
 
                             <div class="field-error" th:errors="*{phone}">
                                 핸드폰번호 오류
@@ -81,7 +81,7 @@
 
                         </div>
                         <div class="padding-05rem">
-                            <button class="btn-1 width-100" type="submit">JOIN US</button>
+                            <button class="btn-1 width-100p" type="submit">JOIN US</button>
                         </div>
                     </form>
                 </div>

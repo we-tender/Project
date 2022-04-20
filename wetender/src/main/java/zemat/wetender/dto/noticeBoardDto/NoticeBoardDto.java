@@ -8,6 +8,7 @@ import zemat.wetender.domain.noticeBoard.NoticeBoard;
 import zemat.wetender.domain.noticeBoard.NoticeBoardReply;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class NoticeBoardDto {
     private List<NoticeBoardReply> noticeBoardReplyList = new ArrayList<>();
     private List<NoticeBoardLikes> noticeBoardLikesList = new ArrayList<>();
 
-    private LocalDateTime createdDate;
+    private String createdDate;
     private LocalDateTime lastModifiedDate;
     private String createdBy;
     private String lastModifiedBy;
@@ -42,7 +43,14 @@ public class NoticeBoardDto {
         this.noticeBoardReplyList = noticeBoard.getNoticeBoardReplyList();
         this.noticeBoardLikesList = noticeBoard.getNoticeBoardLikesList();
 
-        this.createdDate = noticeBoard.getCreatedDate();
+        String cur = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-d"));
+        LocalDateTime createdDate = noticeBoard.getCreatedDate();
+        if (cur.equals(createdDate.format(DateTimeFormatter.ofPattern("yyyy-MM-d")))) {
+            this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("H:m"));
+        } else {
+            this.createdDate = createdDate.format(DateTimeFormatter.ofPattern("yy-MM-d"));
+        }
+
         this.lastModifiedDate = noticeBoard.getLastModifiedDate();
         this.createdBy = noticeBoard.getCreatedBy();
         this.lastModifiedBy = noticeBoard.getLastModifiedBy();
