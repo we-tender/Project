@@ -30,29 +30,101 @@
                             제목 오류
                         </div>
                     </div>
+
                     <div>
                         <div class="text-edit-list background-light-gray border-bottom-dashed2">
                             <ul class="contents-flex padding-05rem margin-05rem">
-                                <li><button type="button" class="btn-3 dropdown"><span>표준</span></button></li>
-                                <li><button type="button" class="btn-3 dropdown"><span>맑은고딕</span></button></li>
-                                <li><button type="button" class="btn-3 dropdown"><span>글자크기</span></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/bold.png" alt="굵게"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/italic.png" alt="기울임"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/fonts-more.png" alt="글꼴 더보기"></button></li>
+                                <li>
+                                    <button type="button" class="btn-3 dropdown dropdown-close" data-index="0" data-toggle="close">
+                                        <span>표준</span>
+                                        <ul>
+                                            <li>표준</li>
+                                            <li><h1>제목1</h1></li>
+                                            <li><h2>제목2</h2></li>
+                                            <li><h3>제목3</h3></li>
+                                            <li><h4>제목4</h4></li>
+                                            <li>코드</li>
+                                        </ul>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn-3 dropdown dropdown-close" data-index="1" data-toggle="close">
+                                        <span>맑은고딕</span>
+                                        <ul>
+                                            <li><span>돋움</span></li>
+                                            <li><span>굴림</span></li>
+                                            <li><span>바탕</span></li>
+                                            <li><span></span>궁서</li>
+                                            <li><span>Arial</span></li>
+                                            <li><span>Tahoma</span></li>
+                                            <li><span>Veranda</span></li>
+                                            <li><span>Time New Roman</span></li>
+                                            <li><span>Sans-serif</span></li>
+                                            <li><span>Sand</span></li>
+                                            <li><span>Georgia</span></li>
+                                            <li><span>SimSun</span></li>
+                                        </ul>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn-3 dropdown dropdown-close" data-index="2" data-toggle="close">
+                                        <span>글자크기</span>
+                                        <ul>
+                                            <li><span>8</span></li>
+                                            <li><span>9</span></li>
+                                            <li><span>10</span></li>
+                                            <li><span>12</span></li>
+                                            <li><span>14</span></li>
+                                            <li><span>16</span></li>
+                                            <li><span>18</span></li>
+                                            <li><span>20</span></li>
+                                            <li><span>22</span></li>
+                                            <li><span>24</span></li>
+                                            <li><span>26</span></li>
+                                            <li><span>28</span></li>
+                                            <li><span>30</span></li>
+                                        </ul>
+                                    </button>
+                                </li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/bold.png" alt="굵게"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/italic.png" alt="기울임"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/fonts-more.png" alt="글꼴 더보기"></button></li>
                             </ul>
                             <ul class="contents-flex padding-05rem margin-05rem">
-                                <li><button type="button" class="btn-3"><img src="/images/icon/ordered-list.png" alt="순서있는 리스트"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/unordered-list.png" alt="순서없는 리스트"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/left.png" alt="왼쪽정렬"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/center.png" alt="가운데정렬"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/right.png" alt="오른쪽정렬"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/paragraphs-more.png" alt="문단 더보기"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/more.png" alt="더 많은 내용"></button></li>
+                                <li>
+                                    <button type="button" class="btn-3 dropdown dropdown-close" data-index="3" data-toggle="close">
+                                        <img src="/images/icon/ordered-list.png" alt="순서있는 리스트">
+                                        <ul>
+                                            <li><span>기본</span></li>
+                                            <li><span>알파벳 소문자</span></li>
+                                            <li><span>그리스 소문자</span></li>
+                                            <li><span>로마자</span></li>
+                                            <li><span>알파벳 대문자</span></li>
+                                            <li><span>로마자 대문자</span></li>
+                                        </ul>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn-3 dropdown dropdown-close" data-index="4" data-toggle="close">
+                                        <img src="/images/icon/unordered-list.png" alt="순서없는 리스트">
+                                        <ul>
+                                            <li><span>기본</span></li>
+                                            <li><span>빈 단추형 목록</span></li>
+                                            <li><span>단추형 목록</span></li>
+                                            <li><span>네모형 목록</span></li>
+                                        </ul>
+                                    </button>
+                                </li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/left.png" alt="왼쪽정렬"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/center.png" alt="가운데정렬"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/right.png" alt="오른쪽정렬"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/paragraphs-more.png" alt="문단 더보기"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/more.png" alt="더 많은 내용"></button></li>
                             </ul>
                             <ul class="contents-flex flex-110 flex-row-end padding-05rem margin-05rem">
-                                <li><button type="button" class="btn-3"><img src="/images/icon/undo.png" alt="되돌리기"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/redo.png" alt="다시실행"></button></li>
-                                <li><button type="button" class="btn-3"><img src="/images/icon/etc-more.png" alt="기타 더보기"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/undo.png" alt="되돌리기"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/redo.png" alt="다시실행"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/etc-more.png" alt="기타 더보기"></button></li>
                             </ul>
                         </div>
                         <!-- textarea -->
@@ -76,19 +148,7 @@
 
         </div>
 
-        <div class="col-lg-8 mx-auto p-3 py-md-5">
-            <main>
-                <div class="container">
-                    <!--    action에 주소를 넣는다     object에   GetMapping에 전달받은 객체를 넣는다.-->
-                    <!--            사진을 저장하기 위해 enctype 추가 -->
-                    <form action="#" th:action="@{/suggestion/insert}" th:object="${suggestionInsertDto}" method="post">
-
-
-
-                    </form>
-                </div>
-            </main>
-        </div>
+        <script th:src="@{/js/noticeBoard/noticeBoard.js}"></script>
 
     </section>
 

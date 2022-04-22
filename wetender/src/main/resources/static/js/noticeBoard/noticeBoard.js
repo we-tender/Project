@@ -286,3 +286,46 @@ function pageMove(pageNumber) {
     });
 
 }
+
+// 드롭다운메뉴 클릭 시 이벤트
+$(function() {
+    $(".dropdown").click(function() {
+        if (this.dataset.toggle == "close") {
+            console.log(this.dataset.index + " close to open");
+            this.dataset.toggle = "open";
+            this.classList.remove("dropdown-close");
+            this.classList.add("dropdown-open");
+
+            const curIdx = this.dataset.index;
+            const menu = document.querySelectorAll('.dropdown');
+            for (let i = 0; i < menu.length; i++) {
+                let dropdownMenu = menu.item(i);
+                if (i != curIdx && dropdownMenu.dataset.toggle == "open") {
+                    dropdownMenu.classList.remove("dropdown-open");
+                    dropdownMenu.classList.add("dropdown-close");
+                    dropdownMenu.dataset.toggle = "close";
+                }
+            }
+        } else {
+            console.log(this.dataset.index + " open to close");
+            this.dataset.toggle = "close";
+            this.classList.remove("dropdown-open");
+            this.classList.add("dropdown-close");
+        }
+    });
+});
+// none-dropdown 클릭 시 이벤트 : dropdown 메뉴 닫기
+$(function() {
+    $(".none-dropdown").click(function() {
+        const menu = document.querySelectorAll('.dropdown');
+        for (let i = 0; i < menu.length; i++) {
+            let dropdownMenu = menu.item(i);
+            if (dropdownMenu.dataset.toggle == "open") {
+                dropdownMenu.classList.remove("dropdown-open");
+                dropdownMenu.classList.add("dropdown-close");
+                dropdownMenu.dataset.toggle = "close";
+                console.log(dropdownMenu.dataset.index + " open to close");
+            }
+        }
+    });
+});
