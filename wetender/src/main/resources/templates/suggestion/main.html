@@ -43,7 +43,7 @@
                                     <th scope="col" class="width-5rem text-align-center"></th>
                                     <th scope="col" class="text-align-center">제목</th>
                                     <th scope="col" class="width-8rem">작성자</th>
-                                    <th scope="col" class="width-5rem text-align-center">작성일</th>
+                                    <th scope="col" class="width-8rem text-align-center">작성일</th>
                                     <th scope="col" class="width-5rem text-align-center">좋아요</th>
                                     <th scope="col" class="width-5rem text-align-center">조회</th>
                                 </tr>
@@ -60,7 +60,7 @@
                                            th:text = "|[${noticeBoard.replies}]|" style="color:red">댓글수</a>
                                     </td>
                                     <td class="width-8rem" th:text = "${noticeBoard.createdBy}">작성자</td>
-                                    <td class="width-5rem text-align-center" th:text = "${noticeBoard.createdDate}">작성일</td>
+                                    <td class="width-8rem text-align-center" th:text = "${noticeBoard.createdDate}">작성일</td>
                                     <td class="width-5rem text-align-center" th:text = "${noticeBoard.likes}">좋아요</td>
                                     <td class="width-5rem text-align-center" th:text = "${noticeBoard.views}">조회수</td>
                                 </tr>
@@ -86,7 +86,7 @@
                                 <th scope="col" class="width-5rem text-align-center"></th>
                                 <th scope="col" class="text-align-center">제목</th>
                                 <th scope="col" class="width-8rem">작성자</th>
-                                <th scope="col" class="width-5rem text-align-center">작성일</th>
+                                <th scope="col" class="width-8rem text-align-center">작성일</th>
                                 <th scope="col" class="width-5rem text-align-center">조회</th>
                             </tr>
                         </thead>
@@ -100,8 +100,8 @@
                                        th:text = "|[${suggestion.replies}]|">댓글수</a>
                                 </td>
                                 <td class="width-8rem" th:text = "${suggestion.createdBy}">작성자</td>
-                                <td class="width-5rem text-align-center" th:text = "${suggestion.createdDate}">작성일</td>
-                                <td class="width-5rem text-align-center" th:text = "${suggestion.views}">조회</td>
+                                <td class="width-8rem text-align-center" th:text = "${suggestion.createdDate}">작성일</td>
+                                <td class="width-5rem text-align-center" th:text = "${suggestion.views}">조회수</td>
                             </tr>
                         </tbody>
                     </table>

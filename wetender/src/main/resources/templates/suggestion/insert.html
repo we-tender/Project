@@ -1,80 +1,96 @@
 <!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
-<!--head 에 입력변수를 받아 title 바꾼다.-->
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-
-    <!-- Custom styles for this template -->
-    <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="navbar-top.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/errors.css}">
+    <title>건의사항 등록</title>
 </head>
 
 <body>
 
+    <section>
 
-<section>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/errors.css}">
+        <div class="container-grid">
+            <!-- 헤더 -->
+            <div class="contents-header">
+                <div>
+                    <img src="/images/pink-bullet.png" width="10rem" height="40rem">
+                    <h4 class="contents-header-subtitle"><a th:href="@{/suggestion/main}"><strong th:text="| 건의사항|"></strong></a></h4>
+                </div>
+            </div>
+            <hr class="border-pink">
 
-
-<div class="col-lg-8 mx-auto p-3 py-md-5">
-    <main>
-        <div class="container">
-            <h2>건의사항 등록</h2>
-            <br>
-            <!--    action에 주소를 넣는다     object에   GetMapping에 전달받은 객체를 넣는다.-->
-            <!--            사진을 저장하기 위해 enctype 추가 -->
-            <form action="#" th:action="@{/suggestion/insert}" th:object="${suggestionInsertDto}" method="post">
-
-
-                <!-- input 상자 -->
-                <div class="mb-3">
-                    <label for="suggestionTitle" class="form-label">제목</label>
-                    <input type="text" class="form-control"
-                           id="suggestionTitle" th:name="suggestionTitle">
-
-                    <div class="field-error" th:errors="*{suggestionTitle}">
-                        제목 오류
+            <div class="contents-flex flex-column-center">
+                <form th:action="@{/suggestion/insert}" th:object="${suggestionInsertDto}" method="post" class="width-80rem">
+                    <!-- input 상자 -->
+                    <div class="input-1 padding-05rem border-bottom-pink">
+                        <label for="suggestionTitle" class="margin-right-5rem"><strong>제목</strong></label>
+                        <input type="text" id="suggestionTitle" th:name="suggestionTitle" class="width-40rem">
+                        <div class="field-error" th:errors="*{suggestionTitle}">
+                            제목 오류
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-edit-list background-light-gray border-bottom-dashed2">
+                            <ul class="contents-flex padding-05rem margin-05rem">
+                                <li><button type="button" class="btn-3 dropdown"><span>표준</span></button></li>
+                                <li><button type="button" class="btn-3 dropdown"><span>맑은고딕</span></button></li>
+                                <li><button type="button" class="btn-3 dropdown"><span>글자크기</span></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/bold.png" alt="굵게"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/italic.png" alt="기울임"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/fonts-more.png" alt="글꼴 더보기"></button></li>
+                            </ul>
+                            <ul class="contents-flex padding-05rem margin-05rem">
+                                <li><button type="button" class="btn-3"><img src="/images/icon/ordered-list.png" alt="순서있는 리스트"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/unordered-list.png" alt="순서없는 리스트"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/left.png" alt="왼쪽정렬"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/center.png" alt="가운데정렬"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/right.png" alt="오른쪽정렬"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/paragraphs-more.png" alt="문단 더보기"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/more.png" alt="더 많은 내용"></button></li>
+                            </ul>
+                            <ul class="contents-flex flex-110 flex-row-end padding-05rem margin-05rem">
+                                <li><button type="button" class="btn-3"><img src="/images/icon/undo.png" alt="되돌리기"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/redo.png" alt="다시실행"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/etc-more.png" alt="기타 더보기"></button></li>
+                            </ul>
+                        </div>
+                        <!-- textarea -->
+                        <div class="input-1">
+                            <textarea rows="25" id="suggestionContent" th:name="suggestionContent" class="width-100p"></textarea>
+                        </div>
+                        <div class="field-error" th:errors="*{suggestionContent}">
+                            제목 오류
+                        </div>
                     </div>
 
-
-
-                </div>
-
-
-                <!-- textarea -->
-                <div class="mb-3">
-                    <label for="suggestionContent" class="form-label">내용</label>
-                    <textarea class="form-control" id="suggestionContent" rows="4"
-                              th:name="suggestionContent"></textarea>
-
-                    <div class="field-error" th:errors="*{suggestionContent}">
-                        제목 오류
+                    <!-- 버튼 -->
+                    <div class="contents-flex flex-row-end">
+                        <div class="width-20rem text-align-center">
+                            <button type="submit" class="btn-1 width-8rem padding-05rem">등록</button>
+                            <button type="button" class="btn-cancel-1 width-8rem padding-05rem" th:onclick="|location.href='@{/suggestion/main}'|">취소</button>
+                        </div>
                     </div>
+                </form>
+            </div>
 
-                </div>
-
-                <!-- 버튼 -->
-                <div class="text-end">
-                    <button type="submit" class="btn btn-primary">확인</button>
-                    <a type="button" class="btn btn-primary" th:href="@{/suggestion/main}">취소</a>
-                </div>
-            </form>
         </div>
-    </main>
-</div>
-</section>
 
-</section>
+        <div class="col-lg-8 mx-auto p-3 py-md-5">
+            <main>
+                <div class="container">
+                    <!--    action에 주소를 넣는다     object에   GetMapping에 전달받은 객체를 넣는다.-->
+                    <!--            사진을 저장하기 위해 enctype 추가 -->
+                    <form action="#" th:action="@{/suggestion/insert}" th:object="${suggestionInsertDto}" method="post">
+
+
+
+                    </form>
+                </div>
+            </main>
+        </div>
+
+    </section>
 
 </body>
 </html>
