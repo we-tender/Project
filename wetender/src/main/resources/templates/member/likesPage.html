@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<!-- 회원별 좋아요 누른 항목을 표시하는 페이지  -->
+
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragment/baseLayout :: baseLayout(~{::section})}">
+<!--head 에 입력변수를 받아 title 바꾼다.-->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" th:href="@{/starter-template.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="navbar-top.css" rel="stylesheet">
+</head>
+
+
+
+<section>
+
+    <script type="text/javascript" th:src="@{/js/member/likes.js}"></script>
+
+    <input id="memberId" type="hidden" th:value="${memberDto.id}"/>
+
+    <div class="contents-header">
+        <div>
+            <img src="/images/pink-bullet.png" width="10rem" height="40rem">
+            <h4 class="inline-block margin-0 vertical-align-middle"><strong th:text="| 좋아요|" ></strong></h4>
+        </div>
+    </div>
+
+
+
+    <!-- 칵테일 좋아요 시작 -->
+    <div id = "cocktailLikes">
+    <h5 class="inline-block margin-0 vertical-align-middle"><strong th:text="| 칵테일|" ></strong></h5>
+    <div class="contents-flex flex-row-center">
+        <ul class="contents-grid grid-col-4 grid-column-gap-105rem">
+            <li th:each ="cocktail : ${cocktailDtos}" data-wow-delay="0.1s" th:onclick="|location.href='@{/cocktail/{id} (id=${cocktail.id})}'|">
+                <figure class="img-wrap border-gray">
+                    <img th:src="|/cocktailLikesImages/${cocktail.images[0].uploadPath}/${cocktail.images[0].uuid}_${cocktail.images[0].fileName}|" alt="">
+                    <div class="width-20rem">
+                        <div>
+                            <h5><strong th:text="${cocktail.eName}">영문이름</strong></h5>
+                            <h5><span th:text="${cocktail.name}">한글이름</span></h5>
+                            <p th:text="${cocktail.oneLine}">한줄평</p>
+                        </div>
+                        <div class="contents-flex margin-0 border-top-dashed1">
+                            <small class="flex-110 text-align-center border-right-dashed1" th:text="|추천수 : ${cocktail.likes}|"><i class=""></i> 추천수 </small>
+                            <small class="flex-110 text-align-center border-right-dashed1" th:text="|조회수 : ${cocktail.views}|"><i class=""></i> 조회수 </small>
+                            <small class="flex-110 text-align-center" th:text="|댓글수 : ${cocktail.replies}|" ><i class=""></i> 댓글수 </small>
+                        </div>
+                    </div>
+                </figure>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 페이지 -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"  th:classappend="${1 == cocktailDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                <button class="page-link" href="#" th:onclick="cocktailMovePage([[${cocktailDtos.pageable.pageNumber - 1}]])" tabindex="-1" aria-disabled="true">Previous</button>
+            </li>
+            <li class="page-item " th:classappend="${i == cocktailDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(cocktailStartPage,cocktailEndPage)}">
+                <button class="page-link" href="#"  th:onclick="cocktailMovePage([[${i-1}]])"  th:text="${i}">1</button>
+            </li>
+            <li class="page-item" th:classappend="${cocktailDtos.totalPages == cocktailDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                <button class="page-link" href="#" th:onclick="cocktailMovePage([[${cocktailDtos.pageable.pageNumber + 1}]])" >Next</button>
+            </li>
+        </ul>
+    </nav>
+    </div>
+    <!-- 칵테일 좋아요 끝 -->
+
+    <!-- 주류 좋아요 시작 -->
+    <div id="liquorLikes">
+    <h5 class="inline-block margin-0 vertical-align-middle"><strong th:text="| 주류|" ></strong></h5>
+    <div class="contents-flex flex-row-center">
+        <ul class="contents-grid grid-col-4 grid-column-gap-105rem">
+            <li th:each ="liquor : ${liquorDtos}" data-wow-delay="0.1s" th:onclick="|location.href='@{/liquor/{id} (id=${liquor.id})}'|">
+                <figure class="img-wrap border-gray">
+                    <img th:src="|/liquorLikesImages/${liquor.images[0].uploadPath}/${liquor.images[0].uuid}_${liquor.images[0].fileName}|" alt="">
+                    <div class="width-20rem">
+                        <div>
+                            <h5><strong th:text="${liquor.eName}">영문이름</strong></h5>
+                            <h5><span th:text="${liquor.name}">한글이름</span></h5>
+                            <p th:text="${liquor.oneLine}">한줄평</p>
+                        </div>
+                        <div class="contents-flex margin-0 border-top-dashed1">
+                            <small class="flex-110 text-align-center border-right-dashed1" th:text="|추천수 : ${liquor.likes}|"><i class=""></i> 추천수 </small>
+                            <small class="flex-110 text-align-center border-right-dashed1" th:text="|조회수 : ${liquor.views}|"><i class=""></i> 조회수 </small>
+                            <small class="flex-110 text-align-center" th:text="|댓글수 : ${liquor.replies}|" ><i class=""></i> 댓글수 </small>
+                        </div>
+                    </div>
+                </figure>
+            </li>
+        </ul>
+    </div>
+
+
+    <!-- 페이지 -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"  th:classappend="${1 == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                <button class="page-link" href="#" th:onclick="liquorMovePage([[${liquorDtos.pageable.pageNumber - 1}]])" tabindex="-1" aria-disabled="true">Previous</button>
+            </li>
+            <li class="page-item " th:classappend="${i == liquorDtos.pageable.pageNumber + 1} ? 'disabled' "  th:each="i: ${#numbers.sequence(liquorStartPage,liquorEndPage)}">
+                <button class="page-link" href="#"  th:onclick="liquorMovePage([[${i-1}]])"  th:text="${i}">1</button>
+            </li>
+
+            <li class="page-item" th:classappend="${liquorDtos.totalPages == liquorDtos.pageable.pageNumber + 1} ? 'disabled' " >
+                <button class="page-link" href="#" th:onclick="liquorMovePage([[${liquorDtos.pageable.pageNumber + 1}]])" >Next</button>
+            </li>
+        </ul>
+    </nav>
+    </div>
+    <!-- 주류 좋아요 끝 -->
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+
+
+
+
+</html>

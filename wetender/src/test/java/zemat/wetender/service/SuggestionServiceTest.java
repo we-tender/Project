@@ -51,7 +51,7 @@ public class SuggestionServiceTest {
         Long insertId = suggestionService.insert(suggestionInsertDto);
 
         // when
-        Optional<Suggestion> suggestionFind = suggestionService.findById(insertId);
+//        Optional<Suggestion> suggestionFind = suggestionService.findById(insertId);
 
 
         // then  이게 맞나...??
@@ -109,7 +109,7 @@ public class SuggestionServiceTest {
         Long suggestionId1 = 1L;
 
         // then
-        List<Suggestion> suggestions1 = suggestionService.detail_list(suggestionId1);
+//        List<Suggestion> suggestions1 = suggestionService.detail_list(suggestionId1);
 
     }
 

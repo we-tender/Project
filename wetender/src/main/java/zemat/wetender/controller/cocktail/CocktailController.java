@@ -93,6 +93,7 @@ public class CocktailController {
             return new UrlResource("file:" + cocktailFileDir + year + "/"+ month + "/" + day + "/" + filename);
     }
 
+
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Long cocktailId, Model model){
         Cocktail cocktail = cocktailService.findById(cocktailId);

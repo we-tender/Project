@@ -1,11 +1,16 @@
 package zemat.wetender.service.liquor;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import zemat.wetender.domain.cocktail.Cocktail;
+import zemat.wetender.domain.cocktail.CocktailLikes;
 import zemat.wetender.domain.liquor.Liquor;
 import zemat.wetender.domain.liquor.LiquorLikes;
 import zemat.wetender.domain.member.Member;
+import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.likes.LiquorLikesInsertOrDeleteDto;
 import zemat.wetender.repository.MemberRepository;
@@ -63,6 +68,16 @@ public class LiquorLikesService {
         else {
             return true;
         }
+    }
+
+    // 회원이 좋아요 누른 주류 반환
+    public Page<LiquorDto> findMemberId(Long memberId, Pageable pageable) {
+        Member member = memberRepository.getById(memberId);
+        Page<LiquorLikes> liquorLikes = liquorLikesRepository.findByMember(member, pageable);
+
+        Page<Liquor> liquorlist = liquorLikes.map(LiquorLikes::getLiquor);
+
+        return liquorlist.map(LiquorDto::new);
     }
 
 }

@@ -53,6 +53,12 @@ public class MemberService {
         return memberRepository.findByMemberIdName(memberIdName).orElseThrow(() -> new IllegalStateException("존재하지 않는 아이디입니다!"));
     }
 
+    public Member findByMemberId(Long memberId)
+    {
+        Member member = memberRepository.getById(memberId);
+        return member;
+    }
+
 
     // 세션의 멤버 데이터를 가져오는 함수
     public UserDetails getSessionMember() {

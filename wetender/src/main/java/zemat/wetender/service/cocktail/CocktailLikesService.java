@@ -2,6 +2,8 @@ package zemat.wetender.service.cocktail;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.cocktail.Cocktail;
@@ -25,6 +27,7 @@ public class CocktailLikesService {
     private final CocktailRepository cocktailRepository;
     private final CocktailLikesRepository cocktailLikesRepository;
     private final MemberRepository memberRepository;
+
 
 
     // 칵테일 좋아요 저장하기 삭제하기
@@ -60,6 +63,17 @@ public class CocktailLikesService {
         else {
             return true;
         }
+    }
+
+    // 회원이 좋아요 누른 칵테일을 반환
+    public Page<CocktailMainDto> findMemberId(Long memberId, Pageable pageable) {
+        Member member = memberRepository.getById(memberId);
+        Page<CocktailLikes> cocktailLikes = cocktailLikesRepository.findByMember(member, pageable);
+
+        Page<Cocktail> cocktailList = cocktailLikes.map(cocktaillike -> cocktaillike.getCocktail());
+        Page<CocktailMainDto> cocktailMainDtos = cocktailList.map(cocktail -> new CocktailMainDto(cocktail));
+
+        return cocktailMainDtos;
     }
 
 }

@@ -58,7 +58,11 @@
                 <div class="contents-inline1-row border-pink">테이스팅 노트</div>
                 <div class="contents-inline1-row border-pink">나만의 레시피</div>
                 <div class="contents-inline1-row border-pink">내 술장</div>
-                <div class="contents-inline1-row border-pink">즐겨찾기</div>
+                <div class="contents-inline1-row border-pink" >
+                    <a th:href="@{/member/likesPage(memberId=${member.id})}">
+                    좋아요
+                    </a>
+                </div>
             </div>
         </div>
     </section>
