@@ -31,7 +31,7 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="position-relative">
                         <div class="text-edit-list background-light-gray border-bottom-dashed2">
                             <ul class="contents-flex padding-05rem margin-05rem">
                                 <li>
@@ -88,7 +88,7 @@
                                 </li>
                                 <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/bold.png" alt="굵게"></button></li>
                                 <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/italic.png" alt="기울임"></button></li>
-                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/fonts-more.png" alt="글꼴 더보기"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown btn-more" data-type="fonts"><img src="/images/icon/fonts-more.png" alt="글꼴 더보기"></button></li>
                             </ul>
                             <ul class="contents-flex padding-05rem margin-05rem">
                                 <li>
@@ -118,13 +118,49 @@
                                 <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/left.png" alt="왼쪽정렬"></button></li>
                                 <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/center.png" alt="가운데정렬"></button></li>
                                 <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/right.png" alt="오른쪽정렬"></button></li>
-                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/paragraphs-more.png" alt="문단 더보기"></button></li>
-                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/more.png" alt="더 많은 내용"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown btn-more" data-type="paragraphs"><img src="/images/icon/paragraphs-more.png" alt="문단 더보기"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown btn-more" data-type="add-more"><img src="/images/icon/more.png" alt="더 많은 내용"></button></li>
                             </ul>
                             <ul class="contents-flex flex-110 flex-row-end padding-05rem margin-05rem">
                                 <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/undo.png" alt="되돌리기"></button></li>
                                 <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/redo.png" alt="다시실행"></button></li>
-                                <li><button type="button" class="btn-3 none-dropdown"><img src="/images/icon/etc-more.png" alt="기타 더보기"></button></li>
+                                <li><button type="button" class="btn-3 none-dropdown btn-more" data-type="etc"><img src="/images/icon/etc-more.png" alt="기타 더보기"></button></li>
+                            </ul>
+                        </div>
+                        <div class="text-edit-sub-list background-light-gray padding-left-13rem" data-toggle="close">
+                            <ul class="contents-flex padding-05rem margin-05rem margin-top-0" data-type="fonts">
+                                <li><button type="button" class="btn-3"><img src="/images/icon/underline.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/midline.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/text-color.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/background-color.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/subscript.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/superscript.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/remove-form.png"></button></li>
+                            </ul>
+                        </div>
+                        <div class="text-edit-sub-list flex-row-end background-light-gray padding-right-17rem" data-toggle="close">
+                            <ul class="contents-flex padding-05rem margin-05rem margin-top-0" data-type="paragraphs">
+                                <li><button type="button" class="btn-3"><img src="/images/icon/outdent.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/indent.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/both.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/space.png"></button></li>
+                            </ul>
+                        </div>
+                        <div class="text-edit-sub-list flex-row-end background-light-gray padding-right-11rem" data-toggle="close">
+                            <ul class="contents-flex padding-05rem margin-05rem margin-top-0" data-type="add-more">
+                                <li><button type="button" class="btn-3"><img src="/images/icon/table.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/link.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/division.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/emoticon.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/special-character.png"></button></li>
+                            </ul>
+                        </div>
+                        <div class="text-edit-sub-list flex-row-end background-light-gray" data-toggle="close">
+                            <ul class="contents-flex padding-05rem margin-05rem margin-top-0" data-type="etc">
+                                <li><button type="button" class="btn-3"><img src="/images/icon/full-screen.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/origin-screen.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/printer.png"></button></li>
+                                <li><button type="button" class="btn-3"><img src="/images/icon/select-all.png"></button></li>
                             </ul>
                         </div>
                         <!-- textarea -->

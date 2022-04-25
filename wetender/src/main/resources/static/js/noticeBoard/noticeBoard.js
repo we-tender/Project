@@ -329,3 +329,60 @@ $(function() {
         }
     });
 });
+// btn-more 클릭 시 이벤트
+$(function() {
+    $(".btn-more").click(function() {
+        const type = this.dataset.type;
+        const sublist = document.querySelector(".text-edit-sub-list > ul[data-type='" + type + "']");
+
+        // 닫힌 상태일 때 - 이미지는 scaleY로, 나머지는 maxHeight으로 효과 적용
+        if (sublist.parentNode.dataset.toggle == "close") {
+            // 다른 열려있는 list를 먼저 닫는다
+            const otherList = document.querySelector(".text-edit-sub-list[data-toggle=open]");
+            if (otherList != null) {
+                const otherNotImg = document.querySelectorAll(".text-edit-sub-list[data-toggle=open] *:not(img)");
+                const otherImg = document.querySelectorAll(".text-edit-sub-list[data-toggle=open] img");
+                for (let i = 0; i < otherNotImg.length; i++) {
+                    otherNotImg[i].style.maxHeight = "0";
+                }
+                for (let i = 0; i < otherImg.length; i++) {
+                    otherImg[i].style.transition = ".2s";
+                    otherImg[i].style.transform = "scaleY(0)";
+                }
+                otherList.dataset.toggle = "close";
+                otherList.style.maxHeight = "0";
+                otherList.classList.remove("border-bottom-dashed2");
+            }
+
+            sublist.parentNode.dataset.toggle = "open";
+            sublist.parentNode.style.maxHeight = "100px";
+            sublist.parentNode.classList.add("border-bottom-dashed2");
+            sublist.style.maxHeight = "100px";
+            const subAllNotImg = document.querySelectorAll(".text-edit-sub-list ul[data-type='" + type + "'] *:not(img)");
+            for (let i = 0; i < subAllNotImg.length; i++) {
+                subAllNotImg[i].style.maxHeight = "100px";
+            }
+            const allImg = document.querySelectorAll(".text-edit-sub-list ul[data-type='" + type + "'] img");
+            for (let i = 0; i < allImg.length; i++) {
+                allImg[i].style.transition = ".5s";
+                allImg[i].style.transform = "scaleY(1)";
+            }
+        }
+        // 열린 상태일때 - 이미지는 scaleY로, 나머지는 maxHeight으로 효과 적용
+        else if (sublist.parentNode.dataset.toggle == "open") {
+            sublist.parentNode.dataset.toggle = "close";
+            sublist.parentNode.style.maxHeight = "0";
+            sublist.parentNode.classList.remove("border-bottom-dashed2");
+            sublist.style.maxHeight = "0";
+            const subAllNotImg = document.querySelectorAll(".text-edit-sub-list ul[data-type='" + type + "'] *:not(img)");
+            for (let i = 0; i < subAllNotImg.length; i++) {
+                subAllNotImg[i].style.maxHeight = "0";
+            }
+            const allImg = document.querySelectorAll(".text-edit-sub-list ul[data-type='" + type + "'] img");
+            for (let i = 0; i < allImg.length; i++) {
+                allImg[i].style.transition = ".2s";
+                allImg[i].style.transform = "scaleY(0)";
+            }
+        }
+    });
+});
