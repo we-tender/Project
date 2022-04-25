@@ -14,10 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import zemat.wetender.domain.cocktail.Cocktail;
 import zemat.wetender.domain.liquor.Liquor;
+import zemat.wetender.domain.member.Member;
 import zemat.wetender.dto.cocktailDto.CocktailHomeDto;
 import zemat.wetender.dto.cocktailDto.CocktailMainDto;
 import zemat.wetender.dto.liquorDto.LiquorDto;
 import zemat.wetender.dto.liquorDto.LiquorHomeDto;
+import zemat.wetender.dto.memberDto.MemberDto;
 import zemat.wetender.service.cocktail.CocktailService;
 import zemat.wetender.service.liquor.LiquorService;
 import zemat.wetender.service.MemberService;
@@ -107,30 +109,89 @@ public class MainController {
 
     // 전체 검색
     @GetMapping("mainSearch")
-    public String mainSearch( @PageableDefault(size = 5) Pageable pageable,
+    public String mainSearch( @PageableDefault(size = 1) Pageable pageable,
                             @RequestParam(required = false, defaultValue = "") String keyword,
                             Model model) {
+
+        // 칵테일
+        Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageable, keyword);
+        Page<CocktailMainDto> cocktailDtos = cocktails.map(cocktail -> new CocktailMainDto(cocktail));
+        int cocktailStartPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
+        int cocktailEndPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
+        if(cocktailEndPage == 0) {
+            cocktailStartPage = 0;
+        }
+
+
+        // 주류
+        Page<Liquor> liquors = liquorService.pageFindKeyword(pageable, keyword);
+        Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
+        int liquorStartPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
+        int liquorEndPage = Math.min(liquorDtos.getTotalPages(), liquorDtos.getPageable().getPageNumber() + 4);
+        if(liquorEndPage == 0) {
+            liquorStartPage = 0;
+        }
+
+        model.addAttribute("keyword", keyword);
+
+        model.addAttribute("cocktailDtos", cocktailDtos);
+        model.addAttribute("cocktailStartPage", cocktailStartPage);
+        model.addAttribute("cocktailEndPage", cocktailEndPage);
+
+        model.addAttribute("liquorDtos", liquorDtos);
+        model.addAttribute("liquorStartPage", liquorStartPage);
+        model.addAttribute("liquorEndPage", liquorEndPage);
+
+        return "fragment/mainSearch";
+    }
+
+    // 칵테일 좋아요 페이지 이동 Ajax
+    @RequestMapping(value = "/mainSearch/cocktailMovePage", method = RequestMethod.GET)
+    public String cocktailMovePage(Model model,
+                                   @PageableDefault(size = 1) Pageable pageable,
+                                   String keyword) {
+
 
         Page<Cocktail> cocktails = cocktailService.pageFindKeyword(pageable, keyword);
         Page<CocktailMainDto> cocktailDtos = cocktails.map(cocktail -> new CocktailMainDto(cocktail));
 
+        int cocktailStartPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
+        int cocktailEndPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
+        if(cocktailEndPage == 0) cocktailStartPage = 0;
+
+        model.addAttribute("keyword", keyword);
+
+        model.addAttribute("cocktailDtos", cocktailDtos);
+        model.addAttribute("cocktailStartPage", cocktailStartPage);
+        model.addAttribute("cocktailEndPage", cocktailEndPage);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
+
+        return "/fragment/mainSearch :: #cocktailLikes";
+    }
+
+    // 주류 좋아요 페이지 이동 Ajax
+    @RequestMapping(value = "/mainSearch/liquorMovePage", method = RequestMethod.GET)
+    public String liquorMovePage(Model model,
+                                 @PageableDefault(size = 1) Pageable pageable,
+                                 String keyword) {
+
         Page<Liquor> liquors = liquorService.pageFindKeyword(pageable, keyword);
         Page<LiquorDto> liquorDtos = liquors.map(liquor -> new LiquorDto(liquor));
 
-        int startPage = Math.max(1, cocktailDtos.getPageable().getPageNumber() - 4);
-        int endPage = Math.min(cocktailDtos.getTotalPages(), cocktailDtos.getPageable().getPageNumber() + 4);
-        if(endPage == 0) startPage = 0;
+        int liquorStartPage = Math.max(1, liquorDtos.getPageable().getPageNumber() - 4);
+        int liquorEndPage = Math.min(liquorDtos.getTotalPages(), liquorDtos.getPageable().getPageNumber() + 4);
+        if(liquorEndPage == 0) liquorStartPage = 0;
 
-        model.addAttribute("cocktailDtos", cocktailDtos);
+
         model.addAttribute("liquorDtos", liquorDtos);
+        model.addAttribute("liquorStartPage", liquorStartPage);
+        model.addAttribute("liquorEndPage", liquorEndPage);
+        model.addAttribute("sessionMember", memberService.getSessionMember());
 
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("sideMenu", "nav-side-menu-liquor");
-
-        return "fragment/mainSearch";
-
+        return "/fragment/mainSearch :: #liquorLikes";
     }
+
+
 
 
 
