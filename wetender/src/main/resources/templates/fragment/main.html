@@ -52,7 +52,7 @@
                                     <p>
                                         <span th:text="|기주 : ${cocktail.getBase()}|">기주</span>
                                         <span th:text="|도수 : ${cocktail.getAbv()}|">도수</span>
-                                        <span th:text="|추천수 : ${cocktail.getRecommendation()}|">추천수</span>
+                                        <span th:text="|추천수 : ${cocktail.likes}|">추천수</span>
                                     </p>
                                     <p>
                                         <span th:text="|한줄평 : ${cocktail.getOneLine()}|">한줄평</span>
@@ -81,7 +81,7 @@
                                     <hr class="border-gray">
                                     <p>
                                         <span th:text="|도수 : ${liquor.getAbv()}|">도수</span>
-                                        <span th:text="|추천수 : ${liquor.getRecommendation()}|">추천수</span>
+                                        <span th:text="|추천수 : ${liquor.getLikes()}|">추천수</span>
                                     </p>
                                     <p>
                                         <span th:text="|한줄평 : ${liquor.getOneLine()}|">한줄평</span>

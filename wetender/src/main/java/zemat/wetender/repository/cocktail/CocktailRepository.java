@@ -13,6 +13,10 @@ public interface CocktailRepository extends JpaRepository<Cocktail,Long> {
             countQuery = "select count(c) from Cocktail c")
     Page<Cocktail> findByCocktailRecommendation(Pageable pageable);
 
+
+
+    Page<Cocktail> findAll(Pageable pageable);
+
     @Query(countQuery = "select count(*) from Cocktail m")
     Page<Cocktail> findByCocktailNameContainingIgnoreCaseOrCocktailEnameContainingIgnoreCase(Pageable pageable, String cocktailName, String cocktailEname);
 

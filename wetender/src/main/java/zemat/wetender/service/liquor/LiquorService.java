@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import zemat.wetender.domain.liquor.Liquor;
@@ -55,6 +56,16 @@ public class LiquorService {
     public List<LiquorHomeDto> findTop20ByRecommendation() {
         PageRequest pageRequest = PageRequest.of(0, 4);
         Page<Liquor> page = liquorRepository.findByLiquorRecommendation(pageRequest);
+        List<LiquorHomeDto> liquorHomeDtos = page.map(LiquorHomeDto::new).getContent();
+        return liquorHomeDtos;
+    }
+
+    // 메인 화면에 좋아요가 많은 순으로 주류를 보여주는 함수
+    public List<LiquorHomeDto> findTop20ByLikes() {
+        PageRequest pageRequest = PageRequest.of(0, 4, Sort.by(Sort.Direction.DESC, "likes"));
+
+        Page<Liquor> page = liquorRepository.findAll(pageRequest);
+
         List<LiquorHomeDto> liquorHomeDtos = page.map(LiquorHomeDto::new).getContent();
         return liquorHomeDtos;
     }

@@ -15,6 +15,12 @@ public class LiquorHomeDto {
     private long recommendation;
     private String mainImage;
 
+    private long views;
+    private long likes;
+    private long replies;
+
+
+
     public LiquorHomeDto(Liquor liquor) {
         this.id = liquor.getId();
         this.name = liquor.getLiquorName();
@@ -25,5 +31,9 @@ public class LiquorHomeDto {
 
         LiquorFile liquorFile = liquor.getLiquorFiles().get(0);
         this.mainImage = liquorFile.getUploadPath() +"/" + liquorFile.getUuid() + "_" + liquorFile.getFileName();
+
+        this.views = liquor.getViews();
+        this.likes = liquor.getLikes();
+        this.replies = liquor.getReplies();
     }
 }

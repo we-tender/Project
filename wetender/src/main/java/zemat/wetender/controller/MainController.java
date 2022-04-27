@@ -98,18 +98,19 @@ public class MainController {
 
 
     public void getCocktailTop20(Model model) {
-        List<CocktailHomeDto> cocktailTop20 = cocktailService.findTop20ByRecommendation();
+        List<CocktailHomeDto> cocktailTop20 = cocktailService.findTop20ByLikes();
         model.addAttribute("cocktailTop20", cocktailTop20);
     }
 
+
     public void getLiquorTop20(Model model) {
-        List<LiquorHomeDto> liquorTop20 = liquorService.findTop20ByRecommendation();
+        List<LiquorHomeDto> liquorTop20 = liquorService.findTop20ByLikes();
         model.addAttribute("liquorTop20", liquorTop20);
     }
 
     // 전체 검색
     @GetMapping("mainSearch")
-    public String mainSearch( @PageableDefault(size = 1) Pageable pageable,
+    public String mainSearch( @PageableDefault(size = 5) Pageable pageable,
                             @RequestParam(required = false, defaultValue = "") String keyword,
                             Model model) {
 
@@ -148,7 +149,7 @@ public class MainController {
     // 칵테일 좋아요 페이지 이동 Ajax
     @RequestMapping(value = "/mainSearch/cocktailMovePage", method = RequestMethod.GET)
     public String cocktailMovePage(Model model,
-                                   @PageableDefault(size = 1) Pageable pageable,
+                                   @PageableDefault(size = 5) Pageable pageable,
                                    String keyword) {
 
 
@@ -172,7 +173,7 @@ public class MainController {
     // 주류 좋아요 페이지 이동 Ajax
     @RequestMapping(value = "/mainSearch/liquorMovePage", method = RequestMethod.GET)
     public String liquorMovePage(Model model,
-                                 @PageableDefault(size = 1) Pageable pageable,
+                                 @PageableDefault(size = 5) Pageable pageable,
                                  String keyword) {
 
         Page<Liquor> liquors = liquorService.pageFindKeyword(pageable, keyword);

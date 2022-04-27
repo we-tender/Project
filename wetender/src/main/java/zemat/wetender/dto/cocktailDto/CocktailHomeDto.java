@@ -15,6 +15,10 @@ public class CocktailHomeDto {
     private int recommendation;
     private String mainImage;
 
+    private Long views;
+    private Long likes;
+    private Long replies;
+
     public CocktailHomeDto(Cocktail cocktail) {
         this.id = cocktail.getId();
         this.name = cocktail.getCocktailName();
@@ -25,5 +29,10 @@ public class CocktailHomeDto {
         this.recommendation = cocktail.getCocktailRecommendation();
         CocktailFile cocktailFile = cocktail.getCocktailFiles().get(0);
         this.mainImage = cocktailFile.getUploadPath() +"/" + cocktailFile.getUuid() + "_" + cocktailFile.getFileName();
+
+        this.views = cocktail.getViews();
+        this.likes = cocktail.getLikes();
+        this.replies = cocktail.getReplies();
+
     }
 }
